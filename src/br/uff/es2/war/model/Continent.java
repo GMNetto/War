@@ -6,8 +6,8 @@ import java.util.Set;
 
 public class Continent {
     
-    private String name;
-    private Set<Territory> territories;
+    private final String name;
+    private final Set<Territory> territories;
     
     public Continent(String name) {
 	this.name = name;

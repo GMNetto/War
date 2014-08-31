@@ -8,7 +8,7 @@ import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Territory;
 
 /**
- * Split this class if much more tests were added.
+ * Split this class as more tests are added.
  */
 public class ModelTests {
     

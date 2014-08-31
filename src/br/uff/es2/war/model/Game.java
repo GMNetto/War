@@ -15,8 +15,13 @@ public class Game implements Runnable {
     
     @Override
     public void run() {
+	setupTurn();
 	inGame = true;
-	while(inGame ){
+	while(inGame){
 	}
+    }
+    
+    private void setupTurn(){
+	
     }
 }

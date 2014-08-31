@@ -2,12 +2,12 @@ package br.uff.es2.war.model;
 
 import java.util.Iterator;
 
-public class CyclicIterator<E> implements Iterator<E> {
+class CyclicIterator<E> implements Iterator<E> {
     
     private final Iterable<E> elements;
     private Iterator<E> innerIterator;
     
-    public CyclicIterator(Iterable<E> elements) {
+    CyclicIterator(Iterable<E> elements) {
 	this.elements = elements;
 	innerIterator = elements.iterator();
     }
