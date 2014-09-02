@@ -7,7 +7,8 @@ public class Territory {
     
     private final String name;
     private final Set<Territory> borders;
-    private Continent continent;
+    private Player owner;
+    private int soldiers;
     
     public Territory(String name) {
 	this.name = name;
@@ -18,15 +19,23 @@ public class Territory {
         return name;
     }
     
-    public Continent getContinent() {
-        return continent;
-    }
-    
-    void setContinent(Continent continent){
-	this.continent = continent;
-    }
-
     public Set<Territory> getBorders() {
         return borders;
     }
-}
+    
+    public Player getOwner(){
+	return owner;
+    }
+    
+    public void setOwner(Player owner){
+	this.owner = owner;
+    }
+    
+    public int getSoldiers(){
+	return soldiers;
+    }
+    
+    public void setSoldiers(int soldiers){
+	this.soldiers = soldiers;
+    }
+}    
