@@ -1,4 +1,4 @@
-package br.uff.es2.war.model;
+package model;
 
 import java.util.Collections;
 import java.util.HashSet;
