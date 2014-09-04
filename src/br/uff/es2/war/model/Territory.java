@@ -38,4 +38,8 @@ public class Territory {
     public void setSoldiers(int soldiers){
 	this.soldiers = soldiers;
     }
+    
+    public void addSoldiers(int soldiers){
+	this.soldiers += soldiers;
+    }
 }    

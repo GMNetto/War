@@ -1,19 +1,23 @@
 package br.uff.es2.war.model;
 
-import java.util.Set;
+import java.util.Map;
 
 public interface Player {
 
-    void set(Set<Continent> map);
+    void setWorld(WorldMap world);
 
-    void set(Player[] players);
+    void setAllPlayers(Player[] players);
 
-    void set(Objective randomObjective);
+    void setObjective(Objective objective);
     
     Color getColor();
     
-    void set(Color color);
+    void setColor(Color color);
 
     Color chooseColor(Color[] colors);
-    
+
+    void beginTurn(Player current);
+
+    Map<String, Integer> distributeSoldiers(int soldierQuantity);
+
 }

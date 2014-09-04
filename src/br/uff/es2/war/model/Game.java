@@ -2,18 +2,21 @@ package br.uff.es2.war.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Game implements Runnable {
     
     private final Player[] players;
-    private final Set<Continent> world;
+    private final WorldMap world;
     private final Iterator<Player> turns;
     private boolean running;
     
-    public Game(Player[] players, Set<Continent> world) {
+    public Game(Player[] players, WorldMap world) {
 	this.players = players;
 	this.world = world;
 	this.turns = new CyclicIterator<Player>(Arrays.asList(players));
@@ -29,56 +32,57 @@ public class Game implements Runnable {
 
     public void setupPhase(){
 	readColors();
-	distributeTerritories();
+	world.distributeTerritories(players);
 	for(Player player : players){
-	    player.set(world);
-	    player.set(players);
-	    player.set(randomObjective());
+	    player.setWorld(world);
+	    player.setAllPlayers(players);
+	    player.setObjective(randomObjective());
 	}
     }
     
-    private void readColors(){
-	List<Color> remaining = new ArrayList<Color>();
-	for(Color color : Color.values())
-	    remaining.add(color);
+    public void readColors(){
+	Collection<Color> remaining = new ArrayList<Color>();
+	remaining.addAll(Arrays.asList(Color.values()));
 	for(Player player : players){
-	    Color[] colors = new Color[remaining.size()];
-	    colors = remaining.toArray(colors);
+	    Color[] colors = remaining.toArray(new Color[remaining.size()]);
 	    Color color = player.chooseColor(colors);
+	    player.setColor(color);
 	    remaining.remove(color);
-	    player.set(color);
 	}
-    }
-    
-    private void distributeTerritories(){
-	List<Territory> territories = allTerritories();
-	int territoriesPerPlayers = territories.size() / players.length;
-	for(Player player : players){
-	    for(int i = 0; i < territoriesPerPlayers && territories.size() > 0; i++){
-		Territory territory = removeAtRandom(territories);
-		territory.setOwner(player);
-		territory.setSoldiers(1);
-	    }
-	}
-    }
-    
-    private List<Territory> allTerritories(){
-	List<Territory> territories = new ArrayList<>();
-	for(Continent continent : world)
-	    territories.addAll(continent);
-	return territories;
-    }
-    
-    private Territory removeAtRandom(List<Territory> territory){
-	int index = (int) (Math.random() * (territory.size() - 1));
-	return territory.remove(index);
     }
     
     private Objective randomObjective() {
-	return null;
+	throw new NotImplementedException();
     }
     
     public void mainPhase(){
 	Player current = turns.next();
+	beginTurn(current);
+	addSoldiers(current);
+	attackPhase(current);
+    } 
+    
+    private void beginTurn(Player current){
+	for(Player player : players)
+	    player.beginTurn(current);
+    }
+    
+    public void addSoldiers(Player current){
+	int soldierQuantity = world.getTerritoriesByOwner(current).size();
+	Map<String, Integer> soldierDistribution = current.distributeSoldiers(soldierQuantity);
+	updateSoldiers(soldierDistribution);
+    }
+    
+    private void updateSoldiers(Map<String, Integer> distribution){
+	for(Entry<String, Integer> item : distribution.entrySet()){
+	    Territory territory = world.getTerritoryByName(item.getKey());
+	    territory.setSoldiers(item.getValue());
+	}
+	for(Player player : players)
+	    player.setWorld(world);
+    }
+    
+    private void attackPhase(Player current){
+	
     }
 }
