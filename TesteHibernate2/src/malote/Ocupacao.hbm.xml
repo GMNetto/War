@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03/09/2014 12:14:04 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="malote.Ocupacao" table="ocupacao" catalog="trab_db">
+        <composite-id name="id" class="malote.OcupacaoId">
+            <key-property name="codTerritorio" type="int">
+                <column name="Cod_Territorio" />
+            </key-property>
+            <key-property name="codJogador" type="int">
+                <column name="Cod_Jogador" />
+            </key-property>
+            <key-property name="codPartida" type="int">
+                <column name="Cod_Partida" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="jogam" class="malote.Jogam" update="false" insert="false" fetch="select">
+            <column name="Cod_Jogador" not-null="true" />
+            <column name="Cod_Partida" not-null="true" />
+        </many-to-one>
+        <many-to-one name="territorio" class="malote.Territorio" update="false" insert="false" fetch="select">
+            <column name="Cod_Territorio" not-null="true" />
+        </many-to-one>
+        <property name="turno" type="java.lang.Integer">
+            <column name="Turno" />
+        </property>
+        <property name="qntExercito" type="java.lang.Integer">
+            <column name="Qnt_Exercito" />
+        </property>
+    </class>
+</hibernate-mapping>

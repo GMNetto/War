@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03/09/2014 12:14:04 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="malote.Partida" table="partida" catalog="trab_db">
+        <id name="codPartida" type="int">
+            <column name="Cod_Partida" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="jogador" class="malote.Jogador" fetch="select">
+            <column name="Cod_Jogador" />
+        </many-to-one>
+        <property name="dataInicio" type="timestamp">
+            <column name="Data_Inicio" length="19" not-null="true" />
+        </property>
+        <property name="dataFim" type="timestamp">
+            <column name="Data_Fim" length="19" />
+        </property>
+        <property name="troca" type="java.lang.Integer">
+            <column name="Troca" />
+        </property>
+        <property name="qtdJogador" type="int">
+            <column name="Qtd_Jogador" not-null="true" />
+        </property>
+        <property name="rodada" type="int">
+            <column name="Rodada" not-null="true" />
+        </property>
+        <set name="jogams" table="jogam" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Partida" not-null="true" />
+            </key>
+            <one-to-many class="malote.Jogam" />
+        </set>
+        <one-to-one name="historico" class="malote.Historico"></one-to-one>
+    </class>
+</hibernate-mapping>
