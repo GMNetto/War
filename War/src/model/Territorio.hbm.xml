@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 04/09/2014 19:22:11 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="model.Territorio" table="territorio" catalog="trab_db">
+        <id name="codTerritorio" type="int">
+            <column name="Cod_Territorio" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="continente" class="model.Continente" fetch="select">
+            <column name="Cod_Continente" not-null="true" />
+        </many-to-one>
+        <property name="nome" type="string">
+            <column name="Nome" length="45" not-null="true" unique="true" />
+        </property>
+        <set name="cartas" table="carta" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Territorio" unique="true" />
+            </key>
+            <one-to-many class="model.Carta" />
+        </set>
+        <set name="territoriosForCodLocal" table="fronteira" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Vizinho" not-null="true" />
+            </key>
+            <many-to-many entity-name="model.Territorio">
+                <column name="Cod_Local" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="ocupacaos" table="ocupacao" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Territorio" not-null="true" />
+            </key>
+            <one-to-many class="model.Ocupacao" />
+        </set>
+        <set name="territoriosForCodVizinho" table="fronteira" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Local" not-null="true" />
+            </key>
+            <many-to-many entity-name="model.Territorio">
+                <column name="Cod_Vizinho" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

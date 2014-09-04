@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/trab_db?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.password"/>
+    <mapping resource="model/Objconqcont.hbm.xml"/>
+    <mapping resource="model/Jogam.hbm.xml"/>
+    <mapping resource="model/Cor.hbm.xml"/>
+    <mapping resource="model/Objterritorio.hbm.xml"/>
+    <mapping resource="model/Objetivo.hbm.xml"/>
+    <mapping resource="model/Carta.hbm.xml"/>
+    <mapping resource="model/Jogador.hbm.xml"/>
+    <mapping resource="model/Ocupacao.hbm.xml"/>
+    <mapping resource="model/Territorio.hbm.xml"/>
+    <mapping resource="model/Jogadorcarta.hbm.xml"/>
+    <mapping resource="model/Partida.hbm.xml"/>
+    <mapping resource="model/Continente.hbm.xml"/>
+    <mapping resource="model/Objderjogador.hbm.xml"/>
+    <mapping resource="model/Historico.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>
