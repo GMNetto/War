@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05/09/2014 12:02:42 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.uff.es2.war.entity.Historico" table="historico" catalog="trab_db">
+        <id name="codPartida" type="int">
+            <column name="Cod_Partida" />
+            <generator class="foreign">
+                <param name="property">partida</param>
+            </generator>
+        </id>
+        <many-to-one name="jogador" class="br.uff.es2.war.entity.Jogador" fetch="select">
+            <column name="Cod_Jogador" />
+        </many-to-one>
+        <one-to-one name="partida" class="br.uff.es2.war.entity.Partida" constrained="true"></one-to-one>
+        <many-to-one name="objetivo" class="br.uff.es2.war.entity.Objetivo" fetch="select">
+            <column name="Cod_Objetivo" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05/09/2014 12:02:42 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.uff.es2.war.entity.Objconqcont" table="objconqcont" catalog="trab_db">
+        <id name="codObjetivo" type="int">
+            <column name="Cod_Objetivo" />
+            <generator class="foreign">
+                <param name="property">objetivo</param>
+            </generator>
+        </id>
+        <one-to-one name="objetivo" class="br.uff.es2.war.entity.Objetivo" constrained="true"></one-to-one>
+        <property name="continentesExtras" type="java.lang.Integer">
+            <column name="Continentes_Extras" />
+        </property>
+        <set name="continentes" table="objconqterr" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Objetivo" not-null="true" />
+            </key>
+            <many-to-many entity-name="br.uff.es2.war.entity.Continente">
+                <column name="Cod_Continente" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>

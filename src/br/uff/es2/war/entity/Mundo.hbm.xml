@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05/09/2014 12:02:42 by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="br.uff.es2.war.entity.Mundo" table="mundo" catalog="trab_db">
+        <id name="codMundo" type="int">
+            <column name="Cod_Mundo" />
+            <generator class="assigned" />
+        </id>
+        <property name="nome" type="string">
+            <column name="Nome" length="20" />
+        </property>
+        <set name="continentes" table="continente" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Mundo" not-null="true" />
+            </key>
+            <one-to-many class="br.uff.es2.war.entity.Continente" />
+        </set>
+    </class>
+</hibernate-mapping>
