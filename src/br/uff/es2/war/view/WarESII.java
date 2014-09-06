@@ -6,11 +6,13 @@
 
 package br.uff.es2.war.view;
 
+import br.uff.es2.war.dao.CartaJpaController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javax.persistence.Persistence;
 
 /**
  *

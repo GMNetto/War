@@ -6,12 +6,14 @@
 
 package br.uff.es2.war.view;
 
+import br.uff.es2.war.dao.CartaJpaController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javax.persistence.Persistence;
 
 /**
  *
