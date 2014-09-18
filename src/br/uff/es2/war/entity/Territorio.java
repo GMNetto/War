@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -27,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "territorio")
@@ -35,7 +36,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Territorio.findAll", query = "SELECT t FROM Territorio t"),
     @NamedQuery(name = "Territorio.findByCodTerritorio", query = "SELECT t FROM Territorio t WHERE t.codTerritorio = :codTerritorio"),
-    @NamedQuery(name = "Territorio.findByNome", query = "SELECT t FROM Territorio t WHERE t.nome = :nome")})
+    @NamedQuery(name = "Territorio.findByNome", query = "SELECT t FROM Territorio t WHERE t.nome = :nome"),
+    @NamedQuery(name = "Territorio.findByPosicaoX", query = "SELECT t FROM Territorio t WHERE t.posicaoX = :posicaoX"),
+    @NamedQuery(name = "Territorio.findByPosicaoY", query = "SELECT t FROM Territorio t WHERE t.posicaoY = :posicaoY")})
 public class Territorio implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,12 +48,18 @@ public class Territorio implements Serializable {
     @Basic(optional = false)
     @Column(name = "Nome")
     private String nome;
+    @Basic(optional = false)
+    @Column(name = "Posicao_X")
+    private int posicaoX;
+    @Basic(optional = false)
+    @Column(name = "Posicao_Y")
+    private int posicaoY;
     @JoinTable(name = "fronteira", joinColumns = {
         @JoinColumn(name = "Cod_Local", referencedColumnName = "Cod_Territorio")}, inverseJoinColumns = {
         @JoinColumn(name = "Cod_Vizinho", referencedColumnName = "Cod_Territorio")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Territorio> territorioCollection;
-    @ManyToMany(mappedBy = "territorioCollection")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "territorioCollection")
     private Collection<Territorio> territorioCollection1;
     @OneToOne(mappedBy = "codTerritorio")
     private Carta carta;
@@ -67,9 +76,11 @@ public class Territorio implements Serializable {
         this.codTerritorio = codTerritorio;
     }
 
-    public Territorio(Integer codTerritorio, String nome) {
+    public Territorio(Integer codTerritorio, String nome, int posicaoX, int posicaoY) {
         this.codTerritorio = codTerritorio;
         this.nome = nome;
+        this.posicaoX = posicaoX;
+        this.posicaoY = posicaoY;
     }
 
     public Integer getCodTerritorio() {
@@ -86,6 +97,22 @@ public class Territorio implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public int getPosicaoX() {
+        return posicaoX;
+    }
+
+    public void setPosicaoX(int posicaoX) {
+        this.posicaoX = posicaoX;
+    }
+
+    public int getPosicaoY() {
+        return posicaoY;
+    }
+
+    public void setPosicaoY(int posicaoY) {
+        this.posicaoY = posicaoY;
     }
 
     @XmlTransient
@@ -145,9 +172,8 @@ public class Territorio implements Serializable {
             return false;
         }
         Territorio other = (Territorio) object;
-        if ((this.codTerritorio == null && other.codTerritorio != null) || (this.codTerritorio != null && !this.codTerritorio.equals(other.codTerritorio))) {
+        if ((this.codTerritorio == null && other.codTerritorio != null) || (this.codTerritorio != null && !this.codTerritorio.equals(other.codTerritorio)))
             return false;
-        }
         return true;
     }
 

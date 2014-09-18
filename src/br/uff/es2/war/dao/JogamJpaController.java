@@ -30,7 +30,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 public class JogamJpaController implements Serializable {
 

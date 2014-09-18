@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "objterritorio")
@@ -103,9 +103,8 @@ public class Objterritorio implements Serializable {
             return false;
         }
         Objterritorio other = (Objterritorio) object;
-        if ((this.codObjetivo == null && other.codObjetivo != null) || (this.codObjetivo != null && !this.codObjetivo.equals(other.codObjetivo))) {
+        if ((this.codObjetivo == null && other.codObjetivo != null) || (this.codObjetivo != null && !this.codObjetivo.equals(other.codObjetivo)))
             return false;
-        }
         return true;
     }
 

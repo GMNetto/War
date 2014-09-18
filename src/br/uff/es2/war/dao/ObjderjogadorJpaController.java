@@ -23,7 +23,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 public class ObjderjogadorJpaController implements Serializable {
 
@@ -41,8 +41,8 @@ public class ObjderjogadorJpaController implements Serializable {
             objderjogador.setObjderjogadorPK(new ObjderjogadorPK());
         }
         objderjogador.getObjderjogadorPK().setCodCor(objderjogador.getCor().getCodCor());
-        objderjogador.getObjderjogadorPK().setCodObjetivo(objderjogador.getObjetivo().getCodObjetivo());
         objderjogador.getObjderjogadorPK().setCodObjetivoSec(objderjogador.getObjetivo1().getCodObjetivo());
+        objderjogador.getObjderjogadorPK().setCodObjetivo(objderjogador.getObjetivo().getCodObjetivo());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -90,8 +90,8 @@ public class ObjderjogadorJpaController implements Serializable {
 
     public void edit(Objderjogador objderjogador) throws NonexistentEntityException, Exception {
         objderjogador.getObjderjogadorPK().setCodCor(objderjogador.getCor().getCodCor());
-        objderjogador.getObjderjogadorPK().setCodObjetivo(objderjogador.getObjetivo().getCodObjetivo());
         objderjogador.getObjderjogadorPK().setCodObjetivoSec(objderjogador.getObjetivo1().getCodObjetivo());
+        objderjogador.getObjderjogadorPK().setCodObjetivo(objderjogador.getObjetivo().getCodObjetivo());
         EntityManager em = null;
         try {
             em = getEntityManager();

@@ -24,7 +24,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 public class CartaJpaController implements Serializable {
 

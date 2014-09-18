@@ -13,7 +13,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Embeddable
 public class JogamPK implements Serializable {
@@ -63,12 +63,10 @@ public class JogamPK implements Serializable {
             return false;
         }
         JogamPK other = (JogamPK) object;
-        if (this.codPartida != other.codPartida) {
+        if (this.codPartida != other.codPartida)
             return false;
-        }
-        if (this.codJogador != other.codJogador) {
+        if (this.codJogador != other.codJogador)
             return false;
-        }
         return true;
     }
 

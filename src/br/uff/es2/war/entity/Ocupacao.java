@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "ocupacao")
@@ -114,9 +114,8 @@ public class Ocupacao implements Serializable {
             return false;
         }
         Ocupacao other = (Ocupacao) object;
-        if ((this.ocupacaoPK == null && other.ocupacaoPK != null) || (this.ocupacaoPK != null && !this.ocupacaoPK.equals(other.ocupacaoPK))) {
+        if ((this.ocupacaoPK == null && other.ocupacaoPK != null) || (this.ocupacaoPK != null && !this.ocupacaoPK.equals(other.ocupacaoPK)))
             return false;
-        }
         return true;
     }
 

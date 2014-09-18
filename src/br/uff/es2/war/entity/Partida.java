@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "partida")
@@ -171,9 +171,8 @@ public class Partida implements Serializable {
             return false;
         }
         Partida other = (Partida) object;
-        if ((this.codPartida == null && other.codPartida != null) || (this.codPartida != null && !this.codPartida.equals(other.codPartida))) {
+        if ((this.codPartida == null && other.codPartida != null) || (this.codPartida != null && !this.codPartida.equals(other.codPartida)))
             return false;
-        }
         return true;
     }
 

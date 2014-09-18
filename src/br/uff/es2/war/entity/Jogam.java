@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "jogam")
@@ -135,9 +135,8 @@ public class Jogam implements Serializable {
             return false;
         }
         Jogam other = (Jogam) object;
-        if ((this.jogamPK == null && other.jogamPK != null) || (this.jogamPK != null && !this.jogamPK.equals(other.jogamPK))) {
+        if ((this.jogamPK == null && other.jogamPK != null) || (this.jogamPK != null && !this.jogamPK.equals(other.jogamPK)))
             return false;
-        }
         return true;
     }
 

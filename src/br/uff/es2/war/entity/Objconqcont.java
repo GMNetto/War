@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "objconqcont")
@@ -100,9 +100,8 @@ public class Objconqcont implements Serializable {
             return false;
         }
         Objconqcont other = (Objconqcont) object;
-        if ((this.codObjetivo == null && other.codObjetivo != null) || (this.codObjetivo != null && !this.codObjetivo.equals(other.codObjetivo))) {
+        if ((this.codObjetivo == null && other.codObjetivo != null) || (this.codObjetivo != null && !this.codObjetivo.equals(other.codObjetivo)))
             return false;
-        }
         return true;
     }
 

@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "historico")
@@ -98,9 +98,8 @@ public class Historico implements Serializable {
             return false;
         }
         Historico other = (Historico) object;
-        if ((this.codPartida == null && other.codPartida != null) || (this.codPartida != null && !this.codPartida.equals(other.codPartida))) {
+        if ((this.codPartida == null && other.codPartida != null) || (this.codPartida != null && !this.codPartida.equals(other.codPartida)))
             return false;
-        }
         return true;
     }
 

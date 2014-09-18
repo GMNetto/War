@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "objderjogador")
@@ -99,9 +99,8 @@ public class Objderjogador implements Serializable {
             return false;
         }
         Objderjogador other = (Objderjogador) object;
-        if ((this.objderjogadorPK == null && other.objderjogadorPK != null) || (this.objderjogadorPK != null && !this.objderjogadorPK.equals(other.objderjogadorPK))) {
+        if ((this.objderjogadorPK == null && other.objderjogadorPK != null) || (this.objderjogadorPK != null && !this.objderjogadorPK.equals(other.objderjogadorPK)))
             return false;
-        }
         return true;
     }
 

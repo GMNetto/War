@@ -14,6 +14,7 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import br.uff.es2.war.entity.Mundo;
 import br.uff.es2.war.entity.Jogam;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +25,7 @@ import javax.persistence.EntityManagerFactory;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 public class CorJpaController implements Serializable {
 
@@ -48,6 +49,11 @@ public class CorJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Mundo codMundo = cor.getCodMundo();
+            if (codMundo != null) {
+                codMundo = em.getReference(codMundo.getClass(), codMundo.getCodMundo());
+                cor.setCodMundo(codMundo);
+            }
             Collection<Jogam> attachedJogamCollection = new ArrayList<Jogam>();
             for (Jogam jogamCollectionJogamToAttach : cor.getJogamCollection()) {
                 jogamCollectionJogamToAttach = em.getReference(jogamCollectionJogamToAttach.getClass(), jogamCollectionJogamToAttach.getJogamPK());
@@ -61,6 +67,10 @@ public class CorJpaController implements Serializable {
             }
             cor.setObjderjogadorCollection(attachedObjderjogadorCollection);
             em.persist(cor);
+            if (codMundo != null) {
+                codMundo.getCorCollection().add(cor);
+                codMundo = em.merge(codMundo);
+            }
             for (Jogam jogamCollectionJogam : cor.getJogamCollection()) {
                 Cor oldCodCorOfJogamCollectionJogam = jogamCollectionJogam.getCodCor();
                 jogamCollectionJogam.setCodCor(cor);
@@ -93,6 +103,8 @@ public class CorJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Cor persistentCor = em.find(Cor.class, cor.getCodCor());
+            Mundo codMundoOld = persistentCor.getCodMundo();
+            Mundo codMundoNew = cor.getCodMundo();
             Collection<Jogam> jogamCollectionOld = persistentCor.getJogamCollection();
             Collection<Jogam> jogamCollectionNew = cor.getJogamCollection();
             Collection<Objderjogador> objderjogadorCollectionOld = persistentCor.getObjderjogadorCollection();
@@ -117,6 +129,10 @@ public class CorJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
+            if (codMundoNew != null) {
+                codMundoNew = em.getReference(codMundoNew.getClass(), codMundoNew.getCodMundo());
+                cor.setCodMundo(codMundoNew);
+            }
             Collection<Jogam> attachedJogamCollectionNew = new ArrayList<Jogam>();
             for (Jogam jogamCollectionNewJogamToAttach : jogamCollectionNew) {
                 jogamCollectionNewJogamToAttach = em.getReference(jogamCollectionNewJogamToAttach.getClass(), jogamCollectionNewJogamToAttach.getJogamPK());
@@ -132,6 +148,14 @@ public class CorJpaController implements Serializable {
             objderjogadorCollectionNew = attachedObjderjogadorCollectionNew;
             cor.setObjderjogadorCollection(objderjogadorCollectionNew);
             cor = em.merge(cor);
+            if (codMundoOld != null && !codMundoOld.equals(codMundoNew)) {
+                codMundoOld.getCorCollection().remove(cor);
+                codMundoOld = em.merge(codMundoOld);
+            }
+            if (codMundoNew != null && !codMundoNew.equals(codMundoOld)) {
+                codMundoNew.getCorCollection().add(cor);
+                codMundoNew = em.merge(codMundoNew);
+            }
             for (Jogam jogamCollectionNewJogam : jogamCollectionNew) {
                 if (!jogamCollectionOld.contains(jogamCollectionNewJogam)) {
                     Cor oldCodCorOfJogamCollectionNewJogam = jogamCollectionNewJogam.getCodCor();
@@ -200,6 +224,11 @@ public class CorJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            Mundo codMundo = cor.getCodMundo();
+            if (codMundo != null) {
+                codMundo.getCorCollection().remove(cor);
+                codMundo = em.merge(codMundo);
             }
             em.remove(cor);
             em.getTransaction().commit();

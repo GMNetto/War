@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "jogadorcarta")
@@ -110,9 +110,8 @@ public class Jogadorcarta implements Serializable {
             return false;
         }
         Jogadorcarta other = (Jogadorcarta) object;
-        if ((this.jogadorcartaPK == null && other.jogadorcartaPK != null) || (this.jogadorcartaPK != null && !this.jogadorcartaPK.equals(other.jogadorcartaPK))) {
+        if ((this.jogadorcartaPK == null && other.jogadorcartaPK != null) || (this.jogadorcartaPK != null && !this.jogadorcartaPK.equals(other.jogadorcartaPK)))
             return false;
-        }
         return true;
     }
 

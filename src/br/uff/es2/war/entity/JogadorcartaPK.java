@@ -13,7 +13,7 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Embeddable
 public class JogadorcartaPK implements Serializable {
@@ -76,15 +76,12 @@ public class JogadorcartaPK implements Serializable {
             return false;
         }
         JogadorcartaPK other = (JogadorcartaPK) object;
-        if (this.codJogador != other.codJogador) {
+        if (this.codJogador != other.codJogador)
             return false;
-        }
-        if (this.codPartida != other.codPartida) {
+        if (this.codPartida != other.codPartida)
             return false;
-        }
-        if (this.codCarta != other.codCarta) {
+        if (this.codCarta != other.codCarta)
             return false;
-        }
         return true;
     }
 

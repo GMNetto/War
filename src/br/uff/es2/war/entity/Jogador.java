@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "jogador")
@@ -145,9 +145,8 @@ public class Jogador implements Serializable {
             return false;
         }
         Jogador other = (Jogador) object;
-        if ((this.codJogador == null && other.codJogador != null) || (this.codJogador != null && !this.codJogador.equals(other.codJogador))) {
+        if ((this.codJogador == null && other.codJogador != null) || (this.codJogador != null && !this.codJogador.equals(other.codJogador)))
             return false;
-        }
         return true;
     }
 
@@ -155,5 +154,5 @@ public class Jogador implements Serializable {
     public String toString() {
         return "br.uff.es2.war.entity.Jogador[ codJogador=" + codJogador + " ]";
     }
-
+    
 }

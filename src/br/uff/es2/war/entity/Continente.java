@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "continente")
@@ -36,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Continente.findAll", query = "SELECT c FROM Continente c"),
     @NamedQuery(name = "Continente.findByCodContinente", query = "SELECT c FROM Continente c WHERE c.codContinente = :codContinente"),
-    @NamedQuery(name = "Continente.findByNome", query = "SELECT c FROM Continente c WHERE c.nome = :nome")})
+    @NamedQuery(name = "Continente.findByNome", query = "SELECT c FROM Continente c WHERE c.nome = :nome"),
+    @NamedQuery(name = "Continente.findByBonusTotalidade", query = "SELECT c FROM Continente c WHERE c.bonusTotalidade = :bonusTotalidade")})
 public class Continente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,6 +49,9 @@ public class Continente implements Serializable {
     @Basic(optional = false)
     @Column(name = "Nome")
     private String nome;
+    @Basic(optional = false)
+    @Column(name = "Bonus_Totalidade")
+    private int bonusTotalidade;
     @JoinTable(name = "objconqterr", joinColumns = {
         @JoinColumn(name = "Cod_Continente", referencedColumnName = "Cod_Continente")}, inverseJoinColumns = {
         @JoinColumn(name = "Cod_Objetivo", referencedColumnName = "Cod_Objetivo")})
@@ -55,7 +60,7 @@ public class Continente implements Serializable {
     @JoinColumn(name = "Cod_Mundo", referencedColumnName = "Cod_Mundo")
     @ManyToOne(optional = false)
     private Mundo codMundo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codContinente")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "codContinente")
     private Collection<Territorio> territorioCollection;
 
     public Continente() {
@@ -65,9 +70,10 @@ public class Continente implements Serializable {
         this.codContinente = codContinente;
     }
 
-    public Continente(Integer codContinente, String nome) {
+    public Continente(Integer codContinente, String nome, int bonusTotalidade) {
         this.codContinente = codContinente;
         this.nome = nome;
+        this.bonusTotalidade = bonusTotalidade;
     }
 
     public Integer getCodContinente() {
@@ -84,6 +90,14 @@ public class Continente implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public int getBonusTotalidade() {
+        return bonusTotalidade;
+    }
+
+    public void setBonusTotalidade(int bonusTotalidade) {
+        this.bonusTotalidade = bonusTotalidade;
     }
 
     @XmlTransient
@@ -126,9 +140,8 @@ public class Continente implements Serializable {
             return false;
         }
         Continente other = (Continente) object;
-        if ((this.codContinente == null && other.codContinente != null) || (this.codContinente != null && !this.codContinente.equals(other.codContinente))) {
+        if ((this.codContinente == null && other.codContinente != null) || (this.codContinente != null && !this.codContinente.equals(other.codContinente)))
             return false;
-        }
         return true;
     }
 

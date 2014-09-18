@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "objetivo")
@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Objetivo.findAll", query = "SELECT o FROM Objetivo o"),
     @NamedQuery(name = "Objetivo.findByCodObjetivo", query = "SELECT o FROM Objetivo o WHERE o.codObjetivo = :codObjetivo"),
-    @NamedQuery(name = "Objetivo.findByDescricao", query = "SELECT o FROM Objetivo o WHERE o.descricao = :descricao")})
+    @NamedQuery(name = "Objetivo.findByDescricao", query = "SELECT o FROM Objetivo o WHERE o.descricao = :descricao"),
+    @NamedQuery(name = "Objetivo.findByCodMundo", query = "SELECT o FROM Objetivo o WHERE o.codMundo = :codMundo")})
 public class Objetivo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,6 +45,9 @@ public class Objetivo implements Serializable {
     @Basic(optional = false)
     @Column(name = "Descricao")
     private String descricao;
+    @Basic(optional = false)
+    @Column(name = "Cod_Mundo")
+    private int codMundo;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "objetivo")
     private Objterritorio objterritorio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codObjetivo")
@@ -64,9 +68,10 @@ public class Objetivo implements Serializable {
         this.codObjetivo = codObjetivo;
     }
 
-    public Objetivo(Integer codObjetivo, String descricao) {
+    public Objetivo(Integer codObjetivo, String descricao, int codMundo) {
         this.codObjetivo = codObjetivo;
         this.descricao = descricao;
+        this.codMundo = codMundo;
     }
 
     public Integer getCodObjetivo() {
@@ -83,6 +88,14 @@ public class Objetivo implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public int getCodMundo() {
+        return codMundo;
+    }
+
+    public void setCodMundo(int codMundo) {
+        this.codMundo = codMundo;
     }
 
     public Objterritorio getObjterritorio() {
@@ -151,9 +164,8 @@ public class Objetivo implements Serializable {
             return false;
         }
         Objetivo other = (Objetivo) object;
-        if ((this.codObjetivo == null && other.codObjetivo != null) || (this.codObjetivo != null && !this.codObjetivo.equals(other.codObjetivo))) {
+        if ((this.codObjetivo == null && other.codObjetivo != null) || (this.codObjetivo != null && !this.codObjetivo.equals(other.codObjetivo)))
             return false;
-        }
         return true;
     }
 

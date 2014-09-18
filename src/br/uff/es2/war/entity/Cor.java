@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -24,7 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Gustavo
+ * @author Victor
  */
 @Entity
 @Table(name = "cor")
@@ -43,6 +45,9 @@ public class Cor implements Serializable {
     @Basic(optional = false)
     @Column(name = "Nome")
     private String nome;
+    @JoinColumn(name = "Cod_Mundo", referencedColumnName = "Cod_Mundo")
+    @ManyToOne(optional = false)
+    private Mundo codMundo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codCor")
     private Collection<Jogam> jogamCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cor")
@@ -74,6 +79,14 @@ public class Cor implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Mundo getCodMundo() {
+        return codMundo;
+    }
+
+    public void setCodMundo(Mundo codMundo) {
+        this.codMundo = codMundo;
     }
 
     @XmlTransient
@@ -108,9 +121,8 @@ public class Cor implements Serializable {
             return false;
         }
         Cor other = (Cor) object;
-        if ((this.codCor == null && other.codCor != null) || (this.codCor != null && !this.codCor.equals(other.codCor))) {
+        if ((this.codCor == null && other.codCor != null) || (this.codCor != null && !this.codCor.equals(other.codCor)))
             return false;
-        }
         return true;
     }
 
