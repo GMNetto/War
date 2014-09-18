@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+//import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Game implements Runnable {
     
@@ -52,7 +52,8 @@ public class Game implements Runnable {
     }
     
     private Objective randomObjective() {
-	throw new NotImplementedException();
+        return null;
+//throw new NotImplementedException();
     }
     
     public void mainPhase(){
