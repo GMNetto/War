@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 public class Game implements Runnable {
     
     private final Player[] players;
@@ -50,7 +48,7 @@ public class Game implements Runnable {
     }
     
     private Objective randomObjective() {
-	throw new NotImplementedException();
+        return null;
     }
     
     public void mainPhase(){
