@@ -23,6 +23,10 @@ public class Territory {
         return borders;
     }
     
+    public void addBorder(Territory border) {
+        borders.add(border);
+    }
+    
     public Player getOwner(){
 	return owner;
     }
