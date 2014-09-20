@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class Game implements Runnable {
     
     private final Player[] players;
-    private final WorldMap world;
+    private final World world;
     private final Iterator<Player> turns;
     private boolean running;
     
-    public Game(Player[] players, WorldMap world) {
+    public Game(Player[] players, World world) {
 	this.players = players;
 	this.world = world;
 	this.turns = new CyclicIterator<Player>(Arrays.asList(players));
@@ -59,7 +57,8 @@ public class Game implements Runnable {
 	Player current = turns.next();
 	beginTurn(current);
 	addSoldiers(current);
-	attackPhase(current);
+	attack(current);
+	moveSoldiers(current);
     } 
     
     private void beginTurn(Player current){
@@ -69,20 +68,36 @@ public class Game implements Runnable {
     
     public void addSoldiers(Player current){
 	int soldierQuantity = world.getTerritoriesByOwner(current).size();
-	Map<String, Integer> soldierDistribution = current.distributeSoldiers(soldierQuantity);
-	updateSoldiers(soldierDistribution);
+	Territory[] distribution = current.distributeSoldiers(soldierQuantity);
+	updateSoldiers(distribution);
     }
     
-    private void updateSoldiers(Map<String, Integer> distribution){
-	for(Entry<String, Integer> item : distribution.entrySet()){
-	    Territory territory = world.getTerritoryByName(item.getKey());
-	    territory.setSoldiers(item.getValue());
+    private void updateSoldiers(Territory[] distribution){
+	for(Territory update : distribution){
+	    Territory territory = world.getTerritoryByName(update.getName());
+	    territory.setSoldiers(update.getSoldiers());
 	}
+	updateWorld();
+    }
+    
+    private void attack(Player attacker){
+	Combat combat = attacker.declareCombat();
+	while(combat != null){
+	    Player defender = combat.getDefendingTerritory().getOwner();
+	    defender.answerCombat(combat);
+	    CombatResult result = combat.resolve();
+	    attacker.setCombatResult(result);
+	    defender.setCombatResult(result);
+	    updateWorld();
+	}
+    }
+    
+    private void updateWorld(){
 	for(Player player : players)
 	    player.setWorld(world);
     }
     
-    private void attackPhase(Player current){
+    private void moveSoldiers(Player current){
 	
     }
 }

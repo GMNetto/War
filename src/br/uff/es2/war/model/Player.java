@@ -1,10 +1,8 @@
 package br.uff.es2.war.model;
 
-import java.util.Map;
-
 public interface Player {
 
-    void setWorld(WorldMap world);
+    void setWorld(World world);
 
     void setAllPlayers(Player[] players);
 
@@ -18,6 +16,12 @@ public interface Player {
 
     void beginTurn(Player current);
 
-    Map<String, Integer> distributeSoldiers(int soldierQuantity);
+    Territory[] distributeSoldiers(int soldierQuantity);
+
+    Combat declareCombat();
+
+    void answerCombat(Combat combat);
+
+    void setCombatResult(CombatResult result);
 
 }

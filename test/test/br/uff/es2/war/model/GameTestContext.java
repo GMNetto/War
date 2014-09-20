@@ -4,16 +4,16 @@ import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.model.WorldMap;
+import br.uff.es2.war.model.World;
 
 public class GameTestContext {
 
     public final Player[] players;
     public final Game game;
-    public final WorldMap world;
+    public final World world;
 
     public GameTestContext() {
-	world = new WorldMap("Test World");
+	world = new World("Test World");
 	players = new Player[4];
 	for (int i = 0; i < players.length; i++)
 	    players[i] = new StubPlayer();
@@ -21,7 +21,7 @@ public class GameTestContext {
 	fillWorld();
     }
     
-    private WorldMap fillWorld() {
+    private World fillWorld() {
 
 	Continent continentA = new Continent("A");
 	Continent continentB = new Continent("B");

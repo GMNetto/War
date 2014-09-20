@@ -1,24 +1,24 @@
 package test.br.uff.es2.war.model;
 
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import br.uff.es2.war.model.Color;
+import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.CombatResult;
 import br.uff.es2.war.model.Objective;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.model.WorldMap;
+import br.uff.es2.war.model.World;
 
 class StubPlayer implements Player {
 
-    private WorldMap world;
+    private World world;
     private Color color;
     private int soldierPool;
 
     @Override
-    public void setWorld(WorldMap world) {
+    public void setWorld(World world) {
 	this.world = world;
     }
 
@@ -51,18 +51,36 @@ class StubPlayer implements Player {
     }
 
     @Override
-    public Map<String, Integer> distributeSoldiers(int soldierQuantity) {
+    public Territory[] distributeSoldiers(int soldierQuantity) {
 	this.soldierPool = soldierQuantity;
 	Set<Territory> territories = world.getTerritoriesByOwner(this);
-	Map<String, Integer> distribution = new HashMap<>();
-	if(territories.isEmpty())
-	    return distribution;
-	String territory = territories.iterator().next().getName();
-	distribution.put(territory, soldierQuantity);
+	Territory[] distribution = new Territory[territories.size()];
+	distribution = territories.toArray(distribution);
+	if(distribution.length > 0){
+	    int newQuantity = soldierQuantity + distribution[0].getSoldiers();
+	    distribution[0].setSoldiers(newQuantity);
+	}
 	return distribution;
     }
 
-    public int soldierPool() {
+    int soldierPool() {
 	return soldierPool;
+    }
+    
+    @Override
+    public Combat declareCombat() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public void answerCombat(Combat combat) {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    @Override
+    public void setCombatResult(CombatResult result) {
+        
     }
 }

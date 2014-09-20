@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @SuppressWarnings("serial")
-public class WorldMap extends HashSet<Continent>   {
+public class World extends HashSet<Continent>   {
     
     private final String name;
     
-    public WorldMap(String name) {
+    public World(String name) {
 	this.name = name;
     }
     
