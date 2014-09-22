@@ -1,15 +1,28 @@
-package br.uff.es2.war.model;
+package br.uff.es2.war.util;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
-class CyclicIterator<E> implements Iterator<E> {
+/**
+ * Iterates through an iterable and assuming that
+ * the next element after the last one is the first one.  
+ * 
+ * @author Arthur Pitzer
+ *
+ * @param <E> Type of the elements
+ */
+public class CyclicIterator<E> implements Iterator<E> {
     
     private final Iterable<E> elements;
     private Iterator<E> innerIterator;
     
-    CyclicIterator(Iterable<E> elements) {
+    public CyclicIterator(Iterable<E> elements) {
 	this.elements = elements;
 	innerIterator = elements.iterator();
+    }
+    
+    public CyclicIterator(E[] elements) {
+	this(Arrays.asList(elements));
     }
 
     @Override

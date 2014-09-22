@@ -1,7 +1,19 @@
 package br.uff.es2.war.model;
 
-import java.util.Arrays;
-
+/**
+ * Declaration of a combat. During the combat phase the current
+ * player choose a attacking territory, a defending territory and
+ * how many soldiers will attack. The owner of the defending territory
+ * answer the combat by choosing how many soldiers will defend.
+ * 
+ * The defending territory must be on the borders of the attacking
+ * territory. The maximum number of soldiers attacking or defending 
+ * is 3.
+ *
+ * @see CombatPhase
+ * @see Territory
+ * @author Arthur Pitzer
+ */
 public class Combat {
     
     private final Territory attackingTerritory;
@@ -19,6 +31,10 @@ public class Combat {
 	return defendingTerritory;
     }
     
+    public Territory getAttackingTerritory() {
+	return attackingTerritory;
+    }
+    
     public int getAttackingSoldiers(){
 	return attackingSoldiers;
     }
@@ -30,30 +46,4 @@ public class Combat {
     public void setDefendingSoldiers(int soldiers){
 	this.defendingSoldiers = soldiers;
     }
-    
-    public CombatResult resolve() {
-	int[] attack = rollDiceTimes(attackingSoldiers);
-	int[] defense = rollDiceTimes(defendingSoldiers);
-	CombatJudge judge = new CombatJudge();
-	if(judge.judge(attack, defense)){
-	    System.out.println();
-	}else{
-	    System.out.println();
-	}
-	return null;
-    }
-    
-    private int[] rollDiceTimes(int n){
-	int[] results = new int[n];
-	for(int i = 0; i < n; i++)
-	    results[i] = rollDice();
-	Arrays.sort(results);
-	return results;
-    }
-    
-    private int rollDice(){
-	return ((int) (Math.random() * 5)) + 1;
-    }
-
-    
-}
+}    

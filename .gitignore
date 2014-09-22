@@ -1,7 +1,7 @@
 build.xml
 manifest.mf
-nbproject
-bin
+/nbproject/
+/bin/
 *~
 .project
 .settings

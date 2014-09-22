@@ -3,12 +3,19 @@ package br.uff.es2.war.model;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * World is a named graph of territories. The 
+ * territories can be accessed directly or by 
+ * their continents.
+ * @author Arthur Pitzer
+ */
 @SuppressWarnings("serial")
 public class World extends HashSet<Continent>   {
     
     private final String name;
     
     public World(String name) {
+	super();
 	this.name = name;
     }
     

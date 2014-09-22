@@ -6,23 +6,23 @@ import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 
-public class GameTestContext {
+/**
+ * @author Arthur Pitzer
+ */
+public class StubGame extends Game {
 
-    public final Player[] players;
-    public final Game game;
-    public final World world;
+    public StubGame() {
+	super(createStubPlayers(), createStubWorld());
+    }
 
-    public GameTestContext() {
-	world = new World("Test World");
-	players = new Player[4];
+    private static Player[] createStubPlayers() {
+	Player[] players = new Player[4];
 	for (int i = 0; i < players.length; i++)
 	    players[i] = new StubPlayer();
-	game = new Game(players, world);
-	fillWorld();
+	return players;
     }
-    
-    private World fillWorld() {
 
+    private static World createStubWorld() {
 	Continent continentA = new Continent("A");
 	Continent continentB = new Continent("B");
 	Territory territoryA1 = new Territory("A 1");
@@ -44,9 +44,9 @@ public class GameTestContext {
 	territoryB2.getBorders().add(territoryA1);
 	territoryA1.getBorders().add(territoryB2);
 
+	World world = new World("Test World");
 	world.add(continentA);
 	world.add(continentB);
-	
 	return world;
     }
 }

@@ -1,27 +1,33 @@
 package br.uff.es2.war.model;
 
-public interface Player {
+import java.util.Set;
 
+/**
+ * Player is aware of the Game state and perform actions as 
+ * declare combat and move soldiers in order to achieve his 
+ * objective.
+ * @author Arthur Pitzer
+ */
+public interface Player {
+    
     void setWorld(World world);
 
-    void setAllPlayers(Player[] players);
+    Objective getObjective();
 
     void setObjective(Objective objective);
+    
+    Color chooseColor(Color[] colors);
     
     Color getColor();
     
     void setColor(Color color);
 
-    Color chooseColor(Color[] colors);
-
     void beginTurn(Player current);
 
-    Territory[] distributeSoldiers(int soldierQuantity);
+    void distributeSoldiers(int soldierQuantity, Set<Territory> territories);
 
     Combat declareCombat();
 
     void answerCombat(Combat combat);
-
-    void setCombatResult(CombatResult result);
 
 }
