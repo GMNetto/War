@@ -39,10 +39,17 @@ public class World extends HashSet<Continent>   {
     }
     
     public void distributeTerritories(Player[] players){
-	for(Territory territory : getTerritories()){
-	    int index = (int) (Math.random() * (players.length - 1));
-	    territory.setOwner(players[index]);
+	int index = 0;
+        for(Territory territory : getTerritories()){
+	    territory.setOwner(players[index % players.length]);
 	    territory.setSoldiers(1);
+            index++;
 	}
     }
+
+    @Override
+    public String toString() {
+        return "World Name:\t" + name;
+    }
+    
 }

@@ -46,4 +46,10 @@ public class Territory {
     public void addSoldiers(int soldiers){
 	this.soldiers += soldiers;
     }
+
+    @Override
+    public String toString() {
+        return "Territory Name:\t" + name;
+    }
+    
 }    

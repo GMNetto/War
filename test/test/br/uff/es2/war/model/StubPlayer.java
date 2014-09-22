@@ -6,7 +6,7 @@ import java.util.Set;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.CombatResult;
-import br.uff.es2.war.model.Objective;
+import br.uff.es2.war.model.objective.Objective;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;

@@ -1,5 +1,6 @@
 package br.uff.es2.war.model;
 
+import br.uff.es2.war.model.objective.Objective;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

@@ -1,5 +1,7 @@
 package br.uff.es2.war.model;
 
+import br.uff.es2.war.model.objective.Objective;
+
 public interface Player {
 
     void setWorld(World world);
