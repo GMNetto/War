@@ -1,18 +1,8 @@
 package br.uff.es2.war.model;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-
 import org.junit.Before;
-import org.junit.Test;
 
-import br.uff.es2.war.model.CombatJudge;
-import br.uff.es2.war.model.CombatPhase;
-import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.GamePhase;
-import br.uff.es2.war.model.ReceiveSoldiersPhase;
-import br.uff.es2.war.model.SetupPhase;
-import br.uff.es2.war.model.TurnChangePhase;
+import br.uff.gamemachine.GameState;
 
 /**
  * Tests to do:
@@ -30,19 +20,19 @@ import br.uff.es2.war.model.TurnChangePhase;
 public class CombatPhaseTest extends GamePhaseTest {
     
     @Override
-    protected GamePhase createDependencies() {
-	return new GamePhase(){
+    protected GameState<Game> createDependencies() {
+	return new GameState<Game>(){
 	    @Override
-	    public void execute(Game game) {
+	    public GameState<Game> execute(Game game) {
 		new SetupPhase().execute(game);
 		new TurnChangePhase().execute(game);
-		new ReceiveSoldiersPhase().execute(game);
+		return new ReceiveSoldiersPhase().execute(game);
 	    }
 	};
     }
     
     @Override
-    protected GamePhase createTestedPhase() {
+    protected GameState<Game> createTestedPhase() {
 	return new CombatPhase();
     }
     

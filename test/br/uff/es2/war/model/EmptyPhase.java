@@ -1,17 +1,18 @@
 package br.uff.es2.war.model;
 
 import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.GamePhase;
+import br.uff.gamemachine.GameState;
 
 /**
  * Used to represent empty phase dependency
  * 
  * @author Arthur Pitzer
  */
-class EmptyPhase implements GamePhase{
+class EmptyPhase implements GameState<Game>{
     
     @Override
-    public void execute(Game game) {
+    public GameState<Game> execute(Game game) {
+	return null;
     }
 
 }

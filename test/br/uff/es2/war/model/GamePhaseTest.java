@@ -1,7 +1,7 @@
 package br.uff.es2.war.model;
 
 import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.GamePhase;
+import br.uff.gamemachine.GameState;
 
 /**
  * Default structure of a game phase test
@@ -10,8 +10,8 @@ import br.uff.es2.war.model.GamePhase;
  */
 abstract class GamePhaseTest {
     
-    protected final GamePhase dependencies;
-    protected final GamePhase phase;
+    protected final GameState<Game> dependencies;
+    protected final GameState<Game> phase;
     protected Game game;
     
     public GamePhaseTest() {
@@ -24,8 +24,8 @@ abstract class GamePhaseTest {
 	dependencies.execute(game);
     }
     
-    protected abstract GamePhase createDependencies();
+    protected abstract GameState<Game> createDependencies();
     
-    protected abstract GamePhase createTestedPhase();
+    protected abstract GameState<Game> createTestedPhase();
 
 }

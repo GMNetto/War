@@ -55,9 +55,15 @@ public class World extends HashSet<Continent>   {
 	List<Territory> territories = new LinkedList<>(getTerritories());
 	Collections.shuffle(territories);
 	while(!territories.isEmpty()){
-	    Territory territory = territories.get(0);
+	    Territory territory = territories.remove(0);
 	    territory.setOwner(iterator.next());
-	    territory.setSoldiers(1);
+	    territory.addSoldiers(1);
 	}
     }
+
+    @Override
+    public String toString() {
+        return "World Name:\t" + name;
+    }
+    
 }

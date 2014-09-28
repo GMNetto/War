@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import br.uff.es2.war.model.objective.Objective;
 import br.uff.gamemachine.GameState;
 
 /**

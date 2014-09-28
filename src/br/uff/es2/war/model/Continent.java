@@ -20,4 +20,10 @@ public class Continent extends HashSet<Territory> {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "Continent Name:\t" + name;
+    }
+    
 }

@@ -6,10 +6,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.GamePhase;
 import br.uff.es2.war.model.ReceiveSoldiersPhase;
 import br.uff.es2.war.model.SetupPhase;
 import br.uff.es2.war.model.TurnChangePhase;
+import br.uff.gamemachine.GameState;
 
 /**
  * @author Arthur Pitzer
@@ -17,19 +17,20 @@ import br.uff.es2.war.model.TurnChangePhase;
 public class ReceiveSoldiersPhaseTest extends GamePhaseTest {
     
     @Override
-    protected GamePhase createDependencies() {
-	return new GamePhase() {
+    protected GameState<Game> createDependencies() {
+	
+	return new GameState<Game>() {
 	    @Override
-	    public void execute(Game game) {
+	    public GameState<Game> execute(Game context) {
 		new SetupPhase().execute(game);
 		new TurnChangePhase().execute(game);
-		new ReceiveSoldiersPhase().execute(game);
+		return new ReceiveSoldiersPhase().execute(game);
 	    }
 	};
     }
     
     @Override
-    protected GamePhase createTestedPhase() {
+    protected GameState<Game> createTestedPhase() {
 	return new ReceiveSoldiersPhase();
     }
     

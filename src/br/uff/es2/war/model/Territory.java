@@ -31,6 +31,10 @@ public class Territory {
         return borders;
     }
     
+    public void addBorder(Territory border) {
+        borders.add(border);
+    }
+    
     public Player getOwner(){
 	return owner;
     }
@@ -54,4 +58,9 @@ public class Territory {
     public void removeSoldiers(int soldiers){
 	this.soldiers -= soldiers;
     }
-}    
+
+    @Override
+    public String toString() {
+        return "Territory Name:\t" + name;
+    }
+}

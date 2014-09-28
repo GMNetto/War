@@ -1,6 +1,7 @@
 package br.uff.es2.war.model;
 
 import java.util.Iterator;
+
 import br.uff.es2.war.util.CyclicIterator;
 
 /**

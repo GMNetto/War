@@ -5,10 +5,10 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import br.uff.es2.war.model.GamePhase;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.SetupPhase;
 import br.uff.es2.war.model.Territory;
+import br.uff.gamemachine.GameState;
 
 /**
  * @author Arthur Pitzer
@@ -16,12 +16,12 @@ import br.uff.es2.war.model.Territory;
 public class SetupPhaseTest extends GamePhaseTest{
 
     @Override
-    protected GamePhase createDependencies() {
+    protected GameState<Game> createDependencies() {
 	return new EmptyPhase();
     }
     
     @Override
-    protected GamePhase createTestedPhase() {
+    protected GameState<Game> createTestedPhase() {
 	return new SetupPhase();
     }
     
