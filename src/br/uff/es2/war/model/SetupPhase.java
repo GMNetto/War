@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import br.uff.gamemachine.GameState;
+
 /**
  * During the setup phase each player chooses 
  * his color and receives his objective.
@@ -13,19 +15,20 @@ import java.util.Collection;
  * 
  * @author Arthur Pitzer
  */
-public class SetupPhase implements GamePhase {
+public class SetupPhase implements GameState<Game> {
     
     private Game game;
 
     @Override
-    public void execute(Game game) {
+    public GameState<Game> execute(Game game) {
 	this.game = game;
 	readColors();
 	game.getWorld().distributeTerritories(game.getPlayers());
 	for (Player player : game.getPlayers()) {
-	    player.setWorld(game.getWorld());
+	    player.setGame(game);
 	    player.setObjective(randomObjective());
 	}
+	return new TurnChangePhase();
     }
     
     public void readColors(){

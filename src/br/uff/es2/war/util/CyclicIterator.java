@@ -2,6 +2,7 @@ package br.uff.es2.war.util;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Iterates through an iterable and assuming that
@@ -36,7 +37,13 @@ public class CyclicIterator<E> implements Iterator<E> {
 
     @Override
     public E next() {
-	return innerIterator.next();
+	try{
+	    return innerIterator.next();
+	}catch(NoSuchElementException e){
+	    if(hasNext())
+		return next();
+	    throw e;
+	}
     }
 
     @Override

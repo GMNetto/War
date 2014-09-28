@@ -1,7 +1,12 @@
 package br.uff.es2.war.model;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
+
+import br.uff.es2.war.util.CyclicIterator;
 
 /**
  * World is a named graph of territories. The 
@@ -9,9 +14,9 @@ import java.util.Set;
  * their continents.
  * @author Arthur Pitzer
  */
-@SuppressWarnings("serial")
 public class World extends HashSet<Continent>   {
-    
+
+    private static final long serialVersionUID = -324627777377883273L;
     private final String name;
     
     public World(String name) {
@@ -46,9 +51,12 @@ public class World extends HashSet<Continent>   {
     }
     
     public void distributeTerritories(Player[] players){
-	for(Territory territory : getTerritories()){
-	    int index = (int) (Math.random() * (players.length - 1));
-	    territory.setOwner(players[index]);
+	CyclicIterator<Player> iterator = new CyclicIterator<>(players);
+	List<Territory> territories = new LinkedList<>(getTerritories());
+	Collections.shuffle(territories);
+	while(!territories.isEmpty()){
+	    Territory territory = territories.get(0);
+	    territory.setOwner(iterator.next());
 	    territory.setSoldiers(1);
 	}
     }

@@ -6,11 +6,12 @@ import java.util.Set;
  * Player is aware of the Game state and perform actions as 
  * declare combat and move soldiers in order to achieve his 
  * objective.
+ * 
  * @author Arthur Pitzer
  */
 public interface Player {
     
-    void setWorld(World world);
+    void setGame(Game game);
 
     Objective getObjective();
 
@@ -29,5 +30,7 @@ public interface Player {
     Combat declareCombat();
 
     void answerCombat(Combat combat);
+
+    void moveSoldiers();
 
 }

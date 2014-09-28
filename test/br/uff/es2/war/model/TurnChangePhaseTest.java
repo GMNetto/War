@@ -1,4 +1,4 @@
-package test.br.uff.es2.war.model;
+package br.uff.es2.war.model;
 
 import org.junit.Before;
 import org.junit.Test;

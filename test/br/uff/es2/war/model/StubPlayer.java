@@ -1,4 +1,4 @@
-package test.br.uff.es2.war.model;
+package br.uff.es2.war.model;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -6,6 +6,7 @@ import java.util.Set;
 
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Objective;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
@@ -17,7 +18,7 @@ import br.uff.es2.war.util.CyclicIterator;
  */
 class StubPlayer implements Player {
     
-    private World world;
+    private Game game;
     private Objective objective;
     private Color color;
     private int soldierPool;
@@ -29,8 +30,8 @@ class StubPlayer implements Player {
     }
 
     @Override
-    public void setWorld(World world) {
-	this.world = world;
+    public void setGame(Game game) {
+	this.game = game;
     }
 
     @Override
@@ -69,7 +70,7 @@ class StubPlayer implements Player {
 
     @Override
     public Combat declareCombat() {
-	Set<Territory> territories = world.getTerritoriesByOwner(this);
+	Set<Territory> territories = game.getWorld().getTerritoriesByOwner(this);
 	if(!territories.isEmpty()){
 	    Territory attacking = new LinkedList<>(territories).get(0);
 	    Territory defending = new LinkedList<>(attacking.getBorders()).get(0);
@@ -87,5 +88,9 @@ class StubPlayer implements Player {
 
     public Object getSoldierPool() {
 	return soldierPool;
+    }
+    
+    @Override
+    public void moveSoldiers() {
     }
 }

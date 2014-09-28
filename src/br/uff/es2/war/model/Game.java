@@ -7,8 +7,6 @@ import br.uff.es2.war.util.CyclicIterator;
  * Holds the state of a War game. The game is updated by the players 
  * during the execution of the game phases.
  * 
- * @see GameDriver
- * 
  * @author Arthur Pitzer
  */
 public class Game {
@@ -17,6 +15,7 @@ public class Game {
     private final World world;
     private final Iterator<Player> turns;
     private Player currentPlayer;
+    private Player winner;
     
     public Game(Player[] players, World world) {
 	this.players = players;
@@ -32,22 +31,28 @@ public class Game {
 	return world;
     }
     
-    public Iterator<Player> getTurns() {
-	return turns;
-    }
-    
-    public void setCurrentPlayer(Player currentPlayer) {
-	this.currentPlayer = currentPlayer;
+    public void passTurn(){
+	if(turns.hasNext())
+	    currentPlayer = turns.next();
     }
     
     public Player getCurrentPlayer() {
 	return currentPlayer;
     }
     
+    public boolean isOver(){
+	if(winner != null)
+	    return true;
+	for(Player player : players){
+	    if(player.getObjective().wasAchieved()){
+		winner = player;
+		return true;
+	    }
+	}
+	return false;
+    }
+    
     public Player getWinner() {
-	for(Player player : players)
-	    if(player.getObjective().wasAchieved())
-		return player;
-	return null;
+	return isOver()? winner : null;
     }
 }

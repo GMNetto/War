@@ -1,44 +1,25 @@
 package br.uff.es2.war.model;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import br.uff.gamemachine.GameState;
  
 /**
  * During the turn change phase the current player changes.
  * @author Arthur Pitzer
  */
-public class TurnChangePhase implements GamePhase {
+public class TurnChangePhase implements GameState<Game> {
 
-    private final List<GamePhase> subPhases;
     private Game game;
 
-    public TurnChangePhase() {
-	subPhases = new LinkedList<>();
-    }
-
-    public void add(GamePhase subPhase) {
-	subPhases.add(subPhase);
-    }
-
     @Override
-    public void execute(Game game) {
+    public GameState<Game> execute(Game game) {
 	this.game = game;
-	Iterator<Player> turns = game.getTurns();
-	if (turns.hasNext()) {
-	    game.setCurrentPlayer(turns.next());
-	    beginTurn();
-	    executeSubPhases();
-	}
+	game.passTurn();
+	beginTurn();
+	return new ReceiveSoldiersPhase();
     }
 
     private void beginTurn() {
 	for (Player player : game.getPlayers())
 	    player.beginTurn(game.getCurrentPlayer());
-    }
-
-    private void executeSubPhases() {
-	for (GamePhase subPhase : subPhases)
-	    subPhase.execute(game);
     }
 }

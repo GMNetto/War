@@ -2,6 +2,8 @@ package br.uff.es2.war.model;
 
 import java.util.Set;
 
+import br.uff.gamemachine.GameState;
+
 /**
  * During the receive soldier phase the current player 
  * receives a number of soldiers equal to the number of
@@ -10,14 +12,17 @@ import java.util.Set;
  * 
  * @author Arthur Pitzer
  */
-public class ReceiveSoldiersPhase implements GamePhase {
+public class ReceiveSoldiersPhase implements GameState<Game> {
     
     @Override
-    public void execute(Game game) {
+    public GameState<Game> execute(Game game) {
 	World world = game.getWorld();
 	Player current = game.getCurrentPlayer();
 	Set<Territory> territories = world.getTerritoriesByOwner(current);
 	int soldierQuantity = territories.size();
 	current.distributeSoldiers(soldierQuantity, territories);
+	if(game.isOver())
+	    return new GameOver();
+	return new CombatPhase();
     }
 }

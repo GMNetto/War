@@ -1,4 +1,4 @@
-package test.br.uff.es2.war.model;
+package br.uff.es2.war.model;
 
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.GamePhase;
