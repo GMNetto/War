@@ -11,14 +11,20 @@ import java.util.HashSet;
 public class Continent extends HashSet<Territory> {
     
     private final String name;
+    private final World world;
     
-    public Continent(String name) {
+    public Continent(String name, World world) {
 	super();
 	this.name = name;
+        this.world = world;
     }
     
     public String getName() {
         return name;
+    }
+
+    public World getWorld() {
+        return world;
     }
 
     @Override

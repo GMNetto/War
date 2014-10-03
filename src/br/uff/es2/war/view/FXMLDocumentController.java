@@ -33,8 +33,6 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        CartaJpaController c=new  CartaJpaController(Persistence.createEntityManagerFactory("WarESIIPU"));
-        System.out.println(c.findCarta(2));
     }    
     
 }

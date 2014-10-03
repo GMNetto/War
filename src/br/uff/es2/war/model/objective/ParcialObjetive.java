@@ -21,12 +21,12 @@ public abstract class ParcialObjetive implements Objective {
     /**
      * The specific {@link World} of the {@link Objective}.
      */
-    private World world;
+    protected World world;
     
     /**
      * The owner of the {@link Objective}.
      */
-    private Player owner;
+    protected Player owner;
 
     /**
      * Constructor with all needed parameters.

@@ -14,17 +14,23 @@ import java.util.Set;
 public class Territory {
     
     private final String name;
+    private final Continent continent;
     private final Set<Territory> borders;
     private Player owner;
     private int soldiers;
     
-    public Territory(String name) {
+    public Territory(String name, Continent continent) {
 	this.name = name;
+        this.continent = continent;
 	this.borders = new HashSet<>();
     }
     
     public String getName() {
         return name;
+    }
+    
+    public Continent getContinent() {
+        return continent;
     }
     
     public Set<Territory> getBorders() {

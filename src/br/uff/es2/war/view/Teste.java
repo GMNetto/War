@@ -57,24 +57,24 @@ public class Teste {
         }
 
     }
-    
+
     private List<Player> shufflePlayers(final Collection<Player> players) {
         List<Player> p = new ArrayList<>(players.size());
         for (Player player : players) {
             p.add(player);
         }
         Collections.shuffle(p);
-        
+
         return p;
     }
-    
+
     public void startGame(final Collection<Player> players) {
         List<Player> p = shufflePlayers(players);
-        
+
         for (Player player : p) {
             player.setObjective(null);
         }
-        
+
     }
 
     public static void main(String[] args) {

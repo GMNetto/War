@@ -72,10 +72,10 @@ public class WorldController {
         Territory t;
 
         for (Continente continent : mundo.getContinenteCollection()) {
-            Continent c = new Continent(continent.getNome());
+            Continent c = new Continent(continent.getNome(), world);
 
             for (Territorio territory : continent.getTerritorioCollection()) {
-                t = new Territory(territory.getNome());
+                t = new Territory(territory.getNome(), c);
                 territoryByName.put(t.getName(), t);
                 c.add(t);
                 territories.add(territory);

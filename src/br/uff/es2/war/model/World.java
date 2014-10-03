@@ -60,10 +60,4 @@ public class World extends HashSet<Continent>   {
 	    territory.addSoldiers(1);
 	}
     }
-
-    @Override
-    public String toString() {
-        return "World Name:\t" + name;
-    }
-    
 }
