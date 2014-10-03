@@ -50,4 +50,8 @@ public class TurnChangePhaseTest extends GamePhaseTest{
 	phase.execute(game);
 	assertNotEquals(previous, game.getCurrentPlayer());
     }
+
+    private void assertNotEquals(Player previous, Player currentPlayer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
