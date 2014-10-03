@@ -11,14 +11,32 @@ import br.uff.es2.war.model.World;
 import java.util.Set;
 
 /**
+ * This class represents a partial objective of conquer a specific number of
+ * territories and have, on each, a minimal number of soldiers.
  *
- * @author Victor
+ * @author Victor Guimarães
  */
 public class ConquerTerritory extends ParcialObjetive {
 
-    private int numberOfTerritories;
-    private int minimalOfSoldiersInEach;
+    /**
+     * The number of territories needed.
+     */
+    private final int numberOfTerritories;
+    
+    /**
+     * The minimal number of soldiers needed on each {@link Territory}.
+     */
+    private final int minimalOfSoldiersInEach;
 
+    /**
+     * Constructor with all needed parameters.
+     *
+     * @param world the specific {@link World} of the {@link Objective}
+     * @param owner the owner of the {@link Objective}
+     * @param numberOfTerritories the number of territories needed
+     * @param minimalOfSoldiersInEach the minimal number of soldiers needed on
+     * each {@link Territory}
+     */
     public ConquerTerritory(World world, Player owner, int numberOfTerritories, int minimalOfSoldiersInEach) {
         super(world, owner);
         this.numberOfTerritories = numberOfTerritories;
@@ -36,17 +54,36 @@ public class ConquerTerritory extends ParcialObjetive {
         if (territories.size() < minimalOfSoldiersInEach)
             return false;
 
-        int count = numberOfTerritories;
+        int count = 0;
         for (Territory territory : territories) {
             if (territory.getSoldiers() >= minimalOfSoldiersInEach) {
-                count--;
+                count++;
             }
 
-            if (count == 0)
+            if (count == numberOfTerritories)
                 return true;
         }
-        
+
         return false;
+    }
+
+    /**
+     * Getter for the number of territories needed.
+     *
+     * @return the number of territories needed
+     */
+    public int getNumberOfTerritories() {
+        return numberOfTerritories;
+    }
+
+    /**
+     * Getter for the minimal number of soldiers needed on each
+     * {@link Territory}.
+     *
+     * @return the minimal number of soldiers needed on each {@link Territory}
+     */
+    public int getMinimalOfSoldiersInEach() {
+        return minimalOfSoldiersInEach;
     }
 
 }

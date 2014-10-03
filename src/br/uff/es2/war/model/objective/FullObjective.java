@@ -42,7 +42,39 @@ public class FullObjective implements Objective {
 
     @Override
     public boolean wasAchieved() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (alternative)
+            return alternativeObjective.wasAchieved();
+
+        for (ParcialObjetive parcialObjetive : mandatoryObjectives) {
+            if (!parcialObjetive.wasAchieved())
+                return false;
+        }
+
+        boolean completedSet;
+        for (Set<ParcialObjetive> parcialObjetives : secondaryObjective.values()) {
+            completedSet = true;
+            for (ParcialObjetive parcialObjetive : parcialObjetives) {
+                if (!parcialObjetive.wasAchieved()) {
+                    completedSet = false;
+                    break;
+                }
+            }
+            if (completedSet)
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Switches to the alternative {@link Objective}.
+     */
+    public void switchToAlternativeObjective() {
+        if (alternative) {
+            alternativeObjective.switchToAlternativeObjective();
+        } else {
+            alternative = true;
+        }
     }
 
 }

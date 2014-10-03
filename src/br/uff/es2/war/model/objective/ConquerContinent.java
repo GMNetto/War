@@ -51,6 +51,11 @@ public class ConquerContinent extends ParcialObjetive {
         return true;
     }
 
+    /**
+     * Getter for the {@link Continent}.
+     * 
+     * @return the {@link Continent}
+     */
     public Continent getContinent() {
         return continent;
     }
