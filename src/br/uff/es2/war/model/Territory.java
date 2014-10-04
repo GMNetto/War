@@ -31,14 +31,12 @@ public class Territory {
     public Territory(Territorio territory){
         this.territory=territory;
         this.name=territory.getNome();
+        this.borders = new HashSet<>();
     }
+ 
     
-    public Territorio getBDTerritorio(){
-        return territory;
-    }
-    
-    public boolean isInBorder(Territory territory){
-        return this.territory.getTerritorioCollection().contains(territory.getBDTerritorio());
+    public Territorio getTerritorio(){
+        return this.territory;
     }
     
     
@@ -59,8 +57,9 @@ public class Territory {
 	return owner;
     }
     
-    public void setOwner(Player owner){
-        occupation=new Ocupacao(territory.getCodTerritorio(), owner.getJogador().getCodJogador(), );
+    public void setOwner(Player owner,Game game){
+        occupation=new Ocupacao(territory.getCodTerritorio(), owner.getJogador().getCodJogador(), game.getPartida().getCodPartida());
+        //Salva Ocupação.Ou retorna Ocupacao para ser salva.
 	this.owner = owner;
     }
     

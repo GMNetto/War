@@ -17,14 +17,14 @@ public class CombatJudge {
 	dice = new Random();
     }
     
-    public void resolve(Combat combat){
+    public void resolve(Combat combat,Game game){
 	int[] attack = combatValues(combat.getAttackingSoldiers());
 	int[] defense = combatValues(combat.getDefendingSoldiers());
 	int[] scores = calculateScores(attack, defense);
 	Territory attackingTerritory = combat.getAttackingTerritory();
 	Territory defendingTerritory = combat.getDefendingTerritory();
 	applyScores(scores, attackingTerritory, defendingTerritory);
-	updateOwnership(attackingTerritory, defendingTerritory);
+	updateOwnership(attackingTerritory, defendingTerritory,game);
     }
     
     private int[] combatValues(int soldiers){
@@ -69,11 +69,11 @@ public class CombatJudge {
     }
 
     private void updateOwnership(Territory attackingTerritory,
-	    Territory defendingTerritory) {
+	    Territory defendingTerritory,Game game) {
 	if(defendingTerritory.getSoldiers() == 0){
 	    defendingTerritory.addSoldiers(1);
 	    attackingTerritory.removeSoldiers(1);
-	    defendingTerritory.setOwner(attackingTerritory.getOwner());
+	    defendingTerritory.setOwner(attackingTerritory.getOwner(),game);
 	}
     }
 }

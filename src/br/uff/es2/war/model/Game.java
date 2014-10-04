@@ -35,6 +35,10 @@ public class Game {
 	return world;
     }
     
+    public Partida getPartida(){
+        return match;
+    }
+    
     public void passTurn(){
 	if(turns.hasNext())
 	    currentPlayer = turns.next();
