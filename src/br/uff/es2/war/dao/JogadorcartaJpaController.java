@@ -40,9 +40,9 @@ public class JogadorcartaJpaController implements Serializable {
         if (jogadorcarta.getJogadorcartaPK() == null) {
             jogadorcarta.setJogadorcartaPK(new JogadorcartaPK());
         }
+        jogadorcarta.getJogadorcartaPK().setCodPartida(jogadorcarta.getJogam().getJogamPK().getCodPartida());
         jogadorcarta.getJogadorcartaPK().setCodCarta(jogadorcarta.getCarta().getCodCarta());
         jogadorcarta.getJogadorcartaPK().setCodJogador(jogadorcarta.getJogam().getJogamPK().getCodJogador());
-        jogadorcarta.getJogadorcartaPK().setCodPartida(jogadorcarta.getJogam().getJogamPK().getCodPartida());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -80,9 +80,9 @@ public class JogadorcartaJpaController implements Serializable {
     }
 
     public void edit(Jogadorcarta jogadorcarta) throws NonexistentEntityException, Exception {
+        jogadorcarta.getJogadorcartaPK().setCodPartida(jogadorcarta.getJogam().getJogamPK().getCodPartida());
         jogadorcarta.getJogadorcartaPK().setCodCarta(jogadorcarta.getCarta().getCodCarta());
         jogadorcarta.getJogadorcartaPK().setCodJogador(jogadorcarta.getJogam().getJogamPK().getCodJogador());
-        jogadorcarta.getJogadorcartaPK().setCodPartida(jogadorcarta.getJogam().getJogamPK().getCodPartida());
         EntityManager em = null;
         try {
             em = getEntityManager();

@@ -15,6 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import br.uff.es2.war.entity.Objterritorio;
 import br.uff.es2.war.entity.Mundo;
+import br.uff.es2.war.entity.Objconqcont;
 import br.uff.es2.war.entity.Jogam;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -67,6 +68,11 @@ public class ObjetivoJpaController implements Serializable {
                 codMundo = em.getReference(codMundo.getClass(), codMundo.getCodMundo());
                 objetivo.setCodMundo(codMundo);
             }
+            Objconqcont objconqcont = objetivo.getObjconqcont();
+            if (objconqcont != null) {
+                objconqcont = em.getReference(objconqcont.getClass(), objconqcont.getCodObjetivo());
+                objetivo.setObjconqcont(objconqcont);
+            }
             Collection<Jogam> attachedJogamCollection = new ArrayList<Jogam>();
             for (Jogam jogamCollectionJogamToAttach : objetivo.getJogamCollection()) {
                 jogamCollectionJogamToAttach = em.getReference(jogamCollectionJogamToAttach.getClass(), jogamCollectionJogamToAttach.getJogamPK());
@@ -104,6 +110,15 @@ public class ObjetivoJpaController implements Serializable {
             if (codMundo != null) {
                 codMundo.getObjetivoCollection().add(objetivo);
                 codMundo = em.merge(codMundo);
+            }
+            if (objconqcont != null) {
+                Objetivo oldObjetivoOfObjconqcont = objconqcont.getObjetivo();
+                if (oldObjetivoOfObjconqcont != null) {
+                    oldObjetivoOfObjconqcont.setObjconqcont(null);
+                    oldObjetivoOfObjconqcont = em.merge(oldObjetivoOfObjconqcont);
+                }
+                objconqcont.setObjetivo(objetivo);
+                objconqcont = em.merge(objconqcont);
             }
             for (Jogam jogamCollectionJogam : objetivo.getJogamCollection()) {
                 Objetivo oldCodObjetivoOfJogamCollectionJogam = jogamCollectionJogam.getCodObjetivo();
@@ -159,6 +174,8 @@ public class ObjetivoJpaController implements Serializable {
             Objterritorio objterritorioNew = objetivo.getObjterritorio();
             Mundo codMundoOld = persistentObjetivo.getCodMundo();
             Mundo codMundoNew = objetivo.getCodMundo();
+            Objconqcont objconqcontOld = persistentObjetivo.getObjconqcont();
+            Objconqcont objconqcontNew = objetivo.getObjconqcont();
             Collection<Jogam> jogamCollectionOld = persistentObjetivo.getJogamCollection();
             Collection<Jogam> jogamCollectionNew = objetivo.getJogamCollection();
             Collection<Historico> historicoCollectionOld = persistentObjetivo.getHistoricoCollection();
@@ -173,6 +190,12 @@ public class ObjetivoJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("You must retain Objterritorio " + objterritorioOld + " since its objetivo field is not nullable.");
+            }
+            if (objconqcontOld != null && !objconqcontOld.equals(objconqcontNew)) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("You must retain Objconqcont " + objconqcontOld + " since its objetivo field is not nullable.");
             }
             for (Jogam jogamCollectionOldJogam : jogamCollectionOld) {
                 if (!jogamCollectionNew.contains(jogamCollectionOldJogam)) {
@@ -208,6 +231,10 @@ public class ObjetivoJpaController implements Serializable {
             if (codMundoNew != null) {
                 codMundoNew = em.getReference(codMundoNew.getClass(), codMundoNew.getCodMundo());
                 objetivo.setCodMundo(codMundoNew);
+            }
+            if (objconqcontNew != null) {
+                objconqcontNew = em.getReference(objconqcontNew.getClass(), objconqcontNew.getCodObjetivo());
+                objetivo.setObjconqcont(objconqcontNew);
             }
             Collection<Jogam> attachedJogamCollectionNew = new ArrayList<Jogam>();
             for (Jogam jogamCollectionNewJogamToAttach : jogamCollectionNew) {
@@ -254,6 +281,15 @@ public class ObjetivoJpaController implements Serializable {
             if (codMundoNew != null && !codMundoNew.equals(codMundoOld)) {
                 codMundoNew.getObjetivoCollection().add(objetivo);
                 codMundoNew = em.merge(codMundoNew);
+            }
+            if (objconqcontNew != null && !objconqcontNew.equals(objconqcontOld)) {
+                Objetivo oldObjetivoOfObjconqcont = objconqcontNew.getObjetivo();
+                if (oldObjetivoOfObjconqcont != null) {
+                    oldObjetivoOfObjconqcont.setObjconqcont(null);
+                    oldObjetivoOfObjconqcont = em.merge(oldObjetivoOfObjconqcont);
+                }
+                objconqcontNew.setObjetivo(objetivo);
+                objconqcontNew = em.merge(objconqcontNew);
             }
             for (Jogam jogamCollectionNewJogam : jogamCollectionNew) {
                 if (!jogamCollectionOld.contains(jogamCollectionNewJogam)) {
@@ -341,6 +377,13 @@ public class ObjetivoJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Objetivo (" + objetivo + ") cannot be destroyed since the Objterritorio " + objterritorioOrphanCheck + " in its objterritorio field has a non-nullable objetivo field.");
+            }
+            Objconqcont objconqcontOrphanCheck = objetivo.getObjconqcont();
+            if (objconqcontOrphanCheck != null) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Objetivo (" + objetivo + ") cannot be destroyed since the Objconqcont " + objconqcontOrphanCheck + " in its objconqcont field has a non-nullable objetivo field.");
             }
             Collection<Jogam> jogamCollectionOrphanCheck = objetivo.getJogamCollection();
             for (Jogam jogamCollectionOrphanCheckJogam : jogamCollectionOrphanCheck) {

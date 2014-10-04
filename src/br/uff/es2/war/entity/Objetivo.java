@@ -55,6 +55,8 @@ public class Objetivo implements Serializable {
     @JoinColumn(name = "Cod_Mundo", referencedColumnName = "Cod_Mundo")
     @ManyToOne(optional = false)
     private Mundo codMundo;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "objetivo")
+    private Objconqcont objconqcont;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivo")
     private Collection<Objderjogador> objderjogadorCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivo1")
@@ -120,6 +122,14 @@ public class Objetivo implements Serializable {
 
     public void setCodMundo(Mundo codMundo) {
         this.codMundo = codMundo;
+    }
+
+    public Objconqcont getObjconqcont() {
+        return objconqcont;
+    }
+
+    public void setObjconqcont(Objconqcont objconqcont) {
+        this.objconqcont = objconqcont;
     }
 
     @XmlTransient

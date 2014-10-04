@@ -12,9 +12,11 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -40,6 +42,9 @@ public class Objconqcont implements Serializable {
     private Integer continentesExtras;
     @ManyToMany(mappedBy = "objconqcontCollection")
     private Collection<Continente> continenteCollection;
+    @JoinColumn(name = "Cod_Objetivo", referencedColumnName = "Cod_Objetivo", insertable = false, updatable = false)
+    @OneToOne(optional = false)
+    private Objetivo objetivo;
 
     public Objconqcont() {
     }
@@ -71,6 +76,14 @@ public class Objconqcont implements Serializable {
 
     public void setContinenteCollection(Collection<Continente> continenteCollection) {
         this.continenteCollection = continenteCollection;
+    }
+
+    public Objetivo getObjetivo() {
+        return objetivo;
+    }
+
+    public void setObjetivo(Objetivo objetivo) {
+        this.objetivo = objetivo;
     }
 
     @Override
