@@ -17,6 +17,7 @@ abstract class GamePhaseTest {
     public GamePhaseTest() {
 	phase = createTestedPhase();
 	dependencies = createDependencies();
+	resetGame();
     }
     
     public void resetGame(){

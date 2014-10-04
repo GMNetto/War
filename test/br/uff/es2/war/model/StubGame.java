@@ -23,12 +23,14 @@ public class StubGame extends Game {
     }
 
     private static World createStubWorld() {
-	Continent continentA = new Continent("A");
-	Continent continentB = new Continent("B");
-	Territory territoryA1 = new Territory("A 1");
-	Territory territoryA2 = new Territory("A 2");
-	Territory territoryB1 = new Territory("B 1");
-	Territory territoryB2 = new Territory("B 2");
+	World world = new World("Test World");
+	
+	Continent continentA = new Continent("A", world);
+	Continent continentB = new Continent("B", world);
+	Territory territoryA1 = new Territory("A 1", continentA);
+	Territory territoryA2 = new Territory("A 2", continentA);
+	Territory territoryB1 = new Territory("B 1", continentB);
+	Territory territoryB2 = new Territory("B 2", continentB);
 
 	continentA.add(territoryA1);
 	continentA.add(territoryA2);
@@ -43,8 +45,7 @@ public class StubGame extends Game {
 	territoryB2.getBorders().add(territoryB1);
 	territoryB2.getBorders().add(territoryA1);
 	territoryA1.getBorders().add(territoryB2);
-
-	World world = new World("Test World");
+	
 	world.add(continentA);
 	world.add(continentB);
 	return world;

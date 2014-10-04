@@ -27,7 +27,7 @@ public class CombatJudge {
 	updateOwnership(attackingTerritory, defendingTerritory);
     }
     
-    private int[] combatValues(int soldiers){
+    protected int[] combatValues(int soldiers){
 	int[] values = rollDiceNTimes(soldiers);
 	Arrays.sort(values);
 	return values;
@@ -45,22 +45,17 @@ public class CombatJudge {
     }
     
     private int[] calculateScores(int[] attackValues, int[] defenseValues){
-	int length = Math.max(attackValues.length, defenseValues.length);
+	int length = Math.min(attackValues.length, defenseValues.length);
 	int[] scores = new int[2];
 	for(int i = 0; i < length; i++){
-	    int attack = getIthGreatest(i, attackValues);
-	    int defense = getIthGreatest(i, attackValues);
+	    int attack = attackValues[i];
+	    int defense = defenseValues[i];
 	    if(attack > defense)
 		scores[0]++;
 	    else
 		scores[1]++;
 	}
 	return scores;
-    }
-    
-    private int getIthGreatest(int i, int[] values){
-	i = Math.min(values.length - 1, i);
-	return values[i];
     }
     
     private void applyScores(int[] scores, Territory attackingTerritory, Territory defendingTerritory){
