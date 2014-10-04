@@ -1,5 +1,6 @@
 package test.br.uff.es2.war.model;
 
+import br.uff.es2.war.entity.Jogador;
 import java.util.Set;
 
 import br.uff.es2.war.model.Color;
@@ -77,5 +78,10 @@ class StubPlayer implements Player {
 
     @Override
     public void moveSoldiers() {
+    }
+
+    @Override
+    public Jogador getJogador() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -1,8 +1,8 @@
 package br.uff.es2.war.model;
 
-import java.util.Iterator;
-
+import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.util.CyclicIterator;
+import java.util.Iterator;
 
 /**
  * Holds the state of a War game. The game is updated by the players 
@@ -17,11 +17,14 @@ public class Game {
     private final Iterator<Player> turns;
     private Player currentPlayer;
     private Player winner;
+    private Partida match;
     
     public Game(Player[] players, World world) {
 	this.players = players;
 	this.world = world;
 	turns = new CyclicIterator<Player>(players);
+        //Game precisará atender Partida com Datas e código.
+        match=new Partida();
     }
     
     public Player[] getPlayers(){

@@ -1,8 +1,9 @@
 package br.uff.es2.war.model;
 
-import java.util.Set;
-
+import br.uff.es2.war.entity.Jogador;
+import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.model.objective.Objective;
+import java.util.Set;
 
 /**
  * Player is aware of the Game state and perform actions as 
@@ -35,5 +36,9 @@ public interface Player {
     void answerCombat(Combat combat);
 
     void moveSoldiers();
+    
+    Game getGame();
+    
+    Jogador getJogador();
 
 }

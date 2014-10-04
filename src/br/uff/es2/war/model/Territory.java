@@ -1,5 +1,7 @@
 package br.uff.es2.war.model;
 
+import br.uff.es2.war.entity.Ocupacao;
+import br.uff.es2.war.entity.Territorio;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,14 +16,32 @@ import java.util.Set;
 public class Territory {
     
     private final String name;
-    private final Set<Territory> borders;
+    private Set<Territory> borders;
     private Player owner;
     private int soldiers;
+    private Territorio territory;
+    private Ocupacao occupation;
     
+    @Deprecated
     public Territory(String name) {
 	this.name = name;
 	this.borders = new HashSet<>();
     }
+    
+    public Territory(Territorio territory){
+        this.territory=territory;
+        this.name=territory.getNome();
+    }
+    
+    public Territorio getBDTerritorio(){
+        return territory;
+    }
+    
+    public boolean isInBorder(Territory territory){
+        return this.territory.getTerritorioCollection().contains(territory.getBDTerritorio());
+    }
+    
+    
     
     public String getName() {
         return name;
@@ -40,6 +60,7 @@ public class Territory {
     }
     
     public void setOwner(Player owner){
+        occupation=new Ocupacao(territory.getCodTerritorio(), owner.getJogador().getCodJogador(), );
 	this.owner = owner;
     }
     
