@@ -13,6 +13,6 @@ public interface Objective {
      *
      * @return true if it were achieved, false otherwise
      */
-    boolean wasAchieved();
+    public boolean wasAchieved();
 
 }

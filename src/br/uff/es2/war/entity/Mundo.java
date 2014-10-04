@@ -57,6 +57,8 @@ public class Mundo implements Serializable {
     private Collection<Continente> continenteCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codMundo")
     private Collection<Cor> corCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codMundo")
+    private Collection<Objetivo> objetivoCollection;
 
     public Mundo() {
     }
@@ -121,6 +123,15 @@ public class Mundo implements Serializable {
 
     public void setCorCollection(Collection<Cor> corCollection) {
         this.corCollection = corCollection;
+    }
+
+    @XmlTransient
+    public Collection<Objetivo> getObjetivoCollection() {
+        return objetivoCollection;
+    }
+
+    public void setObjetivoCollection(Collection<Objetivo> objetivoCollection) {
+        this.objetivoCollection = objetivoCollection;
     }
 
     @Override

@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -13,6 +13,7 @@ import br.uff.es2.war.entity.Territorio;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
+import br.uff.es2.war.model.objective.Objective;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -40,6 +41,11 @@ public class WorldController {
     private Map<Territory, Point2D> territoryPoint;
 
     /**
+     * A {@link Set} with all the possible {@link Objective}s for the game.
+     */
+    private Set<Objective> objectives;
+
+    /**
      * Default constructor with the needed parameters.
      *
      * @param worldID the world's id in the database
@@ -47,7 +53,19 @@ public class WorldController {
      * @throws NonexistentEntityException In case the id does not exist
      */
     public WorldController(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
+        loadGame(worldID, emf);
+    }
+
+    /**
+     * Loads the needed information about to start the game.
+     *
+     * @param worldID the world's id in the database
+     * @param emf the {@link EntityManagerFactory} to access the database
+     * @throws NonexistentEntityException In case the id does not exist
+     */
+    private void loadGame(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
         loadWorld(worldID, emf);
+        loadObjectives(worldID, emf);
     }
 
     /**
@@ -97,6 +115,17 @@ public class WorldController {
     }
 
     /**
+     * Loads the needed information about the {@link Objective}s.
+     *
+     * @param worldID the world's id in the database
+     * @param emf the {@link EntityManagerFactory} to access the database
+     * @throws NonexistentEntityException In case the id does not exist
+     */
+    private void loadObjectives(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
+
+    }
+
+    /**
      * Getter for the {@link World}.
      *
      * @return the {@link World}
@@ -112,6 +141,17 @@ public class WorldController {
      */
     public Map<Territory, Point2D> getTerritoryPoint() {
         return territoryPoint;
+    }
+
+    /**
+     * Getter for a {@link Set} with all the possible {@link Objective}s for the
+     * game.
+     *
+     * @return a {@link Set} with all the possible {@link Objective}s for the
+     * game
+     */
+    public Set<Objective> getObjectives() {
+        return objectives;
     }
 
 }

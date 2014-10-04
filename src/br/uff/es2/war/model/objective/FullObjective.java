@@ -9,8 +9,15 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * This class describes an Objective of the game.
  *
- * @author Victor
+ * @see Objective
+ * @see ConquerContinent
+ * @see ConquerExtraContinent
+ * @see ConquerTerritory
+ * @see DestroyPlayer
+ *
+ * @author Victor Guimarães
  */
 public class FullObjective implements Objective {
 
@@ -29,8 +36,9 @@ public class FullObjective implements Objective {
     private Map<Integer, Set<ParcialObjetive>> secondaryObjective;
 
     /**
-     * In case the main objective becomes impossible, the {@link Player} must
-     * achieve the {@link #alternativeObjective} instead.
+     * Another {@link Objective} to be achieved in case the main objective
+     * becomes impossible, the {@link Player} must achieve the
+     * {@link #alternativeObjective} instead.
      */
     private FullObjective alternativeObjective;
 
@@ -39,6 +47,11 @@ public class FullObjective implements Objective {
      * achieved now.
      */
     private boolean alternative;
+
+    /**
+     * A description of the {@link Objective}.
+     */
+    private String description;
 
     @Override
     public boolean wasAchieved() {
@@ -75,6 +88,59 @@ public class FullObjective implements Objective {
         } else {
             alternative = true;
         }
+    }
+
+    /**
+     * Getter for a {@link Set} of mandatory objectives. To win the game, the
+     * {@link Player} must achieve each {@link ParcialObjective} from this
+     * {@link Set}.
+     *
+     * @return a {@link Set} of mandatory objectives. To win the game, the
+     * {@link Player} must achieve each {@link ParcialObjective} from this
+     * {@link Set}
+     */
+    public Set<ParcialObjetive> getMandatoryObjectives() {
+        return (alternative ? alternativeObjective.getMandatoryObjectives() : mandatoryObjectives);
+    }
+
+    /**
+     * Getter for a {@link Map} of {@link Set} of {@link ParcialObjective}. To
+     * win the game, the {@link Player} must achieve each
+     * {@link ParcialObjective} from, at least, a {@link Set}.
+     *
+     * @return a {@link Map} of {@link Set} of {@link ParcialObjective}. To win
+     * the game, the {@link Player} must achieve each {@link ParcialObjective}
+     * from, at least, a {@link Set}.
+     */
+    public Map<Integer, Set<ParcialObjetive>> getSecondaryObjective() {
+        return (alternative ? alternativeObjective.getSecondaryObjective() : secondaryObjective);
+    }
+
+    /**
+     * Getter for another {@link Objective} to be achieved in case the main
+     * objective becomes impossible, the {@link Player} must achieve the
+     * {@link #alternativeObjective} instead.
+     *
+     * @return another {@link Objective} to be achieved in case the main
+     * objective becomes impossible, the {@link Player} must achieve the
+     * {@link #alternativeObjective} instead
+     */
+    public FullObjective getAlternativeObjective() {
+        return (alternative ? alternativeObjective.getAlternativeObjective() : alternativeObjective);
+    }
+
+    /**
+     * Getter for a description of the {@link Objective}.
+     *
+     * @return a description of the {@link Objective}.
+     */
+    public String getDescription() {
+        return (alternative ? alternativeObjective.toString() : description);
+    }
+
+    @Override
+    public String toString() {
+        return (alternative ? alternativeObjective.toString() : description);
     }
 
 }

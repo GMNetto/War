@@ -7,9 +7,11 @@ package br.uff.es2.war.view;
 
 import br.uff.es2.war.controller.WorldController;
 import br.uff.es2.war.dao.MundoJpaController;
+import br.uff.es2.war.dao.ObjetivoJpaController;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.entity.Continente;
 import br.uff.es2.war.entity.Mundo;
+import br.uff.es2.war.entity.Objetivo;
 import br.uff.es2.war.entity.Territorio;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Player;
@@ -57,6 +59,25 @@ public class Teste {
         }
 
     }
+    
+    public void loadObjective() throws NonexistentEntityException {
+        ObjetivoJpaController obj = new ObjetivoJpaController(emf);
+        Objetivo objetivo;
+        
+        StringBuilder sb = new StringBuilder();
+        sb.append("insert into objetivo values");
+        sb.append("\n");
+        for (int i = 1; i < 15; i++) {
+            objetivo = obj.findObjetivo(i);
+            sb.append("(");
+            sb.append(objetivo.getCodObjetivo());
+            sb.append(", '");
+            sb.append(objetivo.getDescricao());
+            sb.append("'), ");
+            sb.append("\n");
+        }
+        System.out.println(sb.toString().trim());
+    }
 
     private List<Player> shufflePlayers(final Collection<Player> players) {
         List<Player> p = new ArrayList<>(players.size());
@@ -84,6 +105,8 @@ public class Teste {
             Teste t = new Teste(emf);
 
             t.loadWorld();
+            System.out.println("");
+            t.loadObjective();
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
         }

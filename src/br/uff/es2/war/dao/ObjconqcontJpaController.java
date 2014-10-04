@@ -6,7 +6,6 @@
 
 package br.uff.es2.war.dao;
 
-import br.uff.es2.war.dao.exceptions.IllegalOrphanException;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.dao.exceptions.PreexistingEntityException;
 import java.io.Serializable;
@@ -14,7 +13,6 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import br.uff.es2.war.entity.Objetivo;
 import br.uff.es2.war.entity.Continente;
 import br.uff.es2.war.entity.Objconqcont;
 import java.util.ArrayList;
@@ -38,33 +36,14 @@ public class ObjconqcontJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Objconqcont objconqcont) throws IllegalOrphanException, PreexistingEntityException, Exception {
+    public void create(Objconqcont objconqcont) throws PreexistingEntityException, Exception {
         if (objconqcont.getContinenteCollection() == null) {
             objconqcont.setContinenteCollection(new ArrayList<Continente>());
-        }
-        List<String> illegalOrphanMessages = null;
-        Objetivo objetivoOrphanCheck = objconqcont.getObjetivo();
-        if (objetivoOrphanCheck != null) {
-            Objconqcont oldObjconqcontOfObjetivo = objetivoOrphanCheck.getObjconqcont();
-            if (oldObjconqcontOfObjetivo != null) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("The Objetivo " + objetivoOrphanCheck + " already has an item of type Objconqcont whose objetivo column cannot be null. Please make another selection for the objetivo field.");
-            }
-        }
-        if (illegalOrphanMessages != null) {
-            throw new IllegalOrphanException(illegalOrphanMessages);
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Objetivo objetivo = objconqcont.getObjetivo();
-            if (objetivo != null) {
-                objetivo = em.getReference(objetivo.getClass(), objetivo.getCodObjetivo());
-                objconqcont.setObjetivo(objetivo);
-            }
             Collection<Continente> attachedContinenteCollection = new ArrayList<Continente>();
             for (Continente continenteCollectionContinenteToAttach : objconqcont.getContinenteCollection()) {
                 continenteCollectionContinenteToAttach = em.getReference(continenteCollectionContinenteToAttach.getClass(), continenteCollectionContinenteToAttach.getCodContinente());
@@ -72,10 +51,6 @@ public class ObjconqcontJpaController implements Serializable {
             }
             objconqcont.setContinenteCollection(attachedContinenteCollection);
             em.persist(objconqcont);
-            if (objetivo != null) {
-                objetivo.setObjconqcont(objconqcont);
-                objetivo = em.merge(objetivo);
-            }
             for (Continente continenteCollectionContinente : objconqcont.getContinenteCollection()) {
                 continenteCollectionContinente.getObjconqcontCollection().add(objconqcont);
                 continenteCollectionContinente = em.merge(continenteCollectionContinente);
@@ -93,33 +68,14 @@ public class ObjconqcontJpaController implements Serializable {
         }
     }
 
-    public void edit(Objconqcont objconqcont) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Objconqcont objconqcont) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Objconqcont persistentObjconqcont = em.find(Objconqcont.class, objconqcont.getCodObjetivo());
-            Objetivo objetivoOld = persistentObjconqcont.getObjetivo();
-            Objetivo objetivoNew = objconqcont.getObjetivo();
             Collection<Continente> continenteCollectionOld = persistentObjconqcont.getContinenteCollection();
             Collection<Continente> continenteCollectionNew = objconqcont.getContinenteCollection();
-            List<String> illegalOrphanMessages = null;
-            if (objetivoNew != null && !objetivoNew.equals(objetivoOld)) {
-                Objconqcont oldObjconqcontOfObjetivo = objetivoNew.getObjconqcont();
-                if (oldObjconqcontOfObjetivo != null) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("The Objetivo " + objetivoNew + " already has an item of type Objconqcont whose objetivo column cannot be null. Please make another selection for the objetivo field.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (objetivoNew != null) {
-                objetivoNew = em.getReference(objetivoNew.getClass(), objetivoNew.getCodObjetivo());
-                objconqcont.setObjetivo(objetivoNew);
-            }
             Collection<Continente> attachedContinenteCollectionNew = new ArrayList<Continente>();
             for (Continente continenteCollectionNewContinenteToAttach : continenteCollectionNew) {
                 continenteCollectionNewContinenteToAttach = em.getReference(continenteCollectionNewContinenteToAttach.getClass(), continenteCollectionNewContinenteToAttach.getCodContinente());
@@ -128,14 +84,6 @@ public class ObjconqcontJpaController implements Serializable {
             continenteCollectionNew = attachedContinenteCollectionNew;
             objconqcont.setContinenteCollection(continenteCollectionNew);
             objconqcont = em.merge(objconqcont);
-            if (objetivoOld != null && !objetivoOld.equals(objetivoNew)) {
-                objetivoOld.setObjconqcont(null);
-                objetivoOld = em.merge(objetivoOld);
-            }
-            if (objetivoNew != null && !objetivoNew.equals(objetivoOld)) {
-                objetivoNew.setObjconqcont(objconqcont);
-                objetivoNew = em.merge(objetivoNew);
-            }
             for (Continente continenteCollectionOldContinente : continenteCollectionOld) {
                 if (!continenteCollectionNew.contains(continenteCollectionOldContinente)) {
                     continenteCollectionOldContinente.getObjconqcontCollection().remove(objconqcont);
@@ -176,11 +124,6 @@ public class ObjconqcontJpaController implements Serializable {
                 objconqcont.getCodObjetivo();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The objconqcont with id " + id + " no longer exists.", enfe);
-            }
-            Objetivo objetivo = objconqcont.getObjetivo();
-            if (objetivo != null) {
-                objetivo.setObjconqcont(null);
-                objetivo = em.merge(objetivo);
             }
             Collection<Continente> continenteCollection = objconqcont.getContinenteCollection();
             for (Continente continenteCollectionContinente : continenteCollection) {

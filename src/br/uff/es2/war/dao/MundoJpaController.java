@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import br.uff.es2.war.entity.Cor;
 import br.uff.es2.war.entity.Mundo;
+import br.uff.es2.war.entity.Objetivo;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -45,6 +46,9 @@ public class MundoJpaController implements Serializable {
         if (mundo.getCorCollection() == null) {
             mundo.setCorCollection(new ArrayList<Cor>());
         }
+        if (mundo.getObjetivoCollection() == null) {
+            mundo.setObjetivoCollection(new ArrayList<Objetivo>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -61,6 +65,12 @@ public class MundoJpaController implements Serializable {
                 attachedCorCollection.add(corCollectionCorToAttach);
             }
             mundo.setCorCollection(attachedCorCollection);
+            Collection<Objetivo> attachedObjetivoCollection = new ArrayList<Objetivo>();
+            for (Objetivo objetivoCollectionObjetivoToAttach : mundo.getObjetivoCollection()) {
+                objetivoCollectionObjetivoToAttach = em.getReference(objetivoCollectionObjetivoToAttach.getClass(), objetivoCollectionObjetivoToAttach.getCodObjetivo());
+                attachedObjetivoCollection.add(objetivoCollectionObjetivoToAttach);
+            }
+            mundo.setObjetivoCollection(attachedObjetivoCollection);
             em.persist(mundo);
             for (Continente continenteCollectionContinente : mundo.getContinenteCollection()) {
                 Mundo oldCodMundoOfContinenteCollectionContinente = continenteCollectionContinente.getCodMundo();
@@ -78,6 +88,15 @@ public class MundoJpaController implements Serializable {
                 if (oldCodMundoOfCorCollectionCor != null) {
                     oldCodMundoOfCorCollectionCor.getCorCollection().remove(corCollectionCor);
                     oldCodMundoOfCorCollectionCor = em.merge(oldCodMundoOfCorCollectionCor);
+                }
+            }
+            for (Objetivo objetivoCollectionObjetivo : mundo.getObjetivoCollection()) {
+                Mundo oldCodMundoOfObjetivoCollectionObjetivo = objetivoCollectionObjetivo.getCodMundo();
+                objetivoCollectionObjetivo.setCodMundo(mundo);
+                objetivoCollectionObjetivo = em.merge(objetivoCollectionObjetivo);
+                if (oldCodMundoOfObjetivoCollectionObjetivo != null) {
+                    oldCodMundoOfObjetivoCollectionObjetivo.getObjetivoCollection().remove(objetivoCollectionObjetivo);
+                    oldCodMundoOfObjetivoCollectionObjetivo = em.merge(oldCodMundoOfObjetivoCollectionObjetivo);
                 }
             }
             em.getTransaction().commit();
@@ -103,6 +122,8 @@ public class MundoJpaController implements Serializable {
             Collection<Continente> continenteCollectionNew = mundo.getContinenteCollection();
             Collection<Cor> corCollectionOld = persistentMundo.getCorCollection();
             Collection<Cor> corCollectionNew = mundo.getCorCollection();
+            Collection<Objetivo> objetivoCollectionOld = persistentMundo.getObjetivoCollection();
+            Collection<Objetivo> objetivoCollectionNew = mundo.getObjetivoCollection();
             List<String> illegalOrphanMessages = null;
             for (Continente continenteCollectionOldContinente : continenteCollectionOld) {
                 if (!continenteCollectionNew.contains(continenteCollectionOldContinente)) {
@@ -118,6 +139,14 @@ public class MundoJpaController implements Serializable {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Cor " + corCollectionOldCor + " since its codMundo field is not nullable.");
+                }
+            }
+            for (Objetivo objetivoCollectionOldObjetivo : objetivoCollectionOld) {
+                if (!objetivoCollectionNew.contains(objetivoCollectionOldObjetivo)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Objetivo " + objetivoCollectionOldObjetivo + " since its codMundo field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
@@ -137,6 +166,13 @@ public class MundoJpaController implements Serializable {
             }
             corCollectionNew = attachedCorCollectionNew;
             mundo.setCorCollection(corCollectionNew);
+            Collection<Objetivo> attachedObjetivoCollectionNew = new ArrayList<Objetivo>();
+            for (Objetivo objetivoCollectionNewObjetivoToAttach : objetivoCollectionNew) {
+                objetivoCollectionNewObjetivoToAttach = em.getReference(objetivoCollectionNewObjetivoToAttach.getClass(), objetivoCollectionNewObjetivoToAttach.getCodObjetivo());
+                attachedObjetivoCollectionNew.add(objetivoCollectionNewObjetivoToAttach);
+            }
+            objetivoCollectionNew = attachedObjetivoCollectionNew;
+            mundo.setObjetivoCollection(objetivoCollectionNew);
             mundo = em.merge(mundo);
             for (Continente continenteCollectionNewContinente : continenteCollectionNew) {
                 if (!continenteCollectionOld.contains(continenteCollectionNewContinente)) {
@@ -157,6 +193,17 @@ public class MundoJpaController implements Serializable {
                     if (oldCodMundoOfCorCollectionNewCor != null && !oldCodMundoOfCorCollectionNewCor.equals(mundo)) {
                         oldCodMundoOfCorCollectionNewCor.getCorCollection().remove(corCollectionNewCor);
                         oldCodMundoOfCorCollectionNewCor = em.merge(oldCodMundoOfCorCollectionNewCor);
+                    }
+                }
+            }
+            for (Objetivo objetivoCollectionNewObjetivo : objetivoCollectionNew) {
+                if (!objetivoCollectionOld.contains(objetivoCollectionNewObjetivo)) {
+                    Mundo oldCodMundoOfObjetivoCollectionNewObjetivo = objetivoCollectionNewObjetivo.getCodMundo();
+                    objetivoCollectionNewObjetivo.setCodMundo(mundo);
+                    objetivoCollectionNewObjetivo = em.merge(objetivoCollectionNewObjetivo);
+                    if (oldCodMundoOfObjetivoCollectionNewObjetivo != null && !oldCodMundoOfObjetivoCollectionNewObjetivo.equals(mundo)) {
+                        oldCodMundoOfObjetivoCollectionNewObjetivo.getObjetivoCollection().remove(objetivoCollectionNewObjetivo);
+                        oldCodMundoOfObjetivoCollectionNewObjetivo = em.merge(oldCodMundoOfObjetivoCollectionNewObjetivo);
                     }
                 }
             }
@@ -203,6 +250,13 @@ public class MundoJpaController implements Serializable {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Mundo (" + mundo + ") cannot be destroyed since the Cor " + corCollectionOrphanCheckCor + " in its corCollection field has a non-nullable codMundo field.");
+            }
+            Collection<Objetivo> objetivoCollectionOrphanCheck = mundo.getObjetivoCollection();
+            for (Objetivo objetivoCollectionOrphanCheckObjetivo : objetivoCollectionOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Mundo (" + mundo + ") cannot be destroyed since the Objetivo " + objetivoCollectionOrphanCheckObjetivo + " in its objetivoCollection field has a non-nullable codMundo field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
