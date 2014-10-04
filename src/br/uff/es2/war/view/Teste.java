@@ -26,6 +26,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import net.sf.ehcache.hibernate.HibernateUtil;
+import org.hibernate.Hibernate;
+import org.hibernate.SessionFactory;
 
 /**
  *
@@ -59,24 +62,17 @@ public class Teste {
         }
 
     }
-    
+
     public void loadObjective() throws NonexistentEntityException {
-        ObjetivoJpaController obj = new ObjetivoJpaController(emf);
-        Objetivo objetivo;
+        MundoJpaController jpa = new MundoJpaController(emf);
+        jpa.getEntityManager().getTransaction().begin();
+        Mundo mundo = jpa.findMundo(0);
         
-        StringBuilder sb = new StringBuilder();
-        sb.append("insert into objetivo values");
-        sb.append("\n");
-        for (int i = 1; i < 15; i++) {
-            objetivo = obj.findObjetivo(i);
-            sb.append("(");
-            sb.append(objetivo.getCodObjetivo());
-            sb.append(", '");
-            sb.append(objetivo.getDescricao());
-            sb.append("'), ");
-            sb.append("\n");
+        for (Objetivo objetivo : mundo.getObjetivoCollection()) {
+            System.out.println(objetivo.getCodObjetivo());
+            System.out.println(objetivo.getDescricao());
+            System.out.println("");
         }
-        System.out.println(sb.toString().trim());
     }
 
     private List<Player> shufflePlayers(final Collection<Player> players) {
@@ -104,8 +100,8 @@ public class Teste {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("WarESIIPU");
             Teste t = new Teste(emf);
 
-            t.loadWorld();
-            System.out.println("");
+            //t.loadWorld();
+            //System.out.println("");
             t.loadObjective();
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);

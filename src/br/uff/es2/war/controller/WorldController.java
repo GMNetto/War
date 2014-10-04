@@ -64,8 +64,10 @@ public class WorldController {
      * @throws NonexistentEntityException In case the id does not exist
      */
     private void loadGame(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
-        loadWorld(worldID, emf);
-        loadObjectives(worldID, emf);
+        MundoJpaController worldJpaController = new MundoJpaController(emf);
+        Mundo mundo = worldJpaController.findMundo(worldID);
+        loadWorld(mundo);
+        loadObjectives(mundo);
     }
 
     /**
@@ -75,13 +77,9 @@ public class WorldController {
      * @param emf the {@link EntityManagerFactory} to access the database
      * @throws NonexistentEntityException In case the id does not exist
      */
-    private void loadWorld(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
-        MundoJpaController worldJpaController = new MundoJpaController(emf);
-        Mundo mundo = worldJpaController.findMundo(worldID);
-
-        if (mundo == null) {
+    private void loadWorld(Mundo mundo) throws NonexistentEntityException {
+        if (mundo == null)
             throw new NonexistentEntityException(ExceptionCauses.NONEXISTENT_ENTITY.toString());
-        }
 
         this.world = new World(mundo.getNome());
 
@@ -121,8 +119,8 @@ public class WorldController {
      * @param emf the {@link EntityManagerFactory} to access the database
      * @throws NonexistentEntityException In case the id does not exist
      */
-    private void loadObjectives(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
-
+    private void loadObjectives(Mundo mundo) throws NonexistentEntityException {
+        
     }
 
     /**
