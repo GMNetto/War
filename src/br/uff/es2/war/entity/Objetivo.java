@@ -15,6 +15,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -33,8 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Objetivo.findAll", query = "SELECT o FROM Objetivo o"),
     @NamedQuery(name = "Objetivo.findByCodObjetivo", query = "SELECT o FROM Objetivo o WHERE o.codObjetivo = :codObjetivo"),
-    @NamedQuery(name = "Objetivo.findByDescricao", query = "SELECT o FROM Objetivo o WHERE o.descricao = :descricao"),
-    @NamedQuery(name = "Objetivo.findByCodMundo", query = "SELECT o FROM Objetivo o WHERE o.codMundo = :codMundo")})
+    @NamedQuery(name = "Objetivo.findByDescricao", query = "SELECT o FROM Objetivo o WHERE o.descricao = :descricao")})
 public class Objetivo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,15 +46,15 @@ public class Objetivo implements Serializable {
     @Basic(optional = false)
     @Column(name = "Descricao")
     private String descricao;
-    @Basic(optional = false)
-    @Column(name = "Cod_Mundo")
-    private int codMundo;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "objetivo")
     private Objterritorio objterritorio;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codObjetivo")
     private Collection<Jogam> jogamCollection;
     @OneToMany(mappedBy = "codObjetivo")
     private Collection<Historico> historicoCollection;
+    @JoinColumn(name = "Cod_Mundo", referencedColumnName = "Cod_Mundo")
+    @ManyToOne(optional = false)
+    private Mundo codMundo;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "objetivo")
     private Objconqcont objconqcont;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "objetivo")
@@ -68,10 +69,9 @@ public class Objetivo implements Serializable {
         this.codObjetivo = codObjetivo;
     }
 
-    public Objetivo(Integer codObjetivo, String descricao, int codMundo) {
+    public Objetivo(Integer codObjetivo, String descricao) {
         this.codObjetivo = codObjetivo;
         this.descricao = descricao;
-        this.codMundo = codMundo;
     }
 
     public Integer getCodObjetivo() {
@@ -88,14 +88,6 @@ public class Objetivo implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public int getCodMundo() {
-        return codMundo;
-    }
-
-    public void setCodMundo(int codMundo) {
-        this.codMundo = codMundo;
     }
 
     public Objterritorio getObjterritorio() {
@@ -122,6 +114,14 @@ public class Objetivo implements Serializable {
 
     public void setHistoricoCollection(Collection<Historico> historicoCollection) {
         this.historicoCollection = historicoCollection;
+    }
+
+    public Mundo getCodMundo() {
+        return codMundo;
+    }
+
+    public void setCodMundo(Mundo codMundo) {
+        this.codMundo = codMundo;
     }
 
     public Objconqcont getObjconqcont() {

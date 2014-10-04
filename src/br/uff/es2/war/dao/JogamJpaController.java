@@ -53,8 +53,8 @@ public class JogamJpaController implements Serializable {
         if (jogam.getJogadorcartaCollection() == null) {
             jogam.setJogadorcartaCollection(new ArrayList<Jogadorcarta>());
         }
-        jogam.getJogamPK().setCodJogador(jogam.getJogador().getCodJogador());
         jogam.getJogamPK().setCodPartida(jogam.getPartida().getCodPartida());
+        jogam.getJogamPK().setCodJogador(jogam.getJogador().getCodJogador());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -140,8 +140,8 @@ public class JogamJpaController implements Serializable {
     }
 
     public void edit(Jogam jogam) throws IllegalOrphanException, NonexistentEntityException, Exception {
-        jogam.getJogamPK().setCodJogador(jogam.getJogador().getCodJogador());
         jogam.getJogamPK().setCodPartida(jogam.getPartida().getCodPartida());
+        jogam.getJogamPK().setCodJogador(jogam.getJogador().getCodJogador());
         EntityManager em = null;
         try {
             em = getEntityManager();

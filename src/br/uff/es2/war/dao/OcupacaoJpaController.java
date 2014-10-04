@@ -40,9 +40,9 @@ public class OcupacaoJpaController implements Serializable {
         if (ocupacao.getOcupacaoPK() == null) {
             ocupacao.setOcupacaoPK(new OcupacaoPK());
         }
-        ocupacao.getOcupacaoPK().setCodJogador(ocupacao.getJogam().getJogamPK().getCodJogador());
-        ocupacao.getOcupacaoPK().setCodTerritorio(ocupacao.getTerritorio().getCodTerritorio());
         ocupacao.getOcupacaoPK().setCodPartida(ocupacao.getJogam().getJogamPK().getCodPartida());
+        ocupacao.getOcupacaoPK().setCodTerritorio(ocupacao.getTerritorio().getCodTerritorio());
+        ocupacao.getOcupacaoPK().setCodJogador(ocupacao.getJogam().getJogamPK().getCodJogador());
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -80,9 +80,9 @@ public class OcupacaoJpaController implements Serializable {
     }
 
     public void edit(Ocupacao ocupacao) throws NonexistentEntityException, Exception {
-        ocupacao.getOcupacaoPK().setCodJogador(ocupacao.getJogam().getJogamPK().getCodJogador());
-        ocupacao.getOcupacaoPK().setCodTerritorio(ocupacao.getTerritorio().getCodTerritorio());
         ocupacao.getOcupacaoPK().setCodPartida(ocupacao.getJogam().getJogamPK().getCodPartida());
+        ocupacao.getOcupacaoPK().setCodTerritorio(ocupacao.getTerritorio().getCodTerritorio());
+        ocupacao.getOcupacaoPK().setCodJogador(ocupacao.getJogam().getJogamPK().getCodJogador());
         EntityManager em = null;
         try {
             em = getEntityManager();

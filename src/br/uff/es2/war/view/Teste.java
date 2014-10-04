@@ -5,11 +5,13 @@
  */
 package br.uff.es2.war.view;
 
-import br.uff.es2.war.controller.GameController;
+import br.uff.es2.war.controller.WorldController;
 import br.uff.es2.war.dao.MundoJpaController;
+import br.uff.es2.war.dao.ObjetivoJpaController;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.entity.Continente;
 import br.uff.es2.war.entity.Mundo;
+import br.uff.es2.war.entity.Objetivo;
 import br.uff.es2.war.entity.Territorio;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Player;
@@ -24,6 +26,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import net.sf.ehcache.hibernate.HibernateUtil;
+import org.hibernate.Hibernate;
+import org.hibernate.SessionFactory;
 
 /**
  *
@@ -38,7 +43,7 @@ public class Teste {
     }
 
     public void loadWorld() throws NonexistentEntityException {
-        GameController wc = new GameController(0, emf);
+        WorldController wc = new WorldController(0, emf);
 
         World world = wc.getWorld();
 
@@ -57,24 +62,36 @@ public class Teste {
         }
 
     }
-    
+
+    public void loadObjective() throws NonexistentEntityException {
+        MundoJpaController jpa = new MundoJpaController(emf);
+        jpa.getEntityManager().getTransaction().begin();
+        Mundo mundo = jpa.findMundo(0);
+        
+        for (Objetivo objetivo : mundo.getObjetivoCollection()) {
+            System.out.println(objetivo.getCodObjetivo());
+            System.out.println(objetivo.getDescricao());
+            System.out.println("");
+        }
+    }
+
     private List<Player> shufflePlayers(final Collection<Player> players) {
         List<Player> p = new ArrayList<>(players.size());
         for (Player player : players) {
             p.add(player);
         }
         Collections.shuffle(p);
-        
+
         return p;
     }
-    
+
     public void startGame(final Collection<Player> players) {
         List<Player> p = shufflePlayers(players);
-        
+
         for (Player player : p) {
             player.setObjective(null);
         }
-        
+
     }
 
     public static void main(String[] args) {
@@ -83,7 +100,9 @@ public class Teste {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("WarESIIPU");
             Teste t = new Teste(emf);
 
-            t.loadWorld();
+            //t.loadWorld();
+            //System.out.println("");
+            t.loadObjective();
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
         }

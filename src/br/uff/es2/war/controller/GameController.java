@@ -101,9 +101,9 @@ public class GameController {
         this.territoryPoint = new HashMap<>();
         Territory t;
         for (Continente continent : mundo.getContinenteCollection()) {
-            Continent c = new Continent(continent.getNome());
+            Continent c = new Continent(continent.getNome(),world);
             for (Territorio territory : continent.getTerritorioCollection()) {
-                t = new Territory(territory);
+                t = new Territory(territory,c);
                 this.territoryPoint.put(t, new Point2D(territory.getPosicaoX(), territory.getPosicaoY()));
                 terByTer.put(territory, t);
                 c.add(t);

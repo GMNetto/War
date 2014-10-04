@@ -14,6 +14,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import br.uff.es2.war.entity.Objterritorio;
+import br.uff.es2.war.entity.Mundo;
 import br.uff.es2.war.entity.Objconqcont;
 import br.uff.es2.war.entity.Jogam;
 import java.util.ArrayList;
@@ -62,6 +63,11 @@ public class ObjetivoJpaController implements Serializable {
                 objterritorio = em.getReference(objterritorio.getClass(), objterritorio.getCodObjetivo());
                 objetivo.setObjterritorio(objterritorio);
             }
+            Mundo codMundo = objetivo.getCodMundo();
+            if (codMundo != null) {
+                codMundo = em.getReference(codMundo.getClass(), codMundo.getCodMundo());
+                objetivo.setCodMundo(codMundo);
+            }
             Objconqcont objconqcont = objetivo.getObjconqcont();
             if (objconqcont != null) {
                 objconqcont = em.getReference(objconqcont.getClass(), objconqcont.getCodObjetivo());
@@ -100,6 +106,10 @@ public class ObjetivoJpaController implements Serializable {
                 }
                 objterritorio.setObjetivo(objetivo);
                 objterritorio = em.merge(objterritorio);
+            }
+            if (codMundo != null) {
+                codMundo.getObjetivoCollection().add(objetivo);
+                codMundo = em.merge(codMundo);
             }
             if (objconqcont != null) {
                 Objetivo oldObjetivoOfObjconqcont = objconqcont.getObjetivo();
@@ -162,6 +172,8 @@ public class ObjetivoJpaController implements Serializable {
             Objetivo persistentObjetivo = em.find(Objetivo.class, objetivo.getCodObjetivo());
             Objterritorio objterritorioOld = persistentObjetivo.getObjterritorio();
             Objterritorio objterritorioNew = objetivo.getObjterritorio();
+            Mundo codMundoOld = persistentObjetivo.getCodMundo();
+            Mundo codMundoNew = objetivo.getCodMundo();
             Objconqcont objconqcontOld = persistentObjetivo.getObjconqcont();
             Objconqcont objconqcontNew = objetivo.getObjconqcont();
             Collection<Jogam> jogamCollectionOld = persistentObjetivo.getJogamCollection();
@@ -216,6 +228,10 @@ public class ObjetivoJpaController implements Serializable {
                 objterritorioNew = em.getReference(objterritorioNew.getClass(), objterritorioNew.getCodObjetivo());
                 objetivo.setObjterritorio(objterritorioNew);
             }
+            if (codMundoNew != null) {
+                codMundoNew = em.getReference(codMundoNew.getClass(), codMundoNew.getCodMundo());
+                objetivo.setCodMundo(codMundoNew);
+            }
             if (objconqcontNew != null) {
                 objconqcontNew = em.getReference(objconqcontNew.getClass(), objconqcontNew.getCodObjetivo());
                 objetivo.setObjconqcont(objconqcontNew);
@@ -257,6 +273,14 @@ public class ObjetivoJpaController implements Serializable {
                 }
                 objterritorioNew.setObjetivo(objetivo);
                 objterritorioNew = em.merge(objterritorioNew);
+            }
+            if (codMundoOld != null && !codMundoOld.equals(codMundoNew)) {
+                codMundoOld.getObjetivoCollection().remove(objetivo);
+                codMundoOld = em.merge(codMundoOld);
+            }
+            if (codMundoNew != null && !codMundoNew.equals(codMundoOld)) {
+                codMundoNew.getObjetivoCollection().add(objetivo);
+                codMundoNew = em.merge(codMundoNew);
             }
             if (objconqcontNew != null && !objconqcontNew.equals(objconqcontOld)) {
                 Objetivo oldObjetivoOfObjconqcont = objconqcontNew.getObjetivo();
@@ -384,6 +408,11 @@ public class ObjetivoJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
+            }
+            Mundo codMundo = objetivo.getCodMundo();
+            if (codMundo != null) {
+                codMundo.getObjetivoCollection().remove(objetivo);
+                codMundo = em.merge(codMundo);
             }
             Collection<Historico> historicoCollection = objetivo.getHistoricoCollection();
             for (Historico historicoCollectionHistorico : historicoCollection) {

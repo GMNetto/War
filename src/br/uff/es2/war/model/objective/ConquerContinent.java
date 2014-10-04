@@ -17,6 +17,7 @@ import br.uff.es2.war.model.World;
  * @author Victor Guimarães
  */
 public class ConquerContinent extends ParcialObjetive {
+
     /**
      * The continent to be conquered.
      */
@@ -24,7 +25,7 @@ public class ConquerContinent extends ParcialObjetive {
 
     /**
      * Constructor with all needed parameters.
-     * 
+     *
      * @param world the specific {@link World} of the {@link Objective}
      * @param owner the owner of the {@link Objective}
      * @param continent the continent to be conquered
@@ -36,16 +37,27 @@ public class ConquerContinent extends ParcialObjetive {
 
     @Override
     public boolean isNeeded(Territory territory) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return territory.getContinent().equals(continent);
     }
 
     @Override
     public boolean wasAchieved() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Territory territory : continent) {
+            if (!territory.getOwner().equals(owner)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 
+    /**
+     * Getter for the {@link Continent}.
+     * 
+     * @return the {@link Continent}
+     */
     public Continent getContinent() {
         return continent;
     }
-    
+
 }

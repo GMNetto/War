@@ -16,22 +16,25 @@ import java.util.Set;
 public class Territory {
     
     private final String name;
-    private Set<Territory> borders;
+    private final Continent continent;
+    private final Set<Territory> borders;
     private Player owner;
     private int soldiers;
     private Territorio territory;
     private Ocupacao occupation;
     
-    @Deprecated
-    public Territory(String name) {
+@Deprecated
+    public Territory(String name, Continent continent) {
 	this.name = name;
+        this.continent = continent;
 	this.borders = new HashSet<>();
     }
     
-    public Territory(Territorio territory){
+    public Territory(Territorio territory, Continent continent){
         this.territory=territory;
         this.name=territory.getNome();
         this.borders = new HashSet<>();
+        this.continent = continent;
     }
  
     
@@ -43,6 +46,10 @@ public class Territory {
     
     public String getName() {
         return name;
+    }
+    
+    public Continent getContinent() {
+        return continent;
     }
     
     public Set<Territory> getBorders() {
