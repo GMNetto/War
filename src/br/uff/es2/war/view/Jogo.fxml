@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testejogo.JogoController">
+   <children>
+       <Group id="Group" layoutX="0.0" layoutY="0.0">
+      <children>
+        <Button fx:id="btn_card" layoutX="185.0" layoutY="489.0" mnemonicParsing="false" text="Minhas Cartas" />
+      <Button fx:id="btn_obj" layoutX="187.0" layoutY="533.0" mnemonicParsing="false" text="Meu Objetivo" />
+      <Text fx:id="txt_jog" layoutX="46.0" layoutY="498.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fulaninho">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="txt_jog1" layoutX="619.0" layoutY="480.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jog1">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="txt_jog2" layoutX="619.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jog2">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="txt_jog3" layoutX="619.0" layoutY="530.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jog3">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="txt_jog4" layoutX="619.0" layoutY="555.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jog4">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="txt_jog5" layoutX="619.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jog5">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Circle fx:id="cor_jog" centerX="100.0" centerY="545.0" fill="#0b68bf" layoutX="-13.0" layoutY="-7.0" radius="30.0" stroke="BLACK" strokeType="INSIDE">
+         <effect>
+            <Bloom />
+         </effect>
+      </Circle>
+      <Circle fx:id="cor_jog1" centerX="600.0" centerY="475.0" fill="#d62727" radius="10.0" stroke="BLACK" strokeType="INSIDE">
+         <effect>
+            <Bloom />
+         </effect>
+      </Circle>
+      <Circle fx:id="cor_jog2" centerX="600.0" centerY="500.0" fill="#228027" radius="10.0" stroke="BLACK" strokeType="INSIDE">
+         <effect>
+            <Bloom />
+         </effect>
+      </Circle>
+      <Circle fx:id="cor_jog3" centerX="600.0" centerY="525.0" fill="#feff1f" radius="10.0" stroke="BLACK" strokeType="INSIDE">
+         <effect>
+            <Bloom />
+         </effect>
+      </Circle>
+      <Circle fx:id="cor_jog4" centerX="600.0" centerY="550.0" fill="WHITE" radius="10.0" stroke="BLACK" strokeType="INSIDE">
+         <effect>
+            <Bloom />
+         </effect>
+      </Circle>
+      <Circle fx:id="cor_jog5" centerX="600.0" centerY="575.0" fill="#020a11" radius="10.0" stroke="BLACK" strokeType="INSIDE">
+         <effect>
+            <Bloom />
+         </effect>
+      </Circle>
+      <Button fx:id="btn_m1" layoutX="362.0" layoutY="477.0" mnemonicParsing="false" text="Modo alocação"  />
+      <Button fx:id="btn_m2" layoutX="368.0" layoutY="510.0" mnemonicParsing="false" text="Modo ataque" onAction="#changeCursor" />
+      <Button fx:id="btn_m3" layoutX="348.0" layoutY="544.0" mnemonicParsing="false" text="Modo transferência" />
+      
+        
+      </children>
+    </Group>
+      <Pane fx:id="pane_map" prefHeight="450.0" prefWidth="800.0">
+         <children>
+            <Pane fx:id="pane_aloca" prefHeight="122.0" prefWidth="123.0">
+               <children>
+                  <Button fx:id="btn_aloca_mais" layoutX="25.0" mnemonicParsing="false" text="+">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_aloca_cancel" layoutY="25.0" mnemonicParsing="false" text="x">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_aloca_menos" layoutX="25.0" layoutY="50.0" mnemonicParsing="false" text="-">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btn_aloca_ok" layoutX="50.0" layoutY="25.0" mnemonicParsing="false" text="ok">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      
+   </children>
+</AnchorPane>
