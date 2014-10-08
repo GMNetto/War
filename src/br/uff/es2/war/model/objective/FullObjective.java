@@ -5,6 +5,7 @@
  */
 package br.uff.es2.war.model.objective;
 
+import com.sun.corba.se.spi.oa.OADefault;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,12 +47,43 @@ public class FullObjective implements Objective {
      * Defines if the {@link #alternativeObjective} is the one which must be
      * achieved now.
      */
-    private boolean alternative;
+    private boolean alternative = false;
 
     /**
      * A description of the {@link Objective}.
      */
     private String description;
+
+    /**
+     * Constructor with all needed parameters for a {@link Objective} that does
+     * not have secondary {@link Objective}.
+     *
+     * @param description a description of the {@link Objective}
+     * @param mandatoryObjectives a {@link Set} of mandatory objectives. To win
+     * the game, the {@link Player} must achieve each {@link ParcialObjective}
+     * from this {@link Set}.
+     */
+    public FullObjective(String description, Set<ParcialObjetive> mandatoryObjectives) {
+        this.description = description;
+        this.mandatoryObjectives = mandatoryObjectives;
+    }
+
+    /**
+     * Constructor with all needed parameters.
+     *
+     * @param description a description of the {@link Objective}
+     * @param mandatoryObjectives a {@link Set} of mandatory objectives. To win
+     * the game, the {@link Player} must achieve each {@link ParcialObjective}
+     * from this {@link Set}.
+     * @param alternativeObjective another {@link Objective} to be achieved in
+     * case the main objective becomes impossible, the {@link Player} must
+     * achieve the {@link #alternativeObjective} instead.
+     */
+    public FullObjective(String description, Set<ParcialObjetive> mandatoryObjectives, FullObjective alternativeObjective) {
+        this.description = description;
+        this.mandatoryObjectives = mandatoryObjectives;
+        this.alternativeObjective = alternativeObjective;
+    }
 
     @Override
     public boolean wasAchieved() {
@@ -114,6 +146,19 @@ public class FullObjective implements Objective {
      */
     public Map<Integer, Set<ParcialObjetive>> getSecondaryObjective() {
         return (alternative ? alternativeObjective.getSecondaryObjective() : secondaryObjective);
+    }
+
+    /**
+     * Setter for another {@link Objective} to be achieved in case the main
+     * objective becomes impossible, the {@link Player} must achieve the
+     * {@link #alternativeObjective} instead.
+     *
+     * @param alternativeObjective another {@link Objective} to be achieved in
+     * case the main objective becomes impossible, the {@link Player} must
+     * achieve the {@link #alternativeObjective} instead
+     */
+    void setAlternativeObjective(FullObjective alternativeObjective) {
+        this.alternativeObjective = alternativeObjective;
     }
 
     /**

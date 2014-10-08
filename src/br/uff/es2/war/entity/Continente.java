@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -60,7 +59,7 @@ public class Continente implements Serializable {
     @JoinColumn(name = "Cod_Mundo", referencedColumnName = "Cod_Mundo")
     @ManyToOne(optional = false)
     private Mundo codMundo;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "codContinente")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codContinente")
     private Collection<Territorio> territorioCollection;
 
     public Continente() {

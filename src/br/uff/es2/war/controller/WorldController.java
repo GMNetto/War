@@ -5,7 +5,6 @@
  */
 package br.uff.es2.war.controller;
 
-import br.uff.es2.war.dao.MundoJpaController;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.entity.Continente;
 import br.uff.es2.war.entity.Mundo;
@@ -13,12 +12,14 @@ import br.uff.es2.war.entity.Territorio;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
+import br.uff.es2.war.model.objective.FullObjectiveFactory;
 import br.uff.es2.war.model.objective.Objective;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javafx.geometry.Point2D;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -49,32 +50,32 @@ public class WorldController {
      * Default constructor with the needed parameters.
      *
      * @param worldID the world's id in the database
-     * @param emf the {@link EntityManagerFactory} to access the database
+     * @param factory the {@link EntityManagerFactory} to access the database
      * @throws NonexistentEntityException In case the id does not exist
      */
-    public WorldController(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
-        loadGame(worldID, emf);
+    public WorldController(int worldID, EntityManagerFactory factory) throws NonexistentEntityException {
+        loadGame(worldID, factory);
     }
 
     /**
      * Loads the needed information about to start the game.
      *
      * @param worldID the world's id in the database
-     * @param emf the {@link EntityManagerFactory} to access the database
+     * @param factory the {@link EntityManagerFactory} to access the database
      * @throws NonexistentEntityException In case the id does not exist
      */
-    private void loadGame(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
-        MundoJpaController worldJpaController = new MundoJpaController(emf);
-        Mundo mundo = worldJpaController.findMundo(worldID);
+    private void loadGame(int worldID, EntityManagerFactory factory) throws NonexistentEntityException {
+        EntityManager manager = factory.createEntityManager();
+        Mundo mundo = manager.find(Mundo.class, worldID);
         loadWorld(mundo);
         loadObjectives(mundo);
+        manager.close();
     }
 
     /**
      * Loads the needed information about the world map from the database.
      *
-     * @param worldID the world's id in the database
-     * @param emf the {@link EntityManagerFactory} to access the database
+     * @param mundo the {@link Mundo}
      * @throws NonexistentEntityException In case the id does not exist
      */
     private void loadWorld(Mundo mundo) throws NonexistentEntityException {
@@ -91,7 +92,7 @@ public class WorldController {
             Continent c = new Continent(continent.getNome(), world);
 
             for (Territorio territory : continent.getTerritorioCollection()) {
-                t = new Territory(territory.getNome(), c);
+                t = new Territory(territory, c);
                 territoryByName.put(t.getName(), t);
                 c.add(t);
                 territories.add(territory);
@@ -115,12 +116,12 @@ public class WorldController {
     /**
      * Loads the needed information about the {@link Objective}s.
      *
-     * @param worldID the world's id in the database
-     * @param emf the {@link EntityManagerFactory} to access the database
+     * @param mundo the {@link Mundo}
      * @throws NonexistentEntityException In case the id does not exist
      */
     private void loadObjectives(Mundo mundo) throws NonexistentEntityException {
-        
+        FullObjectiveFactory factory = new FullObjectiveFactory(world, mundo.getObjetivoCollection());
+        objectives = factory.getObjectives();
     }
 
     /**
