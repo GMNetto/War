@@ -69,7 +69,7 @@ public class World extends HashSet<Continent> {
         Collections.shuffle(territories);
         while (!territories.isEmpty()) {
             Territory territory = territories.remove(0);
-            territory.setOwner(iterator.next(), game);
+            territory.setOwner(iterator.next());
             territory.addSoldiers(1);
         }
     }

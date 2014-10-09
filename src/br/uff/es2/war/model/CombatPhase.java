@@ -26,7 +26,7 @@ public class CombatPhase implements GameState<Game> {
 	    return new SoldierMovementPhase();
 	Player defender = combat.getDefendingTerritory().getOwner();
 	defender.answerCombat(combat);
-	judge.resolve(combat,game);
+	judge.resolve(combat);
 	if(game.isOver())
 	    return new GameOver();
 	return this;

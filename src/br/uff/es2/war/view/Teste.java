@@ -5,7 +5,6 @@
  */
 package br.uff.es2.war.view;
 
-import br.uff.es2.war.controller.GameController;
 import br.uff.es2.war.controller.WorldController;
 import br.uff.es2.war.dao.MundoJpaController;
 import br.uff.es2.war.dao.ObjetivoJpaController;

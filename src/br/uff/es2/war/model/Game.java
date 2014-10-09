@@ -17,14 +17,12 @@ public class Game {
     private final Iterator<Player> turns;
     private Player currentPlayer;
     private Player winner;
-    private Partida match;
     
     public Game(Player[] players, World world) {
 	this.players = players;
 	this.world = world;
 	turns = new CyclicIterator<Player>(players);
         //Game precisará atender Partida com Datas e código.
-        match=new Partida();
     }
     
     public Player[] getPlayers(){
@@ -35,9 +33,6 @@ public class Game {
 	return world;
     }
     
-    public Partida getPartida(){
-        return match;
-    }
     
     public void passTurn(){
 	if(turns.hasNext())

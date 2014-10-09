@@ -17,6 +17,8 @@ import br.uff.es2.war.model.objective.Objective;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 import javafx.geometry.Point2D;
 import javax.persistence.EntityManager;
@@ -28,7 +30,7 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author Victor Guimarães
  */
-public class WorldController {
+public class WorldController implements Observer {
 
     /**
      * The grahp which describe the World Map.
@@ -45,6 +47,8 @@ public class WorldController {
      * A {@link Set} with all the possible {@link Objective}s for the game.
      */
     private Set<Objective> objectives;
+    
+    
 
     /**
      * Default constructor with the needed parameters.
@@ -92,7 +96,7 @@ public class WorldController {
             Continent c = new Continent(continent.getNome(), world);
 
             for (Territorio territory : continent.getTerritorioCollection()) {
-                t = new Territory(territory, c);
+                t = new Territory(territory.getNome(), c);
                 territoryByName.put(t.getName(), t);
                 c.add(t);
                 territories.add(territory);
@@ -151,6 +155,11 @@ public class WorldController {
      */
     public Set<Objective> getObjectives() {
         return objectives;
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        
     }
 
 }
