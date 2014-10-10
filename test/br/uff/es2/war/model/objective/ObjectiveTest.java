@@ -47,7 +47,6 @@ public class ObjectiveTest {
         }
 
         game = new Game(players, world);
-        game.getPartida().getCodPartida();
         world.distributeTerritories(players, game);
     }
 
@@ -82,7 +81,7 @@ public class ObjectiveTest {
             assertFalse(player.getObjective().wasAchieved());
             if (i % players.length != 0) {
                 t = world.getTerritoriesByOwner(players[i % players.length]).iterator().next();
-                t.setOwner(player, game);
+                t.setOwner(player);
                 t.setSoldiers(2);
             }
             i++;
@@ -109,7 +108,7 @@ public class ObjectiveTest {
             assertFalse(player.getObjective().wasAchieved());
             if (i % players.length != 0) {
                 t = world.getTerritoriesByOwner(players[i % players.length]).iterator().next();
-                t.setOwner(player, game);
+                t.setOwner(player);
                 t.setSoldiers(1);
             }
             i++;
@@ -122,7 +121,7 @@ public class ObjectiveTest {
         for (Territory territory : world.getContinentByName(continentName)) {
             //assertFalse(player.getObjective().wasAchieved());
 
-            territory.setOwner(player, game);
+            territory.setOwner(player);
             territory.setSoldiers(1);
         }
     }
@@ -247,7 +246,7 @@ public class ObjectiveTest {
     private void destroyPlayer(Player source, Player target) {
         for (Territory territory : world.getTerritoriesByOwner(target)) {
             assertFalse(source.getObjective().wasAchieved());
-            territory.setOwner(source, game);
+            territory.setOwner(source);
         }
     }
 
@@ -364,7 +363,7 @@ public class ObjectiveTest {
             assertFalse(player.getObjective().wasAchieved());
             if (i % players.length != 0) {
                 t = world.getTerritoriesByOwner(players[i % players.length]).iterator().next();
-                t.setOwner(player, game);
+                t.setOwner(player);
                 t.setSoldiers(1);
             }
             i++;

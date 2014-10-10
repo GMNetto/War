@@ -48,6 +48,12 @@ public class FullObjectiveFactory {
     private Map<Continente, Continent> continentsMap;
 
     /**
+     * A {@link Map} which links a {@link Objective} with its respective code on
+     * the persistence.
+     */
+    private Map<Objective, Integer> objectiveCodeMap;
+
+    /**
      * Constructor with all needed parameters.
      *
      * @param world the {@link World} of the game
@@ -59,6 +65,7 @@ public class FullObjectiveFactory {
         this.objetivos = objetivos;
         this.objectives = new HashSet<>();
         this.continentsMap = new HashMap<>();
+        this.objectiveCodeMap = new HashMap<>();
 
         loadObjectives();
     }
@@ -67,8 +74,11 @@ public class FullObjectiveFactory {
      * Loads each {@link Objective} from the game into a {@link Set}.
      */
     private void loadObjectives() {
+        Objective objective;
         for (Objetivo objetivo : objetivos) {
-            objectives.add(loadObjective(objetivo));
+            objective = loadObjective(objetivo);
+            objectiveCodeMap.put(objective, objetivo.getCodObjetivo());
+            objectives.add(objective);
         }
     }
 
@@ -161,6 +171,17 @@ public class FullObjectiveFactory {
      */
     public Set<Objective> getObjectives() {
         return objectives;
+    }
+
+    /**
+     * Getter for a {@link Map} which links a {@link Objective} with its
+     * respective code on the persistence.
+     *
+     * @return a {@link Map} which links a {@link Objective} with its respective
+     * code on the persistence.
+     */
+    public Map<Objective, Integer> getObjectiveCodeMap() {
+        return objectiveCodeMap;
     }
 
 }
