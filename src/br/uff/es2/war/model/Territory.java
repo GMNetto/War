@@ -65,7 +65,7 @@ public class Territory {
     }
     
     public void setOwner(Player owner,Game game){
-        occupation=new Ocupacao(territory.getCodTerritorio(), owner.getJogador().getCodJogador(), game.getPartida().getCodPartida());
+//        occupation=new Ocupacao(territory.getCodTerritorio(), owner.getJogador().getCodJogador(), game.getPartida().getCodPartida());
         //Salva Ocupação.Ou retorna Ocupacao para ser salva.
 	this.owner = owner;
     }

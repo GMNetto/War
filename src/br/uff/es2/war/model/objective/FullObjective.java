@@ -5,6 +5,7 @@
  */
 package br.uff.es2.war.model.objective;
 
+import br.uff.es2.war.model.Player;
 import com.sun.corba.se.spi.oa.OADefault;
 import java.util.Map;
 import java.util.Set;
@@ -48,6 +49,11 @@ public class FullObjective implements Objective {
      * achieved now.
      */
     private boolean alternative = false;
+
+    /**
+     * The owner of the {@link Objective}.
+     */
+    private Player owner;
 
     /**
      * A description of the {@link Objective}.
@@ -96,18 +102,23 @@ public class FullObjective implements Objective {
         }
 
         boolean completedSet;
-        for (Set<ParcialObjetive> parcialObjetives : secondaryObjective.values()) {
-            completedSet = true;
-            for (ParcialObjetive parcialObjetive : parcialObjetives) {
-                if (!parcialObjetive.wasAchieved()) {
-                    completedSet = false;
-                    break;
+        if (secondaryObjective != null && ! secondaryObjective.values().isEmpty()) {
+            for (Set<ParcialObjetive> parcialObjetives : secondaryObjective.values()) {
+                completedSet = true;
+                for (ParcialObjetive parcialObjetive : parcialObjetives) {
+                    if (!parcialObjetive.wasAchieved()) {
+                        completedSet = false;
+                        break;
+                    }
                 }
+                if (completedSet)
+                    return true;
             }
-            if (completedSet)
-                return true;
-        }
 
+        } else {
+            return true;
+        }
+        
         return false;
     }
 
@@ -181,6 +192,39 @@ public class FullObjective implements Objective {
      */
     public String getDescription() {
         return (alternative ? alternativeObjective.toString() : description);
+    }
+
+    /**
+     * Setter for the owner of the {@link Objective}.
+     *
+     * @param owner the owner of the {@link Objective}
+     */
+    public void SetOwner(Player owner) {
+        this.owner = owner;
+        for (ParcialObjetive parcialObjetive : mandatoryObjectives) {
+            parcialObjetive.setOwner(owner);
+        }
+
+        if (secondaryObjective != null && ! secondaryObjective.values().isEmpty()) {
+            for (Set<ParcialObjetive> set : secondaryObjective.values()) {
+                for (ParcialObjetive parcialObjetive : set) {
+                    parcialObjetive.setOwner(owner);
+                }
+            }
+        }
+
+        if (alternativeObjective != null) {
+            alternativeObjective.SetOwner(owner);
+        }
+    }
+
+    /**
+     * Getter for the owner of the {@link Objective}.
+     *
+     * @return the owner of the {@link Objective}
+     */
+    public Player getOwner() {
+        return owner;
     }
 
     @Override

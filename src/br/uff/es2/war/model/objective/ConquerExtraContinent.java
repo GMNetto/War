@@ -6,6 +6,7 @@
 package br.uff.es2.war.model.objective;
 
 import br.uff.es2.war.model.Continent;
+import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 import java.util.HashSet;
@@ -82,10 +83,13 @@ public class ConquerExtraContinent extends ParcialObjetive {
      */
     private void loadOptionalContinents() {
         Set<ConquerContinent> optContinents = new HashSet<>(world.size() - notIncludeds.size());
-
+        ConquerContinent conquerContinent;
+        
         for (Continent continent : world) {
             if (!notIncludeds.contains(continent)) {
-                optContinents.add(new ConquerContinent(world, continent));
+                conquerContinent = new ConquerContinent(world, continent);
+                conquerContinent.setOwner(owner);
+                optContinents.add(conquerContinent);
             }
         }
 
@@ -137,5 +141,15 @@ public class ConquerExtraContinent extends ParcialObjetive {
     public int getExtraContinents() {
         return extraContinents;
     }
+
+    @Override
+    public void setOwner(Player owner) {
+        super.setOwner(owner);
+        for (ConquerContinent conquerContinent : optionalContinents) {
+            conquerContinent.setOwner(owner);
+        }
+    }
+    
+    
 
 }

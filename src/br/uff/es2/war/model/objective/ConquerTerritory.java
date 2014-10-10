@@ -49,7 +49,7 @@ public class ConquerTerritory extends ParcialObjetive {
     @Override
     public boolean wasAchieved() {
         Set<Territory> territories = world.getTerritoriesByOwner(owner);
-        if (territories.size() < minimalOfSoldiersInEach)
+        if (territories.size() < numberOfTerritories)
             return false;
 
         int count = 0;

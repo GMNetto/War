@@ -69,7 +69,7 @@ public class WorldController {
         Mundo mundo = manager.find(Mundo.class, worldID);
         loadWorld(mundo);
         loadObjectives(mundo);
-        manager.close();
+        //manager.close();
     }
 
     /**
