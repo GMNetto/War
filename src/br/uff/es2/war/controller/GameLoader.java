@@ -91,7 +91,7 @@ public class GameLoader {
         Map<Territory,Integer> iDOfTerritory=new HashMap<>();
 
         for (Continente continent : mundo.getContinenteCollection()) {
-            Continent c = new Continent(continent.getNome(), world);
+            Continent c = new Continent(continent.getNome(), world, continent.getBonusTotalidade());
 
             for (Territorio territory : continent.getTerritorioCollection()) {
                 t = new Territory(territory.getNome(), c);

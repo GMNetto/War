@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package testejogo;
+package br.uff.es2.war.view;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +18,11 @@ import javafx.scene.text.Text;
 public class TerritorioUI {
     private Circle circulo;
     private Text texto;
-    private String nome;
-    private int dono;
-    private int qtd;
-    private List<TerritorioUI> viz;
+    private String nome; //modelo possui
+    private int dono; // modelo possui
+    private int qtd; //modelo possui
+    private List<TerritorioUI> viz; //como integrar a representação do modelo com a da interface?
+    // ver melhor maneira de adicionar objeto Territory
     
     public TerritorioUI(Circle circulo, String nome) {
         this.nome = nome;
@@ -67,6 +68,7 @@ public class TerritorioUI {
         this.texto.setText(qtd+"");
     }
     
+    //comapara no modelo
     public boolean isDono(int d){
        return (dono==d);
     }

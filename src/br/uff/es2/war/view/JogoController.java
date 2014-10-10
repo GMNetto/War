@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package testejogo;
+package br.uff.es2.war.view;
 
 import com.sun.javafx.scene.SceneUtils;
 import java.net.URL;
@@ -40,8 +40,8 @@ import javafx.scene.text.Text;
 public class JogoController implements Initializable {
 
 
-    private int raio = 10;
-    private int jog = 1;
+    private int raio = 10; // obter do modelo do mundo
+    private int jog = 1; // obter objeto do jogador
     @FXML
     private Pane pane_map;
     
@@ -90,8 +90,10 @@ public class JogoController implements Initializable {
 
                     @Override
                     public void handle(MouseEvent arg0) {
-
-                        ac.setTerritorio(t);
+                        //usar state para identificar qual ação tomar
+                        
+                        //ação de alocar execito
+                        ac.setTerritorioDestino(t);
                         ac.centraliza(circle.getCenterX(), circle.getCenterY());
                         ac.mostra();
 
@@ -123,6 +125,7 @@ public class JogoController implements Initializable {
         terr.add(new TerritorioUI(null, "Ásia"));
         terr.add(new TerritorioUI(null, "Oceania"));
 
+        //alterar jogador para objeto
         criarCirculo(terr.get(0), 100, 100);
         terr.get(0).setDono(0);
         terr.get(0).setQtd(0);
@@ -166,6 +169,7 @@ public class JogoController implements Initializable {
         
         pane_map.getChildren().add(iv1);
         inicializarMapa();
+        //controlador de alocação e movimentação
         ac = new AlocaController(pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok, raio);
 
     }

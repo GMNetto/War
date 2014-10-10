@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package testejogo;
+package br.uff.es2.war.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,7 +26,7 @@ public class AlocaController {
     private int centrox;
     private int centroy;
     
-    private TerritorioUI t;
+    private TerritorioUI terDestino,terOrigem;
     private int acrescenta;
     
 
@@ -52,43 +52,6 @@ public class AlocaController {
         
         esconde();
         
-        this.btn_aloca_mais.setOnAction(new EventHandler<ActionEvent>() {
- 
-            public void handle(ActionEvent event) {
-                acrescenta++;
-                t.getTexto().setText((t.getQtd()+acrescenta)+"");
-            }
-        });
-        
-        this.btn_aloca_menos.setOnAction(new EventHandler<ActionEvent>() {
- 
-            public void handle(ActionEvent event) {
-                
-                if(acrescenta>0){
-                    acrescenta--;
-                    t.getTexto().setText((t.getQtd()+acrescenta)+"");
-                }
-                
-            }
-        });
-        
-        
-        this.btn_aloca_ok.setOnAction(new EventHandler<ActionEvent>() {
- 
-            public void handle(ActionEvent event) {
-                t.setQtd(t.getQtd()+acrescenta);
-                
-                esconde();
-            }
-        });
-        
-        this.btn_aloca_cancel.setOnAction(new EventHandler<ActionEvent>() {
- 
-            public void handle(ActionEvent event) {
-                t.getTexto().setText(t.getQtd()+"");
-                esconde();
-            }
-        });
     }
     
     public void esconde(){
@@ -109,10 +72,107 @@ public class AlocaController {
         pane_aloca.toFront();
     }
     
-    public void setTerritorio(TerritorioUI t){
-        this.t=t;
+    public void setTerritorioDestino(TerritorioUI t){
+        this.terDestino=t;
+        this.acrescenta=0;
+    }
+    
+    public void setTerritorioOrigem(TerritorioUI t){
+        this.terOrigem=t;
         this.acrescenta=0;
     }
     
     
+    public void actionAloca(int maxExercitos){
+        //ações dos botões n fse de alocação
+        this.btn_aloca_mais.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            public void handle(ActionEvent event) {
+                //limitando para numero máximo de execitos a serem alocados
+                if(acrescenta<=maxExercitos){
+                    acrescenta++;
+                    terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
+                }
+            }
+        });
+        
+        this.btn_aloca_menos.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            public void handle(ActionEvent event) {
+                // limitando para não retirar exercitos
+                if(acrescenta>0){
+                    acrescenta--;
+                    terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
+                }
+                
+            }
+        });
+        
+        
+        this.btn_aloca_ok.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            public void handle(ActionEvent event) {
+                terDestino.setQtd(terDestino.getQtd()+acrescenta);
+                
+                esconde();
+            }
+        });
+        
+        this.btn_aloca_cancel.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            public void handle(ActionEvent event) {
+                terDestino.getTexto().setText(terDestino.getQtd()+"");
+                esconde();
+            }
+        });
+    }
+    
+     public void actionMove(){
+        //ações dos botões n fse de alocação
+        this.btn_aloca_mais.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            public void handle(ActionEvent event) {
+                //limitando para numero máximo de execitos a serem alocados
+                //como colocar a condição de não mover exercito que já foram movidos nessa fase
+                if(acrescenta<=terOrigem.getQtd()-1){
+                    acrescenta++;
+                    terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
+                    terOrigem.getTexto().setText((terOrigem.getQtd()-acrescenta)+"");
+                }
+            }
+        });
+        
+        this.btn_aloca_menos.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            public void handle(ActionEvent event) {
+                // limitando para não retirar exercitos
+                if(acrescenta>0){
+                    acrescenta--;
+                    terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
+                    terOrigem.getTexto().setText((terOrigem.getQtd()-acrescenta)+"");
+                }
+                
+            }
+        });
+        
+        
+        this.btn_aloca_ok.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            public void handle(ActionEvent event) {
+                terDestino.setQtd(terDestino.getQtd()+acrescenta);
+                terOrigem.setQtd(terOrigem.getQtd()-acrescenta);
+                        
+                esconde();
+            }
+        });
+        
+        this.btn_aloca_cancel.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            public void handle(ActionEvent event) {
+                terDestino.getTexto().setText(terDestino.getQtd()+"");
+                terOrigem.getTexto().setText(terOrigem.getQtd()+"");
+                esconde();
+            }
+        });
+    }
 }

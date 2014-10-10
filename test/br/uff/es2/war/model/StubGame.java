@@ -25,8 +25,8 @@ public class StubGame extends Game {
     private static World createStubWorld() {
 	World world = new World("Test World");
 	
-	Continent continentA = new Continent("A", world);
-	Continent continentB = new Continent("B", world);
+	Continent continentA = new Continent("A", world,1);
+	Continent continentB = new Continent("B", world,1);
 	Territory territoryA1 = new Territory("A 1", continentA);
 	Territory territoryA2 = new Territory("A 2", continentA);
 	Territory territoryB1 = new Territory("B 1", continentB);
