@@ -5,7 +5,6 @@
  */
 package br.uff.es2.war.view;
 
-import br.uff.es2.war.controller.GameController;
 import br.uff.es2.war.controller.WorldController;
 import br.uff.es2.war.dao.MundoJpaController;
 import br.uff.es2.war.dao.ObjetivoJpaController;
@@ -41,6 +40,7 @@ import org.hibernate.SessionFactory;
 public class Teste {
 
     private EntityManagerFactory factory;
+    private World world;
 
     public Teste(EntityManagerFactory emf) {
         this.factory = emf;
@@ -49,7 +49,7 @@ public class Teste {
     public void loadWorld() throws NonexistentEntityException {
         WorldController wc = new WorldController(0, factory);
 
-        World world = wc.getWorld();
+        this.world = wc.getWorld();
 
         System.out.println(world + " " + world.size() + " Continent(s)");
         System.out.println();

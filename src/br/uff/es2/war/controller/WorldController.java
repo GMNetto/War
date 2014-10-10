@@ -17,6 +17,8 @@ import br.uff.es2.war.model.objective.Objective;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 import javafx.geometry.Point2D;
 import javax.persistence.EntityManager;
@@ -28,7 +30,7 @@ import javax.persistence.EntityManagerFactory;
  *
  * @author Victor Guimarães
  */
-public class WorldController {
+public class WorldController implements Observer {
 
     /**
      * The grahp which describe the World Map.
@@ -45,6 +47,12 @@ public class WorldController {
      * A {@link Set} with all the possible {@link Objective}s for the game.
      */
     private Set<Objective> objectives;
+    
+    /**
+     * It saves the updates produced by the game.
+     */
+    private PersistGame persistAssistant;
+    
 
     /**
      * Default constructor with the needed parameters.
@@ -69,7 +77,7 @@ public class WorldController {
         Mundo mundo = manager.find(Mundo.class, worldID);
         loadWorld(mundo);
         loadObjectives(mundo);
-        //manager.close();
+        manager.close();
     }
 
     /**
@@ -87,15 +95,18 @@ public class WorldController {
         Map<String, Territory> territoryByName = new HashMap<>();
         Set<Territorio> territories = new HashSet<>();
         Territory t;
+        
+        Map<Territory,Integer> iDOfTerritory=new HashMap<>();
 
         for (Continente continent : mundo.getContinenteCollection()) {
             Continent c = new Continent(continent.getNome(), world);
 
             for (Territorio territory : continent.getTerritorioCollection()) {
-                t = new Territory(territory, c);
+                t = new Territory(territory.getNome(), c);
                 territoryByName.put(t.getName(), t);
                 c.add(t);
                 territories.add(territory);
+                iDOfTerritory.put(t, territory.getCodTerritorio());
             }
             this.world.add(c);
         }
@@ -151,6 +162,10 @@ public class WorldController {
      */
     public Set<Objective> getObjectives() {
         return objectives;
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
     }
 
 }
