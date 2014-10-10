@@ -4,6 +4,8 @@ package br.uff.es2.war.model;
  * Color of a player. Color is a unique identifier of player during a game.
  * @author Arthur Pitzer
  */
+import javafx.scene.paint.Paint;
+
 public enum Color {
     
     /*
@@ -15,18 +17,18 @@ public enum Color {
     YELLOW("Yellow", java.awt.Color.YELLOW);
     */
     
-    Preto("Preto", java.awt.Color.BLACK),
-    Azul("Azul", java.awt.Color.BLUE),
-    Verde("Verde", java.awt.Color.GREEN),
-    Vermelho("Vermelho", java.awt.Color.RED),
-    Branco("Branco", java.awt.Color.WHITE),
-    Amarelo("Amarelo", java.awt.Color.YELLOW);
+    Preto("Preto", Paint.valueOf("BLACK")),
+    Azul("Azul", Paint.valueOf("AQUA")),
+    Verde("Verde", Paint.valueOf("GREEN")),
+    Vermelho("Vermelho", Paint.valueOf("RED")),
+    Branco("Branco", Paint.valueOf("WHITE")),
+    Amarelo("Amarelo", Paint.valueOf("YELLOW"));
     
     final String name;
-    final java.awt.Color awtColor;
+    final Paint color;
     
-    private Color(String name, java.awt.Color awtColor){
+    private Color(String name, Paint color){
 	this.name = name;
-	this.awtColor = awtColor;
+	this.color = color;
     }
 }

@@ -12,11 +12,17 @@ public class Continent extends HashSet<Territory> {
     
     private final String name;
     private final World world;
+    private final int totalityBonus;
     
-    public Continent(String name, World world) {
+    public Continent(String name, World world, int totalityBonus) {
 	super();
 	this.name = name;
         this.world = world;
+        this.totalityBonus=totalityBonus;
+    }
+
+    public int getTotalityBonus() {
+        return totalityBonus;
     }
     
     public String getName() {

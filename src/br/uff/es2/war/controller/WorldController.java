@@ -62,6 +62,7 @@ public class WorldController implements Observer {
      * @throws NonexistentEntityException In case the id does not exist
      */
     public WorldController(int worldID, EntityManagerFactory factory) throws NonexistentEntityException {
+        persistAssistant=new PersistGame(factory);
         loadGame(worldID, factory);
     }
 
@@ -99,7 +100,7 @@ public class WorldController implements Observer {
         Map<Territory,Integer> iDOfTerritory=new HashMap<>();
 
         for (Continente continent : mundo.getContinenteCollection()) {
-            Continent c = new Continent(continent.getNome(), world);
+            Continent c = new Continent(continent.getNome(), world,continent.getBonusTotalidade());
 
             for (Territorio territory : continent.getTerritorioCollection()) {
                 t = new Territory(territory.getNome(), c);
@@ -122,6 +123,7 @@ public class WorldController implements Observer {
             }
             territoryPoint.put(t, new Point2D(territory.getPosicaoX(), territory.getPosicaoY()));
         }
+        persistAssistant.setiDs(iDOfTerritory);
     }
 
     /**
@@ -133,6 +135,7 @@ public class WorldController implements Observer {
     private void loadObjectives(Mundo mundo) throws NonexistentEntityException {
         FullObjectiveFactory factory = new FullObjectiveFactory(world, mundo.getObjetivoCollection());
         objectives = factory.getObjectives();
+        persistAssistant.setiDObjectives(factory.getObjectiveCodeMap());
     }
 
     /**

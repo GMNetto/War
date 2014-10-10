@@ -31,11 +31,17 @@ public class PersistGame {
     private Map<Objective,Integer> iDObjectives;
     private EntityManagerFactory factory;
     
-    public PersistGame(Map<Territory,Integer> iDs,Map<Player,Integer> iDPlayers,EntityManagerFactory factory){
+    public PersistGame(Map<Territory,Integer> iDs,Map<Player,Integer> iDPlayers,Map<Objective,Integer> iDObjectives,EntityManagerFactory factory){
         this.iDs=iDs;
         this.iDPlayers=iDPlayers;
         this.factory=factory;
+        this.iDObjectives=iDObjectives;
     }
+    
+    public PersistGame(EntityManagerFactory factory){
+         this.factory=factory;
+    }
+    
 
     public Map<Territory, Integer> getiDs() {
         return iDs;
@@ -76,7 +82,10 @@ public class PersistGame {
     
     public void persistOcupacao(Territory territory,int turn,Partida match) throws Exception{
         OcupacaoJpaController oJC=new OcupacaoJpaController(factory);
-        Ocupacao ocp=new Ocupacao((Integer)iDs.get(territory), (Integer)iDPlayers.get(territory.getOwner()), turn);
+        Ocupacao ocp=new Ocupacao((Integer)iDs.get(territory), (Integer)iDPlayers.get(territory.getOwner()), match.getCodPartida());
+        ocp.setTurno(turn);
+        //is missing Jogam
+        ocp.setJogam(null);
         oJC.create(ocp);
     }
     
