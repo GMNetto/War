@@ -5,7 +5,7 @@
  */
 package br.uff.es2.war.model.objective;
 
-import br.uff.es2.war.controller.WorldController;
+import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Game;
@@ -36,7 +36,7 @@ public class ObjectiveTest {
 
     public ObjectiveTest() throws NonexistentEntityException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
-        WorldController wc = new WorldController(0, factory);
+        GameLoader wc = new GameLoader(0, factory);
         world = wc.getWorld();
         objectives = new TreeSet<>(new ObjectiveComparator());
         objectives.addAll(wc.getObjectives());

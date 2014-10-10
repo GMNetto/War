@@ -2,6 +2,7 @@ package br.uff.es2.war.model;
 
 import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.util.CyclicIterator;
+import java.util.Date;
 import java.util.Iterator;
 
 /**
@@ -17,11 +18,13 @@ public class Game {
     private final Iterator<Player> turns;
     private Player currentPlayer;
     private Player winner;
-    
+    private Date dateStart, dateEnd;
+
     public Game(Player[] players, World world) {
         this.players = players;
         this.world = world;
         turns = new CyclicIterator<Player>(players);
+        dateStart = new Date();
         //Game precisará atender Partida com Datas e código.
     }
 
@@ -32,11 +35,10 @@ public class Game {
     public World getWorld() {
         return world;
     }
-    
-    
-    public void passTurn(){
-	if(turns.hasNext())
-	    currentPlayer = turns.next();
+
+    public void passTurn() {
+        if (turns.hasNext())
+            currentPlayer = turns.next();
     }
 
     public Player getCurrentPlayer() {
@@ -53,6 +55,14 @@ public class Game {
             }
         }
         return false;
+    }
+
+    public Date getDateStart() {
+        return dateStart;
+    }
+
+    public Date getDateEnd() {
+        return dateEnd;
     }
 
     public Player getWinner() {

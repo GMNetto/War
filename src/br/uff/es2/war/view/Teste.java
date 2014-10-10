@@ -5,7 +5,7 @@
  */
 package br.uff.es2.war.view;
 
-import br.uff.es2.war.controller.WorldController;
+import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.MundoJpaController;
 import br.uff.es2.war.dao.ObjetivoJpaController;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
@@ -47,7 +47,7 @@ public class Teste {
     }
 
     public void loadWorld() throws NonexistentEntityException {
-        WorldController wc = new WorldController(0, factory);
+        GameLoader wc = new GameLoader(0, factory);
 
         this.world = wc.getWorld();
 
@@ -139,7 +139,7 @@ public class Teste {
 //            manager.close();
 //            factory.close();
 //            
-            WorldController wc = new WorldController(0, factory);
+            GameLoader wc = new GameLoader(0, factory);
             //Teste t = new Teste(factory);
             //t.loadWorld();
             //System.out.println("");

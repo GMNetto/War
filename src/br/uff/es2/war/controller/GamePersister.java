@@ -1,0 +1,125 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package br.uff.es2.war.controller;
+
+import br.uff.es2.war.dao.JogamJpaController;
+import br.uff.es2.war.dao.OcupacaoJpaController;
+import br.uff.es2.war.dao.PartidaJpaController;
+import br.uff.es2.war.dao.TerritorioJpaController;
+import br.uff.es2.war.entity.Jogam;
+import br.uff.es2.war.entity.JogamPK;
+import br.uff.es2.war.entity.Objetivo;
+import br.uff.es2.war.entity.Ocupacao;
+import br.uff.es2.war.entity.Partida;
+import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.Territory;
+import br.uff.es2.war.model.objective.Objective;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+
+/**
+ *
+ * @author Gustavo
+ */
+public class GamePersister {
+
+    private Map<Territory, Integer> iDTerritories;
+    private Map<Player, Integer> iDPlayers;
+    private Map<Objective, Integer> iDObjectives;
+    private EntityManagerFactory factory;
+    private EntityManager manager;
+
+    private Game game;
+    private Partida partida;
+    private Set<Jogam> jogam;
+    private List<Ocupacao> ocupacoes;
+
+    public GamePersister(Map<Territory, Integer> iDTerritories, Map<Player, Integer> iDPlayers, Map<Objective, Integer> iDObjectives, Game game, EntityManagerFactory factory) {
+        this.iDTerritories = iDTerritories;
+        this.iDPlayers = iDPlayers;
+        this.iDObjectives = iDObjectives;
+        this.factory = factory;
+        this.manager = factory.createEntityManager();
+        this.game = game;
+        this.partida = new Partida(0);//Carregar código do banco como se fosse auto-increment
+        this.ocupacoes = new LinkedList<>();
+        this.jogam = new LinkedHashSet<>();
+    }
+
+    public Map<Territory, Integer> getiDs() {
+        return iDTerritories;
+    }
+
+    public void setiDs(Map<Territory, Integer> iDs) {
+        this.iDTerritories = iDs;
+    }
+
+    public Map<Player, Integer> getiDPlayers() {
+        return iDPlayers;
+    }
+
+    public void setiDPlayers(Map<Player, Integer> iDPlayers) {
+        this.iDPlayers = iDPlayers;
+    }
+
+    public Map<Objective, Integer> getiDObjectives() {
+        return iDObjectives;
+    }
+
+    public void setiDObjectives(Map<Objective, Integer> iDObjectives) {
+        this.iDObjectives = iDObjectives;
+    }
+
+    public Partida getPartida() {
+        return partida;
+    }
+
+    public void persistJogam(Player jogador, Objective obj) throws Exception {
+        JogamJpaController jJP = new JogamJpaController(factory);
+        Jogam joga = new Jogam(partida.getCodPartida(), iDPlayers.get(jogador).intValue());
+        Objetivo objetivo = new Objetivo(iDObjectives.get(obj), null);
+        joga.setCodObjetivo(objetivo);
+        jJP.create(joga);
+    }
+
+    public void persistPartida(Partida match) throws Exception {
+        PartidaJpaController pJC = new PartidaJpaController(factory);
+        pJC.create(match);
+    }
+
+    public void persistOcupacao(Territory territory, int turn) throws Exception {
+        Ocupacao ocp = new Ocupacao(iDTerritories.get(territory), iDPlayers.get(territory.getOwner()), partida.getCodPartida());
+        ocp.setTurno(turn);
+        ocp.setQntExercito(territory.getSoldiers());
+
+        ocupacoes.add(ocp);
+    }
+
+    public void persist() {
+        try {
+            manager.getTransaction().begin();
+            manager.persist(partida);
+
+            for (Jogam joga : jogam) {
+                manager.persist(joga);
+            }
+
+            for (Ocupacao ocupacao : ocupacoes) {
+                manager.persist(ocupacao);
+            }
+            manager.getTransaction().commit();
+        } catch (Exception e) {
+            manager.getTransaction().rollback();
+        }
+    }
+
+}

@@ -17,20 +17,18 @@ import br.uff.es2.war.model.objective.Objective;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
 import javafx.geometry.Point2D;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
- * This class is a controller for a specific game. It is able to load the data
+ * This class is used to load a game from the persistence. It is able to load the data
  * from the database and serve both the model and the graphic interface.
  *
  * @author Victor Guimarães
  */
-public class WorldController implements Observer {
+public class GameLoader {
 
     /**
      * The grahp which describe the World Map.
@@ -49,19 +47,13 @@ public class WorldController implements Observer {
     private Set<Objective> objectives;
     
     /**
-     * It saves the updates produced by the game.
-     */
-    private PersistGame persistAssistant;
-    
-
-    /**
      * Default constructor with the needed parameters.
      *
      * @param worldID the world's id in the database
      * @param factory the {@link EntityManagerFactory} to access the database
      * @throws NonexistentEntityException In case the id does not exist
      */
-    public WorldController(int worldID, EntityManagerFactory factory) throws NonexistentEntityException {
+    public GameLoader(int worldID, EntityManagerFactory factory) throws NonexistentEntityException {
         loadGame(worldID, factory);
     }
 
@@ -162,10 +154,6 @@ public class WorldController implements Observer {
      */
     public Set<Objective> getObjectives() {
         return objectives;
-    }
-
-    @Override
-    public void update(Observable o, Object o1) {
     }
 
 }
