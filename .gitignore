@@ -9,3 +9,6 @@ manifest.mf
 
 /build/
 /dist/
+
+*/.DS_Store
+/test/META-INF/persistence.xml
