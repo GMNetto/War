@@ -16,7 +16,7 @@ import br.uff.es2.war.util.CyclicIterator;
 /**
  * @author Arthur Pitzer
  */
-class StubPlayer implements Player {
+public class StubPlayer implements Player {
     
     private Game game;
     private Objective objective;

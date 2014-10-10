@@ -5,7 +5,7 @@
  */
 package test.br.uff.es2.war.model;
 
-import br.uff.es2.war.controller.GameController;
+import br.uff.es2.war.controller.WorldController;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Territory;
@@ -26,7 +26,7 @@ public class GameCLI {
     }
 
     public void loadWorld() throws NonexistentEntityException {
-        GameController wc = new GameController(0, emf);
+        WorldController wc = new WorldController(0, emf);
 
         World w = wc.getWorld();
 

@@ -48,6 +48,10 @@ public class WorldController implements Observer {
      */
     private Set<Objective> objectives;
     
+    /**
+     * It saves the updates produced by the game.
+     */
+    private PersistGame persistAssistant;
     
 
     /**
@@ -91,6 +95,8 @@ public class WorldController implements Observer {
         Map<String, Territory> territoryByName = new HashMap<>();
         Set<Territorio> territories = new HashSet<>();
         Territory t;
+        
+        Map<Territory,Integer> iDOfTerritory=new HashMap<>();
 
         for (Continente continent : mundo.getContinenteCollection()) {
             Continent c = new Continent(continent.getNome(), world);
@@ -100,6 +106,7 @@ public class WorldController implements Observer {
                 territoryByName.put(t.getName(), t);
                 c.add(t);
                 territories.add(territory);
+                iDOfTerritory.put(t, territory.getCodTerritorio());
             }
             this.world.add(c);
         }
@@ -159,7 +166,6 @@ public class WorldController implements Observer {
 
     @Override
     public void update(Observable o, Object o1) {
-        
     }
 
 }
