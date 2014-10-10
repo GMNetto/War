@@ -5,24 +5,15 @@
  */
 package br.uff.es2.war.view;
 
-import com.sun.javafx.scene.SceneUtils;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -39,14 +30,13 @@ import javafx.scene.text.Text;
  */
 public class JogoController implements Initializable {
 
-
-    private int raio = 10; // obter do modelo do mundo
-    private int jog = 1; // obter objeto do jogador
-    @FXML
-    private Pane pane_map;
     
     @FXML
+    private Pane pane_map;
+    @FXML
     private Button btn_m2;
+     @FXML
+    private Parent parent;
 
     //painel de alocação
     @FXML
@@ -59,20 +49,13 @@ public class JogoController implements Initializable {
     private Button btn_aloca_menos;
     @FXML
     private Button btn_aloca_ok;
-    @FXML
-    private Parent parent;
-
-    private AlocaController ac;
-
-    private List<TerritorioUI> terr;
     
-    @FXML
-    private void changeCursor(ActionEvent event){
-    }
+    // controlador responsável por se comunicar com o modelo e interagir com a view
+    private GameViewController gameController;
 
-    private void criarCirculo(final TerritorioUI t, int x, int y) {
+    private void criarCirculo(final TerritorioUI terr, int x, int y) {
         final Circle circle = new Circle();
-        circle.setRadius(raio);
+        circle.setRadius(gameController.getRaio());
         circle.setCenterX(x);
         circle.setCenterY(y);
         circle.setStroke(Paint.valueOf("Black"));
@@ -84,80 +67,76 @@ public class JogoController implements Initializable {
         dropShadow.setColor(Color.color(0.0, 0.0, 0.0));
 
         circle.setEffect(dropShadow);
-        circle.setCursor(Cursor.HAND);
+        //circle.setCursor(Cursor.HAND);
         circle.setOnMouseClicked(
                 new EventHandler<MouseEvent>() {
 
                     @Override
                     public void handle(MouseEvent arg0) {
-                        //usar state para identificar qual ação tomar
+                        //usar state ou strategy para identificar qual ação tomar
                         
                         //ação de alocar execito
-                        ac.setTerritorioDestino(t);
-                        ac.centraliza(circle.getCenterX(), circle.getCenterY());
-                        ac.mostra();
+                        //ac.setTerritorioDestino(t);
+                        //ac.centraliza(circle.getCenterX(), circle.getCenterY());
+                        //ac.mostra();
 
                     }
                 });
         pane_map.getChildren().add(circle);
 
         Text text = new Text();
-        text.setFont(new Font(raio));
+        text.setFont(new Font(gameController.getRaio()));
         text.setText("0");
-        text.setX(x - raio / 2);
+        text.setX(x - gameController.getRaio() / 2);
         text.setY(y);
         text.setCursor(Cursor.HAND);
 
         pane_map.getChildren().add(text);
 
-        t.setCirculo(circle);
-        t.setTexto(text);
+        terr.setCirculo(circle);
+        terr.setTexto(text);
 
     }
 
-    private void inicializarMapa() {
+    private void desenhaTerritorios() {
 
-        terr = new ArrayList<TerritorioUI>();
-        terr.add(new TerritorioUI(null, "America do norte"));
-        terr.add(new TerritorioUI(null, "America do Sul"));
-        terr.add(new TerritorioUI(null, "Europa"));
-        terr.add(new TerritorioUI(null, "África"));
-        terr.add(new TerritorioUI(null, "Ásia"));
-        terr.add(new TerritorioUI(null, "Oceania"));
-
-        //alterar jogador para objeto
-        criarCirculo(terr.get(0), 100, 100);
-        terr.get(0).setDono(0);
-        terr.get(0).setQtd(0);
-        terr.get(0).getCirculo().setFill(Paint.valueOf("RED"));
-
-        criarCirculo(terr.get(1), 170, 300);
-        terr.get(1).setDono(1);
-        terr.get(1).setQtd(0);
-        terr.get(1).getCirculo().setFill(Paint.valueOf("AQUA"));
-
-        criarCirculo(terr.get(2), 450, 100);
-        terr.get(2).setDono(3);
-        terr.get(2).setQtd(0);
-        terr.get(2).getCirculo().setFill(Paint.valueOf("GREEN"));
-
-        criarCirculo(terr.get(3), 430, 250);
-        terr.get(3).setDono(2);
-        terr.get(3).setQtd(0);
-        terr.get(3).getCirculo().setFill(Paint.valueOf("AQUA"));
-
-        criarCirculo(terr.get(4), 580, 100);
-        terr.get(4).setDono(3);
-        terr.get(4).setQtd(0);
-        terr.get(4).getCirculo().setFill(Paint.valueOf("GREEN"));
-
-        criarCirculo(terr.get(5), 680, 400);
-        terr.get(5).setDono(0);
-        terr.get(5).setQtd(0);
-        terr.get(5).getCirculo().setFill(Paint.valueOf("RED"));
+        for (int i=0;i<gameController.getTerritorios().size();i++){
+            
+            //switch provisório, apenas para teste
+            int x = 0,y = 0;
+            switch(i){
+                case 0:
+                    x=100;y=100;break;
+                case 1:
+                    x=170;y=300;break;
+                case 2:
+                    x=450;y=100;break;
+                case 3:
+                    x=430;y=250;break;
+                case 4:
+                    x=580;y=100;break;
+                case 5:
+                    x=680;y=400;break;
+            }
+            
+            //outro switch provisório, apenas para teste
+            Paint cor = null;
+            switch(gameController.getTerritorios().get(i).getDono()){
+                case 0:
+                    cor=Paint.valueOf("RED");
+                case 1:
+                    cor=Paint.valueOf("AQUA");
+                case 2:
+                    cor=Paint.valueOf("GREEN");
+            }
+            
+            criarCirculo(gameController.getTerritorios().get(i), x, y);
+            gameController.getTerritorios().get(i).getCirculo().setFill(cor);
+        }
 
     }
 
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
         // load the image
         Image image = new Image("war.jpg");
@@ -168,10 +147,10 @@ public class JogoController implements Initializable {
         
         
         pane_map.getChildren().add(iv1);
-        inicializarMapa();
-        //controlador de alocação e movimentação
-        ac = new AlocaController(pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok, raio);
-
+        
+        this.gameController =new GameViewController(0,pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok);
+        desenhaTerritorios();
+       
     }
 
 }

@@ -6,14 +6,9 @@
 package br.uff.es2.war.view;
 
 import br.uff.es2.war.controller.GameLoader;
-import br.uff.es2.war.dao.MundoJpaController;
-import br.uff.es2.war.dao.ObjetivoJpaController;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
-import br.uff.es2.war.entity.Continente;
-import br.uff.es2.war.entity.Cor;
 import br.uff.es2.war.entity.Mundo;
 import br.uff.es2.war.entity.Objetivo;
-import br.uff.es2.war.entity.Territorio;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
@@ -23,15 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import net.sf.ehcache.hibernate.HibernateUtil;
-import org.hibernate.Hibernate;
-import org.hibernate.SessionFactory;
 
 /**
  *
