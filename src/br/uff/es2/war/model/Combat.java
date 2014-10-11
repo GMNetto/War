@@ -25,6 +25,7 @@ public class Combat {
 	this.attackingTerritory = attacker;
 	this.defendingTerritory = defender;
 	this.attackingSoldiers = attackingSoldiers;
+        this.defendingSoldiers = defender.getSoldiers();
     }
     
     public Territory getDefendingTerritory() {
