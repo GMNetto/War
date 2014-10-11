@@ -105,43 +105,13 @@ public class Teste {
 
     }
 
-    public static void main(String[] args) {
-        try {
-            System.out.println("Teste");
-            EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
-            //EntityManager manager = factory.createEntityManager();
-//            Mundo mundo = manager.find(Mundo.class, 0);
-//            System.out.println(mundo.getNome());
-//            
-//            System.out.println("\nContinentes:");
-//            for (Continente continente : mundo.getContinenteCollection()) {
-//                System.out.println(continente.getNome());
-//            }
-//            
-//            System.out.println("\nCores:");
-//            for (Cor cor : mundo.getCorCollection()) {
-//                System.out.println(cor.getNome());
-//            }
-//            
-//            System.out.println("\nObjetivos:");
-//            for (Objetivo objetivo : mundo.getObjetivoCollection()) {
-//                System.out.println(objetivo.getDescricao());
-//            }
-//            manager.close();
-//            factory.close();
-//            
-            GameLoader wc = new GameLoader(0, factory);
-            //Teste t = new Teste(factory);
-            //t.loadWorld();
-            //System.out.println("");
-            //t.loadObjective();
-            for (Objective objective : wc.getObjectives()) {
-                System.out.println(objective);
-                System.out.println("");
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public static void main(String[] args) throws NonexistentEntityException {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
+        GameLoader gl = new GameLoader(0, factory);
+        World w = gl.getWorld();
+        List<Objective> objectives = new ArrayList<>(gl.getObjectives());
+        
+        
     }
 
 }

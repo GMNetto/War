@@ -42,7 +42,7 @@ public class DumbPlayer implements Player {
     @Override
     public void setObjective(Objective objective) {
         this.objective = objective;
-        ((FullObjective) this.objective).SetOwner(this);
+        ((FullObjective) this.objective).setOwner(this);
     }
 
     @Override

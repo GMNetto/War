@@ -50,6 +50,11 @@ public class SetupPhase implements GameState<Game> {
 	    public boolean wasAchieved() {
 		return false;
 	    }
+
+            @Override
+            public boolean isNeeded(Territory territory) {
+                return false;
+            }
 	};
     }
 

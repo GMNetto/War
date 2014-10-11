@@ -38,14 +38,6 @@ public abstract class ParcialObjetive implements Objective {
     }
 
     /**
-     * Test if the given territory is needed to complete the objective or not.
-     *
-     * @param territory the {@link Territory}
-     * @return true if it is, false otherwise
-     */
-    public abstract boolean isNeeded(Territory territory);
-
-    /**
      * Getter for the specific {@link World} of the {@link Objective}.
      *
      * @return the specific {@link World} of the {@link Objective}

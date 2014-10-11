@@ -6,6 +6,7 @@
 package br.uff.es2.war.model.objective;
 
 import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.Territory;
 import com.sun.corba.se.spi.oa.OADefault;
 import java.util.Map;
 import java.util.Set;
@@ -100,9 +101,23 @@ public class FullObjective implements Objective {
             if (!parcialObjetive.wasAchieved())
                 return false;
         }
+        
+        return hasAchievedSecondaryObjective();
+    }
 
+    @Override
+    public boolean isNeeded(Territory territory) {
+        for (ParcialObjetive parcialObjetive : mandatoryObjectives) {
+            if (parcialObjetive.isNeeded(territory))
+                return true;
+        }
+
+        return false;
+    }
+
+    private boolean hasAchievedSecondaryObjective() {
         boolean completedSet;
-        if (secondaryObjective != null && ! secondaryObjective.values().isEmpty()) {
+        if (secondaryObjective != null && !secondaryObjective.values().isEmpty()) {
             for (Set<ParcialObjetive> parcialObjetives : secondaryObjective.values()) {
                 completedSet = true;
                 for (ParcialObjetive parcialObjetive : parcialObjetives) {
@@ -199,13 +214,13 @@ public class FullObjective implements Objective {
      *
      * @param owner the owner of the {@link Objective}
      */
-    public void SetOwner(Player owner) {
+    public void setOwner(Player owner) {
         this.owner = owner;
         for (ParcialObjetive parcialObjetive : mandatoryObjectives) {
             parcialObjetive.setOwner(owner);
         }
 
-        if (secondaryObjective != null && ! secondaryObjective.values().isEmpty()) {
+        if (secondaryObjective != null && !secondaryObjective.values().isEmpty()) {
             for (Set<ParcialObjetive> set : secondaryObjective.values()) {
                 for (ParcialObjetive parcialObjetive : set) {
                     parcialObjetive.setOwner(owner);
@@ -214,7 +229,7 @@ public class FullObjective implements Objective {
         }
 
         if (alternativeObjective != null) {
-            alternativeObjective.SetOwner(owner);
+            alternativeObjective.setOwner(owner);
         }
     }
 
