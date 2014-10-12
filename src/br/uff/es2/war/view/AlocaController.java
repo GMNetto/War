@@ -8,9 +8,7 @@ package br.uff.es2.war.view;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -83,10 +81,11 @@ public class AlocaController {
     }
     
     
-    public void actionAloca(int maxExercitos){
+    public void actionAloca(final int maxExercitos){
         //ações dos botões n fse de alocação
         this.btn_aloca_mais.setOnAction(new EventHandler<ActionEvent>() {
  
+            @Override
             public void handle(ActionEvent event) {
                 //limitando para numero máximo de execitos a serem alocados
                 if(acrescenta<=maxExercitos){
@@ -98,6 +97,7 @@ public class AlocaController {
         
         this.btn_aloca_menos.setOnAction(new EventHandler<ActionEvent>() {
  
+            @Override
             public void handle(ActionEvent event) {
                 // limitando para não retirar exercitos
                 if(acrescenta>0){
@@ -111,6 +111,7 @@ public class AlocaController {
         
         this.btn_aloca_ok.setOnAction(new EventHandler<ActionEvent>() {
  
+            @Override
             public void handle(ActionEvent event) {
                 terDestino.setQtd(terDestino.getQtd()+acrescenta);
                 
@@ -120,6 +121,7 @@ public class AlocaController {
         
         this.btn_aloca_cancel.setOnAction(new EventHandler<ActionEvent>() {
  
+            @Override
             public void handle(ActionEvent event) {
                 terDestino.getTexto().setText(terDestino.getQtd()+"");
                 esconde();
@@ -131,6 +133,7 @@ public class AlocaController {
         //ações dos botões n fse de alocação
         this.btn_aloca_mais.setOnAction(new EventHandler<ActionEvent>() {
  
+            @Override
             public void handle(ActionEvent event) {
                 //limitando para numero máximo de execitos a serem alocados
                 //como colocar a condição de não mover exercito que já foram movidos nessa fase
@@ -144,6 +147,7 @@ public class AlocaController {
         
         this.btn_aloca_menos.setOnAction(new EventHandler<ActionEvent>() {
  
+            @Override
             public void handle(ActionEvent event) {
                 // limitando para não retirar exercitos
                 if(acrescenta>0){
@@ -158,6 +162,7 @@ public class AlocaController {
         
         this.btn_aloca_ok.setOnAction(new EventHandler<ActionEvent>() {
  
+            @Override
             public void handle(ActionEvent event) {
                 terDestino.setQtd(terDestino.getQtd()+acrescenta);
                 terOrigem.setQtd(terOrigem.getQtd()-acrescenta);
@@ -168,6 +173,7 @@ public class AlocaController {
         
         this.btn_aloca_cancel.setOnAction(new EventHandler<ActionEvent>() {
  
+            @Override
             public void handle(ActionEvent event) {
                 terDestino.getTexto().setText(terDestino.getQtd()+"");
                 terOrigem.getTexto().setText(terOrigem.getQtd()+"");

@@ -21,8 +21,8 @@ public class TerritorioUI {
     private String nome; //modelo possui
     private int dono; // modelo possui
     private int qtd; //modelo possui
+    
     private List<TerritorioUI> viz; //como integrar a representação do modelo com a da interface?
-    // ver melhor maneira de adicionar objeto Territory
     
     public TerritorioUI(Circle circulo, String nome) {
         this.nome = nome;
@@ -73,7 +73,7 @@ public class TerritorioUI {
        return (dono==d);
     }
     
-    public void addViz(TerritorioUI t){
+    public void addVizinho(TerritorioUI t){
         viz.add(t);
     }
 
