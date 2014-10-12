@@ -1,5 +1,7 @@
 package br.uff.es2.war.model;
 
+import br.uff.es2.war.model.phases.CombatPhase;
+
 /**
  * Declaration of a combat. During the combat phase the current
  * player choose a attacking territory, a defending territory and

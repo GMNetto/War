@@ -4,19 +4,26 @@ package br.uff.es2.war.model;
  * Color of a player. Color is a unique identifier of player during a game.
  * @author Arthur Pitzer
  */
-public enum Color {
+public class Color {
     
-    BLACK("Black", java.awt.Color.BLACK),
-    BLUE("Blue", java.awt.Color.BLUE),
-    GREEN("Green", java.awt.Color.GREEN),
-    RED("Red", java.awt.Color.RED),
-    WHITE("White", java.awt.Color.WHITE);
+    private final String name;
     
-    final String name;
-    final java.awt.Color awtColor;
-    
-    private Color(String name, java.awt.Color awtColor){
+    public Color(String name){
 	this.name = name;
-	this.awtColor = awtColor;
+    }
+    
+    @Override
+    public int hashCode() {
+	return name.hashCode() % 13;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+	try{
+	    Color other = (Color) obj;
+	    return other.name.equals(name);
+	}catch(ClassCastException e){
+	    return false;
+	}
     }
 }

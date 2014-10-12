@@ -7,9 +7,9 @@ import java.util.HashSet;
  * @see Territory
  * @author Arthur Pitzer
  */
-@SuppressWarnings("serial")
 public class Continent extends HashSet<Territory> {
-    
+
+    private static final long serialVersionUID = -939594860172028714L;
     private final String name;
     private final World world;
     

@@ -2,6 +2,8 @@ package br.uff.es2.war.model;
 
 import java.util.Iterator;
 
+import br.uff.es2.war.events.EventBus;
+import br.uff.es2.war.events.LocalEventBus;
 import br.uff.es2.war.util.CyclicIterator;
 
 /**
@@ -12,20 +14,28 @@ import br.uff.es2.war.util.CyclicIterator;
  */
 public class Game {
     
+    private final EventBus events;
     private final Player[] players;
+    private final Color[] colors;
     private final World world;
     private final Iterator<Player> turns;
     private Player currentPlayer;
     private Player winner;
     
-    public Game(Player[] players, World world) {
+    public Game(Player[] players, World world, Color[] colors) {
+	events = new LocalEventBus();
 	this.players = players;
 	this.world = world;
+	this.colors = colors;
 	turns = new CyclicIterator<Player>(players);
     }
     
     public Player[] getPlayers(){
 	return players;
+    }
+    
+    public Color[] getColors() {
+	return colors;
     }
     
     public World getWorld(){
@@ -39,6 +49,10 @@ public class Game {
     
     public Player getCurrentPlayer() {
 	return currentPlayer;
+    }
+    
+    public EventBus getEvents() {
+	return events;
     }
     
     public boolean isOver(){
