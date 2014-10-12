@@ -23,8 +23,8 @@ public class CombatJudge {
 	int[] scores = calculateScores(attack, defense);
 	Territory attackingTerritory = combat.getAttackingTerritory();
 	Territory defendingTerritory = combat.getDefendingTerritory();
-	applyScores(scores, attackingTerritory, defendingTerritory);
-	updateOwnership(attackingTerritory, defendingTerritory);
+	applyScores(scores, attackingTerritory, defendingTerritory, combat);
+	updateOwnership(attackingTerritory, defendingTerritory, combat.getAttackingSoldiers() - scores[1]);
     }
     
     private int[] combatValues(int soldiers){
@@ -63,16 +63,15 @@ public class CombatJudge {
 	return values[i];
     }
     
-    private void applyScores(int[] scores, Territory attackingTerritory, Territory defendingTerritory){
+    private void applyScores(int[] scores, Territory attackingTerritory, Territory defendingTerritory, Combat combat){
 	defendingTerritory.removeSoldiers(scores[0]);
-	attackingTerritory.removeSoldiers(scores[1]);
+	attackingTerritory.removeSoldiers(combat.getAttackingSoldiers());
     }
 
-    private void updateOwnership(Territory attackingTerritory,
-	    Territory defendingTerritory) {
-	if(defendingTerritory.getSoldiers() == 0){
-	    defendingTerritory.addSoldiers(1);
-	    attackingTerritory.removeSoldiers(1);
+    private void updateOwnership(Territory attackingTerritory, Territory defendingTerritory, int survivingSoldiers) {
+	if(defendingTerritory.getSoldiers() <= 0){
+	    defendingTerritory.addSoldiers(survivingSoldiers);
+	    attackingTerritory.removeSoldiers(survivingSoldiers);
 	    defendingTerritory.setOwner(attackingTerritory.getOwner());
 	}
     }
