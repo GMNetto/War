@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import br.uff.es2.war.controller.GameController;
+
 public class WarServer extends TCPServer {
     
     private final Queue<Messenger> clients;
@@ -16,7 +18,11 @@ public class WarServer extends TCPServer {
     @Override
     protected void onClientReceived(Messenger client) {
 	clients.add(client);
-	new Thread(new WelcomeProtocolRunner(client)).start();;
+	if(clients.size() > 1){
+	    Messenger[] array = new Messenger[clients.size()];
+	    array = clients.toArray(array);
+	    new Thread(new GameController(array)).start();
+	}
     }
 
     @Override

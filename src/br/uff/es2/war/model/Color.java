@@ -6,10 +6,14 @@ package br.uff.es2.war.model;
  */
 public class Color {
     
-    private final String name;
+    private String name;
     
     public Color(String name){
 	this.name = name;
+    }
+    
+    public String getName() {
+	return name;
     }
     
     @Override
