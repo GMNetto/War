@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.MockPlayer;
 
 /**
  * @author Arthur Pitzer

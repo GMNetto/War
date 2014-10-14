@@ -14,6 +14,7 @@ public class JSONWarProtocol implements WarProtocol {
     
     private static final String CHOOSE_COLOR = "CHOOSE_COLOR";
     private static final String BEGIN_TURN = "BEGIN_TURN";
+    private static final String DISTRIBUTE_SOLDIERS = "DISTRIBUTE_SOLDIERS";
     
     @Override
     public String chooseColor(Color[] colors) {
@@ -36,8 +37,8 @@ public class JSONWarProtocol implements WarProtocol {
     @Override
     public String distributeSoldiers(int soldierQuantity,
 	    Set<Territory> territories) {
-	// TODO Auto-generated method stub
-	return null;
+	JSONArray territoriesJSON = new JSONArray(territories);
+	return DISTRIBUTE_SOLDIERS + " " + soldierQuantity + territoriesJSON;
     }
 
     @Override

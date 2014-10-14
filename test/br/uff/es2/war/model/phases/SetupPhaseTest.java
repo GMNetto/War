@@ -45,5 +45,4 @@ public class SetupPhaseTest extends GamePhaseTest{
 	    assertTrue(territory.getSoldiers() > 0);
 	}
     }
-
 }

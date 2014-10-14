@@ -1,4 +1,4 @@
-package br.uff.es2.war.model.phases;
+package br.uff.es2.war.model;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -15,7 +15,7 @@ import br.uff.es2.war.util.CyclicIterator;
 /**
  * @author Arthur Pitzer
  */
-class MockPlayer implements Player {
+public class MockPlayer implements Player {
     
     private Game game;
     private Objective objective;

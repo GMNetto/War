@@ -1,6 +1,7 @@
 package br.uff.es2.war.model.phases;
 
 import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.MockGame;
 
 /**
  * Default structure of a game phase test

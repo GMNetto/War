@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.MockJudge;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 

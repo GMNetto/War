@@ -1,4 +1,4 @@
-package br.uff.es2.war.model.phases;
+package br.uff.es2.war.model;
 
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Continent;
@@ -10,9 +10,9 @@ import br.uff.es2.war.model.World;
 /**
  * @author Arthur Pitzer
  */
-class MockGame extends Game {
+public class MockGame extends Game {
 
-    MockGame() {
+    public MockGame() {
 	super(createPlayers(), createWorld(), createColors());
     }
 

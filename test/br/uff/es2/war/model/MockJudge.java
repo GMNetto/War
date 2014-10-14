@@ -1,19 +1,19 @@
-package br.uff.es2.war.model.phases;
+package br.uff.es2.war.model;
 
 import br.uff.es2.war.model.CombatJudge;
 
-class MockJudge extends CombatJudge {
+public class MockJudge extends CombatJudge {
 
     private int[] attackValues;
     private int[] defenseValues;
     private boolean flag;
 
-    void setAttackValues(int[] values) {
+    public void setAttackValues(int[] values) {
 	attackValues = values;
 	flag = true;
     }
 
-    void setDefenseValues(int[] values) {
+    public void setDefenseValues(int[] values) {
 	defenseValues = values;
     }
 
