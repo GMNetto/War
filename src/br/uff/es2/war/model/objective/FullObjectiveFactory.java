@@ -48,10 +48,10 @@ public class FullObjectiveFactory {
     private Map<Continente, Continent> continentsMap;
 
     /**
-     * A {@link Map} which links a {@link Objective} with its respective code on
-     * the persistence.
+     * A {@link Map} which links a {@link Objective} with its respective
+     * {@link Objetivo} on the persistence.
      */
-    private Map<Objective, Integer> objectiveCodeMap;
+    private Map<Objective, Objetivo> objectiveCodeMap;
 
     /**
      * Constructor with all needed parameters.
@@ -77,7 +77,7 @@ public class FullObjectiveFactory {
         Objective objective;
         for (Objetivo objetivo : objetivos) {
             objective = loadObjective(objetivo);
-            objectiveCodeMap.put(objective, objetivo.getCodObjetivo());
+            objectiveCodeMap.put(objective, objetivo);
             objectives.add(objective);
         }
     }
@@ -175,12 +175,12 @@ public class FullObjectiveFactory {
 
     /**
      * Getter for a {@link Map} which links a {@link Objective} with its
-     * respective code on the persistence.
+     * respective {@link Objetivo} on the persistence.
      *
      * @return a {@link Map} which links a {@link Objective} with its respective
-     * code on the persistence.
+     * {@link Objetivo} on the persistence.
      */
-    public Map<Objective, Integer> getObjectiveCodeMap() {
+    public Map<Objective, Objetivo> getObjectiveCodeMap() {
         return objectiveCodeMap;
     }
 

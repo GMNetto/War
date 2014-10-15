@@ -5,15 +5,12 @@
  */
 package br.uff.es2.war.controller;
 
-import br.uff.es2.war.dao.JogamJpaController;
-import br.uff.es2.war.dao.OcupacaoJpaController;
-import br.uff.es2.war.dao.PartidaJpaController;
-import br.uff.es2.war.dao.TerritorioJpaController;
+import br.uff.es2.war.entity.Cor;
 import br.uff.es2.war.entity.Jogam;
-import br.uff.es2.war.entity.JogamPK;
 import br.uff.es2.war.entity.Objetivo;
 import br.uff.es2.war.entity.Ocupacao;
 import br.uff.es2.war.entity.Partida;
+import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
@@ -25,6 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 /**
  *
@@ -34,7 +32,8 @@ public class GamePersister {
 
     private Map<Territory, Integer> iDTerritories;
     private Map<Player, Integer> iDPlayers;
-    private Map<Objective, Integer> iDObjectives;
+    private Map<Objective, Objetivo> iDObjectives;
+    private Map<Color, Cor> iDColors;
     private EntityManagerFactory factory;
     private EntityManager manager;
 
@@ -43,10 +42,11 @@ public class GamePersister {
     private Set<Jogam> jogam;
     private List<Ocupacao> ocupacoes;
 
-    public GamePersister(Map<Territory, Integer> iDTerritories, Map<Player, Integer> iDPlayers, Map<Objective, Integer> iDObjectives, Game game, EntityManagerFactory factory) {
+    public GamePersister(Map<Territory, Integer> iDTerritories, Map<Player, Integer> iDPlayers, Map<Objective, Objetivo> iDObjectives, Map<Color, Cor> iDColors, Game game, EntityManagerFactory factory) {
         this.iDTerritories = iDTerritories;
         this.iDPlayers = iDPlayers;
         this.iDObjectives = iDObjectives;
+        this.iDColors = iDColors;
         this.factory = factory;
         this.manager = factory.createEntityManager();
         this.game = game;
@@ -71,11 +71,11 @@ public class GamePersister {
         this.iDPlayers = iDPlayers;
     }
 
-    public Map<Objective, Integer> getiDObjectives() {
+    public Map<Objective, Objetivo> getiDObjectives() {
         return iDObjectives;
     }
 
-    public void setiDObjectives(Map<Objective, Integer> iDObjectives) {
+    public void setiDObjectives(Map<Objective, Objetivo> iDObjectives) {
         this.iDObjectives = iDObjectives;
     }
 
@@ -83,20 +83,23 @@ public class GamePersister {
         return partida;
     }
 
-    public void persistJogam(Player jogador, Objective obj) throws Exception {
-        JogamJpaController jJP = new JogamJpaController(factory);
-        Jogam joga = new Jogam(partida.getCodPartida(), iDPlayers.get(jogador).intValue());
-        Objetivo objetivo = new Objetivo(iDObjectives.get(obj), null);
-        joga.setCodObjetivo(objetivo);
-        jJP.create(joga);
+    public void addJogam(Player jogador, Objective obj) throws Exception {
+        Jogam joga;
+        for (Player player : game.getPlayers()) {
+            joga = new Jogam(partida.getCodPartida(), iDPlayers.get(player));
+            joga.setCodCor(iDColors.get(player.getColor()));
+            joga.setCodObjetivo(iDObjectives.get(player.getObjective()));
+            jogam.add(joga);
+        }
     }
 
-    public void persistPartida(Partida match) throws Exception {
-        PartidaJpaController pJC = new PartidaJpaController(factory);
-        pJC.create(match);
+    public void addPartida() {
+        @SuppressWarnings("JPQLValidation")
+        Query query = manager.createQuery("select max(codPartida) from Partida as Integer");
+        this.partida = new Partida(((int) query.getResultList().get(0) + 1), game.getStartDate(), game.getPlayers().length, game.getNumberOfTurns());
     }
 
-    public void persistOcupacao(Territory territory, int turn) throws Exception {
+    public void addOcupacao(Territory territory, int turn) throws Exception {
         Ocupacao ocp = new Ocupacao(iDTerritories.get(territory), iDPlayers.get(territory.getOwner()), partida.getCodPartida());
         ocp.setTurno(turn);
         ocp.setQntExercito(territory.getSoldiers());

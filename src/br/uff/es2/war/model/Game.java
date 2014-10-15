@@ -18,13 +18,14 @@ public class Game {
     private final Iterator<Player> turns;
     private Player currentPlayer;
     private Player winner;
-    private Date dateStart, dateEnd;
+    private Date startDate, endDate;
+    private int numberOfTurns = 0;
 
     public Game(Player[] players, World world) {
         this.players = players;
         this.world = world;
         turns = new CyclicIterator<Player>(players);
-        dateStart = new Date();
+        startDate = new Date();
         //Game precisará atender Partida com Datas e código.
     }
 
@@ -37,8 +38,10 @@ public class Game {
     }
 
     public void passTurn() {
-        if (turns.hasNext())
+        if (turns.hasNext()) {
             currentPlayer = turns.next();
+            numberOfTurns++;
+        }
     }
 
     public Player getCurrentPlayer() {
@@ -57,15 +60,26 @@ public class Game {
         return false;
     }
 
-    public Date getDateStart() {
-        return dateStart;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public Date getDateEnd() {
-        return dateEnd;
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public Iterator<Player> getTurns() {
+        return turns;
     }
 
     public Player getWinner() {
         return isOver() ? winner : null;
     }
+
+    public int getNumberOfTurns() {
+        //Mudar para pegar o número de turnos mesmo, e não o número de jogadas
+        return numberOfTurns;
+    }
+    
+    
 }

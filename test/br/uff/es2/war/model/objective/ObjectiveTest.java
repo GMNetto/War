@@ -29,10 +29,11 @@ import org.junit.Test;
  */
 public class ObjectiveTest {
 
-    World world;
-    Game game;
-    SortedSet<Objective> objectives;
-    Player[] players;
+    private World world;
+    private Game game;
+    private SortedSet<Objective> objectives;
+    private Player[] players;
+    private Set<Color> colors;
 
     public ObjectiveTest() throws NonexistentEntityException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
@@ -41,6 +42,7 @@ public class ObjectiveTest {
         objectives = new TreeSet<>(new ObjectiveComparator());
         objectives.addAll(wc.getObjectives());
         players = new Player[6];
+        colors = wc.getColors();
 
         for (int i = 0; i < 6; i++) {
             players[i] = new DumbPlayer(Color.values()[i], i);
@@ -51,6 +53,11 @@ public class ObjectiveTest {
     }
 
     @Test
+    public void COUNT_COLORS() {
+        assertEquals(6, colors.size());
+    }
+
+    @Test
     public void COUNT_OBJECTIVES() {
         assertEquals(14, objectives.size());
     }
@@ -58,7 +65,13 @@ public class ObjectiveTest {
     @Test
     public void COUNT_TERRITORIES_FOR_EACH_PLAYER() {
         for (Player player : players) {
+            System.out.println(player.getColor());
             assertTrue(world.getTerritoriesByOwner(player).size() >= (world.size() / players.length));
+            for (Territory territory : world.getTerritoriesByOwner(player)) {
+                System.out.println(territory.getName() + ": " + territory.getSoldiers());
+                assertEquals(territory.getSoldiers(), 1);
+            }
+            System.out.println("");
         }
     }
 
@@ -313,7 +326,7 @@ public class ObjectiveTest {
 
         assertTrue(player.getObjective().wasAchieved());
     }
-    
+
     /**
      * Destruir totalmente os EXÉRCITOS VERDES se é vocé quem possui os
      * exércitos amarelos ou se o jogador que os possui for eliminado por um
@@ -329,6 +342,7 @@ public class ObjectiveTest {
 
         assertTrue(player.getObjective().wasAchieved());
     }
+
     /**
      * Destruir totalmente os EXÉRCITOS VERMELHOS se é vocé quem possui os
      * exércitos amarelos ou se o jogador que os possui for eliminado por um
@@ -344,7 +358,7 @@ public class ObjectiveTest {
 
         assertTrue(player.getObjective().wasAchieved());
     }
-    
+
     /**
      * Destruir totalmente os EXÉRCITOS PRETOS se é vocé quem possui os
      * exércitos amarelos ou se o jogador que os possui for eliminado por um
@@ -356,7 +370,7 @@ public class ObjectiveTest {
         Player player = players[0];
         player.setObjective((Objective) objectives.toArray()[11]);
         ((FullObjective) player.getObjective()).switchToAlternativeObjective();
-        
+
         int i = 1;
         Territory t;
         while (world.getTerritoriesByOwner(player).size() < 24) {

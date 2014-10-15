@@ -9,6 +9,7 @@ import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.entity.Mundo;
 import br.uff.es2.war.entity.Objetivo;
+import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
@@ -22,7 +23,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -107,11 +110,21 @@ public class Teste {
 
     public static void main(String[] args) throws NonexistentEntityException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
+        EntityManager manager = factory.createEntityManager();
         GameLoader gl = new GameLoader(0, factory);
+
         World w = gl.getWorld();
         List<Objective> objectives = new ArrayList<>(gl.getObjectives());
-        
-        
+
+        //Query query = manager.createQuery("select codPartida from Partida as p where p.codPartida = (select max(codPartida) from Partida)");
+        Query query = manager.createQuery("select max(codPartida) from Partida as Integer");
+        //query.setParameter("cod", 1);
+
+        //List<Partida> list = query.getFirstResult();
+        System.out.println("oi");
+        System.out.println("Novo Código: " + ((int) query.getResultList().get(0) + 1));
+
+        //System.out.println(count);
     }
 
 }

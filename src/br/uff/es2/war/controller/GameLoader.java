@@ -7,8 +7,10 @@ package br.uff.es2.war.controller;
 
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.entity.Continente;
+import br.uff.es2.war.entity.Cor;
 import br.uff.es2.war.entity.Mundo;
 import br.uff.es2.war.entity.Territorio;
+import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
@@ -23,8 +25,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
- * This class is used to load a game from the persistence. It is able to load the data
- * from the database and serve both the model and the graphic interface.
+ * This class is used to load a game from the persistence. It is able to load
+ * the data from the database and serve both the model and the graphic
+ * interface.
  *
  * @author Victor Guimarães
  */
@@ -45,7 +48,22 @@ public class GameLoader {
      * A {@link Set} with all the possible {@link Objective}s for the game.
      */
     private Set<Objective> objectives;
-    
+
+    /**
+     * A {@link Map} to link {@link Territory} with its code on the persistence.
+     */
+    private Map<Territory, Integer> iDOfTerritory;
+
+    /**
+     * A {@link Set} of possible {@link Color}s to be used on the game.
+     */
+    private Set<Color> colors;
+
+    /**
+     * A {@link Map} to link {@link Color} with its @{link Cor} on the persistence.
+     */
+    private Map<Color, Cor> iDOfColor;
+
     /**
      * Default constructor with the needed parameters.
      *
@@ -69,6 +87,7 @@ public class GameLoader {
         Mundo mundo = manager.find(Mundo.class, worldID);
         loadWorld(mundo);
         loadObjectives(mundo);
+        loadColors(mundo);
         manager.close();
     }
 
@@ -87,8 +106,8 @@ public class GameLoader {
         Map<String, Territory> territoryByName = new HashMap<>();
         Set<Territorio> territories = new HashSet<>();
         Territory t;
-        
-        Map<Territory,Integer> iDOfTerritory=new HashMap<>();
+
+        iDOfTerritory = new HashMap<>();
 
         for (Continente continent : mundo.getContinenteCollection()) {
             Continent c = new Continent(continent.getNome(), world, continent.getBonusTotalidade());
@@ -127,6 +146,17 @@ public class GameLoader {
         objectives = factory.getObjectives();
     }
 
+    private void loadColors(Mundo mundo) {
+        this.colors = new HashSet<>();
+        this.iDOfColor = new HashMap<>();
+        Color color;
+        for (Cor cor : mundo.getCorCollection()) {
+            color = Color.valueOf(cor.getNome());
+            colors.add(color);
+            iDOfColor.put(color, cor);
+        }
+    }
+
     /**
      * Getter for the {@link World}.
      *
@@ -154,6 +184,38 @@ public class GameLoader {
      */
     public Set<Objective> getObjectives() {
         return objectives;
+    }
+
+    /**
+     * Getter for a {@link Map} to link {@link Territory} with its code on the
+     * persistence.
+     *
+     * @return a {@link Map} to link {@link Territory} with its code on the
+     * persistence
+     */
+    public Map<Territory, Integer> getiDOfTerritory() {
+        return iDOfTerritory;
+    }
+
+    /**
+     * Getter for a {@link Set} of possible {@link Color}s to be used on the
+     * game.
+     *
+     * @return A {@link Set} of possible {@link Color}s to be used on the game
+     */
+    public Set<Color> getColors() {
+        return colors;
+    }
+
+    /**
+     * Getter for a {@link Map} to link {@link Color} with its @{link Cor} on the
+     * persistence.
+     *
+     * @return a {@link Map} to link {@link Color} with its @{link Cor} on the
+     * persistence
+     */
+    public Map<Color, Cor> getiDOfColor() {
+        return iDOfColor;
     }
 
 }
