@@ -8,6 +8,7 @@ package br.uff.es2.war.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.Cursor;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
@@ -21,6 +22,7 @@ public class TerritorioUI {
     private String nome; //modelo possui
     private int dono; // modelo possui
     private int qtd; //modelo possui
+    private boolean bloqueado;
     
     private List<TerritorioUI> viz; //como integrar a representação do modelo com a da interface?
     
@@ -28,10 +30,24 @@ public class TerritorioUI {
         this.nome = nome;
         this.dono = -1;
         this.qtd = 0;
-        viz = new ArrayList<TerritorioUI>();
+        this.viz = new ArrayList<TerritorioUI>();
         this.circulo = circulo;
     }
-      public Text getTexto() {
+    
+    public void bloqueia(){
+        this.circulo.setOpacity(0.7);
+        this.circulo.setCursor(Cursor.CLOSED_HAND);
+        this.bloqueado=true;
+    }
+    
+    public void desbloqueia(){
+        this.circulo.setOpacity(1);
+        this.circulo.setCursor(Cursor.HAND);
+        this.bloqueado=false;
+        
+    }
+   
+    public Text getTexto() {
         return texto;
     }
 

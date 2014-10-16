@@ -145,7 +145,25 @@ public class JogoController implements Initializable {
         
     }
   
-
+    public void desbloqueiaTerritorios(List<TerritorioUI> territorios){
+        
+    }
+    public void bloqueiaTerririosAdversarios(){
+        //bloqueia territorios que não pertencem ao usuário
+        // Utilizado para a fase de alocação
+    }
+    
+    public void bloqueiaTerririosNaoVizinhos(){
+        //bloqueia territorios que não são vizinhos e territorios que pertencem ao usuário
+        // Utilizado para a fase de ataque
+    }
+    
+    public void bloqueiaTerririosNaoVizinhosAdversarios(){
+        //bloqueia territorios que não são vizinhos e territorios que pertencem não pertencem ao usuário
+        // Utilizado para a fase de moviementação
+    
+    }
+    
     public void initialize(URL url, ResourceBundle rb){
         // load the image
          Image image = new Image("war.jpg");

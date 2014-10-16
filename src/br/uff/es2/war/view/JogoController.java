@@ -3,154 +3,162 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package br.uff.es2.war.view;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
-import javafx.scene.Parent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 /**
  *
  * @author anacarolinegomesvargas
  */
-public class JogoController implements Initializable {
-
+public class JogoController {
     
-    @FXML
-    private Pane pane_map;
-    @FXML
-    private Button btn_m2;
-     @FXML
-    private Parent parent;
+    private AlocaController ac;
+    private List<TerritorioUI> territorios;
+    private int jogador;
+    private int raio;
 
-    //painel de alocação
-    @FXML
-    private Pane pane_aloca;
-    @FXML
-    private Button btn_aloca_mais;
-    @FXML
-    private Button btn_aloca_cancel;
-    @FXML
-    private Button btn_aloca_menos;
-    @FXML
-    private Button btn_aloca_ok;
-    
-    // controlador responsável por se comunicar com o modelo e interagir com a view
-    private GameViewController gameController;
-
-    private void criarCirculo(final TerritorioUI terr, int x, int y) {
-        final Circle circle = new Circle();
-        circle.setRadius(gameController.getRaio());
-        circle.setCenterX(x);
-        circle.setCenterY(y);
-        circle.setStroke(Paint.valueOf("Black"));
-
-        DropShadow dropShadow = new DropShadow();
-        dropShadow.setRadius(5.0);
-        dropShadow.setOffsetX(1.0);
-        dropShadow.setOffsetY(1.0);
-        dropShadow.setColor(Color.color(0.0, 0.0, 0.0));
-
-        circle.setEffect(dropShadow);
-        //circle.setCursor(Cursor.HAND);
-        circle.setOnMouseClicked(
-                new EventHandler<MouseEvent>() {
-
-                    @Override
-                    public void handle(MouseEvent arg0) {
-                        //usar state ou strategy para identificar qual ação tomar
-                        
-                        //ação de alocar execito
-                        //ac.setTerritorioDestino(t);
-                        //ac.centraliza(circle.getCenterX(), circle.getCenterY());
-                        //ac.mostra();
-
-                    }
-                });
-        pane_map.getChildren().add(circle);
-
-        Text text = new Text();
-        text.setFont(new Font(gameController.getRaio()));
-        text.setText("0");
-        text.setX(x - gameController.getRaio() / 2);
-        text.setY(y);
-        text.setCursor(Cursor.HAND);
-
-        pane_map.getChildren().add(text);
-
-        terr.setCirculo(circle);
-        terr.setTexto(text);
-
+    public JogoController(int jogador, Pane pane_aloca, Button btn_aloca_mais, Button btn_aloca_cancel, Button btn_aloca_menos, Button btn_aloca_ok) {
+        this.jogador = jogador;
+        this.ac = new AlocaController(pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok, raio);
+        this.raio=10;
     }
 
-    private void desenhaTerritorios() {
+    public AlocaController getAc() {
+        return ac;
+    }
 
-        for (int i=0;i<gameController.getTerritorios().size();i++){
-            
-            //switch provisório, apenas para teste
-            int x = 0,y = 0;
-            switch(i){
-                case 0:
-                    x=100;y=100;break;
-                case 1:
-                    x=170;y=300;break;
-                case 2:
-                    x=450;y=100;break;
-                case 3:
-                    x=430;y=250;break;
-                case 4:
-                    x=580;y=100;break;
-                case 5:
-                    x=680;y=400;break;
-            }
-            
-            //outro switch provisório, apenas para teste
-            Paint cor = null;
-            switch(gameController.getTerritorios().get(i).getDono()){
-                case 0:
-                    cor=Paint.valueOf("RED");
-                case 1:
-                    cor=Paint.valueOf("AQUA");
-                case 2:
-                    cor=Paint.valueOf("GREEN");
-            }
-            
-            criarCirculo(gameController.getTerritorios().get(i), x, y);
-            gameController.getTerritorios().get(i).getCirculo().setFill(cor);
+    public List<TerritorioUI> getTerritorios() {
+        return territorios;
+    }
+
+    public int getJogador() {
+        return jogador;
+    }
+
+    public int getRaio() {
+        return raio;
+    }
+    
+    public void desbloqueiaTerritorios(List<TerritorioUI> territorios){
+        
+        for ( TerritorioUI terr : territorios){
+            terr.desbloqueia();
         }
-
+        
     }
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // load the image
-        Image image = new Image("war.jpg");
-
-        // simple displays ImageView the image as is
-        ImageView iv1 = new ImageView();
-        iv1.setImage(image);
+    
+    public void bloqueiaTerritorios(List<TerritorioUI> territorios){
         
+        for ( TerritorioUI terr : territorios){
+            terr.bloqueia();
+        }
         
-        pane_map.getChildren().add(iv1);
-        
-        this.gameController =new GameViewController(0,pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok);
-        desenhaTerritorios();
-       
     }
+   
+    public void bloqueiaTerririosAdversarios(){
+        //bloqueia territorios que não pertencem ao usuário
+        // Utilizado para a fase de alocação
+        
+        for ( TerritorioUI terr : territorios){
+            if(!terr.isDono(jogador)){
+                //territorio de adversário
+                terr.bloqueia();
+            }
+        }
+    }
+    
+    public void bloqueiaTerririosNaoVizinhos(TerritorioUI territorio){
+        //bloqueia territorios que não são vizinhos e territorios que pertencem ao usuário
+        // Utilizado para a fase de ataque
+        
+        //bloqueia todos os territorios
+        bloqueiaTerritorios(this.territorios);
+        
+        // agora desbloquei apenas os vizinhos necessários
+        for ( TerritorioUI terr : territorio.getViz()){
+            if(!terr.isDono(jogador)){
+                //territorio vizinho e não pertence ao jogador
+                terr.desbloqueia();
+            }
+        }
+        
+    }
+    
+    public void bloqueiaTerririosNaoVizinhosAdversarios(TerritorioUI territorio){
+        //bloqueia territorios que não são vizinhos e territorios que pertencem não pertencem ao usuário
+        // Utilizado para a fase de moviementação
+        
+        //bloqueia todos os territorios
+        bloqueiaTerritorios(this.territorios);
+        
+        // agora desbloqueia apenas os vizinhos necessários
+        for ( TerritorioUI terr : territorio.getViz()){
+            if(terr.isDono(jogador)){
+                //territorio vizinho e pertence ao jogador
+                terr.desbloqueia();
+            }
+        }
+    
+    }
+    
+    
+    private void inicializaParaTestes(){
+        
+        //criando territorios
+        territorios = new ArrayList<>();
+        territorios.add(new TerritorioUI(null, "America do norte"));
+        territorios.add(new TerritorioUI(null, "America do Sul"));
+        territorios.add(new TerritorioUI(null, "Europa"));
+        territorios.add(new TerritorioUI(null, "África"));
+        territorios.add(new TerritorioUI(null, "Ásia"));
+        territorios.add(new TerritorioUI(null, "Oceania"));
 
+        //America do norte
+        territorios.get(0).setQtd(0);
+        territorios.get(0).addVizinho(territorios.get(1));//america do sul
+        territorios.get(0).addVizinho(territorios.get(2));//europa
+
+        //America do sul
+        territorios.get(1).setQtd(0);
+        territorios.get(1).addVizinho(territorios.get(0));//america do norte
+        territorios.get(1).addVizinho(territorios.get(3));//africa
+        
+        //europa
+        territorios.get(2).setQtd(0);
+        territorios.get(2).addVizinho(territorios.get(0));//america do norte
+        territorios.get(2).addVizinho(territorios.get(3));//africa
+        territorios.get(2).addVizinho(territorios.get(4));//asia
+        
+        //africa
+        territorios.get(3).setQtd(0);
+        territorios.get(3).addVizinho(territorios.get(1));//america dosul
+        territorios.get(3).addVizinho(territorios.get(2));//europa
+        territorios.get(3).addVizinho(territorios.get(4));//asia
+        
+        
+        //asia
+        territorios.get(4).setQtd(0);
+        territorios.get(4).addVizinho(territorios.get(2));//europa
+        territorios.get(4).addVizinho(territorios.get(3));//africa
+        territorios.get(4).addVizinho(territorios.get(5));//oceania
+        
+        //oceania
+        territorios.get(5).setQtd(0);
+        territorios.get(5).addVizinho(territorios.get(4));//asia
+        
+        
+        // distribuindo territorios para 3 jogadores aleatoriamente
+        Random gerador = new Random();
+        
+        for ( TerritorioUI terr : territorios){
+            terr.setDono(gerador.nextInt(2));
+        }
+    }
+    
 }

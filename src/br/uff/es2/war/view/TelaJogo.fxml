@@ -10,7 +10,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="testejogo.JogoController">
+<AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.uff.es2.war.view.TelaJogoController">
    <children>
        <Group id="Group" layoutX="0.0" layoutY="0.0">
       <children>
@@ -77,7 +77,7 @@
          </effect>
       </Circle>
       <Button fx:id="btn_m1" layoutX="362.0" layoutY="477.0" mnemonicParsing="false" text="Modo alocação"  />
-      <Button fx:id="btn_m2" layoutX="368.0" layoutY="510.0" mnemonicParsing="false" text="Modo ataque" onAction="#changeCursor" />
+      <Button fx:id="btn_m2" layoutX="368.0" layoutY="510.0" mnemonicParsing="false" text="Modo ataque" />
       <Button fx:id="btn_m3" layoutX="348.0" layoutY="544.0" mnemonicParsing="false" text="Modo transferência" />
       
         
