@@ -25,7 +25,10 @@ public class AcaoTerritorioAloca implements AcaoTerritorioStrategy{
     }
     @Override
     public void AcaoBotao(TerritorioUI ter) {
-        //Como passar o valor de maximo de exercitos?
+        jc.getAlocaController().setTerritorioDestino(ter);
+        jc.getAlocaController().actionAloca(jc.getMaxExercitosAloca());
+        jc.getAlocaController().mostra();
+        jc.getAlocaController().centraliza(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
         
     }
     

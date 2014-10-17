@@ -23,13 +23,31 @@ public class JogoController {
     private int jogador;
     private int raio;
 
+    private AcaoTerritorioStrategy acaoTerr;
+            
     public JogoController(int jogador, Pane pane_aloca, Button btn_aloca_mais, Button btn_aloca_cancel, Button btn_aloca_menos, Button btn_aloca_ok) {
         this.jogador = jogador;
-        this.ac = new AlocaController(pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok, raio);
         this.raio=10;
+        this.ac = new AlocaController(pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok, raio);
+        
+        
+        inicializaParaTestes();
+        
     }
 
-    public AlocaController getAc() {
+    public AcaoTerritorioStrategy getAcaoTerr() {
+        return acaoTerr;
+    }
+    
+    public void setAcaoTerr( AcaoTerritorioStrategy acTerr){
+        this.acaoTerr=acTerr;
+    }
+    
+    public int getMaxExercitosAloca(){
+        return 10;
+    }
+
+    public AlocaController getAlocaController() {
         return ac;
     }
 
@@ -37,6 +55,7 @@ public class JogoController {
         return territorios;
     }
 
+    
     public int getJogador() {
         return jogador;
     }
@@ -120,36 +139,30 @@ public class JogoController {
         territorios.add(new TerritorioUI(null, "Oceania"));
 
         //America do norte
-        territorios.get(0).setQtd(0);
         territorios.get(0).addVizinho(territorios.get(1));//america do sul
         territorios.get(0).addVizinho(territorios.get(2));//europa
 
         //America do sul
-        territorios.get(1).setQtd(0);
         territorios.get(1).addVizinho(territorios.get(0));//america do norte
         territorios.get(1).addVizinho(territorios.get(3));//africa
         
         //europa
-        territorios.get(2).setQtd(0);
         territorios.get(2).addVizinho(territorios.get(0));//america do norte
         territorios.get(2).addVizinho(territorios.get(3));//africa
         territorios.get(2).addVizinho(territorios.get(4));//asia
         
         //africa
-        territorios.get(3).setQtd(0);
         territorios.get(3).addVizinho(territorios.get(1));//america dosul
         territorios.get(3).addVizinho(territorios.get(2));//europa
         territorios.get(3).addVizinho(territorios.get(4));//asia
         
         
         //asia
-        territorios.get(4).setQtd(0);
         territorios.get(4).addVizinho(territorios.get(2));//europa
         territorios.get(4).addVizinho(territorios.get(3));//africa
         territorios.get(4).addVizinho(territorios.get(5));//oceania
         
         //oceania
-        territorios.get(5).setQtd(0);
         territorios.get(5).addVizinho(territorios.get(4));//asia
         
         
@@ -157,7 +170,7 @@ public class JogoController {
         Random gerador = new Random();
         
         for ( TerritorioUI terr : territorios){
-            terr.setDono(gerador.nextInt(2));
+            terr.setDono(gerador.nextInt(3));
         }
     }
     
