@@ -23,6 +23,7 @@ public class DumbPlayer implements Player {
     private Objective objective;
     private Color color;
     private Jogador jogador;
+    private Game game;
 
     public DumbPlayer(Color color, int codJogador) {
         this.color = color;
@@ -31,7 +32,7 @@ public class DumbPlayer implements Player {
     
     @Override
     public void setGame(Game game) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.game = game;
     }
 
     @Override
@@ -87,7 +88,7 @@ public class DumbPlayer implements Player {
 
     @Override
     public Game getGame() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return game;
     }
 
     @Override

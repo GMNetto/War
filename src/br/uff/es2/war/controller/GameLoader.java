@@ -9,6 +9,7 @@ import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.entity.Continente;
 import br.uff.es2.war.entity.Cor;
 import br.uff.es2.war.entity.Mundo;
+import br.uff.es2.war.entity.Objetivo;
 import br.uff.es2.war.entity.Territorio;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Continent;
@@ -60,9 +61,16 @@ public class GameLoader {
     private Set<Color> colors;
 
     /**
-     * A {@link Map} to link {@link Color} with its @{link Cor} on the persistence.
+     * A {@link Map} to link {@link Color} with its @{link Cor} on the
+     * persistence.
      */
     private Map<Color, Cor> iDOfColor;
+
+    /**
+     * A {@link Map} to link {@link Objective} with its @{link Objetivo} on the
+     * persistence.
+     */
+    private Map<Objective, Objetivo> iDObjectives;
 
     /**
      * Default constructor with the needed parameters.
@@ -144,6 +152,7 @@ public class GameLoader {
     private void loadObjectives(Mundo mundo) throws NonexistentEntityException {
         FullObjectiveFactory factory = new FullObjectiveFactory(world, mundo.getObjetivoCollection());
         objectives = factory.getObjectives();
+        iDObjectives = factory.getObjectiveCodeMap();
     }
 
     private void loadColors(Mundo mundo) {
@@ -208,14 +217,25 @@ public class GameLoader {
     }
 
     /**
-     * Getter for a {@link Map} to link {@link Color} with its @{link Cor} on the
-     * persistence.
+     * Getter for a {@link Map} to link {@link Color} with its @{link Cor} on
+     * the persistence.
      *
      * @return a {@link Map} to link {@link Color} with its @{link Cor} on the
      * persistence
      */
     public Map<Color, Cor> getiDOfColor() {
         return iDOfColor;
+    }
+
+    /**
+     * Getter for a {@link Map} to link {@link Objective} with its @{link
+     * Objetivo} on the persistence.
+     *
+     * @return a {@link Map} to link {@link Objective} with its @{link Objetivo}
+     * on the persistence
+     */
+    public Map<Objective, Objetivo> getiDObjectives() {
+        return iDObjectives;
     }
 
 }

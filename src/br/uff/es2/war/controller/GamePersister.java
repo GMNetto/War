@@ -83,7 +83,7 @@ public class GamePersister {
         return partida;
     }
 
-    public void addJogam(Player jogador, Objective obj) throws Exception {
+    public void addJogam() throws Exception {
         Jogam joga;
         for (Player player : game.getPlayers()) {
             joga = new Jogam(partida.getCodPartida(), iDPlayers.get(player));
@@ -93,15 +93,17 @@ public class GamePersister {
         }
     }
 
-    public void addPartida() {
+    public int addPartida() {
         @SuppressWarnings("JPQLValidation")
         Query query = manager.createQuery("select max(codPartida) from Partida as Integer");
-        this.partida = new Partida(((int) query.getResultList().get(0) + 1), game.getStartDate(), game.getPlayers().length, game.getNumberOfTurns());
+        int code = ((int) query.getResultList().get(0) + 1);
+        this.partida = new Partida(code, game.getStartDate(), game.getPlayers().length, game.getNumberOfTurns());
+        return code;
     }
 
-    public void addOcupacao(Territory territory, int turn) throws Exception {
+    public void addOcupacao(Territory territory) throws Exception {
         Ocupacao ocp = new Ocupacao(iDTerritories.get(territory), iDPlayers.get(territory.getOwner()), partida.getCodPartida());
-        ocp.setTurno(turn);
+        ocp.setTurno(game.getNumberOfTurns());
         ocp.setQntExercito(territory.getSoldiers());
 
         ocupacoes.add(ocp);
@@ -122,6 +124,9 @@ public class GamePersister {
             manager.getTransaction().commit();
         } catch (Exception e) {
             manager.getTransaction().rollback();
+        }
+        if (manager.isOpen()) {
+            manager.close();
         }
     }
 

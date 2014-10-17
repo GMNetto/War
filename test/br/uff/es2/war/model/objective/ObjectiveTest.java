@@ -25,7 +25,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Victor
+ * @author Victor Guimarães
  */
 public class ObjectiveTest {
 
@@ -44,10 +44,10 @@ public class ObjectiveTest {
         players = new Player[6];
         colors = wc.getColors();
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < players.length; i++) {
             players[i] = new DumbPlayer(Color.values()[i], i);
         }
-
+        
         game = new Game(players, world);
         world.distributeTerritories(players, game);
     }
