@@ -13,3 +13,4 @@ manifest.mf
 */.DS_Store
 /test/META-INF/persistence.xml
 /src/META-INF/persistence.xml
+/src/META-INF/*
