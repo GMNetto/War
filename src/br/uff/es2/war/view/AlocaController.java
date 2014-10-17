@@ -88,7 +88,7 @@ public class AlocaController {
             @Override
             public void handle(ActionEvent event) {
                 //limitando para numero máximo de execitos a serem alocados
-                if(acrescenta<=maxExercitos){
+                if(acrescenta<maxExercitos){
                     acrescenta++;
                     terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
                 }

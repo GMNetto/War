@@ -35,7 +35,7 @@ public class TerritorioUI {
     }
     
     public void bloqueia(){
-        this.circulo.setOpacity(0.7);
+        this.circulo.setOpacity(0.5);
         this.circulo.setCursor(Cursor.CLOSED_HAND);
         this.bloqueado=true;
     }
@@ -97,6 +97,9 @@ public class TerritorioUI {
         return viz;
     }
     
+    public boolean isBloqueado(){
+        return this.bloqueado;
+    }
     
 
 }

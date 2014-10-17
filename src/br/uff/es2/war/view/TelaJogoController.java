@@ -79,12 +79,9 @@ public class TelaJogoController implements Initializable {
 
                     @Override
                     public void handle(MouseEvent arg0) {
-                        //usar state ou strategy para identificar qual ação tomar
-                        
-                        //ação de alocar execito
-                        //ac.setTerritorioDestino(t);
-                        //ac.centraliza(circle.getCenterX(), circle.getCenterY());
-                        //ac.mostra();
+                        if(!terr.isBloqueado()){
+                            gameController.getAcaoTerr().AcaoBotao(terr);
+                        }
 
                     }
                 });
@@ -92,7 +89,7 @@ public class TelaJogoController implements Initializable {
 
         Text text = new Text();
         text.setFont(new Font(gameController.getRaio()));
-        text.setText("0");
+        text.setText(terr.getQtd()+"");
         text.setX(x - gameController.getRaio() / 2);
         text.setY(y);
         text.setCursor(Cursor.HAND);
@@ -130,10 +127,13 @@ public class TelaJogoController implements Initializable {
             switch(gameController.getTerritorios().get(i).getDono()){
                 case 0:
                     cor=Paint.valueOf("RED");
+                    break;
                 case 1:
                     cor=Paint.valueOf("AQUA");
+                    break;
                 case 2:
                     cor=Paint.valueOf("GREEN");
+                    break;
             }
             
             criarCirculo(gameController.getTerritorios().get(i), x, y);
@@ -156,6 +156,8 @@ public class TelaJogoController implements Initializable {
         
         this.gameController =new JogoController(0,pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok);
         desenhaTerritorios();
+        
+        gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
        
     }
 
