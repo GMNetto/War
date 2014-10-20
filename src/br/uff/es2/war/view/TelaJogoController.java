@@ -7,6 +7,7 @@ package br.uff.es2.war.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,7 +43,11 @@ public class TelaJogoController implements Initializable {
      
     //botoes para teste, mudança de estado do jogo
     @FXML
+    private Button btn_m1;
+    @FXML
     private Button btn_m2;
+    @FXML
+    private Button btn_m3;
 
     //painel de alocação
     @FXML
@@ -157,7 +162,36 @@ public class TelaJogoController implements Initializable {
         this.gameController =new JogoController(0,pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok);
         desenhaTerritorios();
         
-        gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
+        gameController.setAcaoTerr(new AcaoTerritorioMovimenta(gameController));
+        
+        
+        //alterando fase do jogo
+        this.btn_m1.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("modo de alocacao");
+                gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
+            }
+        });
+        
+        this.btn_m2.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("modo de ataque");
+                gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
+            }
+        });
+        
+        this.btn_m3.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("modo de movomentacao");
+                gameController.setAcaoTerr(new AcaoTerritorioMovimenta(gameController));
+            }
+        });
        
     }
 

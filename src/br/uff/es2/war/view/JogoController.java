@@ -28,7 +28,7 @@ public class JogoController {
     public JogoController(int jogador, Pane pane_aloca, Button btn_aloca_mais, Button btn_aloca_cancel, Button btn_aloca_menos, Button btn_aloca_ok) {
         this.jogador = jogador;
         this.raio=10;
-        this.ac = new AlocaController(pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok, raio);
+        this.ac = new AlocaController(pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok, raio, this);
         
         
         inicializaParaTestes();
