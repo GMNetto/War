@@ -39,6 +39,4 @@ public interface Player {
     
     Game getGame();
     
-    Jogador getJogador();
-
 }

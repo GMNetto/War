@@ -10,6 +10,7 @@ import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.controller.GamePersister;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.entity.Jogador;
+import br.uff.es2.war.entity.Jogam;
 import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.model.objective.DumbPlayer;
 import br.uff.es2.war.model.objective.Objective;
@@ -25,6 +26,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -45,7 +47,6 @@ public class PersistenceTest {
         this.gameLoader = new GameLoader(0, factory);
         
         EntityManager manager = factory.createEntityManager();
-        @SuppressWarnings("JPQLValidation")
         Query query = manager.createQuery("select max(codJogador) from Jogador as Integer");
         int startCode = ((int) query.getResultList().get(0) + 1);
         manager.close();
@@ -72,20 +73,10 @@ public class PersistenceTest {
         
         this.game = new Game(players, gameLoader.getWorld());
         this.gamePersister = new GamePersister(gameLoader.getiDOfTerritory(), iDPlayers, gameLoader.getiDObjectives(), gameLoader.getiDOfColor(), game, factory);
+        persistPlayers();
     }
     
-    @Test
-    public void ASSERT_UNIQUE_OBJECTIVE_FOR_PLAYER() {
-        Set<Objective> objs = new HashSet<>();
-        for (Player player : players) {
-            assertFalse(objs.contains(player.getObjective()));
-            assertNotNull(player.getObjective());
-            objs.add(player.getObjective());
-        }
-    }
-    
-    @Test
-    public void TEST_PERSIST_PLAYERS() {
+    private void persistPlayers() {
         EntityManager manager = factory.createEntityManager();
         
         Jogador jog;
@@ -120,16 +111,15 @@ public class PersistenceTest {
         
         assertEquals(gamePersister.getPartida(), partida);
         
-        Query query = manager.createQuery("select j from Jogador as j inner join Jogam as jm on j.codJogador = "
-                + "jm.codJogador inner join Partida as p on jm.codPartida = p.codPartida "
-                + "where p.codPartida = " + code);
+        Query query = manager.createQuery("select j from Jogam as j join j.jogador jog join j.partida part "
+                + "where part.codPartida = " + code);
         
-        List<Jogador> jogs = query.getResultList();
+        List<Jogam> jogs = query.getResultList();
         
         assertEquals(players.length, jogs.size());
         
-        for (Jogador jogador : jogs) {
-            assertTrue(iDPlayers.values().contains(jogador.getCodJogador()));
+        for (Jogam jogam : jogs) {
+            assertTrue(iDPlayers.values().contains(jogam.getJogador().getCodJogador()));
         }
     }
 }

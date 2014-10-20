@@ -15,11 +15,14 @@ import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.objective.Objective;
+import br.uff.es2.war.view.Teste;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -122,7 +125,8 @@ public class GamePersister {
                 manager.persist(ocupacao);
             }
             manager.getTransaction().commit();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+           // Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
             manager.getTransaction().rollback();
         }
         if (manager.isOpen()) {

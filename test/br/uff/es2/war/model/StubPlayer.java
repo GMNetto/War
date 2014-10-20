@@ -95,11 +95,6 @@ public class StubPlayer implements Player {
     }
 
     @Override
-    public Jogador getJogador() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Game getGame() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

@@ -41,7 +41,9 @@ public class Teste {
     }
 
     public void loadWorld() throws NonexistentEntityException {
-        GameLoader wc = new GameLoader(0, factory);
+        GameLoader wc;
+
+        wc = new GameLoader(0, factory);
 
         this.world = wc.getWorld();
 
@@ -61,7 +63,7 @@ public class Teste {
 
     }
 
-    public void loadObjective() throws NonexistentEntityException {
+    public void loadObjective() {
         EntityManager manager = factory.createEntityManager();
         Mundo mundo = manager.find(Mundo.class, 0);
 

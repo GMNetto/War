@@ -92,11 +92,6 @@ public class DumbPlayer implements Player {
     }
 
     @Override
-    public Jogador getJogador() {
-        return jogador;
-    }
-
-    @Override
     public String toString() {
         return "DumbPlayer:\t" + jogador.getCodJogador() + "\tColor:\t" + color.toString();
     }

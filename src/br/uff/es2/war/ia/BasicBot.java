@@ -110,9 +110,4 @@ public class BasicBot implements Player {
         this.game = game;
     }
 
-    @Override
-    public Jogador getJogador() {
-        return this.jogador;
-    }
-
 }
