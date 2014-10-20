@@ -14,3 +14,4 @@ manifest.mf
 /test/META-INF/persistence.xml
 /src/META-INF/persistence.xml
 /src/META-INF/*
+.gitignore
