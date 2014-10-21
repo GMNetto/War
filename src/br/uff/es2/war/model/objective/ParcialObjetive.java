@@ -22,30 +22,20 @@ public abstract class ParcialObjetive implements Objective {
      * The specific {@link World} of the {@link Objective}.
      */
     protected final World world;
-    
+
     /**
      * The owner of the {@link Objective}.
      */
-    protected final Player owner;
+    protected Player owner;
 
     /**
      * Constructor with all needed parameters.
-     * 
-     * @param world the specific {@link World} of the {@link Objective}
-     * @param owner the owner of the {@link Objective}
-     */
-    public ParcialObjetive(World world, Player owner) {
-        this.world = world;
-        this.owner = owner;
-    }
-    
-    /**
-     * Test if the given territory is needed to complete the objective or not.
      *
-     * @param territory the {@link Territory}
-     * @return true if it is, false otherwise
+     * @param world the specific {@link World} of the {@link Objective}
      */
-    public abstract boolean isNeeded(Territory territory);
+    public ParcialObjetive(World world) {
+        this.world = world;
+    }
 
     /**
      * Getter for the specific {@link World} of the {@link Objective}.
@@ -54,6 +44,15 @@ public abstract class ParcialObjetive implements Objective {
      */
     public World getWorld() {
         return world;
+    }
+
+    /**
+     * Setter for the owner of the {@link Objective}.
+     *
+     * @param owner the owner of the {@link Objective}
+     */
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
     /**

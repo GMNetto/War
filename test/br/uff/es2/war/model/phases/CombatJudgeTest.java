@@ -21,8 +21,8 @@ import br.uff.es2.war.model.Territory;
 public class CombatJudgeTest extends GamePhaseTest{
     
     private final MockJudge judge;
-    private final Territory attacking;
-    private final Territory defending;
+    private final Territory territoryAtck;
+    private final Territory territoryDefs;
     
     
     public CombatJudgeTest() {
@@ -30,8 +30,8 @@ public class CombatJudgeTest extends GamePhaseTest{
 	judge = new MockJudge();
 	Player attacker = game.getPlayers()[0];
 	Player defender = game.getPlayers()[1];
-	attacking = getAny(game.getWorld().getTerritoriesByOwner(attacker));
-	defending = getAny(game.getWorld().getTerritoriesByOwner(defender));
+	territoryAtck = getAny(game.getWorld().getTerritoriesByOwner(attacker));
+	territoryDefs = getAny(game.getWorld().getTerritoriesByOwner(defender));
     }
 
     @Override
@@ -59,43 +59,38 @@ public class CombatJudgeTest extends GamePhaseTest{
     public void DEFENDER_WINS_IN_CASE_OF_WITHDRAW(){
 	judge.setAttackValues(new int[]{6,5,4});
 	judge.setDefenseValues(new int[]{6,5,4});
-	attacking.setSoldiers(4);
-	defending.setSoldiers(3);
-	Combat combat = new Combat(attacking, defending, 3);
-	combat.setDefendingSoldiers(3);
+	territoryAtck.setSoldiers(4);
+	territoryDefs.setSoldiers(3);
+	Combat combat = new Combat(territoryAtck, territoryDefs, 3);
 	judge.resolve(combat);
-	assertEquals(attacking.getSoldiers(), 1);
-	assertEquals(defending.getSoldiers(), 3);
+	assertEquals(territoryAtck.getSoldiers(), 1);
+	assertEquals(territoryDefs.getSoldiers(), 3);
     }
     
     @Test
     public void DEFENDER_WINS_2_ATTACKERS_1_DEFENDER(){
 	judge.setAttackValues(new int[]{3,2});
 	judge.setDefenseValues(new int[]{6});
-	attacking.setSoldiers(3);
-	defending.setSoldiers(1);
-	Combat combat = new Combat(attacking, defending, 2);
-	combat.setDefendingSoldiers(1);
+	territoryAtck.setSoldiers(3);
+	territoryDefs.setSoldiers(1);
+	Combat combat = new Combat(territoryAtck, territoryDefs, 2);
 	judge.resolve(combat);
-	assertEquals(attacking.getSoldiers(), 2);
-	assertEquals(defending.getSoldiers(), 1);
+	assertEquals(territoryAtck.getSoldiers(), 1);
+	assertEquals(territoryDefs.getSoldiers(), 1);
     }
     
     @Test
     public void ATTACKER_WINS_2_ATTACKERS_1_DEFENDER(){
 	judge.setAttackValues(new int[]{3,2});
 	judge.setDefenseValues(new int[]{1});
-	attacking.setSoldiers(3);
-	defending.setSoldiers(1);
-	Combat combat = new Combat(attacking, defending, 2);
-	combat.setDefendingSoldiers(1);
+	territoryAtck.setSoldiers(3);
+	territoryDefs.setSoldiers(1);
+	Combat combat = new Combat(territoryAtck, territoryDefs, 2);
 	judge.resolve(combat);
-	assertEquals(defending.getOwner(), attacking.getOwner());
-	assertEquals(defending.getSoldiers(), 1);
-	assertEquals(attacking.getSoldiers(), 2);
+	assertEquals(territoryDefs.getOwner(), territoryAtck.getOwner());
+	assertEquals(territoryAtck.getSoldiers(), 2);
+	assertEquals(territoryDefs.getSoldiers(), 1);
     }
-    
-    
     
     private <T> T getAny(Set<T> collection){
 	List<T> list = new ArrayList<>(collection);

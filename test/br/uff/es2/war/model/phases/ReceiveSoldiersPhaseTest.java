@@ -42,6 +42,6 @@ public class ReceiveSoldiersPhaseTest extends GamePhaseTest {
 	phase.execute(game);
 	MockPlayer stub = (MockPlayer)game.getCurrentPlayer();
 	int territoryQuantity = game.getWorld().getTerritoriesByOwner(stub).size();
-	assertEquals(territoryQuantity, stub.getSoldierPool());
+	assertEquals(territoryQuantity / 2, stub.getSoldierPool());
     }
 }

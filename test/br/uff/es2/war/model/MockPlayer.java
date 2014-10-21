@@ -1,7 +1,12 @@
 package br.uff.es2.war.model;
 
+import br.uff.es2.war.entity.Jogador;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import br.uff.es2.war.model.Color;
@@ -81,8 +86,6 @@ public class MockPlayer implements Player {
 
     @Override
     public void answerCombat(Combat combat) {
-	int available = combat.getDefendingTerritory().getSoldiers();
-	combat.setDefendingSoldiers(Math.min(available, 3));
     }
 
     public Object getSoldierPool() {
@@ -91,5 +94,24 @@ public class MockPlayer implements Player {
     
     @Override
     public void moveSoldiers() {
+    }
+
+    @Override
+    public void addCard(Card drawCard) {
+    }
+
+    @Override
+    public Collection<Card> getCards() {
+	return null;
+    }
+
+    @Override
+    public Card discard() {
+	return null;
+    }
+
+    @Override
+    public List<Card> exchangeCards() {
+	return Collections.EMPTY_LIST;
     }
 }

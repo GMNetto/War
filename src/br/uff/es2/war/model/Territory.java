@@ -1,7 +1,11 @@
 package br.uff.es2.war.model;
 
+import br.uff.es2.war.entity.Ocupacao;
+import br.uff.es2.war.entity.Territorio;
 import java.util.HashSet;
+import java.util.Observer;
 import java.util.Set;
+import java.util.Observable;
 
 /**
  * A territory is owned by a player and occupied by 
@@ -11,7 +15,7 @@ import java.util.Set;
  * 
  * @author Arthur Pitzer
  */
-public class Territory {
+public class Territory extends Observable {
     
     private final String name;
     private final Continent continent;
@@ -47,6 +51,7 @@ public class Territory {
     
     public void setOwner(Player owner){
 	this.owner = owner;
+        super.notifyObservers(this.getOwner());
     }
     
     public int getSoldiers(){

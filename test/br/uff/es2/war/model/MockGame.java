@@ -31,8 +31,8 @@ public class MockGame extends Game {
     private static World createWorld() {
 	World world = new World("Test World");
 	
-	Continent continentA = new Continent("A", world);
-	Continent continentB = new Continent("B", world);
+	Continent continentA = new Continent("A", world, 2);
+	Continent continentB = new Continent("B", world, 3);
 	Territory territoryA1 = new Territory("A 1", continentA);
 	Territory territoryA2 = new Territory("A 2", continentA);
 	Territory territoryB1 = new Territory("B 1", continentB);

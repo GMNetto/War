@@ -6,7 +6,6 @@
 package br.uff.es2.war.model.objective;
 
 import br.uff.es2.war.model.Continent;
-import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 
@@ -27,11 +26,10 @@ public class ConquerContinent extends ParcialObjetive {
      * Constructor with all needed parameters.
      *
      * @param world the specific {@link World} of the {@link Objective}
-     * @param owner the owner of the {@link Objective}
      * @param continent the continent to be conquered
      */
-    public ConquerContinent(World world, Player owner, Continent continent) {
-        super(world, owner);
+    public ConquerContinent(World world, Continent continent) {
+        super(world);
         this.continent = continent;
     }
 

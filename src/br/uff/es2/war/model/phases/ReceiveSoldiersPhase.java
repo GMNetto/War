@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import br.uff.es2.war.model.Card;
+import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
@@ -26,16 +27,25 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
     public GameState<Game> execute(Game game) {
 	World world = game.getWorld();
 	Player current = game.getCurrentPlayer();
-	int bonus = calculateBonus(current, game);
+	int bonus = cardBonus(current, game) + continentBonus(current, world);
 	Set<Territory> territories = world.getTerritoriesByOwner(current);
-	int soldierQuantity = territories.size() + bonus;
+	int soldierQuantity = (territories.size() / 2) + bonus;
 	current.distributeSoldiers(soldierQuantity, territories);
 	if(game.isOver())
 	    return new GameOver();
 	return new CombatPhase();
     }
     
-    private int calculateBonus(Player player, Game game){
+    private int continentBonus(Player player, World world) {
+        int bonus = 0;
+        Set<Territory> territories = world.getTerritoriesByOwner(player);
+        for (Continent continent : world)
+            if (territories.containsAll(continent))
+                bonus += continent.getTotalityBonus();
+        return bonus;
+    }
+    
+    private int cardBonus(Player player, Game game){
 	List<Card> cards = player.exchangeCards();
 	if(cards.size() == 0)
 	    return 0;

@@ -6,12 +6,15 @@ import java.util.List;
 
 import br.uff.es2.war.events.EventBus;
 import br.uff.es2.war.events.LocalEventBus;
+import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.util.CyclicIterator;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
- * Holds the state of a War game. The game is updated by the players 
- * during the execution of the game phases.
- * 
+ * Holds the state of a War game. The game is updated by the players during the
+ * execution of the game phases.
+ *
  * @author Arthur Pitzer
  */
 public class Game {
@@ -21,11 +24,13 @@ public class Game {
     private final Player[] players;
     private final Color[] colors;
     private final World world;
-    private final Iterator<Player> turns;
+    private final CyclicIterator<Player> turns;
     private final List<Card> cards;
     private Player currentPlayer;
     private Player winner;
     private int exchange;
+    private Date startDate;
+    private Date endDate;
     
     public Game(Player[] players, World world, Color[] colors, List<Card> cards) {
 	events = new LocalEventBus();
@@ -36,10 +41,11 @@ public class Game {
 	this.colors = colors;
 	this.cards = cards;
 	turns = new CyclicIterator<Player>(players);
+        startDate = new Date();
     }
-    
-    public Player[] getPlayers(){
-	return players;
+
+    public Player[] getPlayers() {
+        return players;
     }
     
     public Color[] getColors() {
@@ -58,9 +64,9 @@ public class Game {
 	if(turns.hasNext())
 	    currentPlayer = turns.next();
     }
-    
+
     public Player getCurrentPlayer() {
-	return currentPlayer;
+        return currentPlayer;
     }
     
     public EventBus getEvents() {
@@ -78,9 +84,21 @@ public class Game {
 	}
 	return false;
     }
-    
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public Iterator<Player> getTurns() {
+        return turns;
+    }
+
     public Player getWinner() {
-	return isOver()? winner : null;
+        return isOver() ? winner : null;
     }
 
     public void addCard(Card card) {
@@ -93,5 +111,9 @@ public class Game {
 
     public int getExchangeBonus() {
 	return EXCHANGE_BONUS[exchange];
+    }
+    
+    public int getNumberOfTurns() {
+	return turns.getCycles();
     }
 }

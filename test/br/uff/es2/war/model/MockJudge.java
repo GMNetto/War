@@ -17,7 +17,6 @@ public class MockJudge extends CombatJudge {
 	defenseValues = values;
     }
 
-    @Override
     protected int[] combatValues(int soldiers) {
 	if(flag){
 	    flag = false;

@@ -9,3 +9,9 @@ manifest.mf
 
 /build/
 /dist/
+
+*/.DS_Store
+/test/META-INF/persistence.xml
+/src/META-INF/persistence.xml
+/src/META-INF/*
+.gitignore

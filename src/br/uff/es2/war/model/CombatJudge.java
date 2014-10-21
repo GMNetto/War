@@ -23,8 +23,8 @@ public class CombatJudge {
 	int[] scores = calculateScores(attack, defense);
 	Territory attackingTerritory = combat.getAttackingTerritory();
 	Territory defendingTerritory = combat.getDefendingTerritory();
-	applyScores(scores, attackingTerritory, defendingTerritory);
-	updateOwnership(attackingTerritory, defendingTerritory);
+	applyScores(scores, attackingTerritory, defendingTerritory, combat);
+	updateOwnership(attackingTerritory, defendingTerritory, combat.getAttackingSoldiers() - scores[1]);
     }
     
     protected int[] combatValues(int soldiers){
@@ -44,12 +44,15 @@ public class CombatJudge {
 	return dice.nextInt(6) + 1;
     }
     
+    /**
+     * @return First index: soldiers lost by defender<br/>Second index: soldiers lost by attacker
+     */
     private int[] calculateScores(int[] attackValues, int[] defenseValues){
-	int length = Math.min(attackValues.length, defenseValues.length);
+	int length = Math.max(attackValues.length, defenseValues.length);
 	int[] scores = new int[2];
 	for(int i = 0; i < length; i++){
-	    int attack = attackValues[i];
-	    int defense = defenseValues[i];
+	    int attack = getIthGreatest(i, attackValues);
+	    int defense = getIthGreatest(i, defenseValues);
 	    if(attack > defense)
 		scores[0]++;
 	    else
@@ -58,16 +61,20 @@ public class CombatJudge {
 	return scores;
     }
     
-    private void applyScores(int[] scores, Territory attackingTerritory, Territory defendingTerritory){
+    private int getIthGreatest(int i, int[] values){
+	i = Math.min(values.length - 1, i);
+	return values[i];
+    }
+    
+    private void applyScores(int[] scores, Territory attackingTerritory, Territory defendingTerritory, Combat combat){
 	defendingTerritory.removeSoldiers(scores[0]);
 	attackingTerritory.removeSoldiers(scores[1]);
     }
 
-    private void updateOwnership(Territory attackingTerritory,
-	    Territory defendingTerritory) {
-	if(defendingTerritory.getSoldiers() == 0){
-	    defendingTerritory.addSoldiers(1);
-	    attackingTerritory.removeSoldiers(1);
+    private void updateOwnership(Territory attackingTerritory, Territory defendingTerritory, int survivingSoldiers) {
+	if(defendingTerritory.getSoldiers() <= 0){
+	    defendingTerritory.setSoldiers(1);
+	    attackingTerritory.removeSoldiers(survivingSoldiers - 1);
 	    defendingTerritory.setOwner(attackingTerritory.getOwner());
 	}
     }

@@ -28,7 +28,7 @@ public class CyclicIterator<E> implements Iterator<E> {
 	this(Arrays.asList(elements));
     }
     
-    public int getCicles() {
+    public int getCycles() {
 	return cicles;
     }
 

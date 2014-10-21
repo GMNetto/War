@@ -5,27 +5,27 @@
  */
 package br.uff.es2.war.view;
 
-import br.uff.es2.war.controller.WorldController;
-import br.uff.es2.war.dao.MundoJpaController;
-import br.uff.es2.war.dao.ObjetivoJpaController;
+import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
-import br.uff.es2.war.entity.Continente;
 import br.uff.es2.war.entity.Mundo;
 import br.uff.es2.war.entity.Objetivo;
-import br.uff.es2.war.entity.Territorio;
+import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
+import br.uff.es2.war.model.objective.Objective;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -33,16 +33,19 @@ import javax.persistence.Persistence;
  */
 public class Teste {
 
-    private EntityManagerFactory emf;
+    private EntityManagerFactory factory;
+    private World world;
 
     public Teste(EntityManagerFactory emf) {
-        this.emf = emf;
+        this.factory = emf;
     }
 
     public void loadWorld() throws NonexistentEntityException {
-        WorldController wc = new WorldController(0, emf);
+        GameLoader wc;
 
-        World world = wc.getWorld();
+        wc = new GameLoader(0, factory);
+
+        this.world = wc.getWorld();
 
         System.out.println(world + " " + world.size() + " Continent(s)");
         System.out.println();
@@ -59,24 +62,33 @@ public class Teste {
         }
 
     }
-    
-    public void loadObjective() throws NonexistentEntityException {
-        ObjetivoJpaController obj = new ObjetivoJpaController(emf);
-        Objetivo objetivo;
-        
-        StringBuilder sb = new StringBuilder();
-        sb.append("insert into objetivo values");
-        sb.append("\n");
-        for (int i = 1; i < 15; i++) {
-            objetivo = obj.findObjetivo(i);
-            sb.append("(");
-            sb.append(objetivo.getCodObjetivo());
-            sb.append(", '");
-            sb.append(objetivo.getDescricao());
-            sb.append("'), ");
-            sb.append("\n");
+
+    public void loadObjective() {
+        EntityManager manager = factory.createEntityManager();
+        Mundo mundo = manager.find(Mundo.class, 0);
+
+        for (Objetivo objetivo : mundo.getObjetivoCollection()) {
+            System.out.println(objetivo.getCodObjetivo());
+            System.out.println(objetivo.getDescricao());
+
+            if (objetivo.getObjconqcont() != null) {
+                System.out.println("Conquista Continente, extras = " + objetivo.getObjconqcont().getContinentesExtras());
+            }
+
+            if (!objetivo.getObjderjogadorCollection1().isEmpty()) {
+                System.out.println("É opcional de: " + objetivo.getObjderjogadorCollection1().size() + " objetivo(s).");
+            }
+
+            if (!objetivo.getObjderjogadorCollection().isEmpty()) {
+                System.out.println("Derrota Jogador: " + objetivo.getObjderjogadorCollection().size());
+            }
+
+            if (objetivo.getObjterritorio() != null) {
+                System.out.println("Objetivo de Território");
+            }
+
+            System.out.println("");
         }
-        System.out.println(sb.toString().trim());
     }
 
     private List<Player> shufflePlayers(final Collection<Player> players) {
@@ -98,18 +110,23 @@ public class Teste {
 
     }
 
-    public static void main(String[] args) {
-        try {
-            System.out.println("Teste");
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("WarESIIPU");
-            Teste t = new Teste(emf);
+    public static void main(String[] args) throws NonexistentEntityException {
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
+        EntityManager manager = factory.createEntityManager();
+        GameLoader gl = new GameLoader(0, factory);
 
-            t.loadWorld();
-            System.out.println("");
-            t.loadObjective();
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        World w = gl.getWorld();
+        List<Objective> objectives = new ArrayList<>(gl.getObjectives());
+
+        //Query query = manager.createQuery("select codPartida from Partida as p where p.codPartida = (select max(codPartida) from Partida)");
+        Query query = manager.createQuery("select max(codPartida) from Partida as Integer");
+        //query.setParameter("cod", 1);
+
+        //List<Partida> list = query.getFirstResult();
+        System.out.println("oi");
+        System.out.println("Novo Código: " + ((int) query.getResultList().get(0) + 1));
+
+        //System.out.println(count);
     }
 
 }

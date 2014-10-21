@@ -19,6 +19,6 @@ public class CyclicIteratorTest {
 	CyclicIterator<Integer> iterator = new CyclicIterator<>(numbers);
 	for(int i = 0; i < numbers.length * cycles; i++)
 	    iterator.next();
-	 assertEquals(iterator.getCicles(), cycles);
+	 assertEquals(iterator.getCycles(), cycles);
     }
 }

@@ -5,7 +5,6 @@
  */
 package br.uff.es2.war.model.objective;
 
-import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 import java.util.Set;
@@ -32,13 +31,12 @@ public class ConquerTerritory extends ParcialObjetive {
      * Constructor with all needed parameters.
      *
      * @param world the specific {@link World} of the {@link Objective}
-     * @param owner the owner of the {@link Objective}
      * @param numberOfTerritories the number of territories needed
      * @param minimalOfSoldiersInEach the minimal number of soldiers needed on
      * each {@link Territory}
      */
-    public ConquerTerritory(World world, Player owner, int numberOfTerritories, int minimalOfSoldiersInEach) {
-        super(world, owner);
+    public ConquerTerritory(World world, int numberOfTerritories, int minimalOfSoldiersInEach) {
+        super(world);
         this.numberOfTerritories = numberOfTerritories;
         this.minimalOfSoldiersInEach = minimalOfSoldiersInEach;
     }
@@ -51,7 +49,7 @@ public class ConquerTerritory extends ParcialObjetive {
     @Override
     public boolean wasAchieved() {
         Set<Territory> territories = world.getTerritoriesByOwner(owner);
-        if (territories.size() < minimalOfSoldiersInEach)
+        if (territories.size() < numberOfTerritories)
             return false;
 
         int count = 0;

@@ -12,7 +12,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -57,9 +56,9 @@ public class Territorio implements Serializable {
     @JoinTable(name = "fronteira", joinColumns = {
         @JoinColumn(name = "Cod_Local", referencedColumnName = "Cod_Territorio")}, inverseJoinColumns = {
         @JoinColumn(name = "Cod_Vizinho", referencedColumnName = "Cod_Territorio")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     private Collection<Territorio> territorioCollection;
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "territorioCollection")
+    @ManyToMany(mappedBy = "territorioCollection")
     private Collection<Territorio> territorioCollection1;
     @OneToOne(mappedBy = "codTerritorio")
     private Carta carta;

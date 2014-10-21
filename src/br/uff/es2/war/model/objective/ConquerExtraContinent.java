@@ -15,7 +15,11 @@ import java.util.Set;
 /**
  * This class represents a partial objective of conquer a specific number of
  * {@link Continent}s not including a {@link Set} of other {@link Continent}s.
+ * This class tells only if the {@link Player} has a specified number of
+ * {@link Continent}s, not including the {@link Continent}s that he or she
+ * already have to have.
  *
+ * @see ConquerContinent
  * @author Victor Guimarães
  */
 public class ConquerExtraContinent extends ParcialObjetive {
@@ -41,14 +45,13 @@ public class ConquerExtraContinent extends ParcialObjetive {
      * Constructor with all needed parameters.
      *
      * @param world the specific {@link World} of the {@link Objective}
-     * @param owner the owner of the {@link Objective}
      * @param extraContinents the number of extra {@link Continent}s to be
      * conquered
      * @param notIncludeds the {@link Set} of {@link Continent} which should not
      * count as extra {@link Continent}s
      */
-    public ConquerExtraContinent(World world, Player owner, int extraContinents, final Set<Continent> notIncludeds) {
-        super(world, owner);
+    public ConquerExtraContinent(World world, int extraContinents, final Set<Continent> notIncludeds) {
+        super(world);
         this.extraContinents = extraContinents;
         this.notIncludeds = notIncludeds;
         loadOptionalContinents();
@@ -58,14 +61,13 @@ public class ConquerExtraContinent extends ParcialObjetive {
      * Constructor with all needed parameters.
      *
      * @param world the specific {@link World} of the {@link Objective}
-     * @param owner the owner of the {@link Objective}
      * @param extraContinents the number of extra {@link Continent}s to be
      * conquered
      * @param notIncludeds a set of {@link Continent} which should not count as
      * extra {@link Continent}s
      */
-    public ConquerExtraContinent(World world, Player owner, int extraContinents, Continent... notIncludeds) {
-        super(world, owner);
+    public ConquerExtraContinent(World world, int extraContinents, Continent... notIncludeds) {
+        super(world);
         this.extraContinents = extraContinents;
 
         this.notIncludeds = new HashSet<>();
@@ -81,10 +83,13 @@ public class ConquerExtraContinent extends ParcialObjetive {
      */
     private void loadOptionalContinents() {
         Set<ConquerContinent> optContinents = new HashSet<>(world.size() - notIncludeds.size());
-
+        ConquerContinent conquerContinent;
+        
         for (Continent continent : world) {
             if (!notIncludeds.contains(continent)) {
-                optContinents.add(new ConquerContinent(world, owner, continent));
+                conquerContinent = new ConquerContinent(world, continent);
+                conquerContinent.setOwner(owner);
+                optContinents.add(conquerContinent);
             }
         }
 
@@ -136,5 +141,15 @@ public class ConquerExtraContinent extends ParcialObjetive {
     public int getExtraContinents() {
         return extraContinents;
     }
+
+    @Override
+    public void setOwner(Player owner) {
+        super.setOwner(owner);
+        for (ConquerContinent conquerContinent : optionalContinents) {
+            conquerContinent.setOwner(owner);
+        }
+    }
+    
+    
 
 }

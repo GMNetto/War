@@ -5,29 +5,34 @@
  */
 package br.uff.es2.war.controller;
 
-import br.uff.es2.war.dao.MundoJpaController;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.entity.Continente;
+import br.uff.es2.war.entity.Cor;
 import br.uff.es2.war.entity.Mundo;
+import br.uff.es2.war.entity.Objetivo;
 import br.uff.es2.war.entity.Territorio;
+import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
+import br.uff.es2.war.model.objective.FullObjectiveFactory;
 import br.uff.es2.war.model.objective.Objective;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javafx.geometry.Point2D;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
- * This class is a controller for a specific game. It is able to load the data
- * from the database and serve both the model and the graphic interface.
+ * This class is used to load a game from the persistence. It is able to load
+ * the data from the database and serve both the model and the graphic
+ * interface.
  *
  * @author Victor Guimarães
  */
-public class WorldController {
+public class GameLoader {
 
     /**
      * The grahp which describe the World Map.
@@ -46,42 +51,63 @@ public class WorldController {
     private Set<Objective> objectives;
 
     /**
+     * A {@link Map} to link {@link Territory} with its code on the persistence.
+     */
+    private Map<Territory, Integer> iDOfTerritory;
+
+    /**
+     * A {@link Set} of possible {@link Color}s to be used on the game.
+     */
+    private Set<Color> colors;
+
+    /**
+     * A {@link Map} to link {@link Color} with its @{link Cor} on the
+     * persistence.
+     */
+    private Map<Color, Cor> iDOfColor;
+
+    /**
+     * A {@link Map} to link {@link Objective} with its @{link Objetivo} on the
+     * persistence.
+     */
+    private Map<Objective, Objetivo> iDObjectives;
+
+    /**
      * Default constructor with the needed parameters.
      *
      * @param worldID the world's id in the database
-     * @param emf the {@link EntityManagerFactory} to access the database
+     * @param factory the {@link EntityManagerFactory} to access the database
      * @throws NonexistentEntityException In case the id does not exist
      */
-    public WorldController(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
-        loadGame(worldID, emf);
+    public GameLoader(int worldID, EntityManagerFactory factory) throws NonexistentEntityException {
+        loadGame(worldID, factory);
     }
 
     /**
      * Loads the needed information about to start the game.
      *
      * @param worldID the world's id in the database
-     * @param emf the {@link EntityManagerFactory} to access the database
+     * @param factory the {@link EntityManagerFactory} to access the database
      * @throws NonexistentEntityException In case the id does not exist
      */
-    private void loadGame(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
-        loadWorld(worldID, emf);
-        loadObjectives(worldID, emf);
+    private void loadGame(int worldID, EntityManagerFactory factory) throws NonexistentEntityException {
+        EntityManager manager = factory.createEntityManager();
+        Mundo mundo = manager.find(Mundo.class, worldID);
+        loadWorld(mundo);
+        loadObjectives(mundo);
+        loadColors(mundo);
+        manager.close();
     }
 
     /**
      * Loads the needed information about the world map from the database.
      *
-     * @param worldID the world's id in the database
-     * @param emf the {@link EntityManagerFactory} to access the database
+     * @param mundo the {@link Mundo}
      * @throws NonexistentEntityException In case the id does not exist
      */
-    private void loadWorld(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
-        MundoJpaController worldJpaController = new MundoJpaController(emf);
-        Mundo mundo = worldJpaController.findMundo(worldID);
-
-        if (mundo == null) {
+    private void loadWorld(Mundo mundo) throws NonexistentEntityException {
+        if (mundo == null)
             throw new NonexistentEntityException(ExceptionCauses.NONEXISTENT_ENTITY.toString());
-        }
 
         this.world = new World(mundo.getNome());
 
@@ -89,14 +115,17 @@ public class WorldController {
         Set<Territorio> territories = new HashSet<>();
         Territory t;
 
+        iDOfTerritory = new HashMap<>();
+
         for (Continente continent : mundo.getContinenteCollection()) {
-            Continent c = new Continent(continent.getNome(), world);
+            Continent c = new Continent(continent.getNome(), world, continent.getBonusTotalidade());
 
             for (Territorio territory : continent.getTerritorioCollection()) {
                 t = new Territory(territory.getNome(), c);
                 territoryByName.put(t.getName(), t);
                 c.add(t);
                 territories.add(territory);
+                iDOfTerritory.put(t, territory.getCodTerritorio());
             }
             this.world.add(c);
         }
@@ -117,12 +146,24 @@ public class WorldController {
     /**
      * Loads the needed information about the {@link Objective}s.
      *
-     * @param worldID the world's id in the database
-     * @param emf the {@link EntityManagerFactory} to access the database
+     * @param mundo the {@link Mundo}
      * @throws NonexistentEntityException In case the id does not exist
      */
-    private void loadObjectives(int worldID, EntityManagerFactory emf) throws NonexistentEntityException {
+    private void loadObjectives(Mundo mundo) throws NonexistentEntityException {
+        FullObjectiveFactory factory = new FullObjectiveFactory(world, mundo.getObjetivoCollection());
+        objectives = factory.getObjectives();
+        iDObjectives = factory.getObjectiveCodeMap();
+    }
 
+    private void loadColors(Mundo mundo) {
+        this.colors = new HashSet<>();
+        this.iDOfColor = new HashMap<>();
+        Color color;
+        for (Cor cor : mundo.getCorCollection()) {
+            color = Color.valueOf(cor.getNome());
+            colors.add(color);
+            iDOfColor.put(color, cor);
+        }
     }
 
     /**
@@ -152,6 +193,49 @@ public class WorldController {
      */
     public Set<Objective> getObjectives() {
         return objectives;
+    }
+
+    /**
+     * Getter for a {@link Map} to link {@link Territory} with its code on the
+     * persistence.
+     *
+     * @return a {@link Map} to link {@link Territory} with its code on the
+     * persistence
+     */
+    public Map<Territory, Integer> getiDOfTerritory() {
+        return iDOfTerritory;
+    }
+
+    /**
+     * Getter for a {@link Set} of possible {@link Color}s to be used on the
+     * game.
+     *
+     * @return A {@link Set} of possible {@link Color}s to be used on the game
+     */
+    public Set<Color> getColors() {
+        return colors;
+    }
+
+    /**
+     * Getter for a {@link Map} to link {@link Color} with its @{link Cor} on
+     * the persistence.
+     *
+     * @return a {@link Map} to link {@link Color} with its @{link Cor} on the
+     * persistence
+     */
+    public Map<Color, Cor> getiDOfColor() {
+        return iDOfColor;
+    }
+
+    /**
+     * Getter for a {@link Map} to link {@link Objective} with its @{link
+     * Objetivo} on the persistence.
+     *
+     * @return a {@link Map} to link {@link Objective} with its @{link Objetivo}
+     * on the persistence
+     */
+    public Map<Objective, Objetivo> getiDObjectives() {
+        return iDObjectives;
     }
 
 }

@@ -9,6 +9,7 @@ import br.uff.es2.war.model.phases.GameState;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.Territory;
 
 /**
  * During the setup phase each player chooses 
@@ -27,7 +28,7 @@ public class SetupPhase implements GameState<Game> {
     public GameState<Game> execute(Game game) {
 	this.game = game;
 	readColors();
-	game.getWorld().distributeTerritories(game.getPlayers());
+	game.getWorld().distributeTerritories(game.getPlayers(),game);
 	for (Player player : game.getPlayers()) {
 	    player.setGame(game);
 	    player.setObjective(randomObjective());
@@ -48,10 +49,16 @@ public class SetupPhase implements GameState<Game> {
     
     private Objective randomObjective() {
         return new Objective() {
+            
 	    @Override
 	    public boolean wasAchieved() {
 		return false;
 	    }
+
+            @Override
+            public boolean isNeeded(Territory territory) {
+                return false;
+            }
 	};
     }
 }

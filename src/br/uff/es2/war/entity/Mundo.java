@@ -13,7 +13,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -53,7 +52,7 @@ public class Mundo implements Serializable {
     private Date dataImagem;
     @Column(name = "Raio_Territorio")
     private Integer raioTerritorio;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "codMundo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codMundo")
     private Collection<Continente> continenteCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codMundo")
     private Collection<Cor> corCollection;
