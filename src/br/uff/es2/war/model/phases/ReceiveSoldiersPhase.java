@@ -1,7 +1,9 @@
 package br.uff.es2.war.model.phases;
 
+import java.util.List;
 import java.util.Set;
 
+import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
@@ -18,15 +20,31 @@ import br.uff.es2.war.model.phases.GameState;
  */
 public class ReceiveSoldiersPhase implements GameState<Game> {
     
+    private static final int EXCHANGE_OWNED_TERRITORY_BONUS = 2;
+    
     @Override
     public GameState<Game> execute(Game game) {
 	World world = game.getWorld();
 	Player current = game.getCurrentPlayer();
+	int bonus = calculateBonus(current, game);
 	Set<Territory> territories = world.getTerritoriesByOwner(current);
-	int soldierQuantity = territories.size();
+	int soldierQuantity = territories.size() + bonus;
 	current.distributeSoldiers(soldierQuantity, territories);
 	if(game.isOver())
 	    return new GameOver();
 	return new CombatPhase();
+    }
+    
+    private int calculateBonus(Player player, Game game){
+	List<Card> cards = player.exchangeCards();
+	if(cards.size() == 0)
+	    return 0;
+	for(Card card : cards){
+	    game.addCard(card);
+	    if(card.getTerritory().getOwner().equals(player))
+		card.getTerritory().addSoldiers(EXCHANGE_OWNED_TERRITORY_BONUS);
+	}
+	game.incrementExchangeCounter();
+	return game.getExchangeBonus();
     }
 }

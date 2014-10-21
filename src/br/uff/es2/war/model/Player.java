@@ -1,5 +1,7 @@
 package br.uff.es2.war.model;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import br.uff.es2.war.model.objective.Objective;
@@ -35,5 +37,13 @@ public interface Player {
     void answerCombat(Combat combat);
 
     void moveSoldiers();
+
+    void addCard(Card drawCard);
+
+    Collection<Card> getCards();
+
+    Card discard();
+
+    List<Card> exchangeCards();
 
 }

@@ -1,5 +1,6 @@
 package br.uff.es2.war.model.phases;
 
+import br.uff.es2.war.events.TerritoryConquestEvent;
 import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.CombatJudge;
 import br.uff.es2.war.model.Game;
@@ -33,6 +34,8 @@ public class CombatPhase implements GameState<Game> {
 	Player defender = defendingTerritory.getOwner();
 	defender.answerCombat(combat);
 	judge.resolve(combat);
+	if(defendingTerritory.getOwner().equals(attacker))
+	    game.getEvents().publish(new TerritoryConquestEvent(defender, attacker, defendingTerritory));
 	if(game.isOver())
 	    return new GameOver();
 	return this;

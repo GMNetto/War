@@ -1,6 +1,8 @@
 package br.uff.es2.war.model;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import br.uff.es2.war.events.EventBus;
 import br.uff.es2.war.events.LocalEventBus;
@@ -14,19 +16,25 @@ import br.uff.es2.war.util.CyclicIterator;
  */
 public class Game {
     
+    private static final int[] EXCHANGE_BONUS = new int[]{1,2,3,4,5}; 
     private final EventBus events;
     private final Player[] players;
     private final Color[] colors;
     private final World world;
     private final Iterator<Player> turns;
+    private final List<Card> cards;
     private Player currentPlayer;
     private Player winner;
+    private int exchange;
     
-    public Game(Player[] players, World world, Color[] colors) {
+    public Game(Player[] players, World world, Color[] colors, List<Card> cards) {
 	events = new LocalEventBus();
+	exchange = 0;
+	Collections.shuffle(cards);
 	this.players = players;
 	this.world = world;
 	this.colors = colors;
+	this.cards = cards;
 	turns = new CyclicIterator<Player>(players);
     }
     
@@ -40,6 +48,10 @@ public class Game {
     
     public World getWorld(){
 	return world;
+    }
+    
+    public Card drawCard(){
+	return cards.remove(0);
     }
     
     public void passTurn(){
@@ -69,5 +81,17 @@ public class Game {
     
     public Player getWinner() {
 	return isOver()? winner : null;
+    }
+
+    public void addCard(Card card) {
+	cards.add(card);
+    }
+
+    public void incrementExchangeCounter() {
+	exchange++;
+    }
+
+    public int getExchangeBonus() {
+	return EXCHANGE_BONUS[exchange];
     }
 }

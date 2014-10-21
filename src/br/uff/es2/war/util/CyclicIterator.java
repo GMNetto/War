@@ -16,14 +16,20 @@ public class CyclicIterator<E> implements Iterator<E> {
     
     private final Iterable<E> elements;
     private Iterator<E> innerIterator;
+    private int cicles;
     
     public CyclicIterator(Iterable<E> elements) {
 	this.elements = elements;
 	innerIterator = elements.iterator();
+	cicles = 0;
     }
     
     public CyclicIterator(E[] elements) {
 	this(Arrays.asList(elements));
+    }
+    
+    public int getCicles() {
+	return cicles;
     }
 
     @Override
@@ -40,8 +46,10 @@ public class CyclicIterator<E> implements Iterator<E> {
 	try{
 	    return innerIterator.next();
 	}catch(NoSuchElementException e){
-	    if(hasNext())
+	    if(hasNext()){
+		cicles++;
 		return next();
+	    }
 	    throw e;
 	}
     }

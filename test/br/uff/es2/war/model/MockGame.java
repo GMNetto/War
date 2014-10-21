@@ -1,5 +1,8 @@
 package br.uff.es2.war.model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Game;
@@ -11,9 +14,11 @@ import br.uff.es2.war.model.World;
  * @author Arthur Pitzer
  */
 public class MockGame extends Game {
+    
+    private static World WORLD;
 
     public MockGame() {
-	super(createPlayers(), createWorld(), createColors());
+	super(createPlayers(), createWorld(), createColors(), createCards());
     }
 
     private static Player[] createPlayers() {
@@ -49,6 +54,7 @@ public class MockGame extends Game {
 	
 	world.add(continentA);
 	world.add(continentB);
+	WORLD = world;
 	return world;
     }
     
@@ -59,5 +65,17 @@ public class MockGame extends Game {
 		new Color("Red"),
 		new Color("Green"),
 	};
+    }
+    
+    private static List<Card> createCards(){
+	List<Card> cards = new LinkedList<Card>();
+	cards.add(new Card(4, null));
+	cards.add(new Card(4, null));
+	int figure = 0;
+	for(Territory territory : WORLD.getTerritories()){
+	    cards.add(new Card(figure, territory));
+	    figure = figure == 2 ? 0 : figure + 1;
+	}
+	return cards;
     }
 }

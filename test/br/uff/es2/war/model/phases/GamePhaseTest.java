@@ -8,7 +8,7 @@ import br.uff.es2.war.model.MockGame;
  * 
  * @author Arthur Pitzer
  */
-abstract class GamePhaseTest {
+public abstract class GamePhaseTest {
     
     protected final GameState<Game> dependencies;
     protected final GameState<Game> phase;

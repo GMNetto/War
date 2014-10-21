@@ -1,5 +1,10 @@
 package br.uff.es2.war.controller;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
+import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Game;
@@ -21,8 +26,12 @@ public class GameController implements Runnable {
 
     public GameController(Messenger[] clients) {
 	this.clients = clients;
-	protocol = new JSONWarProtocol();
-	Game game = new Game(loadPlayers(), loadWorld(), loadColors());
+	World world = loadWorld();
+	protocol = new JSONWarProtocol(world);
+	Player[] players = loadPlayers();
+	Color[] colors = loadColors();
+	List<Card> cards = loadCards(world.getTerritories());
+	Game game = new Game(players, world, colors, cards);
 	machine = new GameMachine<Game>(game, new SetupPhase());
     }
 
@@ -76,5 +85,16 @@ public class GameController implements Runnable {
 	    colors[i] = new Color("Color " + i);
 	return colors;
     }
-
+    
+    private List<Card> loadCards(Collection<Territory> territories){
+	List<Card> cards = new LinkedList<Card>();
+	cards.add(new Card(4, null));
+	cards.add(new Card(4, null));
+	int figure = 0;
+	for(Territory territory : territories){
+	    cards.add(new Card(figure, territory));
+	    figure = figure == 2 ? 0 : figure + 1;
+	}
+	return cards;
+    }
 }

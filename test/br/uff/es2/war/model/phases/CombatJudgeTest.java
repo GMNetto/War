@@ -95,6 +95,8 @@ public class CombatJudgeTest extends GamePhaseTest{
 	assertEquals(attacking.getSoldiers(), 2);
     }
     
+    
+    
     private <T> T getAny(Set<T> collection){
 	List<T> list = new ArrayList<>(collection);
 	return list.get(0);

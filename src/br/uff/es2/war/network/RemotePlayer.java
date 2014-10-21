@@ -1,7 +1,10 @@
 package br.uff.es2.war.network;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
+import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Player;
@@ -52,5 +55,27 @@ public class RemotePlayer extends PlayerData{
     public void moveSoldiers() {
 	messenger.send(protocol.moveSoldiers());
 	protocol.moveSoldiers(messenger.receive(), game.getWorld().getTerritoriesByOwner(this));
+    }
+    
+    @Override
+    public void addCard(Card card) {
+	messenger.send(protocol.addCard(card));
+    }
+    
+    @Override
+    public Card discard() {
+	messenger.send(protocol.discard());
+	return protocol.discard(messenger.receive());
+    }
+    
+    @Override
+    public Collection<Card> getCards() {
+        return null;
+    }
+
+    @Override
+    public List<Card> exchangeCards() {
+	messenger.send(protocol.exchangeCards());
+	return protocol.exchangeCards(messenger.receive());
     }
 }

@@ -1,7 +1,9 @@
 package br.uff.es2.war.network;
 
+import java.util.List;
 import java.util.Set;
 
+import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Player;
@@ -31,5 +33,15 @@ public interface WarProtocol {
     String moveSoldiers();
 
     void moveSoldiers(String receive, Set<Territory> territoriesByOwner);
+
+    String addCard(Card card);
+
+    String discard();
+
+    Card discard(String receive);
+
+    String exchangeCards();
+
+    List<Card> exchangeCards(String receive);
 
 }
