@@ -17,6 +17,7 @@ import br.uff.es2.war.model.objective.Objective;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -53,9 +54,9 @@ public class PersistenceTest {
         
         players = new Player[6];
         iDPlayers = new HashMap<>();
-        
+        Iterator<Color> cls = gameLoader.getColors().iterator();
         for (int i = 0; i < players.length; i++) {
-            players[i] = new DumbPlayer(Color.values()[i], i);
+            players[i] = new DumbPlayer(cls.next(), i);
             players[i].setGame(game);
             iDPlayers.put(players[i], startCode);
             startCode++;
@@ -71,7 +72,7 @@ public class PersistenceTest {
             objectives.remove(r);
         }
         
-        this.game = new Game(players, gameLoader.getWorld());
+        this.game = new Game(players, gameLoader.getWorld(), null, null);
         this.gamePersister = new GamePersister(gameLoader.getiDOfTerritory(), iDPlayers, gameLoader.getiDObjectives(), gameLoader.getiDOfColor(), game, factory);
         persistPlayers();
     }

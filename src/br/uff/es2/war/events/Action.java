@@ -9,6 +9,6 @@ package br.uff.es2.war.events;
  */
 public interface Action<T> {
     
-    void execute(T args);
+    void onEvent(T args);
 
 }

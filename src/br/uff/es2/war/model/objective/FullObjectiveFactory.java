@@ -96,7 +96,7 @@ public class FullObjectiveFactory {
         if (!objetivo.getObjderjogadorCollection().isEmpty()) {
             Objderjogador objderjogador = objetivo.getObjderjogadorCollection().iterator().next();
             opcional = loadObjective(objderjogador.getObjetivo1());
-            parcialObjetives.add(new DestroyColor(world, Color.valueOf(objderjogador.getCor().getNome())));
+            parcialObjetives.add(new DestroyColor(world, new Color(objderjogador.getCor().getNome())));
         }
 
         //If the objective includes conquer continents

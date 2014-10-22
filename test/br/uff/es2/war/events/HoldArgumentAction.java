@@ -5,7 +5,7 @@ public class HoldArgumentAction<T> implements Action<T> {
     private T argument;
     
     @Override
-    public void execute(T args) {
+    public void onEvent(T args) {
 	argument = args;
     }
     

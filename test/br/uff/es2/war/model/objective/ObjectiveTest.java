@@ -33,7 +33,7 @@ public class ObjectiveTest {
     private Game game;
     private SortedSet<Objective> objectives;
     private Player[] players;
-    private Set<Color> colors;
+    private Color[] colors;
 
     public ObjectiveTest() throws NonexistentEntityException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
@@ -42,19 +42,26 @@ public class ObjectiveTest {
         objectives = new TreeSet<>(new ObjectiveComparator());
         objectives.addAll(wc.getObjectives());
         players = new Player[6];
-        colors = wc.getColors();
-
-        for (int i = 0; i < players.length; i++) {
-            players[i] = new DumbPlayer(Color.values()[i], i);
+        colors = new Color[wc.getColors().size()];
+        
+        int i = 0;
+        for (Color color : wc.getColors()) {
+            colors[i] = color;
+            i++;
         }
         
-        game = new Game(players, world);
+
+        for (i = 0; i < players.length; i++) {
+            players[i] = new DumbPlayer(colors[i], i);
+        }
+        
+        game = new Game(players, world, colors, null);
         world.distributeTerritories(players, game);
     }
 
     @Test
     public void COUNT_COLORS() {
-        assertEquals(6, colors.size());
+        assertEquals(6, colors.length);
     }
 
     @Test

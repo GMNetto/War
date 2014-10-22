@@ -160,7 +160,7 @@ public class GameLoader {
         this.iDOfColor = new HashMap<>();
         Color color;
         for (Cor cor : mundo.getCorCollection()) {
-            color = Color.valueOf(cor.getNome());
+            color = new Color(cor.getNome());
             colors.add(color);
             iDOfColor.put(color, cor);
         }

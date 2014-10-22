@@ -49,7 +49,7 @@ public class LocalEventBus implements EventBus {
 	for(Object item : actions){
 	    @SuppressWarnings("unchecked")
 	    Action<Object> action = (Action<Object>) item;
-	    action.execute(event);
+	    action.onEvent(event);
 	}
     }
 }
