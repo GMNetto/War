@@ -10,6 +10,9 @@ import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.entity.Mundo;
 import br.uff.es2.war.entity.Objetivo;
 import br.uff.es2.war.entity.Partida;
+import br.uff.es2.war.ia.attack.probability.AttackProbability;
+import br.uff.es2.war.ia.attack.probability.AttackProbabilityFactory;
+import br.uff.es2.war.ia.attack.probability.ProbabilityTriple;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
@@ -110,7 +113,8 @@ public class Teste {
 
     }
 
-    public static void main(String[] args) throws NonexistentEntityException {
+    public static void main(String[] args) throws NonexistentEntityException, Exception {
+        /*
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
         EntityManager manager = factory.createEntityManager();
         GameLoader gl = new GameLoader(0, factory);
@@ -126,7 +130,20 @@ public class Teste {
         System.out.println("oi");
         System.out.println("Novo Código: " + ((int) query.getResultList().get(0) + 1));
 
-        //System.out.println(count);
+        */
+
+        AttackProbabilityFactory probabilityFactory = new AttackProbabilityFactory();
+        int n = 100;
+        for (int i = 2; i < n + 2; i++) {
+            for (int j = 1; j < n + 1; j++) {
+                System.out.println("Attacker:\t" + (i - 1) + "\tDefenders:\t" + j);
+                AttackProbability attackProbability = probabilityFactory.getAttackProbability(new ProbabilityTriple(i, j, 1));
+                System.out.println("Probabilidade do Ataque vencer:\t" + attackProbability.getAttackerWins());
+                System.out.println("Probabilidade da Defesa vencer:\t" + attackProbability.getDefenderWins());
+                System.out.println("Total:\t\t\t" + (attackProbability.getAttackerWins() + attackProbability.getDefenderWins()));
+                System.out.println("");
+            }
+        }
     }
 
 }
