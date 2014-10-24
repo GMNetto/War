@@ -21,7 +21,11 @@ public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy{
         // ações de inicialização bloquear clique, trocar icone do cursor e modificar opacidade do circulo
         jc.desbloqueiaTerritorios(jc.getTerritorios());
         jc.bloqueiaTerririosAdversarios();
-        
+        jc.getAlocaController().actionMovimenta();
+        jc.getAlocaController().setTerritorioDestino(null);
+        jc.getAlocaController().setTerritorioOrigem(null); 
+        jc.getAlocaController().esconde();
+        jc.getAlocaController().escondeMov();
     }
     @Override
     public void AcaoBotao(TerritorioUI ter) {
@@ -35,6 +39,8 @@ public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy{
         else{
             jc.getAlocaController().setTerritorioOrigem(ter);
             jc.bloqueiaTerririosNaoVizinhosAdversarios(ter);
+            jc.getAlocaController().centralizaMov(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
+            jc.getAlocaController().mostraMov();
         }
         
        
