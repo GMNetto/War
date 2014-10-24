@@ -7,9 +7,11 @@ package br.uff.es2.war.view;
 
 import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
+import br.uff.es2.war.entity.Continente;
 import br.uff.es2.war.entity.Mundo;
 import br.uff.es2.war.entity.Objetivo;
 import br.uff.es2.war.entity.Partida;
+import br.uff.es2.war.entity.Territorio;
 import br.uff.es2.war.ia.attack.probability.AttackProbability;
 import br.uff.es2.war.ia.attack.probability.AttackProbabilityFactory;
 import br.uff.es2.war.ia.attack.probability.ProbabilityTriple;
@@ -114,7 +116,7 @@ public class Teste {
     }
 
     public static void main(String[] args) throws NonexistentEntityException, Exception {
-        /*
+        
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
         EntityManager manager = factory.createEntityManager();
         GameLoader gl = new GameLoader(0, factory);
@@ -123,17 +125,28 @@ public class Teste {
         List<Objective> objectives = new ArrayList<>(gl.getObjectives());
 
         //Query query = manager.createQuery("select codPartida from Partida as p where p.codPartida = (select max(codPartida) from Partida)");
-        Query query = manager.createQuery("select max(codPartida) from Partida as Integer");
+        Query query = manager.createQuery("select max(p.codPartida) from Partida as p");
         //query.setParameter("cod", 1);
 
         //List<Partida> list = query.getFirstResult();
         System.out.println("oi");
         System.out.println("Novo Código: " + ((int) query.getResultList().get(0) + 1));
-
-        */
+        
+        Mundo mundo = manager.find(Mundo.class, 0);
+        System.out.println("");
+        System.out.println(mundo.getNome());
+        System.out.println("");
+        for (Continente continente : mundo.getContinenteCollection()) {
+            System.out.println(continente.getNome());
+            for (Territorio territorio : continente.getTerritorioCollection()) {
+                System.out.println("----> " + territorio.getNome());
+            }
+            System.out.println("");
+        }
+        
 
         AttackProbabilityFactory probabilityFactory = new AttackProbabilityFactory();
-        int n = 100;
+        int n = 0;
         for (int i = 2; i < n + 2; i++) {
             for (int j = 1; j < n + 1; j++) {
                 System.out.println("Attacker:\t" + (i - 1) + "\tDefenders:\t" + j);

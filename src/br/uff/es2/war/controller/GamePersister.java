@@ -15,14 +15,11 @@ import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.objective.Objective;
-import br.uff.es2.war.view.Teste;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
@@ -37,7 +34,6 @@ public class GamePersister {
     private Map<Player, Integer> iDPlayers;
     private Map<Objective, Objetivo> iDObjectives;
     private Map<Color, Cor> iDColors;
-    private EntityManagerFactory factory;
     private EntityManager manager;
 
     private Game game;
@@ -50,7 +46,6 @@ public class GamePersister {
         this.iDPlayers = iDPlayers;
         this.iDObjectives = iDObjectives;
         this.iDColors = iDColors;
-        this.factory = factory;
         this.manager = factory.createEntityManager();
         this.game = game;
         this.partida = new Partida(0);//Carregar código do banco como se fosse auto-increment
@@ -97,8 +92,7 @@ public class GamePersister {
     }
 
     public int addPartida() {
-        @SuppressWarnings("JPQLValidation")
-        Query query = manager.createQuery("select max(codPartida) from Partida as Integer");
+        Query query = manager.createQuery("select max(p.codPartida) from Partida as p");
         int code = ((int) query.getResultList().get(0) + 1);
         this.partida = new Partida(code, game.getStartDate(), game.getPlayers().length, game.getNumberOfTurns());
         return code;

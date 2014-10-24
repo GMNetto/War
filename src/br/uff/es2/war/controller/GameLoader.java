@@ -11,19 +11,25 @@ import br.uff.es2.war.entity.Cor;
 import br.uff.es2.war.entity.Mundo;
 import br.uff.es2.war.entity.Objetivo;
 import br.uff.es2.war.entity.Territorio;
+import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 import br.uff.es2.war.model.objective.FullObjectiveFactory;
 import br.uff.es2.war.model.objective.Objective;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Point2D;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 
 /**
  * This class is used to load a game from the persistence. It is able to load
@@ -73,6 +79,11 @@ public class GameLoader {
     private Map<Objective, Objetivo> iDObjectives;
 
     /**
+     * A {@link List} of {@link Card}s to be used on the game.
+     */
+    private List<Card> cards;
+
+    /**
      * Default constructor with the needed parameters.
      *
      * @param worldID the world's id in the database
@@ -96,6 +107,7 @@ public class GameLoader {
         loadWorld(mundo);
         loadObjectives(mundo);
         loadColors(mundo);
+        loadJokers(manager);
         manager.close();
     }
 
@@ -131,6 +143,7 @@ public class GameLoader {
         }
 
         this.territoryPoint = new HashMap<>();
+        this.cards = new ArrayList<>(territories.size() + 2);
         for (Territorio territory : territories) {
             t = territoryByName.get(territory.getNome());
             for (Territorio neighbor : territory.getTerritorioCollection()) {
@@ -140,6 +153,8 @@ public class GameLoader {
                 t.addBorder(territoryByName.get(neighbor.getNome()));
             }
             territoryPoint.put(t, new Point2D(territory.getPosicaoX(), territory.getPosicaoY()));
+
+            loadCard(territory, t);
         }
     }
 
@@ -163,6 +178,30 @@ public class GameLoader {
             color = new Color(cor.getNome());
             colors.add(color);
             iDOfColor.put(color, cor);
+        }
+    }
+
+    /**
+     * Load a card from a {@link Territory}.
+     *
+     * @param territorio the {@link Territorio}
+     * @param territory the {@link Territory}
+     */
+    private void loadCard(Territorio territorio, Territory territory) {
+        cards.add(new Card(territorio.getCarta().getForma(), territory));
+    }
+
+    private void loadJokers(EntityManager manager) {
+        Query query = manager.createQuery("select count(c.codCarta) from Carta as c where c.codTerritorio = null");
+        Long size = null;
+        try {
+            size = (Long) query.getResultList().get(0);
+        } catch (Exception ex) {
+            Logger.getLogger(GameLoader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for (int i = 0; size != null && i < size.intValue(); i++) {
+            cards.add(new Card(0, null));
         }
     }
 
@@ -210,10 +249,19 @@ public class GameLoader {
      * Getter for a {@link Set} of possible {@link Color}s to be used on the
      * game.
      *
-     * @return A {@link Set} of possible {@link Color}s to be used on the game
+     * @return a {@link Set} of possible {@link Color}s to be used on the game
      */
     public Set<Color> getColors() {
         return colors;
+    }
+
+    /**
+     * Getter for a {@link List} of {@link Card}s to be used on the game.
+     *
+     * @return a {@link List} of {@link Card}s to be used on the game
+     */
+    public List<Card> getCards() {
+        return cards;
     }
 
     /**

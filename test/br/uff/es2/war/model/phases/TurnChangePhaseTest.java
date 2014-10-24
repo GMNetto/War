@@ -45,6 +45,6 @@ public class TurnChangePhaseTest extends GamePhaseTest{
 	phase.execute(game);
 	Player previous = game.getCurrentPlayer();
 	phase.execute(game);
-	assertNotEquals(previous, game.getCurrentPlayer());
+	assertFalse(previous == game.getCurrentPlayer());
     }
 }
