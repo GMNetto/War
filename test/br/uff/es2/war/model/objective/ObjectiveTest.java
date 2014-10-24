@@ -37,15 +37,15 @@ public class ObjectiveTest {
 
     public ObjectiveTest() throws NonexistentEntityException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
-        GameLoader wc = new GameLoader(0, factory);
-        world = wc.getWorld();
+        GameLoader gl = new GameLoader(0, factory);
+        world = gl.getWorld();
         objectives = new TreeSet<>(new ObjectiveComparator());
-        objectives.addAll(wc.getObjectives());
+        objectives.addAll(gl.getObjectives());
         players = new Player[6];
-        colors = new Color[wc.getColors().size()];
+        colors = new Color[gl.getColors().size()];
         
         int i = 0;
-        for (Color color : wc.getColors()) {
+        for (Color color : gl.getColors()) {
             colors[i] = color;
             i++;
         }
@@ -55,7 +55,7 @@ public class ObjectiveTest {
             players[i] = new DumbPlayer(colors[i], i);
         }
         
-        game = new Game(players, world, colors, null);
+        game = new Game(players, world, colors, gl.getCards());
         world.distributeTerritories(players, game);
     }
 
@@ -269,6 +269,14 @@ public class ObjectiveTest {
             territory.setOwner(source);
         }
     }
+    
+    private Player getPlayerByColor(Color color) {
+        for (Player player : players) {
+            if (player.getColor().equals(color))
+                return player;
+        }
+        return null;
+    }
 
     /**
      * Destruir totalmente os EXÉRCITOS AMARELOS se é vocé quem possui os
@@ -278,10 +286,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_YELLOW() {
-        Player player = players[0];
+        Player player = getPlayerByColor(new Color("Preto"));
         player.setObjective((Objective) objectives.toArray()[8]);
 
-        destroyPlayer(player, players[5]);
+        destroyPlayer(player, getPlayerByColor(new Color("Amarelo")));
 
         assertTrue(player.getObjective().wasAchieved());
     }
@@ -294,10 +302,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_BLUE() {
-        Player player = players[0];
+        Player player = getPlayerByColor(new Color("Preto"));
         player.setObjective((Objective) objectives.toArray()[9]);
 
-        destroyPlayer(player, players[1]);
+        destroyPlayer(player, getPlayerByColor(new Color("Azul")));
 
         assertTrue(player.getObjective().wasAchieved());
     }
@@ -310,10 +318,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_WHITE() {
-        Player player = players[0];
+        Player player = getPlayerByColor(new Color("Preto"));
         player.setObjective((Objective) objectives.toArray()[10]);
 
-        destroyPlayer(player, players[4]);
+        destroyPlayer(player, getPlayerByColor(new Color("Branco")));
 
         assertTrue(player.getObjective().wasAchieved());
     }
@@ -326,10 +334,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_BLACK() {
-        Player player = players[1];
+        Player player = getPlayerByColor(new Color("Branco"));
         player.setObjective((Objective) objectives.toArray()[11]);
 
-        destroyPlayer(player, players[0]);
+        destroyPlayer(player, getPlayerByColor(new Color("Preto")));
 
         assertTrue(player.getObjective().wasAchieved());
     }
@@ -342,10 +350,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_GREE() {
-        Player player = players[0];
+        Player player = getPlayerByColor(new Color("Preto"));
         player.setObjective((Objective) objectives.toArray()[12]);
 
-        destroyPlayer(player, players[2]);
+        destroyPlayer(player, getPlayerByColor(new Color("Verde")));
 
         assertTrue(player.getObjective().wasAchieved());
     }
@@ -358,10 +366,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_RED() {
-        Player player = players[0];
+        Player player = getPlayerByColor(new Color("Preto"));
         player.setObjective((Objective) objectives.toArray()[13]);
 
-        destroyPlayer(player, players[3]);
+        destroyPlayer(player, getPlayerByColor(new Color("Vermelho")));
 
         assertTrue(player.getObjective().wasAchieved());
     }
@@ -374,7 +382,7 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_BLACK_ALTERNATIVE() {
-        Player player = players[0];
+        Player player = getPlayerByColor(new Color("Preto"));
         player.setObjective((Objective) objectives.toArray()[11]);
         ((FullObjective) player.getObjective()).switchToAlternativeObjective();
 

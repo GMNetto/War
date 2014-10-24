@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package br.uff.es2.war.model;
 
 import br.uff.es2.war.controller.GameLoader;
@@ -34,7 +33,7 @@ import org.junit.Test;
  *
  * @author Victor Guimarães
  */
-public class PersistenceTest {
+public class GamePersisterTest {
 
     private GameLoader gameLoader;
     private GamePersister gamePersister;
@@ -42,16 +41,16 @@ public class PersistenceTest {
     private Player[] players;
     private EntityManagerFactory factory;
     private Map<Player, Integer> iDPlayers;
-    
-    public PersistenceTest() throws NonexistentEntityException {
+
+    public GamePersisterTest() throws NonexistentEntityException {
         factory = Persistence.createEntityManagerFactory("WarESIIPU");
         this.gameLoader = new GameLoader(0, factory);
-        
+
         EntityManager manager = factory.createEntityManager();
-        Query query = manager.createQuery("select max(codJogador) from Jogador as Integer");
+        Query query = manager.createQuery("select max(j.codJogador) from Jogador as j");
         int startCode = ((int) query.getResultList().get(0) + 1);
         manager.close();
-        
+
         players = new Player[6];
         iDPlayers = new HashMap<>();
         Iterator<Color> cls = gameLoader.getColors().iterator();
@@ -61,9 +60,9 @@ public class PersistenceTest {
             iDPlayers.put(players[i], startCode);
             startCode++;
         }
-        
+
         List<Objective> objectives = new ArrayList<>(gameLoader.getObjectives());
-        
+
         Random random = new Random();
         int r;
         for (Player player : players) {
@@ -71,15 +70,22 @@ public class PersistenceTest {
             player.setObjective(objectives.get(r));
             objectives.remove(r);
         }
-        
-        this.game = new Game(players, gameLoader.getWorld(), null, null);
+
+        Color[] colors = new Color[gameLoader.getColors().size()];
+        int i = 0;
+        for (Color color : gameLoader.getColors()) {
+            colors[i] = color;
+            i++;
+        }
+
+        this.game = new Game(players, gameLoader.getWorld(), colors, gameLoader.getCards());
         this.gamePersister = new GamePersister(gameLoader.getiDOfTerritory(), iDPlayers, gameLoader.getiDObjectives(), gameLoader.getiDOfColor(), game, factory);
         persistPlayers();
     }
-    
+
     private void persistPlayers() {
         EntityManager manager = factory.createEntityManager();
-        
+
         Jogador jog;
         int code;
         manager.getTransaction().begin();
@@ -91,36 +97,55 @@ public class PersistenceTest {
         manager.getTransaction().commit();
         manager.close();
     }
-    
+
     @Test
     public void TEST_PERSIST_GAME() throws Exception {
         int code = gamePersister.addPartida();
         gamePersister.addJogam();
         World w = gameLoader.getWorld();
         w.distributeTerritories(players, game);
-        
+
         for (Continent continent : w) {
             for (Territory territory : continent) {
                 gamePersister.addOcupacao(territory);
             }
         }
-        
+
         gamePersister.persist();
-        
+
         EntityManager manager = factory.createEntityManager();
         Partida partida = manager.find(Partida.class, code);
-        
+
         assertEquals(gamePersister.getPartida(), partida);
-        
-        Query query = manager.createQuery("select j from Jogam as j join j.jogador jog join j.partida part "
-                + "where part.codPartida = " + code);
-        
-        List<Jogam> jogs = query.getResultList();
-        
+
+        Query query = manager.createQuery("SELECT DISTINCT j from Jogador j JOIN j.jogamCollection jg WHERE jg.partida.codPartida = :key").setParameter("key", code);
+        List<Jogador> jogs = query.getResultList();
+
         assertEquals(players.length, jogs.size());
-        
-        for (Jogam jogam : jogs) {
-            assertTrue(iDPlayers.values().contains(jogam.getJogador().getCodJogador()));
+
+        for (Jogador j : jogs) {
+            assertTrue(iDPlayers.values().contains(j.getCodJogador()));
+        }
+
+        try {
+            manager.getTransaction().begin();
+
+            for (Jogador j : jogs) {
+                manager.remove(j);
+            }
+
+            manager.remove(manager.find(Partida.class, code));
+            query = manager.createQuery("SELECT jg from Jogam jg WHERE jg.partida.codPartida = :key").setParameter("key", code);
+            List<Jogam> jogam = query.getResultList();
+            for (Jogam joga : jogam) {
+                manager.remove(joga);
+            }
+            
+            manager.getTransaction().commit();
+            assertTrue(true);
+        } catch (Exception ex) {
+            if (manager.getTransaction().isActive())
+                manager.getTransaction().rollback();
         }
     }
 }
