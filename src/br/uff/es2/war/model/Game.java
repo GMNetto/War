@@ -10,6 +10,7 @@ import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.util.CyclicIterator;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Holds the state of a War game. The game is updated by the players during the
@@ -19,7 +20,6 @@ import java.util.Iterator;
  */
 public class Game {
     
-    private static final int[] EXCHANGE_BONUS = new int[]{1,2,3,4,5}; 
     private final EventBus events;
     private final Player[] players;
     private final Color[] colors;
@@ -110,10 +110,25 @@ public class Game {
     }
 
     public int getExchangeBonus() {
-	return EXCHANGE_BONUS[exchange];
+        if (exchange < 5) {
+            return (4 + 2 * exchange);
+        } else {
+            return (5 * (exchange - 2));
+        }
     }
     
     public int getNumberOfTurns() {
 	return turns.getCycles();
+    }
+    
+    public void distributeTerritoriesFotPlayers() {
+        CyclicIterator<Player> iterator = new CyclicIterator<>(players);
+        List<Territory> territories = new LinkedList<>(world.getTerritories());
+        Collections.shuffle(territories);
+        while (!territories.isEmpty()) {
+            Territory territory = territories.remove(0);
+            territory.setOwner(iterator.next());
+            territory.addSoldiers(1);
+        }
     }
 }

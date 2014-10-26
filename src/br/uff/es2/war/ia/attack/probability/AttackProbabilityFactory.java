@@ -43,10 +43,16 @@ public class AttackProbabilityFactory {
     public AttackProbability getAttackProbability(ProbabilityTriple probability) {
         AttackProbability attackProbability = probabilities.get(probability);
         if (attackProbability == null) {
-            TreeNode<ProbabilityTriple> root = new TreeNode<>();
-            root.setValue(probability);
-            attackProbability = getAttackProbability(root);
-            probabilities.put(probability, attackProbability);
+            if (probability.getAttackerSoldiers() == 1) {
+                attackProbability = new AttackProbability(probability.getAttackerSoldiers(), probability.getDefenderSoldiers());
+                attackProbability.setAttackerWins(0);
+                attackProbability.setDefenderWins(1);
+            } else {
+                TreeNode<ProbabilityTriple> root = new TreeNode<>();
+                root.setValue(probability);
+                attackProbability = getAttackProbability(root);
+                probabilities.put(probability, attackProbability);
+            }
         }
 
         return attackProbability;

@@ -103,7 +103,7 @@ public class GamePersisterTest {
         int code = gamePersister.addPartida();
         gamePersister.addJogam();
         World w = gameLoader.getWorld();
-        w.distributeTerritories(players, game);
+        game.distributeTerritoriesFotPlayers();
 
         for (Continent continent : w) {
             for (Territory territory : continent) {

@@ -56,7 +56,7 @@ public class ObjectiveTest {
         }
         
         game = new Game(players, world, colors, gl.getCards());
-        world.distributeTerritories(players, game);
+        game.distributeTerritoriesFotPlayers();
     }
 
     @Test

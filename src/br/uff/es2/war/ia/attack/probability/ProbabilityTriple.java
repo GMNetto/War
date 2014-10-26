@@ -22,8 +22,18 @@ public class ProbabilityTriple extends Triple<Integer, Integer, Double> {
      * @param defenderSoldiers the number of defending soldiers
      * @param probability the probability of attacker's success
      */
-    public ProbabilityTriple(int attackerSoldiers, int defenderSoldiers, double probability) {
+    ProbabilityTriple(int attackerSoldiers, int defenderSoldiers, double probability) {
         super(attackerSoldiers, defenderSoldiers, probability);
+    }
+    
+    /**
+     * Constructor with all external parameters.
+     *
+     * @param attackerSoldiers the number of attacking soldiers
+     * @param defenderSoldiers the number of defending soldiers
+     */
+    public ProbabilityTriple(int attackerSoldiers, int defenderSoldiers) {
+        this(attackerSoldiers, defenderSoldiers, 1.0);
     }
 
     /**

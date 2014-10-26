@@ -17,6 +17,7 @@ import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.objective.Objective;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -40,12 +41,14 @@ public class BasicBot implements Player {
     private AttackStrategy attackStrategy;
     private AllocationStrategy allocationInstruction;
     private RearrangeStrategy relocationStrategy;
+    private Collection<Card> cards;
 
     public BasicBot(Jogador jogador, AttackStrategy attackStrategy, AllocationStrategy allocationInstruction, RearrangeStrategy relocationStrategy) {
         this.jogador = jogador;
         this.attackStrategy = attackStrategy;
         this.allocationInstruction = allocationInstruction;
         this.relocationStrategy = relocationStrategy;
+        this.cards = new HashSet<>();
     }
 
     public BasicBot(Game game, Jogador jogador, AttackStrategy attackStrategy, AllocationStrategy allocationInstruction, RearrangeStrategy relocationStrategy) {
@@ -105,12 +108,12 @@ public class BasicBot implements Player {
 
     @Override
     public void addCard(Card drawCard) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        cards.add(drawCard);
     }
 
     @Override
     public Collection<Card> getCards() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return cards;
     }
 
     @Override
@@ -123,8 +126,6 @@ public class BasicBot implements Player {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
-    
     @Override
     public void setGame(Game game) {
         this.game = game;
