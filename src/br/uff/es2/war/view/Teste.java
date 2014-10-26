@@ -12,11 +12,11 @@ import br.uff.es2.war.entity.Mundo;
 import br.uff.es2.war.entity.Objetivo;
 import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.entity.Territorio;
-import br.uff.es2.war.ia.BasicBot;
-import br.uff.es2.war.ia.attack.probability.AttackProbability;
-import br.uff.es2.war.ia.attack.probability.AttackProbabilityFactory;
-import br.uff.es2.war.ia.attack.probability.ProbabilityTriple;
-import br.uff.es2.war.ia.strategies.WeightEquationTerritoryValue;
+import br.uff.es2.war.ai.BasicBot;
+import br.uff.es2.war.ai.attack.probability.AttackProbability;
+import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
+import br.uff.es2.war.ai.attack.probability.ProbabilityTriple;
+import br.uff.es2.war.ai.strategies.WeightEquationTerritoryValue;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Game;
@@ -153,11 +153,11 @@ public class Teste {
 
     public static void testAttackProbabilities() {
         AttackProbabilityFactory probabilityFactory = new AttackProbabilityFactory();
-        int n = 50;
+        int n = 10;
         for (int i = 1; i < n + 2; i++) {
             for (int j = 1; j < n + 1; j++) {
-                System.out.println("Attacker:\t" + (i - 1) + "\tDefenders:\t" + j);
-                AttackProbability attackProbability = probabilityFactory.getAttackProbability(new ProbabilityTriple(i, j));
+                System.out.println("Attacker:\t" + i + "\tDefenders:\t" + j);
+                AttackProbability attackProbability = probabilityFactory.getAttackProbability(i, j);
                 System.out.println("Probabilidade do Ataque vencer:\t" + attackProbability.getAttackerWins());
                 System.out.println("Probabilidade da Defesa vencer:\t" + attackProbability.getDefenderWins());
                 System.out.println("Total:\t\t\t" + (attackProbability.getAttackerWins() + attackProbability.getDefenderWins()));
@@ -174,11 +174,8 @@ public class Teste {
 
     public static void main(String[] args) throws NonexistentEntityException, Exception {
         AttackProbabilityFactory probabilityFactory = new AttackProbabilityFactory();
-        AttackProbability attackProbability = probabilityFactory.getAttackProbability(new ProbabilityTriple(10, 10));
-        System.out.println("Probabilidade do Ataque vencer:\t" + attackProbability.getAttackerWins());
-        System.out.println("Probabilidade da Defesa vencer:\t" + attackProbability.getDefenderWins());
-        System.out.println("Total:\t\t\t" + (attackProbability.getAttackerWins() + attackProbability.getDefenderWins()));
-        testAttackProbabilities();
+        System.out.println(probabilityFactory.getAttackProbability(50, 30));
+        //testAttackProbabilities();
         //botTest();
     }
 
@@ -219,7 +216,7 @@ public class Teste {
             weses[i] = new WeightEquationTerritoryValue(game, players[i], 2, 0.5, 0.7, 0.5, 1.0, 1.5);
         }
         System.out.println("\n\n");
-        game.distributeTerritoriesFotPlayers();
+        game.distributeTerritories();
 
         for (i = 0; i < players.length; i++) {
             System.out.println("Player: " + players[i].getColor().getName());

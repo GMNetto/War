@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uff.es2.war.ia;
+package br.uff.es2.war.ai;
 
 import br.uff.es2.war.entity.Jogador;
-import br.uff.es2.war.ia.strategies.attack.AttackStrategy;
-import br.uff.es2.war.ia.strategies.attack.allocation.AllocationStrategy;
-import br.uff.es2.war.ia.strategies.rearrange.RearrangeStrategy;
+import br.uff.es2.war.ai.strategies.attack.AttackStrategy;
+import br.uff.es2.war.ai.strategies.attack.allocation.AllocationStrategy;
+import br.uff.es2.war.ai.strategies.rearrange.RearrangeStrategy;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;

@@ -30,4 +30,11 @@ public class Color {
 	    return false;
 	}
     }
+
+    @Override
+    public String toString() {
+        return "Color: " + name;
+    }
+    
+    
 }

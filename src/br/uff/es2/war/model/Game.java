@@ -17,9 +17,10 @@ import java.util.LinkedList;
  * execution of the game phases.
  *
  * @author Arthur Pitzer
+ * @author Victor Guimarães
  */
 public class Game {
-    
+
     private final EventBus events;
     private final Player[] players;
     private final Color[] colors;
@@ -31,58 +32,58 @@ public class Game {
     private int exchange;
     private Date startDate;
     private Date endDate;
-    
+
     public Game(Player[] players, World world, Color[] colors, List<Card> cards) {
-	events = new LocalEventBus();
-	exchange = 0;
-	Collections.shuffle(cards);
-	this.players = players;
-	this.world = world;
-	this.colors = colors;
-	this.cards = cards;
-	turns = new CyclicIterator<Player>(players);
+        events = new LocalEventBus();
+        exchange = 0;
+        Collections.shuffle(cards);
+        this.players = players;
+        this.world = world;
+        this.colors = colors;
+        this.cards = cards;
+        turns = new CyclicIterator<Player>(players);
         startDate = new Date();
     }
 
     public Player[] getPlayers() {
         return players;
     }
-    
+
     public Color[] getColors() {
-	return colors;
+        return colors;
     }
-    
-    public World getWorld(){
-	return world;
+
+    public World getWorld() {
+        return world;
     }
-    
-    public Card drawCard(){
-	return cards.remove(0);
+
+    public Card drawCard() {
+        return cards.remove(0);
     }
-    
-    public void passTurn(){
-	if(turns.hasNext())
-	    currentPlayer = turns.next();
+
+    public void passTurn() {
+        if (turns.hasNext())
+            currentPlayer = turns.next();
     }
 
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
-    
+
     public EventBus getEvents() {
-	return events;
+        return events;
     }
-    
-    public boolean isOver(){
-	if(winner != null)
-	    return true;
-	for(Player player : players){
-	    if(player.getObjective().wasAchieved()){
-		winner = player;
-		return true;
-	    }
-	}
-	return false;
+
+    public boolean isOver() {
+        if (winner != null)
+            return true;
+        for (Player player : players) {
+            if (player.getObjective().wasAchieved()) {
+                winner = player;
+                return true;
+            }
+        }
+        return false;
     }
 
     public Date getStartDate() {
@@ -102,11 +103,11 @@ public class Game {
     }
 
     public void addCard(Card card) {
-	cards.add(card);
+        cards.add(card);
     }
 
     public void incrementExchangeCounter() {
-	exchange++;
+        exchange++;
     }
 
     public int getExchangeBonus() {
@@ -116,12 +117,15 @@ public class Game {
             return (5 * (exchange - 2));
         }
     }
-    
+
     public int getNumberOfTurns() {
-	return turns.getCycles();
+        return turns.getCycles();
     }
-    
-    public void distributeTerritoriesFotPlayers() {
+
+    /**
+     * Distribute the {@link Territory}is randomly for the {@link Player}s.
+     */
+    public void distributeTerritories() {
         CyclicIterator<Player> iterator = new CyclicIterator<>(players);
         List<Territory> territories = new LinkedList<>(world.getTerritories());
         Collections.shuffle(territories);

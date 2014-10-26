@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uff.es2.war.ia.attack.probability;
+package br.uff.es2.war.ai.attack.probability;
 
 import br.uff.es2.war.util.Triple;
 import java.util.Objects;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uff.es2.war.ia.attack.probability;
+package br.uff.es2.war.ai.attack.probability;
 
 import br.uff.es2.war.util.TreeNode;
 import java.util.HashMap;
@@ -26,12 +26,71 @@ public class AttackProbabilityFactory {
     private Map<ProbabilityTriple, AttackProbability> probabilities;
 
     /**
+     * Represents the biggest key on the {@link Map} of probabilities.
+     */
+    private int biggestKey = 1;
+    
+    /**
      * Default constructor.
      */
     public AttackProbabilityFactory() {
         probabilities = new HashMap<>();
     }
 
+    /**
+     * A table with attack probabilities. In this case, the probabilities of
+     * attacking with 3 soldiers against a number of defenders (row number + 1)
+     * and the probability of killing a number of soldiers (column number).
+     */
+    public static final double[][] TABLE_PROBABILITY_3_ATTACKERS = {
+        {(441.0 / 1296.0), (855.0 / 1296.0)},
+        {(2275.0 / 7776.0), (2611.0 / 7776.0), (2890.0 / 7776.0)},
+        {(17871.0 / 46656.0), (12348.0 / 46656.0), (10017.0 / 46656.0), (6420.0 / 46656.0)},};
+
+    /**
+     * A table with attack probabilities. In this case, the probabilities of
+     * attacking with 2 soldiers against a number of defenders (row number + 1)
+     * and the probability of killing a number of soldiers (column number).
+     */
+    public static final double[][] TABLE_PROBABILITY_2_ATTACKERS = {
+        {(91.0 / 216.0), (125.0 / 216.0)},
+        {(581.0 / 1296.0), (420.0 / 1296.0), (295.0 / 1296.0)},
+        {(4816.0 / 7776.0), (1981.0 / 7776.0), (979.0 / 7776.0)},};
+
+    /**
+     * A table with attack probabilities. In this case, the probabilities of
+     * attacking with a soldier against a number of defenders (row number + 1)
+     * and the probability of killing a number of soldiers (column number).
+     */
+    public static final double[][] TABLE_PROBABILITY_1_ATTACKER = {
+        {(21.0 / 36.0), (15.0 / 36.0)},
+        {(161.0 / 216.0), (55.0 / 216.0)},
+        {(1071.0 / 1296.0), (225.0 / 1296.0)},};
+
+    /**
+     * Getter for an {@link AttackProbability} which contains the probabilities
+     * of win or lose an specific attack.
+     *
+     * @param attackSoldiers the attacker's initial number of soldiers
+     * @param defenderSoldiers the defender's initial number of soldiers
+     * @return an {@link AttackProbability} which contains the probabilities of
+     * win or lose an specific attack
+     */
+    public AttackProbability getAttackProbability(int attackSoldiers, int defenderSoldiers) {
+        int aux = Math.max(attackSoldiers, defenderSoldiers);
+        
+        if (aux > biggestKey) {
+            for (int i = 1; i < aux + 2; i++) {
+                for (int j = 1; j < aux + 1; j++) {
+                    getAttackProbability(new ProbabilityTriple(i, j));
+                }
+            }
+            biggestKey = aux;
+        }
+        
+        return getAttackProbability(new ProbabilityTriple(attackSoldiers, defenderSoldiers));
+    }
+    
     /**
      * Getter for an {@link AttackProbability} which contains the probabilities
      * of win or lose an specific attack.
@@ -40,7 +99,7 @@ public class AttackProbabilityFactory {
      * @return an {@link AttackProbability} which contains the probabilities of
      * win or lose an specific attack
      */
-    public AttackProbability getAttackProbability(ProbabilityTriple probability) {
+    private AttackProbability getAttackProbability(ProbabilityTriple probability) {
         AttackProbability attackProbability = probabilities.get(probability);
         if (attackProbability == null) {
             if (probability.getAttackerSoldiers() == 1) {

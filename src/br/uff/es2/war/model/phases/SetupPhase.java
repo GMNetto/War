@@ -28,7 +28,7 @@ public class SetupPhase implements GameState<Game> {
     public GameState<Game> execute(Game game) {
 	this.game = game;
 	readColors();
-	game.distributeTerritoriesFotPlayers();
+	game.distributeTerritories();
 	for (Player player : game.getPlayers()) {
 	    player.setGame(game);
 	    player.setObjective(randomObjective());

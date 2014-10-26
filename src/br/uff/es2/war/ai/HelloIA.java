@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package br.uff.es2.war.ia;
+package br.uff.es2.war.ai;
 
 /**
  *

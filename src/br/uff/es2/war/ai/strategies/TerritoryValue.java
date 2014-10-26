@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uff.es2.war.ia.strategies;
+package br.uff.es2.war.ai.strategies;
 
 import br.uff.es2.war.model.Territory;
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uff.es2.war.ia.attack.probability;
+package br.uff.es2.war.ai.attack.probability;
 
 /**
  * Class that calculates the probability of success or failed on a attack.
@@ -127,4 +127,9 @@ public class AttackProbability {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "AttackerSoldiers: " + attackerSoldiers + ", DefenderSoldiers: " + defenderSoldiers + ", AttackerWins: " + attackerWins + ", DefenderWins: " + defenderWins;
+    }
+    
 }
