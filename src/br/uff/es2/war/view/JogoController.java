@@ -25,10 +25,10 @@ public class JogoController {
 
     private AcaoTerritorioStrategy acaoTerr;
             
-    public JogoController(int jogador, Pane pane_aloca, Button btn_aloca_mais, Button btn_aloca_cancel, Button btn_aloca_menos, Button btn_aloca_ok) {
+    public JogoController(int jogador, Pane pane_aloca, Pane pane_mov) {
         this.jogador = jogador;
         this.raio=10;
-        this.ac = new AlocaController(pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok, raio, this);
+        this.ac = new AlocaController(pane_aloca,pane_mov, raio, this);
         
         
         inicializaParaTestes();

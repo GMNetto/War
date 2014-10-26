@@ -23,6 +23,7 @@ public class TerritorioUI {
     private int dono; // modelo possui
     private int qtd; //modelo possui
     private boolean bloqueado;
+    private int qtdMov;
     
     private List<TerritorioUI> viz; //como integrar a representação do modelo com a da interface?
     
@@ -37,12 +38,14 @@ public class TerritorioUI {
     public void bloqueia(){
         this.circulo.setOpacity(0.5);
         this.circulo.setCursor(Cursor.CLOSED_HAND);
+        this.texto.setCursor(Cursor.CLOSED_HAND);
         this.bloqueado=true;
     }
     
     public void desbloqueia(){
         this.circulo.setOpacity(1);
         this.circulo.setCursor(Cursor.HAND);
+        this.texto.setCursor(Cursor.HAND);
         this.bloqueado=false;
         
     }
@@ -83,6 +86,15 @@ public class TerritorioUI {
         this.qtd = qtd;
         this.texto.setText(qtd+"");
     }
+
+    public int getQtdMov() {
+        return qtdMov;
+    }
+
+    public void setQtdMov(int qtdMov) {
+        this.qtdMov = qtdMov;
+    }
+    
     
     //comapara no modelo
     public boolean isDono(int d){

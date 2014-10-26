@@ -53,13 +53,10 @@ public class TelaJogoController implements Initializable {
     @FXML
     private Pane pane_aloca;
     @FXML
-    private Button btn_aloca_mais;
+    private Pane pane_mov;
+    
     @FXML
-    private Button btn_aloca_cancel;
-    @FXML
-    private Button btn_aloca_menos;
-    @FXML
-    private Button btn_aloca_ok;
+    private ImageView img_fundo;
     
     // controlador responsável por se comunicar com o modelo e interagir com a view
     private JogoController gameController;
@@ -152,17 +149,13 @@ public class TelaJogoController implements Initializable {
         // load the image
         Image image = new Image("war.jpg");
 
-        // simple displays ImageView the image as is
-        ImageView iv1 = new ImageView();
-        iv1.setImage(image);
+        img_fundo.setImage(image);
         
         
-        pane_map.getChildren().add(iv1);
-        
-        this.gameController =new JogoController(0,pane_aloca, btn_aloca_mais, btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok);
+        this.gameController =new JogoController(0,pane_aloca, pane_mov);
         desenhaTerritorios();
         
-        gameController.setAcaoTerr(new AcaoTerritorioMovimenta(gameController));
+        gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
         
         
         //alterando fase do jogo
@@ -179,8 +172,9 @@ public class TelaJogoController implements Initializable {
  
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("modo de ataque");
-                gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
+                System.out.println("modo de ataque não implementado");
+                gameController.setAcaoTerr(new AcaoTerritorioEspera(gameController));
+            
             }
         });
         
@@ -188,7 +182,7 @@ public class TelaJogoController implements Initializable {
  
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("modo de movomentacao");
+                System.out.println("modo de movimentacao");
                 gameController.setAcaoTerr(new AcaoTerritorioMovimenta(gameController));
             }
         });

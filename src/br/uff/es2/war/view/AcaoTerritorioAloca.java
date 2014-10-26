@@ -19,8 +19,12 @@ public class AcaoTerritorioAloca implements AcaoTerritorioStrategy{
         
         // para a fase de alocação é necessário bloquear os territorios que não pertencem ao jogador
         // ações de inicialização bloquear clique, trocar icone do cursor e modificar opacidade do circulo
-        
+        jc.desbloqueiaTerritorios(jc.getTerritorios());
         jc.bloqueiaTerririosAdversarios();
+        jc.getAlocaController().setTerritorioDestino(null);
+        jc.getAlocaController().setTerritorioOrigem(null); 
+        jc.getAlocaController().esconde();
+        jc.getAlocaController().escondeMov();
         
     }
     @Override

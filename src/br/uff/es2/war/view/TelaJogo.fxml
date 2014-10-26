@@ -76,7 +76,7 @@
             <Bloom />
          </effect>
       </Circle>
-      <Button fx:id="btn_m1" layoutX="362.0" layoutY="477.0" mnemonicParsing="false" text="Modo alocação"  />
+      <Button fx:id="btn_m1" layoutX="362.0" layoutY="477.0" mnemonicParsing="false" text="Modo alocação" />
       <Button fx:id="btn_m2" layoutX="368.0" layoutY="510.0" mnemonicParsing="false" text="Modo ataque" />
       <Button fx:id="btn_m3" layoutX="348.0" layoutY="544.0" mnemonicParsing="false" text="Modo transferência" />
       
@@ -85,6 +85,21 @@
     </Group>
       <Pane fx:id="pane_map" prefHeight="450.0" prefWidth="800.0">
          <children>
+            <ImageView fx:id="img_fundo" fitHeight="450.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
+            <Pane fx:id="pane_mov" prefHeight="122.0" prefWidth="123.0">
+               <children>
+                  <Button fx:id="btn_mov_cancel" layoutY="25.0" mnemonicParsing="false" text="x">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </Button>
+                  <ImageView fx:id="img_point" fitWidth="20.0" layoutX="71.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@/point.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
             <Pane fx:id="pane_aloca" prefHeight="122.0" prefWidth="123.0">
                <children>
                   <Button fx:id="btn_aloca_mais" layoutX="25.0" mnemonicParsing="false" text="+">

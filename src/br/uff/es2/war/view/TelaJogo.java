@@ -20,7 +20,8 @@ public class TelaJogo extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("TelaJogo.fxml"));
+        
+       Parent root = FXMLLoader.load(getClass().getResource("TelaJogo.fxml"));
         
         Scene scene = new Scene(root);
         
