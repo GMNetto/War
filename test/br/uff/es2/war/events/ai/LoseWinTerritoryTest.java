@@ -6,12 +6,10 @@
 package br.uff.es2.war.events.ai;
 
 import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
-import br.uff.es2.war.ai.attack.probability.ProbabilityTriple;
 import br.uff.es2.war.ai.strategies.WinLoseTerritoryValue;
 import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.model.Color;
-import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
@@ -24,7 +22,6 @@ import java.util.TreeSet;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -89,7 +86,7 @@ public class LoseWinTerritoryTest {
     }
 
     @Test
-    public void LOSE_AUTRALIA_BY_DIRECT_ATTACK() {
+    public void LOSE_AUTRALIA_BY_DIRECT_ATTACKING() {
         System.out.println("\n\nLOSE_AUTRALIA_BY_DIRECT_ATTACK\n\n");
         double threshold = Math.pow(10.0, -14);
 
@@ -113,12 +110,13 @@ public class LoseWinTerritoryTest {
             aux = wltv.getTerritoryValue(attacked);
             System.out.println("Attacker: " + territory.getName() + "\tSoldiers: " + territory.getSoldiers() + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
             assertTrue(aux < prob);
+            assertTrue(0.0 <= aux && aux <= 1.0);
             prob = aux;
         }
     }
 
     @Test
-    public void LOSE_AUTRALIA_BY_FIRST_LEVEL_ATTACK() {
+    public void LOSE_AUTRALIA_BY_FIRST_LEVEL_ATTACKING() {
         System.out.println("\n\nLOSE_AUTRALIA_BY_FIRST_LEVEL_ATTACK\n\n");
         //double threshold = Math.pow(10.0, -14);
 
@@ -128,30 +126,41 @@ public class LoseWinTerritoryTest {
         System.out.println("");
         assertTrue(prob == 0);
 
-        Territory territory = world.getTerritoryByName("Índia");
-        territory.setOwner(players[1]);
+        Territory attacker = world.getTerritoryByName("Índia");
+        Territory middle = world.getTerritoryByName("Sumatra");
+        attacker.setOwner(players[1]);
 
         double aux;
-        territory.addSoldiers(1);
+        attacker.addSoldiers(1);
         for (int i = 0; i < 10; i++) {
-            territory.addSoldiers(1);
+            attacker.addSoldiers(1);
             aux = wltv.getTerritoryValue(attacked);
-            System.out.println("Attacker: " + territory.getName() + "\tSoldiers: " + territory.getSoldiers() + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
+            System.out.println("Attacker: " + attacker.getName() + "\tSoldiers: " + attacker.getSoldiers()
+                    + "\tMiddle: " + middle.getName() + "\tSoldiers: " + middle.getSoldiers()
+                    + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
             assertTrue(aux > prob);
+            assertTrue(0.0 <= aux && aux <= 1.0);
             prob = aux;
         }
 
-        for (int i = 0; i < 3; i++) {
-            attacked.addSoldiers(1);
+        for (int i = 0; i < 8; i++) {
+            if (i % 2 == 0)
+                attacked.addSoldiers(1);
+            else
+                middle.addSoldiers(1);
+
             aux = wltv.getTerritoryValue(attacked);
-            System.out.println("Attacker: " + territory.getName() + "\tSoldiers: " + territory.getSoldiers() + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
-            //assertTrue(aux > prob);
-            //prob = aux;
+            System.out.println("Attacker: " + attacker.getName() + "\tSoldiers: " + attacker.getSoldiers()
+                    + "\tMiddle: " + middle.getName() + "\tSoldiers: " + middle.getSoldiers()
+                    + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
+            assertTrue(aux < prob);
+            assertTrue(0.0 <= aux && aux <= 1.0);
+            prob = aux;
         }
     }
 
     @Test
-    public void LOSE_AUTRALIA_BY_SECOND_LEVEL_ATTACK() {
+    public void LOSE_AUTRALIA_BY_SECOND_LEVEL_ATTACKING() {
         System.out.println("\n\nLOSE_AUTRALIA_BY_SECOND_LEVEL_ATTACK\n\n");
 
         Territory attacked = world.getTerritoryByName("Austrália");
@@ -160,51 +169,167 @@ public class LoseWinTerritoryTest {
         System.out.println("");
         assertTrue(prob == 0);
 
-        Territory territory = world.getTerritoryByName("Aral");
-        territory.setOwner(players[1]);
+        Territory attacker = world.getTerritoryByName("Aral");
+        attacker.setOwner(players[1]);
 
+        Territory middle1 = world.getTerritoryByName("Índia");
+        Territory middle2 = world.getTerritoryByName("Sumatra");
+        
         double aux;
-        territory.addSoldiers(1);
+        prob = -1;
+        attacker.addSoldiers(1);
         for (int i = 0; i < 10; i++) {
-            territory.addSoldiers(1);
+            attacker.addSoldiers(1);
             aux = wltv.getTerritoryValue(attacked);
-            System.out.println("Attacker: " + territory.getName() + "\tSoldiers: " + territory.getSoldiers() + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
-            //assertTrue(aux > prob);
+            System.out.println("Attacker: " + attacker.getName() + "\tSoldiers: " + attacker.getSoldiers()
+                    + "\tMiddle: " + middle1.getName() + "\tSoldiers: " + middle1.getSoldiers()
+                    + "\tMiddle: " + middle2.getName() + "\tSoldiers: " + middle2.getSoldiers()
+                    + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
+            assertTrue(aux > prob);
+            assertTrue(0.0 <= aux && aux <= 1.0);
             prob = aux;
         }
 
-        String ter = "Índia";
         for (int j = 2; j < 7; j++) {
             System.out.println("\n");
-            ter = "Índia";
-            world.getTerritoryByName(ter).setSoldiers(j);
-            System.out.println(j + " soldiers on " + ter);
-            territory.setSoldiers(2);
+            middle1.setSoldiers(j);
+            System.out.println(j + " soldiers on " + middle1.getName());
+            attacker.setSoldiers(2);
+            prob = -1;
             for (int i = 0; i < 10; i++) {
-                territory.addSoldiers(1);
+                attacker.addSoldiers(1);
                 aux = wltv.getTerritoryValue(attacked);
-                System.out.println("Attacker: " + territory.getName() + "\tSoldiers: " + territory.getSoldiers() + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
-                //assertTrue(aux > prob);
-                prob = aux;
-            }
-        }
-        
-        world.getTerritoryByName(ter).setSoldiers(1);
-        for (int j = 2; j < 7; j++) {
-            System.out.println("\n");
-            ter = "Sumatra";
-            world.getTerritoryByName(ter).setSoldiers(j);
-            System.out.println(j + " soldiers on " + ter);
-            territory.setSoldiers(2);
-            for (int i = 0; i < 10; i++) {
-                territory.addSoldiers(1);
-                aux = wltv.getTerritoryValue(attacked);
-                System.out.println("Attacker: " + territory.getName() + "\tSoldiers: " + territory.getSoldiers() + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
-                //assertTrue(aux > prob);
+                System.out.println("Attacker: " + attacker.getName() + "\tSoldiers: " + attacker.getSoldiers()
+                        + "\tMiddle: " + middle1.getName() + "\tSoldiers: " + middle1.getSoldiers()
+                        + "\tMiddle: " + middle2.getName() + "\tSoldiers: " + middle2.getSoldiers()
+                        + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
+                assertTrue(aux > prob);
+                assertTrue(0.0 <= aux && aux <= 1.0);
                 prob = aux;
             }
         }
 
+        middle1.setSoldiers(1);
+        for (int j = 2; j < 7; j++) {
+            System.out.println("\n");
+            middle2.setSoldiers(j);
+            System.out.println(j + " soldiers on " + middle2.getName());
+            attacker.setSoldiers(2);
+            prob = -1;
+            for (int i = 0; i < 10; i++) {
+                attacker.addSoldiers(1);
+                aux = wltv.getTerritoryValue(attacked);
+                System.out.println("Attacker: " + attacker.getName() + "\tSoldiers: " + attacker.getSoldiers()
+                        + "\tMiddle: " + middle1.getName() + "\tSoldiers: " + middle1.getSoldiers()
+                        + "\tMiddle: " + middle2.getName() + "\tSoldiers: " + middle2.getSoldiers()
+                        + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
+                assertTrue(aux > prob);
+                assertTrue(0.0 <= aux && aux <= 1.0);
+                prob = aux;
+            }
+        }
+
+    }
+
+    @Test
+    public void WIN_AUTRALIA_BY_DIRECT_ATTACKING() {
+        System.out.println("\n\nWIN_AUTRALIA_BY_DIRECT_ATTACKING\n\n");
+        Territory attacked = world.getTerritoryByName("Austrália");
+        Territory attacker = world.getTerritoryByName("Sumatra");
+        attacked.setOwner(players[1]);
+
+        double aux, prob = -1;
+        for (int i = 0; i < 8; i++) {
+            attacker.addSoldiers(1);
+            aux = wltv.getTerritoryValue(attacked);
+            System.out.println("Attacker: " + attacker.getName() + "\tSoldiers: " + attacker.getSoldiers() + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
+            assertTrue(aux > prob);
+            assertTrue(0.0 <= aux && aux <= 1.0);
+            prob = aux;
+        }
+    }
+
+    @Test
+    public void WIN_AUTRALIA_BY_FIRST_LEVEL_ATTACKING() {
+        System.out.println("\n\nWIN_AUTRALIA_BY_FIRST_LEVEL_ATTACKING\n\n");
+        Territory attacked = world.getTerritoryByName("Austrália");
+        Territory middle = world.getTerritoryByName("Sumatra");
+        Territory attacker = world.getTerritoryByName("Índia");
+        attacked.setOwner(players[1]);
+        middle.setOwner(players[3]);
+
+        double aux, prob = -1;
+        for (int i = 0; i < 8; i++) {
+            attacker.addSoldiers(1);
+            aux = wltv.getTerritoryValue(attacked);
+            System.out.println("Attacker: " + attacker.getName() + "\tSoldiers: " + attacker.getSoldiers()
+                    + "\tMiddle: " + middle.getName() + "\tSoldiers: " + middle.getSoldiers()
+                    + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
+            assertTrue(aux > prob);
+            assertTrue(0.0 <= aux && aux <= 1.0);
+            prob = aux;
+        }
+
+        for (int i = 0; i < 8; i++) {
+            if (i % 2 == 0) {
+                middle.addSoldiers(1);
+            } else {
+                attacked.addSoldiers(1);
+            }
+            aux = wltv.getTerritoryValue(attacked);
+            System.out.println("Attacker: " + attacker.getName() + "\tSoldiers: " + attacker.getSoldiers()
+                    + "\tMiddle: " + middle.getName() + "\tSoldiers: " + middle.getSoldiers()
+                    + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
+            assertTrue(aux < prob);
+            assertTrue(0.0 <= aux && aux <= 1.0);
+            prob = aux;
+        }
+    }
+
+    @Test
+    public void WIN_AUTRALIA_BY_SECOND_LEVEL_ATTACKING() {
+        System.out.println("\n\nWIN_AUTRALIA_BY_SECOND_LEVEL_ATTACKING\n\n");
+        Territory attacker = world.getTerritoryByName("Aral");
+        Territory middle1 = world.getTerritoryByName("Índia");
+        Territory middle2 = world.getTerritoryByName("Sumatra");
+        Territory attacked = world.getTerritoryByName("Austrália");
+
+        attacked.setOwner(players[1]);
+        middle1.setOwner(players[3]);
+        middle2.setOwner(players[4]);
+
+        double aux, prob = -1;
+        for (int i = 0; i < 8; i++) {
+            attacker.addSoldiers(1);
+            aux = wltv.getTerritoryValue(attacked);
+            System.out.println("Attacker: " + attacker.getName() + "\tSoldiers: " + attacker.getSoldiers()
+                    + "\tMiddle: " + middle1.getName() + "\tSoldiers: " + middle1.getSoldiers()
+                    + "\tMiddle: " + middle2.getName() + "\tSoldiers: " + middle2.getSoldiers()
+                    + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
+            assertTrue((i < 2 && aux == 0) || (aux > prob));
+            assertTrue(0.0 <= aux && aux <= 1.0);
+            prob = aux;
+        }
+
+        for (int i = 0; i < 12; i++) {
+            if (i % 3 == 0) {
+                middle1.addSoldiers(1);
+            } else {
+                if (i % 2 == 0) {
+                    middle2.addSoldiers(1);
+                } else {
+                    attacked.addSoldiers(1);
+                }
+            }
+            aux = wltv.getTerritoryValue(attacked);
+            System.out.println("Attacker: " + attacker.getName() + "\tSoldiers: " + attacker.getSoldiers()
+                    + "\tMiddle: " + middle1.getName() + "\tSoldiers: " + middle1.getSoldiers()
+                    + "\tMiddle: " + middle2.getName() + "\tSoldiers: " + middle2.getSoldiers()
+                    + "\tAttacked: " + attacked.getName() + "\tSoldiers: " + attacked.getSoldiers() + "\tProbability: " + aux);
+            assertTrue(aux < prob);
+            assertTrue(0.0 <= aux && aux <= 1.0);
+            prob = aux;
+        }
     }
 
 }

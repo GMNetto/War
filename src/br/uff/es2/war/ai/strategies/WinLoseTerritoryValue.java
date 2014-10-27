@@ -6,11 +6,9 @@
 package br.uff.es2.war.ai.strategies;
 
 import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
-import br.uff.es2.war.ai.attack.probability.ProbabilityTriple;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -68,53 +66,63 @@ public class WinLoseTerritoryValue implements TerritoryValue {
         return factory.getAttackProbability(attack, defense).getAttackerWins();
     }
 
+    /**
+     * Calculates the probability of winning or losing a given
+     * {@link Territory}.
+     *
+     * @param territory the {@link Territory}
+     * @return the probability [0..1]
+     */
     @Override
     public double getTerritoryValue(Territory territory) {
-        double probability = 0;
         if (territory.getOwner().equals(player)) {
-            //Direct attack
-            probability = getWinLoseDirectAttack(territory);
-            if (probability != 0)
-                return probability;
-
-            //First level attack
-            probability += getLoseUndirectAttack(territory);
-            if (probability != 0)
-                return probability;
-            
-            //Second level attack
-            double proAux = 0, aux = 0;
-            int soldiers = 0;
-            int soldierAux = 0;
-            for (Territory t : territory.getBorders()) {
-                aux = getLoseUndirectAttack(t);
-                if (aux > proAux) {
-                    proAux = aux;
-                    for (Territory t1 : t.getBorders()) {
-                        soldierAux = Math.max(soldierAux, getMaxSoldierFromBorderNotOwnedByPlayer(t1, player));
-                    }
-                    soldiers = Math.min(2, Math.max(soldierAux - 2, 0));
-                }
-            }
-            
-            probability += getAttackerWins(soldiers, territory.getSoldiers()) * proAux;
+            return getProbability(territory, null);
         } else {
-            //Direct Attack
-            probability = getWinLoseDirectAttack(territory);
-            //First level attack
-            probability += getLoseUndirectAttack(territory, player);
-            //Second level attack
-            double proAux = 0, aux = 0;
-            int soldiers = 0;
-            for (Territory t : territory.getBorders()) {
-                aux = getLoseUndirectAttack(t, player);
-                if (aux > proAux) {
-                    proAux = aux;
-                    soldiers = Math.min(2, getMaxSoldiersOwnedByPlayerOnBorder(t, player) - 1);
-                }
-            }
-            probability += getAttackerWins(soldiers, territory.getSoldiers());
+            return getProbability(territory, player);
         }
+    }
+
+    /**
+     * Method to calculates the probability of a given {@link Territory} be
+     * conquered by an specific attacker {@link Player}. In case the attacker be
+     * null, it calculates the probability for any {@link Player}.
+     *
+     * @param territory the {@link Territory}
+     * @param attackOwner the attacker
+     * @return the probability
+     */
+    private double getProbability(Territory territory, Player attackOwner) {
+        double probability = 0;
+        //Direct attack
+        probability = getWinLoseDirectAttack(territory);
+        if (probability != 0)
+            return probability;
+
+        //First level attack
+        probability += getLoseUndirectAttack(territory, attackOwner);
+        if (probability != 0)
+            return probability;
+
+        //Second level attack
+        double proAux = 0, aux = 0;
+        int soldiers = 0;
+        int soldierAux = 0;
+        for (Territory t : territory.getBorders()) {
+            aux = getLoseUndirectAttack(t, attackOwner);
+            if (aux > proAux) {
+                proAux = aux;
+                for (Territory t1 : t.getBorders()) {
+                    if (attackOwner == null)
+                        soldierAux = Math.max(soldierAux, getMaxSoldierFromBorderNotOwnedByPlayer(t1, player));
+                    else
+                        soldierAux = Math.max(soldierAux, getMaxSoldiersOwnedByPlayerOnBorder(t1, attackOwner));
+                }
+                soldiers = Math.min(2, Math.max(soldierAux - 2, 0));
+            }
+        }
+
+        probability += getAttackerWins(soldiers, territory.getSoldiers()) * proAux;
+
         return probability;
     }
 
@@ -139,44 +147,30 @@ public class WinLoseTerritoryValue implements TerritoryValue {
      * Get the probability of losing a {@link Territory} by being attacked from
      * a border of a border's {@link Territory}.
      *
-     * @param territory the {@link Territory}.
+     * @param territory the {@link Territory}
+     * @param attackOwner the owner of attack
      * @return the probability of losing the {@link Territory}
      */
-    private double getLoseUndirectAttack(Territory territory) {
+    private double getLoseUndirectAttack(Territory territory, Player attackOwner) {
         double probAux = 0, aux = 0;
         int soldier = 0, soldierAux = 0;
         for (Territory t : territory.getBorders()) {
-            soldierAux = getMaxSoldierFromBorderNotOwnedByPlayer(t, territory.getOwner());
+            if (attackOwner != null && t.getOwner().equals(attackOwner))
+                continue;
+
+            if (attackOwner == null)
+                soldierAux = getMaxSoldierFromBorderNotOwnedByPlayer(t, territory.getOwner());
+            else
+                soldierAux = getMaxSoldiersOwnedByPlayerOnBorder(t, attackOwner);
+
             aux = getAttackerWins(soldierAux, t.getSoldiers());
             if (aux > probAux) {
                 soldier = Math.min(3, soldierAux - 1);
                 probAux = aux;
             }
         }
+
         return getAttackerWins(soldier, territory.getSoldiers()) * probAux;
-    }
-
-    /**
-     * Get the probability of losing a {@link Territory} by being attacked from
-     * a border of a border's {@link Territory}.
-     *
-     * @param territory the {@link Territory}.
-     * @return the probability of losing the {@link Territory}
-     */
-    private double getLoseUndirectAttack(Territory territory, Player owner) {
-        double probAux = 0, aux = 0;
-        int soldier = 0;
-        for (Territory t : territory.getBorders()) {
-            if (!t.getOwner().equals(owner))
-                continue;
-
-            aux = getAttackerWins(getMaxSoldierFromBorderNotOwnedByPlayer(t, territory.getOwner()), territory.getSoldiers());
-            if (aux > probAux) {
-                probAux = aux;
-                soldier = Math.min(3, t.getSoldiers());
-            }
-        }
-        return getAttackerWins(soldier, territory.getSoldiers());
     }
 
     /**
