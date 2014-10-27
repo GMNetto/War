@@ -6,6 +6,7 @@
 package br.uff.es2.war.ai.strategies;
 
 import br.uff.es2.war.model.Territory;
+import java.util.Comparator;
 
 /**
  * Interface that defines a way to measure the value of a given
@@ -13,7 +14,7 @@ import br.uff.es2.war.model.Territory;
  *
  * @author Victor Guimarães
  */
-public interface TerritoryValue {
+public interface TerritoryValue extends Comparator<Territory> {
 
     /**
      * Method to obtain the value of a given {@link Territory}. The possible

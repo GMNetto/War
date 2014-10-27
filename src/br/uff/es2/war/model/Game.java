@@ -7,6 +7,7 @@ import java.util.List;
 import br.uff.es2.war.events.EventBus;
 import br.uff.es2.war.events.LocalEventBus;
 import br.uff.es2.war.entity.Partida;
+import br.uff.es2.war.entity.Territorio;
 import br.uff.es2.war.util.CyclicIterator;
 import java.util.Date;
 import java.util.Iterator;
@@ -135,4 +136,5 @@ public class Game {
             territory.addSoldiers(1);
         }
     }
+    
 }

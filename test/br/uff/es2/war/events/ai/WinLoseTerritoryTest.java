@@ -29,7 +29,7 @@ import org.junit.Test;
  *
  * @author Victor Guimarães
  */
-public class LoseWinTerritoryTest {
+public class WinLoseTerritoryTest {
 
     private World world;
     private Game game;
@@ -38,7 +38,7 @@ public class LoseWinTerritoryTest {
     private Color[] colors;
     private WinLoseTerritoryValue wltv;
 
-    public LoseWinTerritoryTest() throws NonexistentEntityException {
+    public WinLoseTerritoryTest() throws NonexistentEntityException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
         GameLoader gl = new GameLoader(0, factory);
         world = gl.getWorld();
