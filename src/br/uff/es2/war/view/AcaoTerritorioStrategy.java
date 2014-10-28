@@ -14,4 +14,6 @@ public interface AcaoTerritorioStrategy {
     
     public void AcaoBotao(TerritorioUI ter);
     
+    public AcaoTerritorioStrategy ProxFase();
+    
 }

@@ -41,13 +41,9 @@ public class TelaJogoController implements Initializable {
      @FXML
     private Parent parent;
      
-    //botoes para teste, mudança de estado do jogo
+    //botao para mudança de estado do jogo
     @FXML
-    private Button btn_m1;
-    @FXML
-    private Button btn_m2;
-    @FXML
-    private Button btn_m3;
+    private Button btn_prox;
 
     //painel de alocação
     @FXML
@@ -57,7 +53,11 @@ public class TelaJogoController implements Initializable {
     
     @FXML
     private ImageView img_fundo;
+    @FXML
+    private ImageView img_fundo2;
     
+    @FXML
+    private Text txt_fase;
     // controlador responsável por se comunicar com o modelo e interagir com a view
     private JogoController gameController;
 
@@ -150,40 +150,23 @@ public class TelaJogoController implements Initializable {
         Image image = new Image("war.jpg");
 
         img_fundo.setImage(image);
+        Image image2 = new Image("tela2.jpg");
+
+        img_fundo2.setImage(image2);
         
         
-        this.gameController =new JogoController(0,pane_aloca, pane_mov);
+        this.gameController =new JogoController(0,pane_aloca, pane_mov, txt_fase);
         desenhaTerritorios();
         
         gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
         
         
         //alterando fase do jogo
-        this.btn_m1.setOnAction(new EventHandler<ActionEvent>() {
+        this.btn_prox.setOnAction(new EventHandler<ActionEvent>() {
  
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("modo de alocacao");
-                gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
-            }
-        });
-        
-        this.btn_m2.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("modo de ataque não implementado");
-                gameController.setAcaoTerr(new AcaoTerritorioEspera(gameController));
-            
-            }
-        });
-        
-        this.btn_m3.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("modo de movimentacao");
-                gameController.setAcaoTerr(new AcaoTerritorioMovimenta(gameController));
+                gameController.setAcaoTerr(gameController.getAcaoTerr().ProxFase());
             }
         });
        

@@ -10,13 +10,13 @@ package br.uff.es2.war.view;
  *
  * @author anacarolinegomesvargas
  */
-public class AcaoTerritorioEspera implements AcaoTerritorioStrategy{
+public class AcaoTerritorioAtaca implements AcaoTerritorioStrategy{
     
     private JogoController jc;
     
-    public AcaoTerritorioEspera(JogoController jc) {
+    public AcaoTerritorioAtaca(JogoController jc) {
         this.jc=jc;
-        jc.setTextFase("Espere a sua vez");
+        jc.setTextFase("Ataque!!!!");
         jc.bloqueiaTerritorios(jc.getTerritorios());
         
     }
@@ -30,7 +30,7 @@ public class AcaoTerritorioEspera implements AcaoTerritorioStrategy{
 
     @Override
     public AcaoTerritorioStrategy ProxFase() {
-        return new AcaoTerritorioAloca(jc);
+        return new AcaoTerritorioMovimenta(jc);
     }
     
 }
