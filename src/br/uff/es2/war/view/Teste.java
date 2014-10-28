@@ -207,7 +207,7 @@ public class Teste {
         List<Objective> obj = new ArrayList<>(gl.getObjectives());
         Collections.shuffle(obj);
         for (i = 0; i < players.length; i++) {
-            players[i] = new BasicBot(game, null, null, null, null);
+            players[i] = new BasicBot(null, game);
             players[i].setColor(colors[i]);
             players[i].setObjective(obj.get(r.nextInt(obj.size())));
             obj.remove(players[i].getObjective());

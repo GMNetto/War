@@ -43,40 +43,13 @@ public class BasicBot implements Player {
     private RearrangeStrategy relocationStrategy;
     private Collection<Card> cards;
 
-    public BasicBot(Jogador jogador, AttackStrategy attackStrategy, AllocationStrategy allocationInstruction, RearrangeStrategy relocationStrategy) {
+    public BasicBot(Jogador jogador) {
         this.jogador = jogador;
-        this.attackStrategy = attackStrategy;
-        this.allocationInstruction = allocationInstruction;
-        this.relocationStrategy = relocationStrategy;
         this.cards = new HashSet<>();
     }
 
-    public AttackStrategy getAttackStrategy() {
-        return attackStrategy;
-    }
-
-    public void setAttackStrategy(AttackStrategy attackStrategy) {
-        this.attackStrategy = attackStrategy;
-    }
-
-    public AllocationStrategy getAllocationInstruction() {
-        return allocationInstruction;
-    }
-
-    public void setAllocationInstruction(AllocationStrategy allocationInstruction) {
-        this.allocationInstruction = allocationInstruction;
-    }
-
-    public RearrangeStrategy getRelocationStrategy() {
-        return relocationStrategy;
-    }
-
-    public void setRelocationStrategy(RearrangeStrategy relocationStrategy) {
-        this.relocationStrategy = relocationStrategy;
-    }
-
-    public BasicBot(Game game, Jogador jogador, AttackStrategy attackStrategy, AllocationStrategy allocationInstruction, RearrangeStrategy relocationStrategy) {
-        this(jogador, attackStrategy, allocationInstruction, relocationStrategy);
+    public BasicBot(Jogador jogador, Game game) {
+        this(jogador);
         this.game = game;
     }
 
@@ -153,6 +126,30 @@ public class BasicBot implements Player {
     @Override
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public AttackStrategy getAttackStrategy() {
+        return attackStrategy;
+    }
+
+    public void setAttackStrategy(AttackStrategy attackStrategy) {
+        this.attackStrategy = attackStrategy;
+    }
+
+    public AllocationStrategy getAllocationInstruction() {
+        return allocationInstruction;
+    }
+
+    public void setAllocationInstruction(AllocationStrategy allocationInstruction) {
+        this.allocationInstruction = allocationInstruction;
+    }
+
+    public RearrangeStrategy getRelocationStrategy() {
+        return relocationStrategy;
+    }
+
+    public void setRelocationStrategy(RearrangeStrategy relocationStrategy) {
+        this.relocationStrategy = relocationStrategy;
     }
 
 }
