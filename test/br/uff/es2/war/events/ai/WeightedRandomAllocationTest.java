@@ -7,9 +7,10 @@ package br.uff.es2.war.events.ai;
 
 import br.uff.es2.war.ai.BasicBot;
 import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
+import br.uff.es2.war.ai.strategies.OffensiveTerritoryValue;
 import br.uff.es2.war.ai.strategies.WeightEquationTerritoryValue;
 import br.uff.es2.war.ai.strategies.WinLoseTerritoryValue;
-import br.uff.es2.war.ai.strategies.attack.allocation.WeightedRandomAllocation;
+import br.uff.es2.war.ai.strategies.attack.allocation.WeightedRandomAllocationStrategy;
 import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.model.Color;
@@ -43,9 +44,6 @@ public class WeightedRandomAllocationTest {
     private SortedSet<Objective> objectives;
     private Player[] players;
     private Color[] colors;
-    private WinLoseTerritoryValue winLoseTerritoryValue;
-    private WeightEquationTerritoryValue weightEquationTerritoryValue;
-    private WeightedRandomAllocation weightedRandomAllocation;
 
     public WeightedRandomAllocationTest() throws NonexistentEntityException, InvalidAttributeValueException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
@@ -80,10 +78,16 @@ public class WeightedRandomAllocationTest {
         game.distributeTerritories();
         AttackProbabilityFactory afp = new AttackProbabilityFactory();
 
+        WinLoseTerritoryValue winLoseTerritoryValue;
+        WeightEquationTerritoryValue weightEquationTerritoryValue;
+        WeightedRandomAllocationStrategy weightedRandomAllocation;
+        OffensiveTerritoryValue offensiveTerritoryValue;
+
         for (Player player : players) {
             winLoseTerritoryValue = new WinLoseTerritoryValue(game, player, afp);
             weightEquationTerritoryValue = new WeightEquationTerritoryValue(game, player, 0.8, 0.5, 0.5, 0.5, 0.5, 0.5);
-            weightedRandomAllocation = new WeightedRandomAllocation(weightEquationTerritoryValue, winLoseTerritoryValue);
+            offensiveTerritoryValue = new OffensiveTerritoryValue(winLoseTerritoryValue);
+            weightedRandomAllocation = new WeightedRandomAllocationStrategy(offensiveTerritoryValue, weightEquationTerritoryValue, winLoseTerritoryValue);
             ((BasicBot) player).setAllocationInstruction(weightedRandomAllocation);
         }
     }
@@ -99,7 +103,7 @@ public class WeightedRandomAllocationTest {
             System.out.println("Name: " + t.getName() + "\t\t\tSoldiers: " + t.getSoldiers() + "\t\t\tOwner: " + t.getOwner().getColor().getName());
         }
     }
-    
+
     private void allocRound() {
         int previous;
         int post;

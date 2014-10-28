@@ -20,7 +20,7 @@ import javax.management.InvalidAttributeValueException;
  *
  * @author Victor Guimarães
  */
-public class WeightEquationTerritoryValue implements TerritoryValue {
+public class WeightEquationTerritoryValue extends TerritoryValue {
 
     /**
      * The game where this strategy will be used.
@@ -216,11 +216,6 @@ public class WeightEquationTerritoryValue implements TerritoryValue {
         result += numberOfTerritoriesOnSameContinentWeight * ((double) ownedOnSameContinent) / balanceWeight[5];
 
         return result / 6.0;
-    }
-
-    @Override
-    public int compare(Territory o1, Territory o2) {
-        return Double.compare(getTerritoryValue(o2), getTerritoryValue(o1));
     }
 
     /**

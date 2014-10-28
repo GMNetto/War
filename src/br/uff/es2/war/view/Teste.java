@@ -188,7 +188,7 @@ public class Teste {
         }
     }
 
-    public static void botTest() throws NonexistentEntityException {
+    public static void botTest() throws NonexistentEntityException, InvalidAttributeValueException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
         EntityManager manager = factory.createEntityManager();
         GameLoader gl = new GameLoader(0, factory);

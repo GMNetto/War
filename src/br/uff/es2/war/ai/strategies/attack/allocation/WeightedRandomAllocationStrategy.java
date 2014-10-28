@@ -5,7 +5,7 @@
  */
 package br.uff.es2.war.ai.strategies.attack.allocation;
 
-import br.uff.es2.war.ai.TerritoryValueComparator;
+import br.uff.es2.war.ai.strategies.TerritoryValueComparator;
 import br.uff.es2.war.ai.strategies.TerritoryValue;
 import br.uff.es2.war.model.Territory;
 import java.util.ArrayList;
@@ -21,10 +21,21 @@ import java.util.Set;
  *
  * @author Victor Guimarães
  */
-public class WeightedRandomAllocation implements AllocationStrategy {
+public class WeightedRandomAllocationStrategy implements AllocationStrategy {
 
+    /**
+     * Variable to hold a set of {@link TerritoryValue}s. This class will try to
+     * distribute the soldiers based on the values got by the first
+     * {@link TerritoryValue}. If it does not work, will try the next until
+     * works or the arrays reaches the end. In case none of those works, it will
+     * give the same wight for all the {@link Territory}s. The order is defined
+     * by the parameters on the constructor.
+     *
+     * The first {@link TerritoryValue} will be the combination of all the given
+     * {@link TerritoryValue}s.
+     */
     private final TerritoryValue[] territoryValues;
-    
+
     /**
      * Variable to get random number.
      */
@@ -32,19 +43,27 @@ public class WeightedRandomAllocation implements AllocationStrategy {
 
     /**
      * Constructor with the {@link TerritoryValue}s to calculate the value of a
-     * {@link Territory}.
+     * {@link Territory}. This class will try to distribute the soldiers based
+     * on the values got by the first {@link TerritoryValue}. If it does not
+     * work, will try the next until works or the arrays reaches the end. In
+     * case none of those works, it will give the same wight for all the
+     * {@link Territory}s. The order is defined by the parameters on the
+     * constructor.
+     *
+     * The first {@link TerritoryValue} will be the combination of all the given
+     * {@link TerritoryValue}s.
      *
      * @param values the {@link TerritoryValue}s
      */
-    public WeightedRandomAllocation(TerritoryValue... values) {
+    public WeightedRandomAllocationStrategy(TerritoryValue... values) {
         TerritoryValueComparator territoryValueComparator = new TerritoryValueComparator(values);
         territoryValues = new TerritoryValue[values.length + 1];
-        
+
         territoryValues[0] = territoryValueComparator;
         for (int i = 1; i < territoryValues.length; i++) {
             territoryValues[i] = values[i - 1];
         }
-        
+
         this.random = new Random();
     }
 
@@ -55,7 +74,7 @@ public class WeightedRandomAllocation implements AllocationStrategy {
      * @param seed the seed
      * @param values the {@link TerritoryValue}s
      */
-    public WeightedRandomAllocation(long seed, TerritoryValue values) {
+    public WeightedRandomAllocationStrategy(long seed, TerritoryValue values) {
         this(values);
         this.random = new Random(seed);
     }
@@ -81,10 +100,11 @@ public class WeightedRandomAllocation implements AllocationStrategy {
         for (int i = 0; i < weights.length; i++) {
             if (r < weights[i]) {
                 valuesTerritories.get(i).addSoldiers(1);
+                System.out.println("Territory: " + valuesTerritories.get(i).getName() + "\t\t\tImportance: " + territoryValues[territoryValueIndex].getTerritoryValue(valuesTerritories.get(i)));
                 return;
             }
         }
-        
+
         if (territoryValueIndex < territoryValues.length - 1) {
             allocSoldierWeightedRandom(territories, territoryValueIndex + 1);
         } else {
