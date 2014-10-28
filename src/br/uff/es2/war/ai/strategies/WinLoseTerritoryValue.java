@@ -25,7 +25,7 @@ import java.util.Set;
  *
  * @author Victor Guimarães
  */
-public class WinLoseTerritoryValue implements TerritoryValue {
+public class WinLoseTerritoryValue extends TerritoryValue {
 
     /**
      * The game where this strategy will be used.
@@ -256,11 +256,6 @@ public class WinLoseTerritoryValue implements TerritoryValue {
         return borders;
     }
 
-    @Override
-    public int compare(Territory o1, Territory o2) {
-        return Double.compare(getTerritoryValue(o2), getTerritoryValue(o1));
-    }
-    
     /**
      * Getter for the {@link Game}.
      *

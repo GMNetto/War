@@ -14,7 +14,7 @@ import java.util.Comparator;
  *
  * @author Victor Guimarães
  */
-public interface TerritoryValue extends Comparator<Territory> {
+public abstract class TerritoryValue implements Comparator<Territory> {
 
     /**
      * Method to obtain the value of a given {@link Territory}. The possible
@@ -23,5 +23,23 @@ public interface TerritoryValue extends Comparator<Territory> {
      * @param territory the {@link Territory}
      * @return the importance
      */
-    public double getTerritoryValue(Territory territory);
+    public abstract double getTerritoryValue(Territory territory);
+
+    /**
+     * Compares its two arguments for order.
+     *
+     * @param o1 first {@link Territory}
+     * @param o2 second {@link Territory}
+     * @return a negative integer, zero, or a positive integer as the first
+     * argument is greater than, equal to, or less than the second.
+     * @throws NullPointerException if an argument is null and this comparator
+     * does not permit null arguments
+     * @throws ClassCastException if the arguments' types prevent them from
+     * being compared by this comparator.
+     */
+    @Override
+    public int compare(Territory o1, Territory o2) {
+        return Double.compare(getTerritoryValue(o2), getTerritoryValue(o1));
+    }
+
 }
