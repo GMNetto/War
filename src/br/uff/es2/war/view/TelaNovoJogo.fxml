@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.uff.es2.war.view.TelaNovoJogoController">
+   <children>
+      <ImageView fx:id="img_fundo" fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
+  <Button fx:id="btn_joga" layoutX="353.0" layoutY="452.0" mnemonicParsing="false" text="Jogar">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Text layoutX="223.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carregar tela de teste">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Text layoutX="207.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Colocar futuramente as opções para criar jogo ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      
+   </children>
+</AnchorPane>
