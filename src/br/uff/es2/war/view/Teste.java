@@ -176,8 +176,8 @@ public class Teste {
     public static void main(String[] args) throws NonexistentEntityException, Exception {
         AttackProbabilityFactory probabilityFactory = new AttackProbabilityFactory();
         System.out.println(probabilityFactory.getAttackProbability(50, 30));
-        //testAttackProbabilities();
-        //botTest();
+        testAttackProbabilities();
+        botTest();
     }
 
     public static int getExchangeBonus(int exchange) {
@@ -203,10 +203,8 @@ public class Teste {
         }
 
         Game game = new Game(players, gl.getWorld(), colors, gl.getCards());
-
         WeightEquationTerritoryValue[] weses = new WeightEquationTerritoryValue[players.length];
         Random r = new Random();
-
         List<Objective> obj = new ArrayList<>(gl.getObjectives());
         Collections.shuffle(obj);
         for (i = 0; i < players.length; i++) {
@@ -214,7 +212,11 @@ public class Teste {
             players[i].setColor(colors[i]);
             players[i].setObjective(obj.get(r.nextInt(obj.size())));
             obj.remove(players[i].getObjective());
-            weses[i] = new WeightEquationTerritoryValue(game, players[i], 2, 0.5, 0.7, 0.5, 1.0, 1.5);
+            try {
+                weses[i] = new WeightEquationTerritoryValue(game, players[i], 2, 0.5, 0.7, 0.5, 1.0, 1.5);
+            } catch (InvalidAttributeValueException ex) {
+                Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         System.out.println("\n\n");
         game.distributeTerritories();

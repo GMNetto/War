@@ -7,7 +7,6 @@ package br.uff.es2.war.model.objective;
 
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import com.sun.corba.se.spi.oa.OADefault;
 import java.util.Map;
 import java.util.Set;
 
