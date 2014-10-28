@@ -26,8 +26,8 @@ public class WeightedRandomAllocationStrategy implements AllocationStrategy {
     /**
      * Variable to hold a set of {@link TerritoryValue}s. This class will try to
      * distribute the soldiers based on the values got by the first
-     * {@link TerritoryValue}. If it does not work, will try the next until
-     * works or the arrays reaches the end. In case none of those works, it will
+     * {@link TerritoryValue}. If it does not work, it will try the next until
+     * it works or the arrays reaches the end. In case none of those works, it will
      * give the same wight for all the {@link Territory}s. The order is defined
      * by the parameters on the constructor.
      *
@@ -45,7 +45,7 @@ public class WeightedRandomAllocationStrategy implements AllocationStrategy {
      * Constructor with the {@link TerritoryValue}s to calculate the value of a
      * {@link Territory}. This class will try to distribute the soldiers based
      * on the values got by the first {@link TerritoryValue}. If it does not
-     * work, will try the next until works or the arrays reaches the end. In
+     * work,it will try the next until works or the arrays reaches the end. In
      * case none of those works, it will give the same wight for all the
      * {@link Territory}s. The order is defined by the parameters on the
      * constructor.

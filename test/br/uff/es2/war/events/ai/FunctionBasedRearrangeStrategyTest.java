@@ -11,6 +11,8 @@ import br.uff.es2.war.ai.strategies.OffensiveTerritoryValue;
 import br.uff.es2.war.ai.strategies.WeightEquationTerritoryValue;
 import br.uff.es2.war.ai.strategies.WinLoseTerritoryValue;
 import br.uff.es2.war.ai.strategies.attack.allocation.WeightedRandomAllocationStrategy;
+import br.uff.es2.war.ai.strategies.rearrange.FunctionBasedRearrangeStrategy;
+import br.uff.es2.war.ai.strategies.rearrange.thresholdfunction.LinearThresholdFunction;
 import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.model.Color;
@@ -18,7 +20,6 @@ import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
-import br.uff.es2.war.model.objective.DumbPlayer;
 import br.uff.es2.war.model.objective.Objective;
 import br.uff.es2.war.model.objective.ObjectiveComparator;
 import java.util.ArrayList;
@@ -30,14 +31,14 @@ import java.util.TreeSet;
 import javax.management.InvalidAttributeValueException;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
  *
- * @author Victor Guimarães
+ * @author Gustavo
  */
-public class WeightedRandomAllocationTest {
+public class FunctionBasedRearrangeStrategyTest {
 
     private World world;
     private Game game;
@@ -45,7 +46,7 @@ public class WeightedRandomAllocationTest {
     private Player[] players;
     private Color[] colors;
 
-    public WeightedRandomAllocationTest() throws NonexistentEntityException, InvalidAttributeValueException {
+    public FunctionBasedRearrangeStrategyTest() throws NonexistentEntityException, InvalidAttributeValueException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
         GameLoader gl = new GameLoader(0, factory);
         world = gl.getWorld();
@@ -82,6 +83,7 @@ public class WeightedRandomAllocationTest {
         WeightEquationTerritoryValue weightEquationTerritoryValue;
         WeightedRandomAllocationStrategy weightedRandomAllocation;
         OffensiveTerritoryValue offensiveTerritoryValue;
+        FunctionBasedRearrangeStrategy functionBasedRearrangeStrategy;
 
         for (Player player : players) {
             winLoseTerritoryValue = new WinLoseTerritoryValue(game, player, afp);
@@ -91,10 +93,28 @@ public class WeightedRandomAllocationTest {
             ((BasicBot) player).setAllocationInstruction(weightedRandomAllocation);
         }
         
-        
-        
-    }
+        for (Player player : players) {
+            winLoseTerritoryValue = new WinLoseTerritoryValue(game, player, afp);
+            weightEquationTerritoryValue = new WeightEquationTerritoryValue(game, player, 0.8, 0.5, 0.5, 0.5, 0.5, 0.5);
+            //offensiveTerritoryValue = new OffensiveTerritoryValue(winLoseTerritoryValue);
+            functionBasedRearrangeStrategy = new FunctionBasedRearrangeStrategy(new LinearThresholdFunction(), player, game, winLoseTerritoryValue,weightEquationTerritoryValue);
+            ((BasicBot) player).setRelocationStrategy(functionBasedRearrangeStrategy);
+        }
 
+    }
+    
+    @Test
+    public void TEST_REARRANGE() {
+
+        for (int i = 0; i < 3; i++) {
+            rearrange();
+        }
+
+        for (Territory t : world.getTerritories()) {
+            System.out.println("Name: " + t.getName() + "\t\t\tSoldiers: " + t.getSoldiers() + "\t\t\tOwner: " + t.getOwner().getColor().getName());
+        }
+    }
+    
     @Test
     public void TEST_ALLOCATIONS() {
 
@@ -128,9 +148,33 @@ public class WeightedRandomAllocationTest {
                 System.out.println("Name: " + t.getName() + "\t\t\tSoldiers: " + t.getSoldiers());
                 post += t.getSoldiers();
             }
-            assertEquals(previous + 3, post);
             System.out.println("\n\n");
         }
     }
 
+    private void rearrange() {
+        int previous;
+        int post;
+        for (Player player : players) {
+            previous = 0;
+            System.out.println(player.getObjective());
+            System.out.println("");
+
+            for (Territory t : world.getTerritoriesByOwner(player)) {
+                System.out.println("Name: " + t.getName() + "\t\t\tSoldiers: " + t.getSoldiers());
+                previous += t.getSoldiers();
+            }
+
+            System.out.println("\n\n");
+            player.moveSoldiers();
+
+            post = 0;
+            for (Territory t : world.getTerritoriesByOwner(player)) {
+                System.out.println("Name: " + t.getName() + "\t\t\tSoldiers: " + t.getSoldiers());
+                post += t.getSoldiers();
+            }
+            assertEquals(previous, post);
+            System.out.println("\n\n");
+        }
+    }
 }
