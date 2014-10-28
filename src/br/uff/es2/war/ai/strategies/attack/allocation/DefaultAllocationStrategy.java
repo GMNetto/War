@@ -41,7 +41,6 @@ public class DefaultAllocationStrategy implements AllocationStrategy {
             double t1Value=function.getTerritoryValue(t1);
             return Double.compare(tValue, t1Value)*(-1);
         });
-        player.
     }
 
 }

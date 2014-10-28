@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.management.InvalidAttributeValueException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -211,7 +212,11 @@ public class Teste {
             players[i].setColor(colors[i]);
             players[i].setObjective(obj.get(r.nextInt(obj.size())));
             obj.remove(players[i].getObjective());
-            weses[i] = new WeightEquationTerritoryValue(game, players[i], 2, 0.5, 0.7, 0.5, 1.0, 1.5);
+            try {
+                weses[i] = new WeightEquationTerritoryValue(game, players[i], 2, 0.5, 0.7, 0.5, 1.0, 1.5);
+            } catch (InvalidAttributeValueException ex) {
+                Logger.getLogger(Teste.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         System.out.println("\n\n");
         game.distributeTerritories();
