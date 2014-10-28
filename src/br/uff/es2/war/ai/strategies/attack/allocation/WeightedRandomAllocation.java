@@ -103,8 +103,8 @@ public class WeightedRandomAllocation implements AllocationStrategy {
         double[] weights = new double[territories.size()];
         for (int i = 0; i < territories.size(); i++) {
             weights[i] = territoryValue.getTerritoryValue(territories.get(i));
-            for (int j = 0; j < i; j++) {
-                weights[i] += weights[j];
+            if (i > 0) {
+                weights[i] += weights[i - 1];
             }
         }
         return weights;

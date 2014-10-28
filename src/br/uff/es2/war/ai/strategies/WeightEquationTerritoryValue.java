@@ -12,10 +12,12 @@ import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.objective.Objective;
 import java.util.HashSet;
 import java.util.Set;
+import javax.management.InvalidAttributeValueException;
 
 /**
  * Class to stimate how important is a {@link territory} for a {@link Player}.
  * To do so, this class uses a equa
+ *
  * @author Victor Guimarães
  */
 public class WeightEquationTerritoryValue implements TerritoryValue {
@@ -67,6 +69,11 @@ public class WeightEquationTerritoryValue implements TerritoryValue {
     private final double numberOfTerritoriesOnSameContinentWeight;
 
     /**
+     * An array to make sure that all possible results will be [0, 1].
+     */
+    private final double[] balanceWeight;
+
+    /**
      * Constructor with the needed parameters.
      *
      * @param game the game where this strategy will be used
@@ -84,15 +91,32 @@ public class WeightEquationTerritoryValue implements TerritoryValue {
      * @param w5 a weight to be applied on a value that represents the number of
      * {@link Territory}is on the the same {@link Continent}.
      */
-    public WeightEquationTerritoryValue(final Game game, final Player player, double w0, double w1, double w2, double w3, double w4, double w5) {
+    public WeightEquationTerritoryValue(final Game game, final Player player, double w0, double w1, double w2, double w3, double w4, double w5) throws InvalidAttributeValueException {
         this.game = game;
         this.player = player;
-        this.belongsToObjectiveWeight = w0;
-        this.numberOfBordersWeight = w1;
-        this.relativeBordersOnSameContinentWeight = w2;
-        this.numberOfBordersOutsideTheContinentWeight = w3;
-        this.numberOfAlliedBordersWeight = w4;
-        this.numberOfTerritoriesOnSameContinentWeight = w5;
+        this.belongsToObjectiveWeight = ensureInterval(w0);
+        this.numberOfBordersWeight = ensureInterval(w1);
+        this.relativeBordersOnSameContinentWeight = ensureInterval(w2);
+        this.numberOfBordersOutsideTheContinentWeight = ensureInterval(w3);
+        this.numberOfAlliedBordersWeight = ensureInterval(w4);
+        this.numberOfTerritoriesOnSameContinentWeight = ensureInterval(w5);
+        this.balanceWeight = new double[6];
+        loadBalanceWeightArray();
+    }
+
+    /**
+     * Method to ensure that the weight will be [0, 1].
+     *
+     * @param w the weight
+     * @return the weight
+     * @throws InvalidAttributeValueException in case the value does not be [0,
+     * 1]
+     */
+    private double ensureInterval(double w) throws InvalidAttributeValueException {
+        if (w < 0.0 || w > 1.0)
+            throw new InvalidAttributeValueException();
+        else
+            return w;
     }
 
     /**
@@ -108,8 +132,45 @@ public class WeightEquationTerritoryValue implements TerritoryValue {
      * @param player the player whose this strategy belongs
      * @param w an array with all the weights.
      */
-    public WeightEquationTerritoryValue(final Game game, final Player player, double... w) {
+    public WeightEquationTerritoryValue(final Game game, final Player player, double... w) throws InvalidAttributeValueException {
         this(game, player, w[0], w[1], w[2], w[3], w[4], w[5]);
+    }
+
+    /**
+     * Load the balance weight to make sure that the values of the weight be [0,
+     * 1].
+     */
+    private void loadBalanceWeightArray() {
+        balanceWeight[0] = 1;
+
+        balanceWeight[1] = 0;
+        balanceWeight[2] = 1;
+        balanceWeight[3] = 0;
+        balanceWeight[4] = 0;
+        balanceWeight[5] = 0;
+        Set<Continent> others;
+        int sameContinent, alliedBorders;
+        for (Territory territory : game.getWorld().getTerritories()) {
+            sameContinent = 0;
+            alliedBorders = 0;
+            balanceWeight[1] = Math.max(balanceWeight[1], territory.getBorders().size());
+            others = new HashSet<>();
+            for (Territory t : territory.getBorders()) {
+                if (t.getContinent().equals(territory.getContinent())) {
+                    sameContinent++;
+                } else {
+                    others.add(t.getContinent());
+                }
+                if (t.getOwner().equals(player)) {
+                    alliedBorders++;
+                }
+            }
+            balanceWeight[3] = Math.max(balanceWeight[3], others.size());
+            balanceWeight[4] = Math.max(balanceWeight[4], alliedBorders);
+            balanceWeight[5] = Math.max(balanceWeight[5], sameContinent);
+        }
+
+        balanceWeight[2] = 1;
     }
 
     /**
@@ -124,8 +185,8 @@ public class WeightEquationTerritoryValue implements TerritoryValue {
     public double getTerritoryValue(Territory territory) {
         double result = 0.0;
 
-        result += belongsToObjectiveWeight * (getObjective().isNeeded(territory) ? 1.0 : 0.0);
-        result += numberOfBordersWeight * (double) territory.getBorders().size();
+        result += belongsToObjectiveWeight * (getObjective().isNeeded(territory) ? 1.0 : 0.0) / balanceWeight[0];
+        result += numberOfBordersWeight * (double) territory.getBorders().size() / balanceWeight[1];
 
         int sameContinent = 0;
         int alliedBorder = 0;
@@ -141,9 +202,9 @@ public class WeightEquationTerritoryValue implements TerritoryValue {
             }
         }
 
-        result += relativeBordersOnSameContinentWeight * ((double) sameContinent / (double) territory.getContinent().size());
-        result += numberOfBordersOutsideTheContinentWeight * ((double) others.size());
-        result += numberOfAlliedBordersWeight * ((double) alliedBorder);
+        result += relativeBordersOnSameContinentWeight * ((double) sameContinent / (double) territory.getContinent().size()) / balanceWeight[2];
+        result += numberOfBordersOutsideTheContinentWeight * ((double) others.size()) / balanceWeight[3];
+        result += numberOfAlliedBordersWeight * ((double) alliedBorder) / balanceWeight[4];
 
         int ownedOnSameContinent = 0;
         for (Territory t : territory.getContinent()) {
@@ -152,9 +213,9 @@ public class WeightEquationTerritoryValue implements TerritoryValue {
             }
         }
 
-        result += numberOfTerritoriesOnSameContinentWeight * ((double) ownedOnSameContinent);
+        result += numberOfTerritoriesOnSameContinentWeight * ((double) ownedOnSameContinent) / balanceWeight[5];
 
-        return result;
+        return result / 6.0;
     }
 
     @Override
