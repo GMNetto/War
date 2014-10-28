@@ -175,8 +175,8 @@ public class Teste {
     public static void main(String[] args) throws NonexistentEntityException, Exception {
         AttackProbabilityFactory probabilityFactory = new AttackProbabilityFactory();
         System.out.println(probabilityFactory.getAttackProbability(50, 30));
-        //testAttackProbabilities();
-        //botTest();
+        testAttackProbabilities();
+        botTest();
     }
 
     public static int getExchangeBonus(int exchange) {
@@ -202,10 +202,8 @@ public class Teste {
         }
 
         Game game = new Game(players, gl.getWorld(), colors, gl.getCards());
-
         WeightEquationTerritoryValue[] weses = new WeightEquationTerritoryValue[players.length];
         Random r = new Random();
-
         List<Objective> obj = new ArrayList<>(gl.getObjectives());
         Collections.shuffle(obj);
         for (i = 0; i < players.length; i++) {

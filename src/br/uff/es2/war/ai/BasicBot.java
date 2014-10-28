@@ -51,6 +51,30 @@ public class BasicBot implements Player {
         this.cards = new HashSet<>();
     }
 
+    public AttackStrategy getAttackStrategy() {
+        return attackStrategy;
+    }
+
+    public void setAttackStrategy(AttackStrategy attackStrategy) {
+        this.attackStrategy = attackStrategy;
+    }
+
+    public AllocationStrategy getAllocationInstruction() {
+        return allocationInstruction;
+    }
+
+    public void setAllocationInstruction(AllocationStrategy allocationInstruction) {
+        this.allocationInstruction = allocationInstruction;
+    }
+
+    public RearrangeStrategy getRelocationStrategy() {
+        return relocationStrategy;
+    }
+
+    public void setRelocationStrategy(RearrangeStrategy relocationStrategy) {
+        this.relocationStrategy = relocationStrategy;
+    }
+
     public BasicBot(Game game, Jogador jogador, AttackStrategy attackStrategy, AllocationStrategy allocationInstruction, RearrangeStrategy relocationStrategy) {
         this(jogador, attackStrategy, allocationInstruction, relocationStrategy);
         this.game = game;

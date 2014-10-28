@@ -8,6 +8,7 @@ import br.uff.es2.war.events.EventBus;
 import br.uff.es2.war.events.LocalEventBus;
 import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.util.CyclicIterator;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -62,12 +63,21 @@ public class Game {
     }
 
     public void passTurn() {
-        if (turns.hasNext())
+        if (turns.hasNext()) {
             currentPlayer = turns.next();
+        }
     }
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public Player getNextPlayer() {
+        int i = Arrays.binarySearch(players, this.getCurrentPlayer());
+        if (i == players.length - 1) {
+            return players[0];
+        }
+        return players[++i];
     }
 
     public EventBus getEvents() {
@@ -75,8 +85,9 @@ public class Game {
     }
 
     public boolean isOver() {
-        if (winner != null)
+        if (winner != null) {
             return true;
+        }
         for (Player player : players) {
             if (player.getObjective().wasAchieved()) {
                 winner = player;
