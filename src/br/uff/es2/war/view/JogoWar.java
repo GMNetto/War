@@ -16,12 +16,12 @@ import javafx.stage.Stage;
  *
  * @author anacarolinegomesvargas
  */
-public class TelaJogo extends Application {
+public class JogoWar extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
         
-       Parent root = FXMLLoader.load(getClass().getResource("TelaJogo.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("TelaInicial.fxml"));
         
         Scene scene = new Scene(root);
         
