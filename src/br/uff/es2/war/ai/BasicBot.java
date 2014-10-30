@@ -8,6 +8,7 @@ package br.uff.es2.war.ai;
 import br.uff.es2.war.entity.Jogador;
 import br.uff.es2.war.ai.strategies.attack.AttackStrategy;
 import br.uff.es2.war.ai.strategies.attack.allocation.AllocationStrategy;
+import br.uff.es2.war.ai.strategies.cardchange.ChangeCardStrategy;
 import br.uff.es2.war.ai.strategies.rearrange.RearrangeStrategy;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
@@ -16,6 +17,7 @@ import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.objective.Objective;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -41,11 +43,20 @@ public class BasicBot implements Player {
     private AttackStrategy attackStrategy;
     private AllocationStrategy allocationInstruction;
     private RearrangeStrategy relocationStrategy;
-    private Collection<Card> cards;
+    private ChangeCardStrategy changeCardStrategy;
+
+    public ChangeCardStrategy getChangeCardStrategy() {
+        return changeCardStrategy;
+    }
+
+    public void setChangeCardStrategy(ChangeCardStrategy changeCardStrategy) {
+        this.changeCardStrategy = changeCardStrategy;
+    }
+    private List<Card> cards;
 
     public BasicBot(Jogador jogador) {
         this.jogador = jogador;
-        this.cards = new HashSet<>();
+        this.cards = new ArrayList<>();
     }
 
     public BasicBot(Jogador jogador, Game game) {
@@ -120,7 +131,7 @@ public class BasicBot implements Player {
 
     @Override
     public List<Card> exchangeCards() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return changeCardStrategy.changeCard(cards);
     }
 
     @Override
