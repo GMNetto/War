@@ -85,7 +85,7 @@ public class WeightedRandomAllocationTest {
 
         for (Player player : players) {
             winLoseTerritoryValue = new WinLoseTerritoryValue(game, player, afp);
-            weightEquationTerritoryValue = new WeightEquationTerritoryValue(game, player, 0.8, 0.5, 0.5, 0.5, 0.5, 0.5);
+            weightEquationTerritoryValue = new WeightEquationTerritoryValue(game, player, 0.9, 0.1, 0.15, 0.1, 0.1, 0.3);
             offensiveTerritoryValue = new OffensiveTerritoryValue(winLoseTerritoryValue);
             weightedRandomAllocation = new WeightedRandomAllocationStrategy(offensiveTerritoryValue, weightEquationTerritoryValue, winLoseTerritoryValue);
             ((BasicBot) player).setAllocationInstruction(weightedRandomAllocation);
@@ -112,7 +112,8 @@ public class WeightedRandomAllocationTest {
         int post;
         for (Player player : players) {
             previous = 0;
-            System.out.println(player.getObjective());
+            System.out.println("Color: " + player.getColor().getName());
+            System.out.println("Objective: " + player.getObjective());
             System.out.println("");
 
             for (Territory t : world.getTerritoriesByOwner(player)) {
