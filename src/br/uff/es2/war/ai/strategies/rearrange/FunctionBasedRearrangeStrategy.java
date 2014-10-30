@@ -14,11 +14,13 @@ import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.function.Predicate;
-import org.eclipse.persistence.internal.core.helper.CoreClassConstants;
+//import java.util.function.Predicate;
 
 /**
  *
@@ -29,14 +31,15 @@ public class FunctionBasedRearrangeStrategy implements RearrangeStrategy {
     private Player player;
     private Game game;
     private TerritoryValueComparator territoryValueComparator;
-    private ThresholdFunction tFunction; 
+    private ThresholdFunction tFunction;
+    private Map<Territory, Integer> destinyAndQtd;
     
     public FunctionBasedRearrangeStrategy(ThresholdFunction tFunction, Player player, Game game, TerritoryValue ... values){
         this.tFunction=tFunction;
         this.player=player;
         this.game=game;
         this.territoryValueComparator = new TerritoryValueComparator(values);
-        
+        this.destinyAndQtd=new HashMap<>();
         
     }
 
@@ -44,30 +47,17 @@ public class FunctionBasedRearrangeStrategy implements RearrangeStrategy {
     public void moveSoldiers() {
         List<Territory> territories=new ArrayList(game.getWorld().getTerritoriesByOwner(player));
         Collections.sort(territories, territoryValueComparator);
-        int indexMoreValue=0;
-        int indexOfMorethanOne=territories.size()-1;
-        //while(indexMoreValue<territories.size());
         for(Territory territory:territories){
-            /*
-            int indexLessValue=indexOfMorethanOne,
-            while(indexLessValue>indexMoreValue && localThreshold>territories.get(indexMoreValue).getSoldiers()){
-                exchangeSoldiers(territories.get(indexLessValue),territories.get(indexMoreValue));
-                if(territories.get(indexLessValue).getSoldiers()==1){
-                    indexMoreValue--;
-                }   
-                indexLessValue--;
-            }
-                    */
             int localThreshold=tFunction.value(territories.indexOf(territory),territoryValueComparator.getTerritoryValue(territory));
             List<Territory> neighboors=new ArrayList(territory.getBorders());
-            neighboors.removeIf(new Predicate<Territory>() {
-
-                @Override
-                public boolean test(Territory t) {
-                    return territoryValueComparator.getTerritoryValue(t)>territoryValueComparator.getTerritoryValue(territory);
+            ListIterator<Territory> iteratorNeighboors=neighboors.listIterator();
+            while(iteratorNeighboors.hasNext()){
+                Territory candidate=iteratorNeighboors.next();
+                if(territoryValueComparator.getTerritoryValue(candidate)>territoryValueComparator.getTerritoryValue(territory)||!game.getWorld().getTerritoriesByOwner(player).contains(candidate)){
+                    iteratorNeighboors.remove();
                 }
-            });
-           exchange(territories.get(indexMoreValue),neighboors,localThreshold);
+            }
+           exchange(territory,neighboors,localThreshold);
         }
     }
 
@@ -81,4 +71,6 @@ public class FunctionBasedRearrangeStrategy implements RearrangeStrategy {
             }
         }
     }
+    
+    
 }

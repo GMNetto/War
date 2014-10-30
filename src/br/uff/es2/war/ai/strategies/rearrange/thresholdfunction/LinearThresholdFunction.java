@@ -14,7 +14,7 @@ public class LinearThresholdFunction implements ThresholdFunction{
     
     @Override
     public int value(int x,double weight) {
-        return x;
+        return x>10?0:10-x;
     }
     
 }

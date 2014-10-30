@@ -52,7 +52,7 @@ public class FunctionBasedRearrangeStrategyTest {
         world = gl.getWorld();
         objectives = new TreeSet<>(new ObjectiveComparator());
         objectives.addAll(gl.getObjectives());
-        players = new Player[6];
+        players = new Player[3];
         colors = new Color[gl.getColors().size()];
 
         int i = 0;
@@ -105,19 +105,7 @@ public class FunctionBasedRearrangeStrategyTest {
     
     @Test
     public void TEST_REARRANGE() {
-
-        for (int i = 0; i < 3; i++) {
-            rearrange();
-        }
-
-        for (Territory t : world.getTerritories()) {
-            System.out.println("Name: " + t.getName() + "\t\t\tSoldiers: " + t.getSoldiers() + "\t\t\tOwner: " + t.getOwner().getColor().getName());
-        }
-    }
-    
-    @Test
-    public void TEST_ALLOCATIONS() {
-
+        System.out.println("Alocating");
         for (int i = 0; i < 3; i++) {
             allocRound();
         }
@@ -125,7 +113,16 @@ public class FunctionBasedRearrangeStrategyTest {
         for (Territory t : world.getTerritories()) {
             System.out.println("Name: " + t.getName() + "\t\t\tSoldiers: " + t.getSoldiers() + "\t\t\tOwner: " + t.getOwner().getColor().getName());
         }
+        System.out.println("Moving");
+        for (int i = 0; i < 1; i++) {
+            rearrange();
+        }
+
+        for (Territory t : world.getTerritories()) {
+            System.out.println("Name: " + t.getName() + "\t\t\tSoldiers: " + t.getSoldiers() + "\t\t\tOwner: " + t.getOwner().getColor().getName());
+        }
     }
+
 
     private void allocRound() {
         int previous;
