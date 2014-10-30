@@ -100,7 +100,6 @@ public class WeightedRandomAllocationStrategy implements AllocationStrategy {
         for (int i = 0; i < weights.length; i++) {
             if (r < weights[i]) {
                 valuesTerritories.get(i).addSoldiers(1);
-                System.out.println("Territory: " + valuesTerritories.get(i).getName() + "\t\t\tImportance: " + territoryValues[territoryValueIndex].getTerritoryValue(valuesTerritories.get(i)));
                 return;
             }
         }
@@ -122,7 +121,9 @@ public class WeightedRandomAllocationStrategy implements AllocationStrategy {
     private double[] getWeights(List<Territory> territories, TerritoryValue territoryValue) {
         double[] weights = new double[territories.size()];
         for (int i = 0; i < territories.size(); i++) {
+            territories.get(i).addSoldiers(1);
             weights[i] = territoryValue.getTerritoryValue(territories.get(i));
+            territories.get(i).removeSoldiers(1);
             if (i > 0) {
                 weights[i] += weights[i - 1];
             }

@@ -34,7 +34,15 @@ public class DestroyColor extends ParcialObjetive {
 
     @Override
     public boolean isNeeded(Territory territory) {
-        return territory.getOwner().getColor().equals(color);
+        if (territory.getOwner().getColor().equals(color)) {
+            return true;
+        } else {
+            for (Territory t : territory.getBorders()) {
+                if (t.getOwner().getColor().equals(color))
+                    return true;
+            }
+        }
+        return false;
     }
 
     @Override
