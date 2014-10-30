@@ -28,7 +28,7 @@ public class MockGame extends Game {
 	return players;
     }
 
-    private static World createWorld() {
+    public static World createWorld() {
 	World world = new World("Test World");
 	
 	Continent continentA = new Continent("A", world, 2);

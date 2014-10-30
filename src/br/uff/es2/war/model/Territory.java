@@ -1,9 +1,6 @@
 package br.uff.es2.war.model;
 
-import br.uff.es2.war.entity.Ocupacao;
-import br.uff.es2.war.entity.Territorio;
 import java.util.HashSet;
-import java.util.Observer;
 import java.util.Set;
 import java.util.Observable;
 

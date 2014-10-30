@@ -1,5 +1,7 @@
 package br.uff.es2.war.network;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -22,6 +24,7 @@ public class JSONWarProtocol implements WarProtocol {
     private static final String ADD_CARD = "ADD_CARD";
     private static final String DISCARD = "DISCARD";
     private static final String EXCHANGE_CARDS = "EXCHANGE_CARDS";
+    private static final String DECLARE_COMBAT = "DECLARE_COMBAT";
     private final World world;
     
     public JSONWarProtocol(World world) {
@@ -49,31 +52,56 @@ public class JSONWarProtocol implements WarProtocol {
     @Override
     public String distributeSoldiers(int soldierQuantity,
 	    Set<Territory> territories) {
-	Territory[] array = new Territory[territories.size()];
-	territories.toArray(array);
-	JSONArray territoriesJSON = new JSONArray(array);
-	return DISTRIBUTE_SOLDIERS + " " + soldierQuantity + territoriesJSON;
+	JSONArray territoriesJSON = encodeTerritories(territories);
+	return DISTRIBUTE_SOLDIERS + " " + soldierQuantity + " " + territoriesJSON;
+    }
+    
+    private static JSONArray encodeTerritories(Collection<Territory> territories){
+	JSONArray array = new JSONArray();
+	Iterator<Territory> iterator = territories.iterator();
+	for(int i = 0; i < territories.size(); i++)
+	    array = array.put(i, encodeTerritory(iterator.next()));
+	return array;
+    }
+    
+    private static JSONObject encodeTerritory(Territory territory){
+	JSONObject obj = new JSONObject();
+	obj.put("name", territory.getName());
+	obj.put("soldiers", territory.getSoldiers());
+	obj.put("continent", territory.getContinent().getName());
+	obj.put("owner", territory.getOwner().getColor().getName());
+	List<String> borders = new LinkedList<>();
+	for(Territory border : territory.getBorders())
+	    borders.add(border.getName());
+	obj.put("borders", borders);
+	return obj;
     }
 
     @Override
     public void distributeSoldiers(String receive, int soldierQuantity,
 	    Set<Territory> territories) {
-	// TODO Auto-generated method stub
-	
+	JSONArray territoriesJSON = new JSONArray(territories);
+	for(int i = 0; i < territories.size(); i++){
+	    JSONObject territoryJSON = territoriesJSON.getJSONObject(i);
+	    String name = territoryJSON.getString("name");
+	    Territory territory = world.getTerritoryByName(name);
+	    territory.setSoldiers(territoryJSON.getInt("soldiers"));
+	}
     }
 
     @Override
     public String declareCombat() {
-	// TODO Auto-generated method stub
-	return null;
+	return DECLARE_COMBAT;
     }
 
     @Override
     public Combat declareCombat(String receive) {
-	// TODO Auto-generated method stub
-	return null;
+	JSONObject json = new JSONObject(receive);
+	Territory attacking = world.getTerritoryByName(json.getString("attacking"));
+	Territory defending = world.getTerritoryByName(json.getString("defending"));
+	int soldiers = json.getInt("soldiers");
+	return new Combat(attacking, defending, soldiers);
     }
-
     @Override
     public String answerCombat() {
 	// TODO Auto-generated method stub

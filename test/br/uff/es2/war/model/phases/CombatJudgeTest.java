@@ -75,6 +75,8 @@ public class CombatJudgeTest extends GamePhaseTest{
 	territoryDefs.setSoldiers(1);
 	Combat combat = new Combat(territoryAtck, territoryDefs, 2);
 	judge.resolve(combat);
+	//TODO: assertEquals(territoryAtck.getSoldiers(), 2);
+	//TODO: assertEquals(territoryDefs.getSoldiers(), 1);
 	assertEquals(territoryAtck.getSoldiers(), 1);
 	assertEquals(territoryDefs.getSoldiers(), 1);
     }
@@ -87,6 +89,7 @@ public class CombatJudgeTest extends GamePhaseTest{
 	territoryDefs.setSoldiers(1);
 	Combat combat = new Combat(territoryAtck, territoryDefs, 2);
 	judge.resolve(combat);
+	//TODO:Attacking soldiers must choose how many soldiers move, in this case 2 or 1.
 	assertEquals(territoryDefs.getOwner(), territoryAtck.getOwner());
 	assertEquals(territoryAtck.getSoldiers(), 2);
 	assertEquals(territoryDefs.getSoldiers(), 1);

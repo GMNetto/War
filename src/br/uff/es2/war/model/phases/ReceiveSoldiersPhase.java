@@ -36,15 +36,6 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
 	return new CombatPhase();
     }
     
-    private int continentBonus(Player player, World world) {
-        int bonus = 0;
-        Set<Territory> territories = world.getTerritoriesByOwner(player);
-        for (Continent continent : world)
-            if (territories.containsAll(continent))
-                bonus += continent.getTotalityBonus();
-        return bonus;
-    }
-    
     private int cardBonus(Player player, Game game){
 	List<Card> cards = player.exchangeCards();
 	if(cards.size() == 0)
@@ -56,5 +47,14 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
 	}
 	game.incrementExchangeCounter();
 	return game.getExchangeBonus();
+    }
+    
+    private int continentBonus(Player player, World world) {
+        int bonus = 0;
+        Set<Territory> territories = world.getTerritoriesByOwner(player);
+        for (Continent continent : world)
+            if (territories.containsAll(continent))
+                bonus += continent.getTotalityBonus();
+        return bonus;
     }
 }
