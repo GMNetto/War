@@ -180,12 +180,12 @@ public class AlocaController {
             public void handle(ActionEvent event) {
                 //limitando para numero máximo de execitos a serem alocados
                 //como colocar a condição de não mover exercito que já foram movidos nessa fase
-                if(terOrigem.getQtdMov()==0 && acrescenta<=terOrigem.getQtd()-1){
+                if(terOrigem.getQtdMov()==0 && acrescenta<terOrigem.getQtd()-1){
                     acrescenta++;
                     terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
                     terOrigem.getTexto().setText((terOrigem.getQtd()-acrescenta)+"");
                 }
-                if(terOrigem.getQtdMov()>0 && acrescenta<=terOrigem.getQtd()-terOrigem.getQtdMov()-1){
+                if(terOrigem.getQtdMov()>0 && acrescenta<terOrigem.getQtd()-terOrigem.getQtdMov()){
                     acrescenta++;
                     terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
                     terOrigem.getTexto().setText((terOrigem.getQtd()-acrescenta)+"");
