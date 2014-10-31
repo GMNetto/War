@@ -21,7 +21,7 @@ import java.util.Set;
  * this classe represents a basic BOT. This class takes actions based on
  * strategies defined by three types of interaction: Soldiers allocation, Attack
  * and soldiers relocation.
- *
+ * 
  * @see AllocationStrategy
  * @see AttackStrategy
  * @see RearrangeStrategy
@@ -38,76 +38,81 @@ public class BasicBot implements Player {
     private AllocationStrategy allocationInstruction;
     private RearrangeStrategy relocationStrategy;
 
-    public BasicBot(Jogador jogador, AttackStrategy attackStrategy, AllocationStrategy allocationInstruction, RearrangeStrategy relocationStrategy) {
-        this.jogador = jogador;
-        this.attackStrategy = attackStrategy;
-        this.allocationInstruction = allocationInstruction;
-        this.relocationStrategy = relocationStrategy;
+    public BasicBot(Jogador jogador, AttackStrategy attackStrategy,
+	    AllocationStrategy allocationInstruction,
+	    RearrangeStrategy relocationStrategy) {
+	this.jogador = jogador;
+	this.attackStrategy = attackStrategy;
+	this.allocationInstruction = allocationInstruction;
+	this.relocationStrategy = relocationStrategy;
     }
 
-    public BasicBot(Game game, Jogador jogador, AttackStrategy attackStrategy, AllocationStrategy allocationInstruction, RearrangeStrategy relocationStrategy) {
-        this(jogador, attackStrategy, allocationInstruction, relocationStrategy);
-        this.game = game;
+    public BasicBot(Game game, Jogador jogador, AttackStrategy attackStrategy,
+	    AllocationStrategy allocationInstruction,
+	    RearrangeStrategy relocationStrategy) {
+	this(jogador, attackStrategy, allocationInstruction, relocationStrategy);
+	this.game = game;
     }
 
     @Override
     public Objective getObjective() {
-        return this.objective;
+	return this.objective;
     }
 
     @Override
     public void setObjective(Objective objective) {
-        this.objective = objective;
+	this.objective = objective;
     }
 
     @Override
     public Color chooseColor(Color[] colors) {
-        return colors[0];
+	return colors[0];
     }
 
     @Override
     public Color getColor() {
-        return this.color;
+	return this.color;
     }
 
     @Override
     public void setColor(Color color) {
-        this.color = color;
+	this.color = color;
     }
 
     @Override
     public void beginTurn(Player current) {
-        //Gives the BOT a chance to do something when a turn begins.
+	// Gives the BOT a chance to do something when a turn begins.
     }
 
     @Override
-    public void distributeSoldiers(int soldierQuantity, Set<Territory> territories) {
-        allocationInstruction.distributeSoldiers(soldierQuantity, territories);
+    public void distributeSoldiers(int soldierQuantity,
+	    Set<Territory> territories) {
+	allocationInstruction.distributeSoldiers(soldierQuantity, territories);
     }
 
     @Override
     public Combat declareCombat() {
-        return attackStrategy.declareCombat();
+	return attackStrategy.declareCombat();
     }
 
     @Override
     public void answerCombat(Combat combat) {
-        //Gives the BOT a chance to do something when a combat ends.
+	// Gives the BOT a chance to do something when a combat ends.
     }
 
     @Override
     public void moveSoldiers() {
-        relocationStrategy.moveSoldiers();
+	relocationStrategy.moveSoldiers();
     }
 
     @Override
     public Game getGame() {
-        return this.game;
+	return this.game;
     }
 
     @Override
     public void setGame(Game game) {
-        this.game = game;
+	this.game = game;
     }
 
 }

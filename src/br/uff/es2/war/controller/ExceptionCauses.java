@@ -7,7 +7,7 @@
 package br.uff.es2.war.controller;
 
 /**
- *
+ * 
  * @author Victor Guimarães
  */
 public enum ExceptionCauses {
@@ -19,14 +19,16 @@ public enum ExceptionCauses {
      * @param text
      */
     private ExceptionCauses(final String text) {
-        this.text = text;
+	this.text = text;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Enum#toString()
      */
     @Override
     public String toString() {
-        return text;
+	return text;
     }
 }

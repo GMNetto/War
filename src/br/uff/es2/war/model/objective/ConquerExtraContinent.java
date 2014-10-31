@@ -18,7 +18,7 @@ import java.util.Set;
  * This class tells only if the {@link Player} has a specified number of
  * {@link Continent}s, not including the {@link Continent}s that he or she
  * already have to have.
- *
+ * 
  * @see ConquerContinent
  * @author Victor Guimarães
  */
@@ -43,38 +43,44 @@ public class ConquerExtraContinent extends ParcialObjetive {
 
     /**
      * Constructor with all needed parameters.
-     *
-     * @param world the specific {@link World} of the {@link Objective}
-     * @param extraContinents the number of extra {@link Continent}s to be
-     * conquered
-     * @param notIncludeds the {@link Set} of {@link Continent} which should not
-     * count as extra {@link Continent}s
+     * 
+     * @param world
+     *            the specific {@link World} of the {@link Objective}
+     * @param extraContinents
+     *            the number of extra {@link Continent}s to be conquered
+     * @param notIncludeds
+     *            the {@link Set} of {@link Continent} which should not count as
+     *            extra {@link Continent}s
      */
-    public ConquerExtraContinent(World world, int extraContinents, final Set<Continent> notIncludeds) {
-        super(world);
-        this.extraContinents = extraContinents;
-        this.notIncludeds = notIncludeds;
-        loadOptionalContinents();
+    public ConquerExtraContinent(World world, int extraContinents,
+	    final Set<Continent> notIncludeds) {
+	super(world);
+	this.extraContinents = extraContinents;
+	this.notIncludeds = notIncludeds;
+	loadOptionalContinents();
     }
 
     /**
      * Constructor with all needed parameters.
-     *
-     * @param world the specific {@link World} of the {@link Objective}
-     * @param extraContinents the number of extra {@link Continent}s to be
-     * conquered
-     * @param notIncludeds a set of {@link Continent} which should not count as
-     * extra {@link Continent}s
+     * 
+     * @param world
+     *            the specific {@link World} of the {@link Objective}
+     * @param extraContinents
+     *            the number of extra {@link Continent}s to be conquered
+     * @param notIncludeds
+     *            a set of {@link Continent} which should not count as extra
+     *            {@link Continent}s
      */
-    public ConquerExtraContinent(World world, int extraContinents, Continent... notIncludeds) {
-        super(world);
-        this.extraContinents = extraContinents;
+    public ConquerExtraContinent(World world, int extraContinents,
+	    Continent... notIncludeds) {
+	super(world);
+	this.extraContinents = extraContinents;
 
-        this.notIncludeds = new HashSet<>();
-        for (Continent continent : notIncludeds) {
-            this.notIncludeds.add(continent);
-        }
-        loadOptionalContinents();
+	this.notIncludeds = new HashSet<>();
+	for (Continent continent : notIncludeds) {
+	    this.notIncludeds.add(continent);
+	}
+	loadOptionalContinents();
     }
 
     /**
@@ -82,74 +88,73 @@ public class ConquerExtraContinent extends ParcialObjetive {
      * {@link Continent}s to conquering.
      */
     private void loadOptionalContinents() {
-        Set<ConquerContinent> optContinents = new HashSet<>(world.size() - notIncludeds.size());
-        ConquerContinent conquerContinent;
-        
-        for (Continent continent : world) {
-            if (!notIncludeds.contains(continent)) {
-                conquerContinent = new ConquerContinent(world, continent);
-                conquerContinent.setOwner(owner);
-                optContinents.add(conquerContinent);
-            }
-        }
+	Set<ConquerContinent> optContinents = new HashSet<>(world.size()
+		- notIncludeds.size());
+	ConquerContinent conquerContinent;
 
-        this.optionalContinents = optContinents;
+	for (Continent continent : world) {
+	    if (!notIncludeds.contains(continent)) {
+		conquerContinent = new ConquerContinent(world, continent);
+		conquerContinent.setOwner(owner);
+		optContinents.add(conquerContinent);
+	    }
+	}
+
+	this.optionalContinents = optContinents;
     }
 
     @Override
     public boolean isNeeded(Territory territory) {
-        for (ConquerContinent conquerContinent : optionalContinents) {
-            if (conquerContinent.isNeeded(territory)) {
-                return true;
-            }
-        }
+	for (ConquerContinent conquerContinent : optionalContinents) {
+	    if (conquerContinent.isNeeded(territory)) {
+		return true;
+	    }
+	}
 
-        return false;
+	return false;
     }
 
     @Override
     public boolean wasAchieved() {
-        int count = 0;
-        for (ConquerContinent conquerContinent : optionalContinents) {
-            if (conquerContinent.wasAchieved()) {
-                count++;
-            }
+	int count = 0;
+	for (ConquerContinent conquerContinent : optionalContinents) {
+	    if (conquerContinent.wasAchieved()) {
+		count++;
+	    }
 
-            if (count == extraContinents)
-                return true;
-        }
+	    if (count == extraContinents)
+		return true;
+	}
 
-        return false;
+	return false;
     }
 
     /**
      * Getter for the {@link Set} of {@link Continent} which should not count as
      * extra {@link Continent}s.
-     *
+     * 
      * @return the {@link Set} of {@link Continent} which should not count as
-     * extra {@link Continent}s
+     *         extra {@link Continent}s
      */
     public Set<Continent> getNotIncludeds() {
-        return notIncludeds;
+	return notIncludeds;
     }
 
     /**
      * Getter for the number of extra {@link Continent}s to be conquered.
-     *
+     * 
      * @return the number of extra {@link Continent}s to be conquered
      */
     public int getExtraContinents() {
-        return extraContinents;
+	return extraContinents;
     }
 
     @Override
     public void setOwner(Player owner) {
-        super.setOwner(owner);
-        for (ConquerContinent conquerContinent : optionalContinents) {
-            conquerContinent.setOwner(owner);
-        }
+	super.setOwner(owner);
+	for (ConquerContinent conquerContinent : optionalContinents) {
+	    conquerContinent.setOwner(owner);
+	}
     }
-    
-    
 
 }

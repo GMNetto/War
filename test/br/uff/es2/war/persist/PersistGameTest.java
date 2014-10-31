@@ -25,28 +25,32 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- *
+ * 
  * @author Gustavo
  */
 public class PersistGameTest {
 
     public static void main(String[] args) {
-        try {
-            GameLoader wC = new GameLoader(0, Persistence.createEntityManagerFactory("WarESIIPU"));
-            World w = wC.getWorld();
-            Map<Territory, Integer> tI = new HashMap();
-            Player pl = new StubPlayer();
-            Map<Player, Integer> pI = new HashMap();
-            pI.put(pl, 1);
-            w.getTerritoryByName("Brasil").setOwner(pl);
-            tI.put(w.getTerritoryByName("Brasil"), 17);
-            //GamePersister pG = new GamePersister(tI, pI, Persistence.createEntityManagerFactory("WarESIIPU"));
-            Partida p = new Partida(1);
-            //pG.persistOcupacao(w.getTerritoryByName("Brasil"), 3, p);
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(PersistGameTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(PersistGameTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
+	try {
+	    GameLoader wC = new GameLoader(0,
+		    Persistence.createEntityManagerFactory("WarESIIPU"));
+	    World w = wC.getWorld();
+	    Map<Territory, Integer> tI = new HashMap();
+	    Player pl = new StubPlayer();
+	    Map<Player, Integer> pI = new HashMap();
+	    pI.put(pl, 1);
+	    w.getTerritoryByName("Brasil").setOwner(pl);
+	    tI.put(w.getTerritoryByName("Brasil"), 17);
+	    // GamePersister pG = new GamePersister(tI, pI,
+	    // Persistence.createEntityManagerFactory("WarESIIPU"));
+	    Partida p = new Partida(1);
+	    // pG.persistOcupacao(w.getTerritoryByName("Brasil"), 3, p);
+	} catch (NonexistentEntityException ex) {
+	    Logger.getLogger(PersistGameTest.class.getName()).log(Level.SEVERE,
+		    null, ex);
+	} catch (Exception ex) {
+	    Logger.getLogger(PersistGameTest.class.getName()).log(Level.SEVERE,
+		    null, ex);
+	}
     }
 }

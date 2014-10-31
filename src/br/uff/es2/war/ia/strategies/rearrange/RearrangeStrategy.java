@@ -11,7 +11,7 @@ import br.uff.es2.war.model.Territory;
 /**
  * This interface describes a strategy that will be used for the rearrange the
  * soldiers on the {@link Game}. This interface is used by BOTs.
- *
+ * 
  * @see BasicBot
  * @author Victor Guimarães
  */

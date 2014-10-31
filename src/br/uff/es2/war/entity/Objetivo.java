@@ -26,16 +26,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * 
  * @author Victor
  */
 @Entity
 @Table(name = "objetivo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Objetivo.findAll", query = "SELECT o FROM Objetivo o"),
-    @NamedQuery(name = "Objetivo.findByCodObjetivo", query = "SELECT o FROM Objetivo o WHERE o.codObjetivo = :codObjetivo"),
-    @NamedQuery(name = "Objetivo.findByDescricao", query = "SELECT o FROM Objetivo o WHERE o.descricao = :descricao")})
+	@NamedQuery(name = "Objetivo.findAll", query = "SELECT o FROM Objetivo o"),
+	@NamedQuery(name = "Objetivo.findByCodObjetivo", query = "SELECT o FROM Objetivo o WHERE o.codObjetivo = :codObjetivo"),
+	@NamedQuery(name = "Objetivo.findByDescricao", query = "SELECT o FROM Objetivo o WHERE o.descricao = :descricao") })
 public class Objetivo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,112 +66,118 @@ public class Objetivo implements Serializable {
     }
 
     public Objetivo(Integer codObjetivo) {
-        this.codObjetivo = codObjetivo;
+	this.codObjetivo = codObjetivo;
     }
 
     public Objetivo(Integer codObjetivo, String descricao) {
-        this.codObjetivo = codObjetivo;
-        this.descricao = descricao;
+	this.codObjetivo = codObjetivo;
+	this.descricao = descricao;
     }
 
     public Integer getCodObjetivo() {
-        return codObjetivo;
+	return codObjetivo;
     }
 
     public void setCodObjetivo(Integer codObjetivo) {
-        this.codObjetivo = codObjetivo;
+	this.codObjetivo = codObjetivo;
     }
 
     public String getDescricao() {
-        return descricao;
+	return descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.descricao = descricao;
+	this.descricao = descricao;
     }
 
     public Objterritorio getObjterritorio() {
-        return objterritorio;
+	return objterritorio;
     }
 
     public void setObjterritorio(Objterritorio objterritorio) {
-        this.objterritorio = objterritorio;
+	this.objterritorio = objterritorio;
     }
 
     @XmlTransient
     public Collection<Jogam> getJogamCollection() {
-        return jogamCollection;
+	return jogamCollection;
     }
 
     public void setJogamCollection(Collection<Jogam> jogamCollection) {
-        this.jogamCollection = jogamCollection;
+	this.jogamCollection = jogamCollection;
     }
 
     @XmlTransient
     public Collection<Historico> getHistoricoCollection() {
-        return historicoCollection;
+	return historicoCollection;
     }
 
     public void setHistoricoCollection(Collection<Historico> historicoCollection) {
-        this.historicoCollection = historicoCollection;
+	this.historicoCollection = historicoCollection;
     }
 
     public Mundo getCodMundo() {
-        return codMundo;
+	return codMundo;
     }
 
     public void setCodMundo(Mundo codMundo) {
-        this.codMundo = codMundo;
+	this.codMundo = codMundo;
     }
 
     public Objconqcont getObjconqcont() {
-        return objconqcont;
+	return objconqcont;
     }
 
     public void setObjconqcont(Objconqcont objconqcont) {
-        this.objconqcont = objconqcont;
+	this.objconqcont = objconqcont;
     }
 
     @XmlTransient
     public Collection<Objderjogador> getObjderjogadorCollection() {
-        return objderjogadorCollection;
+	return objderjogadorCollection;
     }
 
-    public void setObjderjogadorCollection(Collection<Objderjogador> objderjogadorCollection) {
-        this.objderjogadorCollection = objderjogadorCollection;
+    public void setObjderjogadorCollection(
+	    Collection<Objderjogador> objderjogadorCollection) {
+	this.objderjogadorCollection = objderjogadorCollection;
     }
 
     @XmlTransient
     public Collection<Objderjogador> getObjderjogadorCollection1() {
-        return objderjogadorCollection1;
+	return objderjogadorCollection1;
     }
 
-    public void setObjderjogadorCollection1(Collection<Objderjogador> objderjogadorCollection1) {
-        this.objderjogadorCollection1 = objderjogadorCollection1;
+    public void setObjderjogadorCollection1(
+	    Collection<Objderjogador> objderjogadorCollection1) {
+	this.objderjogadorCollection1 = objderjogadorCollection1;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (codObjetivo != null ? codObjetivo.hashCode() : 0);
-        return hash;
+	int hash = 0;
+	hash += (codObjetivo != null ? codObjetivo.hashCode() : 0);
+	return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Objetivo)) {
-            return false;
-        }
-        Objetivo other = (Objetivo) object;
-        if ((this.codObjetivo == null && other.codObjetivo != null) || (this.codObjetivo != null && !this.codObjetivo.equals(other.codObjetivo)))
-            return false;
-        return true;
+	// TODO: Warning - this method won't work in the case the id fields are
+	// not set
+	if (!(object instanceof Objetivo)) {
+	    return false;
+	}
+	Objetivo other = (Objetivo) object;
+	if ((this.codObjetivo == null && other.codObjetivo != null)
+		|| (this.codObjetivo != null && !this.codObjetivo
+			.equals(other.codObjetivo)))
+	    return false;
+	return true;
     }
 
     @Override
     public String toString() {
-        return "br.uff.es2.war.entity.Objetivo[ codObjetivo=" + codObjetivo + " ]";
+	return "br.uff.es2.war.entity.Objetivo[ codObjetivo=" + codObjetivo
+		+ " ]";
     }
-    
+
 }

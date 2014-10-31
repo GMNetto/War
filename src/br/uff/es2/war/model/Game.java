@@ -14,12 +14,12 @@ import java.util.Iterator;
 /**
  * Holds the state of a War game. The game is updated by the players during the
  * execution of the game phases.
- *
+ * 
  * @author Arthur Pitzer
  */
 public class Game {
-    
-    private static final int[] EXCHANGE_BONUS = new int[]{1,2,3,4,5}; 
+
+    private static final int[] EXCHANGE_BONUS = new int[] { 1, 2, 3, 4, 5 };
     private final EventBus events;
     private final Player[] players;
     private final Color[] colors;
@@ -31,7 +31,7 @@ public class Game {
     private int exchange;
     private Date startDate;
     private Date endDate;
-    
+
     public Game(Player[] players, World world, Color[] colors, List<Card> cards) {
 	events = new LocalEventBus();
 	exchange = 0;
@@ -41,43 +41,43 @@ public class Game {
 	this.colors = colors;
 	this.cards = cards;
 	turns = new CyclicIterator<Player>(players);
-        startDate = new Date();
+	startDate = new Date();
     }
 
     public Player[] getPlayers() {
-        return players;
+	return players;
     }
-    
+
     public Color[] getColors() {
 	return colors;
     }
-    
-    public World getWorld(){
+
+    public World getWorld() {
 	return world;
     }
-    
-    public Card drawCard(){
+
+    public Card drawCard() {
 	return cards.remove(0);
     }
-    
-    public void passTurn(){
-	if(turns.hasNext())
+
+    public void passTurn() {
+	if (turns.hasNext())
 	    currentPlayer = turns.next();
     }
 
     public Player getCurrentPlayer() {
-        return currentPlayer;
+	return currentPlayer;
     }
-    
+
     public EventBus getEvents() {
 	return events;
     }
-    
-    public boolean isOver(){
-	if(winner != null)
+
+    public boolean isOver() {
+	if (winner != null)
 	    return true;
-	for(Player player : players){
-	    if(player.getObjective().wasAchieved()){
+	for (Player player : players) {
+	    if (player.getObjective().wasAchieved()) {
 		winner = player;
 		return true;
 	    }
@@ -86,19 +86,19 @@ public class Game {
     }
 
     public Date getStartDate() {
-        return startDate;
+	return startDate;
     }
 
     public Date getEndDate() {
-        return endDate;
+	return endDate;
     }
 
     public Iterator<Player> getTurns() {
-        return turns;
+	return turns;
     }
 
     public Player getWinner() {
-        return isOver() ? winner : null;
+	return isOver() ? winner : null;
     }
 
     public void addCard(Card card) {
@@ -112,7 +112,7 @@ public class Game {
     public int getExchangeBonus() {
 	return EXCHANGE_BONUS[exchange];
     }
-    
+
     public int getNumberOfTurns() {
 	return turns.getCycles();
     }

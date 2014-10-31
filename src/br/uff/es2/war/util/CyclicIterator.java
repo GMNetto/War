@@ -5,36 +5,37 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * Iterates through an iterable and assuming that
- * the next element after the last one is the first one.  
+ * Iterates through an iterable and assuming that the next element after the
+ * last one is the first one.
  * 
  * @author Arthur Pitzer
- *
- * @param <E> Type of the elements
+ * 
+ * @param <E>
+ *            Type of the elements
  */
 public class CyclicIterator<E> implements Iterator<E> {
-    
+
     private final Iterable<E> elements;
     private Iterator<E> innerIterator;
     private int cicles;
-    
+
     public CyclicIterator(Iterable<E> elements) {
 	this.elements = elements;
 	innerIterator = elements.iterator();
 	cicles = 0;
     }
-    
+
     public CyclicIterator(E[] elements) {
 	this(Arrays.asList(elements));
     }
-    
+
     public int getCycles() {
 	return cicles;
     }
 
     @Override
     public boolean hasNext() {
-	if(!innerIterator.hasNext()){
+	if (!innerIterator.hasNext()) {
 	    innerIterator = elements.iterator();
 	    return innerIterator.hasNext();
 	}
@@ -43,10 +44,10 @@ public class CyclicIterator<E> implements Iterator<E> {
 
     @Override
     public E next() {
-	try{
+	try {
 	    return innerIterator.next();
-	}catch(NoSuchElementException e){
-	    if(hasNext()){
+	} catch (NoSuchElementException e) {
+	    if (hasNext()) {
 		cicles++;
 		return next();
 	    }

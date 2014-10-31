@@ -5,10 +5,11 @@ package br.uff.es2.war.events;
  * 
  * @author Arthur Pitzer
  * 
- * @param <T> Class of the argument
+ * @param <T>
+ *            Class of the argument
  */
 public interface Action<T> {
-    
-    void execute(T args);
+
+    void onAction(T args);
 
 }

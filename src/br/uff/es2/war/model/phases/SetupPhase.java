@@ -12,8 +12,8 @@ import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 
 /**
- * During the setup phase each player chooses 
- * his color and receives his objective.
+ * During the setup phase each player chooses his color and receives his
+ * objective.
  * 
  * @see Color
  * @see Objective
@@ -21,44 +21,44 @@ import br.uff.es2.war.model.Territory;
  * @author Arthur Pitzer
  */
 public class SetupPhase implements GameState<Game> {
-    
+
     private Game game;
 
     @Override
     public GameState<Game> execute(Game game) {
 	this.game = game;
 	readColors();
-	game.getWorld().distributeTerritories(game.getPlayers(),game);
+	game.getWorld().distributeTerritories(game.getPlayers(), game);
 	for (Player player : game.getPlayers()) {
 	    player.setGame(game);
 	    player.setObjective(randomObjective());
 	}
 	return new TurnChangePhase();
     }
-    
-    public void readColors(){
+
+    public void readColors() {
 	Collection<Color> remaining = new ArrayList<Color>();
 	remaining.addAll(Arrays.asList(game.getColors()));
-	for(Player player : game.getPlayers()){
+	for (Player player : game.getPlayers()) {
 	    Color[] colors = remaining.toArray(new Color[remaining.size()]);
 	    Color color = player.chooseColor(colors);
 	    player.setColor(color);
 	    remaining.remove(color);
 	}
     }
-    
+
     private Objective randomObjective() {
-        return new Objective() {
-            
+	return new Objective() {
+
 	    @Override
 	    public boolean wasAchieved() {
 		return false;
 	    }
 
-            @Override
-            public boolean isNeeded(Territory territory) {
-                return false;
-            }
+	    @Override
+	    public boolean isNeeded(Territory territory) {
+		return false;
+	    }
 	};
     }
 }

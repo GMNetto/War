@@ -7,7 +7,7 @@ import java.util.Queue;
 import br.uff.es2.war.controller.GameController;
 
 public class WarServer extends TCPServer {
-    
+
     private final Queue<Messenger> clients;
 
     public WarServer(int port) throws IOException {
@@ -18,7 +18,7 @@ public class WarServer extends TCPServer {
     @Override
     protected void onClientReceived(Messenger client) {
 	clients.add(client);
-	if(clients.size() > 1){
+	if (clients.size() > 1) {
 	    Messenger[] array = new Messenger[clients.size()];
 	    array = clients.toArray(array);
 	    new Thread(new GameController(array)).start();

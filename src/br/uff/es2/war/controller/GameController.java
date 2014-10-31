@@ -79,19 +79,19 @@ public class GameController implements Runnable {
     }
 
     private Color[] loadColors() {
-	//TODO: Load colors from database
+	// TODO: Load colors from database
 	Color[] colors = new Color[clients.length];
-	for(int i = 0; i < colors.length; i++)
+	for (int i = 0; i < colors.length; i++)
 	    colors[i] = new Color("Color " + i);
 	return colors;
     }
-    
-    private List<Card> loadCards(Collection<Territory> territories){
+
+    private List<Card> loadCards(Collection<Territory> territories) {
 	List<Card> cards = new LinkedList<Card>();
 	cards.add(new Card(4, null));
 	cards.add(new Card(4, null));
 	int figure = 0;
-	for(Territory territory : territories){
+	for (Territory territory : territories) {
 	    cards.add(new Card(figure, territory));
 	    figure = figure == 2 ? 0 : figure + 1;
 	}

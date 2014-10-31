@@ -30,7 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
+ * 
  * @author Victor Guimarães
  */
 public class PersistenceTest {
@@ -41,85 +41,91 @@ public class PersistenceTest {
     private Player[] players;
     private EntityManagerFactory factory;
     private Map<Player, Integer> iDPlayers;
-    
+
     public PersistenceTest() throws NonexistentEntityException {
-        factory = Persistence.createEntityManagerFactory("WarESIIPU");
-        this.gameLoader = new GameLoader(0, factory);
-        
-        EntityManager manager = factory.createEntityManager();
-        Query query = manager.createQuery("select max(codJogador) from Jogador as Integer");
-        int startCode = ((int) query.getResultList().get(0) + 1);
-        manager.close();
-        
-        players = new Player[6];
-        iDPlayers = new HashMap<>();
-        
-        for (int i = 0; i < players.length; i++) {
-            players[i] = new DumbPlayer(Color.values()[i], i);
-            players[i].setGame(game);
-            iDPlayers.put(players[i], startCode);
-            startCode++;
-        }
-        
-        List<Objective> objectives = new ArrayList<>(gameLoader.getObjectives());
-        
-        Random random = new Random();
-        int r;
-        for (Player player : players) {
-            r = random.nextInt(objectives.size());
-            player.setObjective(objectives.get(r));
-            objectives.remove(r);
-        }
-        
-        this.game = new Game(players, gameLoader.getWorld());
-        this.gamePersister = new GamePersister(gameLoader.getiDOfTerritory(), iDPlayers, gameLoader.getiDObjectives(), gameLoader.getiDOfColor(), game, factory);
-        persistPlayers();
+	factory = Persistence.createEntityManagerFactory("WarESIIPU");
+	this.gameLoader = new GameLoader(0, factory);
+
+	EntityManager manager = factory.createEntityManager();
+	Query query = manager
+		.createQuery("select max(codJogador) from Jogador as Integer");
+	int startCode = ((int) query.getResultList().get(0) + 1);
+	manager.close();
+
+	players = new Player[6];
+	iDPlayers = new HashMap<>();
+
+	for (int i = 0; i < players.length; i++) {
+	    players[i] = new DumbPlayer(Color.values()[i], i);
+	    players[i].setGame(game);
+	    iDPlayers.put(players[i], startCode);
+	    startCode++;
+	}
+
+	List<Objective> objectives = new ArrayList<>(gameLoader.getObjectives());
+
+	Random random = new Random();
+	int r;
+	for (Player player : players) {
+	    r = random.nextInt(objectives.size());
+	    player.setObjective(objectives.get(r));
+	    objectives.remove(r);
+	}
+
+	this.game = new Game(players, gameLoader.getWorld());
+	this.gamePersister = new GamePersister(gameLoader.getiDOfTerritory(),
+		iDPlayers, gameLoader.getiDObjectives(),
+		gameLoader.getiDOfColor(), game, factory);
+	persistPlayers();
     }
-    
+
     private void persistPlayers() {
-        EntityManager manager = factory.createEntityManager();
-        
-        Jogador jog;
-        int code;
-        manager.getTransaction().begin();
-        for (Player player : players) {
-            code = iDPlayers.get(player);
-            jog = new Jogador(code, "LoginTest" + code, "SenhaTest" + code, "EmailTest" + code);
-            manager.merge(jog);
-        }
-        manager.getTransaction().commit();
-        manager.close();
+	EntityManager manager = factory.createEntityManager();
+
+	Jogador jog;
+	int code;
+	manager.getTransaction().begin();
+	for (Player player : players) {
+	    code = iDPlayers.get(player);
+	    jog = new Jogador(code, "LoginTest" + code, "SenhaTest" + code,
+		    "EmailTest" + code);
+	    manager.merge(jog);
+	}
+	manager.getTransaction().commit();
+	manager.close();
     }
-    
+
     @Test
     public void TEST_PERSIST_GAME() throws Exception {
-        int code = gamePersister.addPartida();
-        gamePersister.addJogam();
-        World w = gameLoader.getWorld();
-        w.distributeTerritories(players, game);
-        
-        for (Continent continent : w) {
-            for (Territory territory : continent) {
-                gamePersister.addOcupacao(territory);
-            }
-        }
-        
-        gamePersister.persist();
-        
-        EntityManager manager = factory.createEntityManager();
-        Partida partida = manager.find(Partida.class, code);
-        
-        assertEquals(gamePersister.getPartida(), partida);
-        
-        Query query = manager.createQuery("select j from Jogam as j join j.jogador jog join j.partida part "
-                + "where part.codPartida = " + code);
-        
-        List<Jogam> jogs = query.getResultList();
-        
-        assertEquals(players.length, jogs.size());
-        
-        for (Jogam jogam : jogs) {
-            assertTrue(iDPlayers.values().contains(jogam.getJogador().getCodJogador()));
-        }
+	int code = gamePersister.addPartida();
+	gamePersister.addJogam();
+	World w = gameLoader.getWorld();
+	w.distributeTerritories(players, game);
+
+	for (Continent continent : w) {
+	    for (Territory territory : continent) {
+		gamePersister.addOcupacao(territory);
+	    }
+	}
+
+	gamePersister.persist();
+
+	EntityManager manager = factory.createEntityManager();
+	Partida partida = manager.find(Partida.class, code);
+
+	assertEquals(gamePersister.getPartida(), partida);
+
+	Query query = manager
+		.createQuery("select j from Jogam as j join j.jogador jog join j.partida part "
+			+ "where part.codPartida = " + code);
+
+	List<Jogam> jogs = query.getResultList();
+
+	assertEquals(players.length, jogs.size());
+
+	for (Jogam jogam : jogs) {
+	    assertTrue(iDPlayers.values().contains(
+		    jogam.getJogador().getCodJogador()));
+	}
     }
 }

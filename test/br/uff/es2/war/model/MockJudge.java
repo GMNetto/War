@@ -18,7 +18,7 @@ public class MockJudge extends CombatJudge {
     }
 
     protected int[] combatValues(int soldiers) {
-	if(flag){
+	if (flag) {
 	    flag = false;
 	    return attackValues;
 	}

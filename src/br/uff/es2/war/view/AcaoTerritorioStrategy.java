@@ -7,11 +7,11 @@
 package br.uff.es2.war.view;
 
 /**
- *
+ * 
  * @author anacarolinegomesvargas
  */
 public interface AcaoTerritorioStrategy {
-    
+
     public void AcaoBotao(TerritorioUI ter);
-    
+
 }

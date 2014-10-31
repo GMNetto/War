@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- *
+ * 
  * @author Victor Guimarães
  */
 public class ObjectiveTest {
@@ -36,43 +36,46 @@ public class ObjectiveTest {
     private Set<Color> colors;
 
     public ObjectiveTest() throws NonexistentEntityException {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
-        GameLoader wc = new GameLoader(0, factory);
-        world = wc.getWorld();
-        objectives = new TreeSet<>(new ObjectiveComparator());
-        objectives.addAll(wc.getObjectives());
-        players = new Player[6];
-        colors = wc.getColors();
+	EntityManagerFactory factory = Persistence
+		.createEntityManagerFactory("WarESIIPU");
+	GameLoader wc = new GameLoader(0, factory);
+	world = wc.getWorld();
+	objectives = new TreeSet<>(new ObjectiveComparator());
+	objectives.addAll(wc.getObjectives());
+	players = new Player[6];
+	colors = wc.getColors();
 
-        for (int i = 0; i < players.length; i++) {
-            players[i] = new DumbPlayer(Color.values()[i], i);
-        }
-        
-        game = new Game(players, world);
-        world.distributeTerritories(players, game);
+	for (int i = 0; i < players.length; i++) {
+	    players[i] = new DumbPlayer(Color.values()[i], i);
+	}
+
+	game = new Game(players, world);
+	world.distributeTerritories(players, game);
     }
 
     @Test
     public void COUNT_COLORS() {
-        assertEquals(6, colors.size());
+	assertEquals(6, colors.size());
     }
 
     @Test
     public void COUNT_OBJECTIVES() {
-        assertEquals(14, objectives.size());
+	assertEquals(14, objectives.size());
     }
 
     @Test
     public void COUNT_TERRITORIES_FOR_EACH_PLAYER() {
-        for (Player player : players) {
-            System.out.println(player.getColor());
-            assertTrue(world.getTerritoriesByOwner(player).size() >= (world.size() / players.length));
-            for (Territory territory : world.getTerritoriesByOwner(player)) {
-                System.out.println(territory.getName() + ": " + territory.getSoldiers());
-                assertEquals(territory.getSoldiers(), 1);
-            }
-            System.out.println("");
-        }
+	for (Player player : players) {
+	    System.out.println(player.getColor());
+	    assertTrue(world.getTerritoriesByOwner(player).size() >= (world
+		    .size() / players.length));
+	    for (Territory territory : world.getTerritoriesByOwner(player)) {
+		System.out.println(territory.getName() + ": "
+			+ territory.getSoldiers());
+		assertEquals(territory.getSoldiers(), 1);
+	    }
+	    System.out.println("");
+	}
     }
 
     /**
@@ -81,26 +84,27 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_18_TERRITORIES_2_SOLDIERS() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[0]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[0]);
 
-        for (Territory territory : world.getTerritoriesByOwner(player)) {
-            territory.addSoldiers(1);
-        }
+	for (Territory territory : world.getTerritoriesByOwner(player)) {
+	    territory.addSoldiers(1);
+	}
 
-        int i = 1;
-        Territory t;
-        while (world.getTerritoriesByOwner(player).size() < 18) {
-            assertFalse(player.getObjective().wasAchieved());
-            if (i % players.length != 0) {
-                t = world.getTerritoriesByOwner(players[i % players.length]).iterator().next();
-                t.setOwner(player);
-                t.setSoldiers(2);
-            }
-            i++;
-        }
+	int i = 1;
+	Territory t;
+	while (world.getTerritoriesByOwner(player).size() < 18) {
+	    assertFalse(player.getObjective().wasAchieved());
+	    if (i % players.length != 0) {
+		t = world.getTerritoriesByOwner(players[i % players.length])
+			.iterator().next();
+		t.setOwner(player);
+		t.setSoldiers(2);
+	    }
+	    i++;
+	}
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -108,35 +112,36 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_24_TERRITORIES() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[1]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[1]);
 
-        for (Territory territory : world.getTerritoriesByOwner(player)) {
-            territory.addSoldiers(1);
-        }
+	for (Territory territory : world.getTerritoriesByOwner(player)) {
+	    territory.addSoldiers(1);
+	}
 
-        int i = 1;
-        Territory t;
-        while (world.getTerritoriesByOwner(player).size() < 24) {
-            assertFalse(player.getObjective().wasAchieved());
-            if (i % players.length != 0) {
-                t = world.getTerritoriesByOwner(players[i % players.length]).iterator().next();
-                t.setOwner(player);
-                t.setSoldiers(1);
-            }
-            i++;
-        }
+	int i = 1;
+	Territory t;
+	while (world.getTerritoriesByOwner(player).size() < 24) {
+	    assertFalse(player.getObjective().wasAchieved());
+	    if (i % players.length != 0) {
+		t = world.getTerritoriesByOwner(players[i % players.length])
+			.iterator().next();
+		t.setOwner(player);
+		t.setSoldiers(1);
+	    }
+	    i++;
+	}
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     private void conquerContinent(Player player, String continentName) {
-        for (Territory territory : world.getContinentByName(continentName)) {
-            //assertFalse(player.getObjective().wasAchieved());
+	for (Territory territory : world.getContinentByName(continentName)) {
+	    // assertFalse(player.getObjective().wasAchieved());
 
-            territory.setOwner(player);
-            territory.setSoldiers(1);
-        }
+	    territory.setOwner(player);
+	    territory.setSoldiers(1);
+	}
     }
 
     /**
@@ -144,18 +149,18 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_CONQUER_NORTH_AMERICA_AND_OCEANIA() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[2]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[2]);
 
-        for (Territory territory : world.getTerritoriesByOwner(player)) {
-            territory.addSoldiers(1);
-        }
+	for (Territory territory : world.getTerritoriesByOwner(player)) {
+	    territory.addSoldiers(1);
+	}
 
-        conquerContinent(player, "América do Norte");
+	conquerContinent(player, "América do Norte");
 
-        conquerContinent(player, "Oceania");
+	conquerContinent(player, "Oceania");
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -163,14 +168,14 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_CONQUER_NORTH_AMERICA_AND_AFRICA() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[3]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[3]);
 
-        conquerContinent(player, "América do Norte");
+	conquerContinent(player, "América do Norte");
 
-        conquerContinent(player, "África");
+	conquerContinent(player, "África");
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -179,20 +184,20 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_CONQUER_EUROPE_SOUTH_AMERICA_AND_ONE_MORE() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[4]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[4]);
 
-        conquerContinent(player, "Europa");
+	conquerContinent(player, "Europa");
 
-        conquerContinent(player, "América do Sul");
+	conquerContinent(player, "América do Sul");
 
-        String options[] = {"África", "América do Norte", "Ásia", "Oceania"};
+	String options[] = { "África", "América do Norte", "Ásia", "Oceania" };
 
-        for (int i = 1; i < options.length + 1; i++) {
-            conquerContinent(player, options[i % options.length]);
-            conquerContinent(players[i], options[i - 1]);
-            assertTrue(player.getObjective().wasAchieved());
-        }
+	for (int i = 1; i < options.length + 1; i++) {
+	    conquerContinent(player, options[i % options.length]);
+	    conquerContinent(players[i], options[i - 1]);
+	    assertTrue(player.getObjective().wasAchieved());
+	}
     }
 
     /**
@@ -201,21 +206,22 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_CONQUER_EUROPE_OCEANIA_AND_ONE_MORE() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[5]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[5]);
 
-        conquerContinent(player, "Europa");
+	conquerContinent(player, "Europa");
 
-        conquerContinent(player, "Oceania");
+	conquerContinent(player, "Oceania");
 
-        String options[] = {"África", "América do Norte", "América do Sul", "Ásia"};
-        for (int i = 1; i < options.length + 1; i++) {
-            conquerContinent(player, options[i % options.length]);
-            conquerContinent(players[i], options[i - 1]);
-            assertTrue(player.getObjective().wasAchieved());
-        }
+	String options[] = { "África", "América do Norte", "América do Sul",
+		"Ásia" };
+	for (int i = 1; i < options.length + 1; i++) {
+	    conquerContinent(player, options[i % options.length]);
+	    conquerContinent(players[i], options[i - 1]);
+	    assertTrue(player.getObjective().wasAchieved());
+	}
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -223,14 +229,14 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_CONQUER_ASIA_AND_SOUTH_AMERICA() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[6]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[6]);
 
-        conquerContinent(player, "Ásia");
+	conquerContinent(player, "Ásia");
 
-        conquerContinent(player, "América do Sul");
+	conquerContinent(player, "América do Sul");
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -238,29 +244,26 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_CONQUER_ASIA_AND_AFRICA() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[7]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[7]);
 
-        conquerContinent(player, "Ásia");
+	conquerContinent(player, "Ásia");
 
-        conquerContinent(player, "África");
+	conquerContinent(player, "África");
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /*
-     DumbPlayer:	0	Color:	Preto
-     DumbPlayer:	1	Color:	Azul
-     DumbPlayer:	2	Color:	Verde
-     DumbPlayer:	3	Color:	Vermelho
-     DumbPlayer:	4	Color:	Branco
-     DumbPlayer:	5	Color:	Amarelo
+     * DumbPlayer: 0 Color: Preto DumbPlayer: 1 Color: Azul DumbPlayer: 2 Color:
+     * Verde DumbPlayer: 3 Color: Vermelho DumbPlayer: 4 Color: Branco
+     * DumbPlayer: 5 Color: Amarelo
      */
     private void destroyPlayer(Player source, Player target) {
-        for (Territory territory : world.getTerritoriesByOwner(target)) {
-            assertFalse(source.getObjective().wasAchieved());
-            territory.setOwner(source);
-        }
+	for (Territory territory : world.getTerritoriesByOwner(target)) {
+	    assertFalse(source.getObjective().wasAchieved());
+	    territory.setOwner(source);
+	}
     }
 
     /**
@@ -271,12 +274,12 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_YELLOW() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[8]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[8]);
 
-        destroyPlayer(player, players[5]);
+	destroyPlayer(player, players[5]);
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -287,12 +290,12 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_BLUE() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[9]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[9]);
 
-        destroyPlayer(player, players[1]);
+	destroyPlayer(player, players[1]);
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -303,12 +306,12 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_WHITE() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[10]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[10]);
 
-        destroyPlayer(player, players[4]);
+	destroyPlayer(player, players[4]);
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -319,12 +322,12 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_BLACK() {
-        Player player = players[1];
-        player.setObjective((Objective) objectives.toArray()[11]);
+	Player player = players[1];
+	player.setObjective((Objective) objectives.toArray()[11]);
 
-        destroyPlayer(player, players[0]);
+	destroyPlayer(player, players[0]);
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -335,12 +338,12 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_GREE() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[12]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[12]);
 
-        destroyPlayer(player, players[2]);
+	destroyPlayer(player, players[2]);
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -351,12 +354,12 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_RED() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[13]);
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[13]);
 
-        destroyPlayer(player, players[3]);
+	destroyPlayer(player, players[3]);
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 
     /**
@@ -367,22 +370,23 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_BLACK_ALTERNATIVE() {
-        Player player = players[0];
-        player.setObjective((Objective) objectives.toArray()[11]);
-        ((FullObjective) player.getObjective()).switchToAlternativeObjective();
+	Player player = players[0];
+	player.setObjective((Objective) objectives.toArray()[11]);
+	((FullObjective) player.getObjective()).switchToAlternativeObjective();
 
-        int i = 1;
-        Territory t;
-        while (world.getTerritoriesByOwner(player).size() < 24) {
-            assertFalse(player.getObjective().wasAchieved());
-            if (i % players.length != 0) {
-                t = world.getTerritoriesByOwner(players[i % players.length]).iterator().next();
-                t.setOwner(player);
-                t.setSoldiers(1);
-            }
-            i++;
-        }
+	int i = 1;
+	Territory t;
+	while (world.getTerritoriesByOwner(player).size() < 24) {
+	    assertFalse(player.getObjective().wasAchieved());
+	    if (i % players.length != 0) {
+		t = world.getTerritoriesByOwner(players[i % players.length])
+			.iterator().next();
+		t.setOwner(player);
+		t.setSoldiers(1);
+	    }
+	    i++;
+	}
 
-        assertTrue(player.getObjective().wasAchieved());
+	assertTrue(player.getObjective().wasAchieved());
     }
 }

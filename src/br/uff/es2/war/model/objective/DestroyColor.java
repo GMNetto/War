@@ -11,7 +11,7 @@ import br.uff.es2.war.model.World;
 
 /**
  * This class represents a partial objective of destroying a {@link Color}.
- *
+ * 
  * @author Victor Guimarães
  */
 public class DestroyColor extends ParcialObjetive {
@@ -23,32 +23,34 @@ public class DestroyColor extends ParcialObjetive {
 
     /**
      * Constructor with all needed parameters.
-     *
-     * @param world the specific {@link World} of the {@link Objective}
-     * @param color the {@link Color} to be destroyed
+     * 
+     * @param world
+     *            the specific {@link World} of the {@link Objective}
+     * @param color
+     *            the {@link Color} to be destroyed
      */
     public DestroyColor(World world, final Color color) {
-        super(world);
-        this.color = color;
+	super(world);
+	this.color = color;
     }
 
     @Override
     public boolean isNeeded(Territory territory) {
-        return territory.getOwner().getColor().equals(color);
+	return territory.getOwner().getColor().equals(color);
     }
 
     @Override
     public boolean wasAchieved() {
-        return world.getTerritoriesByColor(color).isEmpty();
+	return world.getTerritoriesByColor(color).isEmpty();
     }
 
     /**
      * Getter for the {@link Color} to be destroyed.
-     *
+     * 
      * @return the {@link Color} to be destroyed
      */
     public Color getPlayer() {
-        return color;
+	return color;
     }
 
 }

@@ -20,15 +20,15 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * 
  * @author Victor
  */
 @Entity
 @Table(name = "historico")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Historico.findAll", query = "SELECT h FROM Historico h"),
-    @NamedQuery(name = "Historico.findByCodPartida", query = "SELECT h FROM Historico h WHERE h.codPartida = :codPartida")})
+	@NamedQuery(name = "Historico.findAll", query = "SELECT h FROM Historico h"),
+	@NamedQuery(name = "Historico.findByCodPartida", query = "SELECT h FROM Historico h WHERE h.codPartida = :codPartida") })
 public class Historico implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,63 +49,67 @@ public class Historico implements Serializable {
     }
 
     public Historico(Integer codPartida) {
-        this.codPartida = codPartida;
+	this.codPartida = codPartida;
     }
 
     public Integer getCodPartida() {
-        return codPartida;
+	return codPartida;
     }
 
     public void setCodPartida(Integer codPartida) {
-        this.codPartida = codPartida;
+	this.codPartida = codPartida;
     }
 
     public Jogador getCodJogador() {
-        return codJogador;
+	return codJogador;
     }
 
     public void setCodJogador(Jogador codJogador) {
-        this.codJogador = codJogador;
+	this.codJogador = codJogador;
     }
 
     public Objetivo getCodObjetivo() {
-        return codObjetivo;
+	return codObjetivo;
     }
 
     public void setCodObjetivo(Objetivo codObjetivo) {
-        this.codObjetivo = codObjetivo;
+	this.codObjetivo = codObjetivo;
     }
 
     public Partida getPartida() {
-        return partida;
+	return partida;
     }
 
     public void setPartida(Partida partida) {
-        this.partida = partida;
+	this.partida = partida;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (codPartida != null ? codPartida.hashCode() : 0);
-        return hash;
+	int hash = 0;
+	hash += (codPartida != null ? codPartida.hashCode() : 0);
+	return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Historico)) {
-            return false;
-        }
-        Historico other = (Historico) object;
-        if ((this.codPartida == null && other.codPartida != null) || (this.codPartida != null && !this.codPartida.equals(other.codPartida)))
-            return false;
-        return true;
+	// TODO: Warning - this method won't work in the case the id fields are
+	// not set
+	if (!(object instanceof Historico)) {
+	    return false;
+	}
+	Historico other = (Historico) object;
+	if ((this.codPartida == null && other.codPartida != null)
+		|| (this.codPartida != null && !this.codPartida
+			.equals(other.codPartida)))
+	    return false;
+	return true;
     }
 
     @Override
     public String toString() {
-        return "br.uff.es2.war.entity.Historico[ codPartida=" + codPartida + " ]";
+	return "br.uff.es2.war.entity.Historico[ codPartida=" + codPartida
+		+ " ]";
     }
-    
+
 }

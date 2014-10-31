@@ -25,16 +25,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * 
  * @author Victor
  */
 @Entity
 @Table(name = "cor")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Cor.findAll", query = "SELECT c FROM Cor c"),
-    @NamedQuery(name = "Cor.findByCodCor", query = "SELECT c FROM Cor c WHERE c.codCor = :codCor"),
-    @NamedQuery(name = "Cor.findByNome", query = "SELECT c FROM Cor c WHERE c.nome = :nome")})
+	@NamedQuery(name = "Cor.findAll", query = "SELECT c FROM Cor c"),
+	@NamedQuery(name = "Cor.findByCodCor", query = "SELECT c FROM Cor c WHERE c.codCor = :codCor"),
+	@NamedQuery(name = "Cor.findByNome", query = "SELECT c FROM Cor c WHERE c.nome = :nome") })
 public class Cor implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,78 +57,81 @@ public class Cor implements Serializable {
     }
 
     public Cor(Integer codCor) {
-        this.codCor = codCor;
+	this.codCor = codCor;
     }
 
     public Cor(Integer codCor, String nome) {
-        this.codCor = codCor;
-        this.nome = nome;
+	this.codCor = codCor;
+	this.nome = nome;
     }
 
     public Integer getCodCor() {
-        return codCor;
+	return codCor;
     }
 
     public void setCodCor(Integer codCor) {
-        this.codCor = codCor;
+	this.codCor = codCor;
     }
 
     public String getNome() {
-        return nome;
+	return nome;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+	this.nome = nome;
     }
 
     public Mundo getCodMundo() {
-        return codMundo;
+	return codMundo;
     }
 
     public void setCodMundo(Mundo codMundo) {
-        this.codMundo = codMundo;
+	this.codMundo = codMundo;
     }
 
     @XmlTransient
     public Collection<Jogam> getJogamCollection() {
-        return jogamCollection;
+	return jogamCollection;
     }
 
     public void setJogamCollection(Collection<Jogam> jogamCollection) {
-        this.jogamCollection = jogamCollection;
+	this.jogamCollection = jogamCollection;
     }
 
     @XmlTransient
     public Collection<Objderjogador> getObjderjogadorCollection() {
-        return objderjogadorCollection;
+	return objderjogadorCollection;
     }
 
-    public void setObjderjogadorCollection(Collection<Objderjogador> objderjogadorCollection) {
-        this.objderjogadorCollection = objderjogadorCollection;
+    public void setObjderjogadorCollection(
+	    Collection<Objderjogador> objderjogadorCollection) {
+	this.objderjogadorCollection = objderjogadorCollection;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (codCor != null ? codCor.hashCode() : 0);
-        return hash;
+	int hash = 0;
+	hash += (codCor != null ? codCor.hashCode() : 0);
+	return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Cor)) {
-            return false;
-        }
-        Cor other = (Cor) object;
-        if ((this.codCor == null && other.codCor != null) || (this.codCor != null && !this.codCor.equals(other.codCor)))
-            return false;
-        return true;
+	// TODO: Warning - this method won't work in the case the id fields are
+	// not set
+	if (!(object instanceof Cor)) {
+	    return false;
+	}
+	Cor other = (Cor) object;
+	if ((this.codCor == null && other.codCor != null)
+		|| (this.codCor != null && !this.codCor.equals(other.codCor)))
+	    return false;
+	return true;
     }
 
     @Override
     public String toString() {
-        return "br.uff.es2.war.entity.Cor[ codCor=" + codCor + " ]";
+	return "br.uff.es2.war.entity.Cor[ codCor=" + codCor + " ]";
     }
-    
+
 }
