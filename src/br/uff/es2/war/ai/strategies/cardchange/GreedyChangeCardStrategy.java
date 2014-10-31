@@ -47,7 +47,7 @@ public class GreedyChangeCardStrategy implements ChangeCardStrategy {
 
     private Collection<? extends Card> exchangeByImportance(List<Card> cards) {
         for (Card card : cards) {
-            double value=values.getTerritoryValue(card.getTerritory());
+            double value = values.getTerritoryValue(card.getTerritory());
             if (value > threshold) {
                 if (hasThreeOfType(card.getFigure(), cards)) {
                     return selectBestThreeCardsOfType(cards);
@@ -69,13 +69,19 @@ public class GreedyChangeCardStrategy implements ChangeCardStrategy {
             Collections.sort(cards, new Comparator<Card>() {
                 @Override
                 public int compare(Card o1, Card o2) {
-                    double valueO1 = values.getTerritoryValue(o1.getTerritory());
-                    double valueO2 = values.getTerritoryValue(o2.getTerritory());
+                    if (o1.getTerritory() == null) {
+                        return 1;
+                    }
+                    if (o2.getTerritory() == null) {
+                        return -1;
+                    }
+                    double valueO1 = 0;
+                    double valueO2 = 0;
                     if (game.getWorld().getTerritoriesByOwner(player).contains(o1.getTerritory())) {
-                        valueO1 += BONUS;
+                        valueO1 += BONUS + values.getTerritoryValue(o1.getTerritory());
                     }
                     if (game.getWorld().getTerritoriesByOwner(player).contains(o2.getTerritory())) {
-                        valueO2 += BONUS;
+                        valueO2 += BONUS + values.getTerritoryValue(o2.getTerritory());
                     }
                     return Double.compare(valueO1, valueO2);
                 }
@@ -92,7 +98,7 @@ public class GreedyChangeCardStrategy implements ChangeCardStrategy {
     private List<Card> selectBestThreeCardsOfType(List<Card> cards) {
         int chosentype = 0;
         for (Card card : cards) {
-            if (hasThreeOfType(card.getFigure(), cards)) {
+            if (hasThreeOfType(card.getFigure(), cards) && card.getFigure() != 0) {
                 chosentype = card.getFigure();
                 break;
             }
@@ -103,7 +109,7 @@ public class GreedyChangeCardStrategy implements ChangeCardStrategy {
     private List<Card> selectThreeCardsOfType(int type, List<Card> cards) {
         List<Card> selectedCards = new ArrayList(3);
         for (Card card : cards) {
-            if (card.getFigure() == type) {
+            if (card.getFigure() == type || card.getFigure() == 0) {
                 selectedCards.add(card);
             }
         }
@@ -113,7 +119,7 @@ public class GreedyChangeCardStrategy implements ChangeCardStrategy {
     private boolean hasThreeOfType(int type, List<Card> cards) {
         int counter = 0;
         for (Card card : cards) {
-            if (card.getFigure() == type) {
+            if (card.getFigure() == type || card.getFigure() == 0) {
                 counter++;
             }
         }
@@ -124,7 +130,7 @@ public class GreedyChangeCardStrategy implements ChangeCardStrategy {
         List<Card> alreadyIn = new ArrayList<>(3);
         for (int i = 0; i < cards.size(); i++) {
             boolean hasEqual = false;
-            if (!alreadyInHasFigure(cards.get(i).getFigure(), alreadyIn)) {
+            if (!alreadyInHasFigure(cards.get(i).getFigure(), alreadyIn) || cards.get(i).getFigure() == 0) {
                 alreadyIn.add(cards.get(i));
             }
         }
