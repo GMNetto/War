@@ -31,6 +31,13 @@ public class MockGame extends Game {
 	    players[i] = new MockPlayer();
 	return players;
     }
+    
+    public static Player[] createPlayers(int numberOfPlayers) {
+	Player[] players = new Player[numberOfPlayers];
+	for (int i = 0; i < players.length; i++)
+	    players[i] = new MockPlayer();
+	return players;
+    }
 
     public static World createWorld() {
 	World world = new World("Test World");

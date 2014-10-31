@@ -91,32 +91,37 @@ public class GreedyChangeCardStrategyTest {
             offensiveTerritoryValue = new OffensiveTerritoryValue(winLoseTerritoryValue);
             weightedRandomAllocation = new WeightedRandomAllocationStrategy(offensiveTerritoryValue, weightEquationTerritoryValue, winLoseTerritoryValue);
             ((BasicBot) player).setAllocationInstruction(weightedRandomAllocation);
-            ((BasicBot)player).setChangeCardStrategy(new GreedyChangeCardStrategy(0, player, game, weightEquationTerritoryValue));
+            ((BasicBot) player).setChangeCardStrategy(new GreedyChangeCardStrategy(0, player, game, weightEquationTerritoryValue));
         }
 
         for (int j = 0; j < players.length; j++) {
-            for (int k = 0; k < (j % 2 == 0 ? 3 : 5); k++) {
+            for (int k = 0; k < (j % 2 == 0 ? 4 : 5); k++) {
                 players[j].addCard(game.drawCard());
             }
         }
-        
+
     }
+
     @Test
     public void TESTCARDS() {
         for (Player player : players) {
-            System.out.println("Player "+player.getColor()+" cards: ");
-            for(Card card:player.getCards()){
-                System.out.print(card.getTerritory().getName()+" "+card.getFigure()+"-");
+            System.out.println("Player " + player.getColor() + " cards: ");
+            for (Card card : player.getCards()) {
+                if (card.getFigure() != 0) {
+                    System.out.print(card.getTerritory().getName() + " " + card.getFigure() + "-");
+                } else {
+                    System.out.print("Curinga " + card.getFigure() + "-");
+                }
             }
             System.out.println();
             System.out.println("Serão trocados: ");
-            List<Card> resp=player.exchangeCards();
-            for(Card card:resp){
-                System.out.print(card.getTerritory().getName()+" "+card.getFigure()+"-");
-            }
-            System.out.println();
-            for(Card card:player.getCards()){
-                System.out.print(card.getTerritory().getName()+" "+card.getFigure()+"-");
+            List<Card> resp = player.exchangeCards();
+            for (Card card : resp) {
+                if (card.getFigure() != 0) {
+                    System.out.print(card.getTerritory().getName() + " " + card.getFigure() + "-");
+                } else {
+                    System.out.print("Curinga " + card.getFigure() + "-");
+                }
             }
             System.out.println();
         }
