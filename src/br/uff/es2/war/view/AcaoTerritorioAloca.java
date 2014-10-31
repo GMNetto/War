@@ -16,7 +16,7 @@ public class AcaoTerritorioAloca implements AcaoTerritorioStrategy {
 
     public AcaoTerritorioAloca(JogoController jc) {
         this.jc=jc;
-        jc.setTextFase("Aloque os exércitos");
+        jc.setTextFase("Aloque seu exércitos","Selecione um territorio onde deseja alocar","","");
         // para a fase de alocação é necessário bloquear os territorios que não pertencem ao jogador
         // ações de inicialização bloquear clique, trocar icone do cursor e modificar opacidade do circulo
         jc.desbloqueiaTerritorios(jc.getTerritorios());

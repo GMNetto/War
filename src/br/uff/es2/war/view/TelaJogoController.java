@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
@@ -24,6 +25,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * 
@@ -57,9 +59,11 @@ public class TelaJogoController implements Initializable {
     private ImageView img_fundo2;
     
     @FXML
-    private Text txt_fase;
+    private Group group_info_bar;
+    
     // controlador responsável por se comunicar com o modelo e interagir com a view
     private JogoController gameController;
+    
 
     private void criarCirculo(final TerritorioUI terr, int x, int y) {
 	final Circle circle = new Circle();
@@ -91,8 +95,10 @@ public class TelaJogoController implements Initializable {
 	Text text = new Text();
 	text.setFont(new Font(gameController.getRaio()));
 	text.setText(terr.getQtd() + "");
-	text.setX(x - gameController.getRaio() / 2);
-	text.setY(y);
+	text.setX(x -4- gameController.getRaio() / 2);
+	text.setY(y+2);
+        text.setTextAlignment(TextAlignment.CENTER);
+        text.setWrappingWidth(gameController.getRaio()*1.5);
 	text.setCursor(Cursor.HAND);
 
 	pane_map.getChildren().add(text);
@@ -166,7 +172,7 @@ public class TelaJogoController implements Initializable {
         img_fundo2.setImage(image2);
         
         
-        this.gameController =new JogoController(0,pane_aloca, pane_mov, txt_fase);
+        this.gameController =new JogoController(0,pane_aloca, pane_mov, group_info_bar);
         desenhaTerritorios();
         
         gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
