@@ -6,6 +6,7 @@ import java.util.Set;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.PlayerData;
 import br.uff.es2.war.model.Territory;
@@ -19,6 +20,12 @@ public class RemotePlayer extends PlayerData {
 	super();
 	this.messenger = messenger;
 	this.protocol = protocol;
+    }
+    
+    @Override
+    public void setGame(Game game) {
+	super.setGame(game);
+	messenger.send(protocol.setGame(game));
     }
 
     @Override

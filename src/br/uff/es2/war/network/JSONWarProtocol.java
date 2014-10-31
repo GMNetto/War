@@ -1,10 +1,7 @@
 package br.uff.es2.war.network;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -13,13 +10,16 @@ import org.json.JSONObject;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 
 public class JSONWarProtocol implements WarProtocol {
-
+    
+    
     private static final String SPACE = " ";
+    private static final String SET_GAME = "SET_GAME";
     private static final String CHOOSE_COLOR = "CHOOSE_COLOR";
     private static final String BEGIN_TURN = "BEGIN_TURN";
     private static final String DISTRIBUTE_SOLDIERS = "DISTRIBUTE_SOLDIERS";
@@ -31,9 +31,16 @@ public class JSONWarProtocol implements WarProtocol {
     private static final String MOVE_SOLDIERS = "MOVE_SOLDIERS";
     private static final String FINISH_ATTACK = "FINISH_ATTACK";
     private final World world;
+    private final JSONEncoder encoder;
 
     public JSONWarProtocol(World world) {
 	this.world = world;
+	encoder = new JSONEncoder();
+    }
+    
+    @Override
+    public String setGame(Game game) {
+	return join(SET_GAME, encoder.encode(game));
     }
 
     @Override
@@ -56,30 +63,11 @@ public class JSONWarProtocol implements WarProtocol {
     @Override
     public String distributeSoldiers(int soldierQuantity,
 	    Set<Territory> territories) {
-	JSONArray territoriesJSON = encodeTerritories(territories);
+	JSONArray territoriesJSON = encoder.encode(territories);
 	return join(DISTRIBUTE_SOLDIERS, soldierQuantity, territoriesJSON);
     }
 
-    private JSONArray encodeTerritories(Collection<Territory> territories) {
-	JSONArray array = new JSONArray();
-	Iterator<Territory> iterator = territories.iterator();
-	for (int i = 0; i < territories.size(); i++)
-	    array = array.put(i, encodeTerritory(iterator.next()));
-	return array;
-    }
-
-    private JSONObject encodeTerritory(Territory territory) {
-	JSONObject obj = new JSONObject();
-	obj.put("name", territory.getName());
-	obj.put("soldiers", territory.getSoldiers());
-	obj.put("continent", territory.getContinent().getName());
-	obj.put("owner", territory.getOwner().getColor().getName());
-	List<String> borders = new LinkedList<>();
-	for (Territory border : territory.getBorders())
-	    borders.add(border.getName());
-	obj.put("borders", borders);
-	return obj;
-    }
+    
 
     @Override
     public void distributeSoldiers(String receive, int soldierQuantity,
@@ -108,8 +96,8 @@ public class JSONWarProtocol implements WarProtocol {
     @Override
     public String answerCombat(Combat combat) {
 	JSONObject json = new JSONObject();
-	json.put("attacking", encodeTerritory(combat.getAttackingTerritory()));
-	json.put("defending", encodeTerritory(combat.getDefendingTerritory()));
+	json.put("attacking", encoder.encode(combat.getAttackingTerritory()));
+	json.put("defending", encoder.encode(combat.getDefendingTerritory()));
 	json.put("soldiers", combat.getAttackingSoldiers());
 	return join(ANSWER_COMBAT, json);
     }
