@@ -23,31 +23,33 @@ public class TerritorioUI {
     private int dono; // modelo possui
     private int qtd; // modelo possui
     private boolean bloqueado;
-
-    private List<TerritorioUI> viz; // como integrar a representação do modelo
-				    // com a da interface?
-
+    private int qtdMov;
+    
+    private List<TerritorioUI> viz; //como integrar a representação do modelo com a da interface?
+    
     public TerritorioUI(Circle circulo, String nome) {
-	this.nome = nome;
-	this.dono = -1;
-	this.qtd = 0;
-	this.viz = new ArrayList<TerritorioUI>();
-	this.circulo = circulo;
+        this.nome = nome;
+        this.dono = -1;
+        this.qtd = 0;
+        this.viz = new ArrayList<TerritorioUI>();
+        this.circulo = circulo;
     }
-
-    public void bloqueia() {
-	this.circulo.setOpacity(0.5);
-	this.circulo.setCursor(Cursor.CLOSED_HAND);
-	this.bloqueado = true;
+    
+    public void bloqueia(){
+        this.circulo.setOpacity(0.5);
+        this.circulo.setCursor(Cursor.CLOSED_HAND);
+        this.texto.setCursor(Cursor.CLOSED_HAND);
+        this.bloqueado=true;
     }
-
-    public void desbloqueia() {
-	this.circulo.setOpacity(1);
-	this.circulo.setCursor(Cursor.HAND);
-	this.bloqueado = false;
-
+    
+    public void desbloqueia(){
+        this.circulo.setOpacity(1);
+        this.circulo.setCursor(Cursor.HAND);
+        this.texto.setCursor(Cursor.HAND);
+        this.bloqueado=false;
+        
     }
-
+   
     public Text getTexto() {
 	return texto;
     }
@@ -85,9 +87,18 @@ public class TerritorioUI {
 	this.texto.setText(qtd + "");
     }
 
-    // comapara no modelo
-    public boolean isDono(int d) {
-	return (dono == d);
+    public int getQtdMov() {
+        return qtdMov;
+    }
+
+    public void setQtdMov(int qtdMov) {
+        this.qtdMov = qtdMov;
+    }
+    
+    
+    //comapara no modelo
+    public boolean isDono(int d){
+       return (dono==d);
     }
 
     public void addVizinho(TerritorioUI t) {

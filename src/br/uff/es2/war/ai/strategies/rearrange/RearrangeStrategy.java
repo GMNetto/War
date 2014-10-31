@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.uff.es2.war.ia.strategies.rearrange;
+package br.uff.es2.war.ai.strategies.rearrange;
 
-import br.uff.es2.war.ia.BasicBot;
+import br.uff.es2.war.ai.BasicBot;
 import br.uff.es2.war.model.Territory;
 
 /**

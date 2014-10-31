@@ -63,17 +63,6 @@ public class World extends HashSet<Continent> {
 	return null;
     }
 
-    public void distributeTerritories(Player[] players, Game game) {
-	CyclicIterator<Player> iterator = new CyclicIterator<>(players);
-	List<Territory> territories = new LinkedList<>(getTerritories());
-	Collections.shuffle(territories);
-	while (!territories.isEmpty()) {
-	    Territory territory = territories.remove(0);
-	    territory.setOwner(iterator.next());
-	    territory.addSoldiers(1);
-	}
-    }
-
     public Continent getContinentByName(String name) {
 	for (Continent continent : this) {
 	    if (continent.getName().equals(name))

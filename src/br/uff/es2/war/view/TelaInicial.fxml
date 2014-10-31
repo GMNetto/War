@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.uff.es2.war.view.TelaInicialController">
+   <children>
+      <ImageView fx:id="img_fundo" fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
+  <Button fx:id="btn_joga" layoutX="323.0" layoutY="359.0" mnemonicParsing="false" text="Jogar">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Button>
+      
+   </children>
+</AnchorPane>

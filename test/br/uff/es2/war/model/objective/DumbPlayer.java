@@ -7,11 +7,14 @@
 package br.uff.es2.war.model.objective;
 
 import br.uff.es2.war.entity.Jogador;
+import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -142,8 +145,23 @@ public class DumbPlayer implements Player {
     }
 
     @Override
-    public Game getGame() {
-	return game;
+    public void addCard(Card drawCard) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Collection<Card> getCards() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Card discard() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<Card> exchangeCards() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

@@ -16,11 +16,11 @@ public class SoldierMovementPhase implements GameState<Game>,
     private Player conqueror;
 
     @Override
-    public GameState<Game> execute(Game game) {
-	Player current = game.getCurrentPlayer();
-	drawCard(game);
+    public GameState<Game> execute(Game context) {
+	Player current = context.getCurrentPlayer();
+	drawCard(context);
 	current.moveSoldiers();
-	if (game.isOver())
+	if(context.isOver())
 	    return new GameOver();
 	return new TurnChangePhase();
     }

@@ -33,29 +33,35 @@ public class ObjectiveTest {
     private Game game;
     private SortedSet<Objective> objectives;
     private Player[] players;
-    private Set<Color> colors;
+    private Color[] colors;
 
     public ObjectiveTest() throws NonexistentEntityException {
-	EntityManagerFactory factory = Persistence
-		.createEntityManagerFactory("WarESIIPU");
-	GameLoader wc = new GameLoader(0, factory);
-	world = wc.getWorld();
-	objectives = new TreeSet<>(new ObjectiveComparator());
-	objectives.addAll(wc.getObjectives());
-	players = new Player[6];
-	colors = wc.getColors();
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
+        GameLoader gl = new GameLoader(0, factory);
+        world = gl.getWorld();
+        objectives = new TreeSet<>(new ObjectiveComparator());
+        objectives.addAll(gl.getObjectives());
+        players = new Player[6];
+        colors = new Color[gl.getColors().size()];
+        
+        int i = 0;
+        for (Color color : gl.getColors()) {
+            colors[i] = color;
+            i++;
+        }
+        
 
-	for (int i = 0; i < players.length; i++) {
-	    players[i] = new DumbPlayer(Color.values()[i], i);
-	}
-
-	game = new Game(players, world);
-	world.distributeTerritories(players, game);
+        for (i = 0; i < players.length; i++) {
+            players[i] = new DumbPlayer(colors[i], i);
+        }
+        
+        game = new Game(players, world, colors, gl.getCards());
+        game.distributeTerritories();
     }
 
     @Test
     public void COUNT_COLORS() {
-	assertEquals(6, colors.size());
+        assertEquals(6, colors.length);
     }
 
     @Test
@@ -265,6 +271,14 @@ public class ObjectiveTest {
 	    territory.setOwner(source);
 	}
     }
+    
+    private Player getPlayerByColor(Color color) {
+        for (Player player : players) {
+            if (player.getColor().equals(color))
+                return player;
+        }
+        return null;
+    }
 
     /**
      * Destruir totalmente os EXÉRCITOS AMARELOS se é vocé quem possui os
@@ -274,11 +288,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_YELLOW() {
-	Player player = players[0];
-	player.setObjective((Objective) objectives.toArray()[8]);
+        Player player = getPlayerByColor(new Color("Preto"));
+        player.setObjective((Objective) objectives.toArray()[8]);
 
-	destroyPlayer(player, players[5]);
-
+        destroyPlayer(player, getPlayerByColor(new Color("Amarelo")));
 	assertTrue(player.getObjective().wasAchieved());
     }
 
@@ -290,11 +303,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_BLUE() {
-	Player player = players[0];
-	player.setObjective((Objective) objectives.toArray()[9]);
+        Player player = getPlayerByColor(new Color("Preto"));
+        player.setObjective((Objective) objectives.toArray()[9]);
 
-	destroyPlayer(player, players[1]);
-
+        destroyPlayer(player, getPlayerByColor(new Color("Azul")));
 	assertTrue(player.getObjective().wasAchieved());
     }
 
@@ -306,11 +318,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_WHITE() {
-	Player player = players[0];
-	player.setObjective((Objective) objectives.toArray()[10]);
+        Player player = getPlayerByColor(new Color("Preto"));
+        player.setObjective((Objective) objectives.toArray()[10]);
 
-	destroyPlayer(player, players[4]);
-
+        destroyPlayer(player, getPlayerByColor(new Color("Branco")));
 	assertTrue(player.getObjective().wasAchieved());
     }
 
@@ -322,10 +333,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_BLACK() {
-	Player player = players[1];
-	player.setObjective((Objective) objectives.toArray()[11]);
+        Player player = getPlayerByColor(new Color("Branco"));
+        player.setObjective((Objective) objectives.toArray()[11]);
 
-	destroyPlayer(player, players[0]);
+        destroyPlayer(player, getPlayerByColor(new Color("Preto")));
 
 	assertTrue(player.getObjective().wasAchieved());
     }
@@ -338,11 +349,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_GREE() {
-	Player player = players[0];
-	player.setObjective((Objective) objectives.toArray()[12]);
+        Player player = getPlayerByColor(new Color("Preto"));
+        player.setObjective((Objective) objectives.toArray()[12]);
 
-	destroyPlayer(player, players[2]);
-
+        destroyPlayer(player, getPlayerByColor(new Color("Verde")));
 	assertTrue(player.getObjective().wasAchieved());
     }
 
@@ -354,11 +364,10 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_RED() {
-	Player player = players[0];
-	player.setObjective((Objective) objectives.toArray()[13]);
+        Player player = getPlayerByColor(new Color("Preto"));
+        player.setObjective((Objective) objectives.toArray()[13]);
 
-	destroyPlayer(player, players[3]);
-
+        destroyPlayer(player, getPlayerByColor(new Color("Vermelho")));
 	assertTrue(player.getObjective().wasAchieved());
     }
 
@@ -370,23 +379,22 @@ public class ObjectiveTest {
      */
     @Test
     public void ASSERT_OBJECTIVE_DESTROY_BLACK_ALTERNATIVE() {
-	Player player = players[0];
-	player.setObjective((Objective) objectives.toArray()[11]);
-	((FullObjective) player.getObjective()).switchToAlternativeObjective();
+        Player player = getPlayerByColor(new Color("Preto"));
+        player.setObjective((Objective) objectives.toArray()[11]);
+        ((FullObjective) player.getObjective()).switchToAlternativeObjective();
 
-	int i = 1;
-	Territory t;
-	while (world.getTerritoriesByOwner(player).size() < 24) {
-	    assertFalse(player.getObjective().wasAchieved());
-	    if (i % players.length != 0) {
-		t = world.getTerritoriesByOwner(players[i % players.length])
-			.iterator().next();
-		t.setOwner(player);
-		t.setSoldiers(1);
-	    }
-	    i++;
-	}
+        int i = 1;
+        Territory t;
+        while (world.getTerritoriesByOwner(player).size() < 24) {
+            assertFalse(player.getObjective().wasAchieved());
+            if (i % players.length != 0) {
+                t = world.getTerritoriesByOwner(players[i % players.length]).iterator().next();
+                t.setOwner(player);
+                t.setSoldiers(1);
+            }
+            i++;
+        }
 
-	assertTrue(player.getObjective().wasAchieved());
+        assertTrue(player.getObjective().wasAchieved());
     }
 }

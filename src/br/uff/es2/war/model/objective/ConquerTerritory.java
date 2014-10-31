@@ -47,7 +47,11 @@ public class ConquerTerritory extends ParcialObjetive {
 
     @Override
     public boolean isNeeded(Territory territory) {
-	return world.getTerritoriesByOwner(owner).size() < numberOfTerritories;
+        if (territory.getOwner().equals(owner)) {
+            return territory.getSoldiers() >= numberOfTerritories;
+        } else {
+            return world.getTerritoriesByOwner(owner).size() < numberOfTerritories;
+        }
     }
 
     @Override

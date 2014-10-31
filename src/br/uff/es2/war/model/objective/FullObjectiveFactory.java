@@ -93,31 +93,27 @@ public class FullObjectiveFactory {
      */
     private FullObjective loadObjective(Objetivo objetivo) {
 	FullObjective opcional = null;
-	Set<ParcialObjetive> parcialObjetives = new HashSet<>();
+        Set<ParcialObjetive> parcialObjetives = new HashSet<>();
 
-	// If the objective includes destroying a color
-	if (!objetivo.getObjderjogadorCollection().isEmpty()) {
-	    Objderjogador objderjogador = objetivo.getObjderjogadorCollection()
-		    .iterator().next();
-	    opcional = loadObjective(objderjogador.getObjetivo1());
-	    parcialObjetives.add(new DestroyColor(world, Color
-		    .valueOf(objderjogador.getCor().getNome())));
-	}
+        //If the objective includes destroying a color
+        if (!objetivo.getObjderjogadorCollection().isEmpty()) {
+            Objderjogador objderjogador = objetivo.getObjderjogadorCollection().iterator().next();
+            opcional = loadObjective(objderjogador.getObjetivo1());
+            parcialObjetives.add(new DestroyColor(world, new Color(objderjogador.getCor().getNome())));
+        }
 
-	// If the objective includes conquer continents
-	if (objetivo.getObjconqcont() != null) {
-	    parcialObjetives.addAll(loadConqCont(objetivo.getObjconqcont()));
-	}
+        //If the objective includes conquer continents
+        if (objetivo.getObjconqcont() != null) {
+            parcialObjetives.addAll(loadConqCont(objetivo.getObjconqcont()));
+        }
 
-	// If the objective includes conquer territories
-	if (objetivo.getObjterritorio() != null) {
-	    Objterritorio objterritorio = objetivo.getObjterritorio();
-	    parcialObjetives.add(new ConquerTerritory(world, objterritorio
-		    .getQtdTerritorio(), objterritorio.getMinExercito()));
-	}
+        //If the objective includes conquer territories
+        if (objetivo.getObjterritorio() != null) {
+            Objterritorio objterritorio = objetivo.getObjterritorio();
+            parcialObjetives.add(new ConquerTerritory(world, objterritorio.getQtdTerritorio(), objterritorio.getMinExercito()));
+        }
 
-	return new FullObjective(objetivo.getDescricao(), parcialObjetives,
-		opcional);
+        return new FullObjective(objetivo.getDescricao(), parcialObjetives, opcional);
     }
 
     /**

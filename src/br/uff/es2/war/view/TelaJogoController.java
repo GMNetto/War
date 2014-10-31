@@ -40,29 +40,25 @@ public class TelaJogoController implements Initializable {
     private Pane pane_map;
     @FXML
     private Parent parent;
-
-    // botoes para teste, mudança de estado do jogo
+     
+    //botao para mudança de estado do jogo
     @FXML
-    private Button btn_m1;
-    @FXML
-    private Button btn_m2;
-    @FXML
-    private Button btn_m3;
+    private Button btn_prox;
 
     // painel de alocação
     @FXML
     private Pane pane_aloca;
     @FXML
-    private Button btn_aloca_mais;
+    private Pane pane_mov;
+    
     @FXML
-    private Button btn_aloca_cancel;
+    private ImageView img_fundo;
     @FXML
-    private Button btn_aloca_menos;
+    private ImageView img_fundo2;
+    
     @FXML
-    private Button btn_aloca_ok;
-
-    // controlador responsável por se comunicar com o modelo e interagir com a
-    // view
+    private Text txt_fase;
+    // controlador responsável por se comunicar com o modelo e interagir com a view
     private JogoController gameController;
 
     private void criarCirculo(final TerritorioUI terr, int x, int y) {
@@ -161,52 +157,29 @@ public class TelaJogoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-	// load the image
-	Image image = new Image("war.jpg");
+        // load the image
+        Image image = new Image("war.jpg");
 
-	// simple displays ImageView the image as is
-	ImageView iv1 = new ImageView();
-	iv1.setImage(image);
+        img_fundo.setImage(image);
+        Image image2 = new Image("tela2.jpg");
 
-	pane_map.getChildren().add(iv1);
-
-	this.gameController = new JogoController(0, pane_aloca, btn_aloca_mais,
-		btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok);
-	desenhaTerritorios();
-
-	gameController.setAcaoTerr(new AcaoTerritorioMovimenta(gameController));
-
-	// alterando fase do jogo
-	this.btn_m1.setOnAction(new EventHandler<ActionEvent>() {
-
-	    @Override
-	    public void handle(ActionEvent event) {
-		System.out.println("modo de alocacao");
-		gameController.setAcaoTerr(new AcaoTerritorioAloca(
-			gameController));
-	    }
-	});
-
-	this.btn_m2.setOnAction(new EventHandler<ActionEvent>() {
-
-	    @Override
-	    public void handle(ActionEvent event) {
-		System.out.println("modo de ataque");
-		gameController.setAcaoTerr(new AcaoTerritorioAloca(
-			gameController));
-	    }
-	});
-
-	this.btn_m3.setOnAction(new EventHandler<ActionEvent>() {
-
-	    @Override
-	    public void handle(ActionEvent event) {
-		System.out.println("modo de movomentacao");
-		gameController.setAcaoTerr(new AcaoTerritorioMovimenta(
-			gameController));
-	    }
-	});
-
+        img_fundo2.setImage(image2);
+        
+        
+        this.gameController =new JogoController(0,pane_aloca, pane_mov, txt_fase);
+        desenhaTerritorios();
+        
+        gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
+        
+        
+        //alterando fase do jogo
+        this.btn_prox.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                gameController.setAcaoTerr(gameController.getAcaoTerr().ProxFase());
+            }
+        });
     }
 
 }

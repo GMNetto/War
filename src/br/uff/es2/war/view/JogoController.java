@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Random;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 
 /**
  * 
@@ -22,18 +23,17 @@ public class JogoController {
     private List<TerritorioUI> territorios;
     private int jogador;
     private int raio;
-
+    private Text txt_fase;
     private AcaoTerritorioStrategy acaoTerr;
-
-    public JogoController(int jogador, Pane pane_aloca, Button btn_aloca_mais,
-	    Button btn_aloca_cancel, Button btn_aloca_menos, Button btn_aloca_ok) {
-	this.jogador = jogador;
-	this.raio = 10;
-	this.ac = new AlocaController(pane_aloca, btn_aloca_mais,
-		btn_aloca_cancel, btn_aloca_menos, btn_aloca_ok, raio, this);
-
-	inicializaParaTestes();
-
+            
+    public JogoController(int jogador, Pane pane_aloca, Pane pane_mov,Text txt_fase) {
+        this.jogador = jogador;
+        this.raio=10;
+        this.txt_fase=txt_fase;
+        this.ac = new AlocaController(pane_aloca,pane_mov, raio, this);
+        
+        
+        inicializaParaTestes();
     }
 
     public AcaoTerritorioStrategy getAcaoTerr() {
@@ -46,6 +46,10 @@ public class JogoController {
 
     public int getMaxExercitosAloca() {
 	return 10;
+    }
+    
+    public void setTextFase(String txt){
+        this.txt_fase.setText(txt);
     }
 
     public AlocaController getAlocaController() {
@@ -63,13 +67,20 @@ public class JogoController {
     public int getRaio() {
 	return raio;
     }
-
-    public void desbloqueiaTerritorios(List<TerritorioUI> territorios) {
-
-	for (TerritorioUI terr : territorios) {
-	    terr.desbloqueia();
-	}
-
+    
+    public void LimpaMovimentaçao(){
+        
+        for ( TerritorioUI terr : territorios){
+            terr.setQtdMov(0);
+        }
+        
+    }
+    
+    public void desbloqueiaTerritorios(List<TerritorioUI> territorios){
+        
+        for ( TerritorioUI terr : territorios){
+            terr.desbloqueia();
+        }
     }
 
     public void bloqueiaTerritorios(List<TerritorioUI> territorios) {

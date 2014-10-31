@@ -13,5 +13,6 @@ package br.uff.es2.war.view;
 public interface AcaoTerritorioStrategy {
 
     public void AcaoBotao(TerritorioUI ter);
-
+    
+    public AcaoTerritorioStrategy ProxFase();
 }
