@@ -12,10 +12,10 @@ import br.uff.es2.war.model.MockPlayer;
  * @author Arthur Pitzer
  */
 public class ReceiveSoldiersPhaseTest extends GamePhaseTest {
-    
+
     @Override
     protected GameState<Game> createDependencies() {
-	
+
 	return new GameState<Game>() {
 	    @Override
 	    public GameState<Game> execute(Game context) {
@@ -25,23 +25,24 @@ public class ReceiveSoldiersPhaseTest extends GamePhaseTest {
 	    }
 	};
     }
-    
+
     @Override
     protected GameState<Game> createTestedPhase() {
 	return new ReceiveSoldiersPhase();
     }
-    
+
     @Before
     @Override
     public void resetGame() {
 	super.resetGame();
     }
-    
+
     @Test
     public void PLAYER_RECEIVES_RIGHT_QUANTITY_OF_SOLDIERS() throws Exception {
 	phase.execute(game);
-	MockPlayer stub = (MockPlayer)game.getCurrentPlayer();
-	int territoryQuantity = game.getWorld().getTerritoriesByOwner(stub).size();
+	MockPlayer stub = (MockPlayer) game.getCurrentPlayer();
+	int territoryQuantity = game.getWorld().getTerritoriesByOwner(stub)
+		.size();
 	assertEquals(territoryQuantity / 2, stub.getSoldierPool());
     }
 }

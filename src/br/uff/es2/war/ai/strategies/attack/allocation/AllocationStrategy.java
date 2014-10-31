@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * This interface describes a strategy that will be used for the allocation of
  * soldiers on the {@link Game}. This interface is used by BOTs.
- *
+ * 
  * @see BasicBot
  * @author Victor Guimarães
  */
@@ -21,10 +21,13 @@ public interface AllocationStrategy {
     /**
      * This method allocates a number of soldiers among a {@link Set} of
      * {@link Territory}s.
-     *
-     * @param soldierQuantity the number of soldiers
-     * @param territories the {@link Set} of {@link Territory}
+     * 
+     * @param soldierQuantity
+     *            the number of soldiers
+     * @param territories
+     *            the {@link Set} of {@link Territory}
      */
-    public void distributeSoldiers(int soldierQuantity, Set<Territory> territories);
+    public void distributeSoldiers(int soldierQuantity,
+	    Set<Territory> territories);
 
 }

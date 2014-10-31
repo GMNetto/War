@@ -18,13 +18,12 @@ import br.uff.es2.war.model.Territory;
 /**
  * @author Arthur Pitzer
  */
-public class CombatJudgeTest extends GamePhaseTest{
-    
+public class CombatJudgeTest extends GamePhaseTest {
+
     private final MockJudge judge;
     private final Territory territoryAtck;
     private final Territory territoryDefs;
-    
-    
+
     public CombatJudgeTest() {
 	super();
 	judge = new MockJudge();
@@ -46,19 +45,19 @@ public class CombatJudgeTest extends GamePhaseTest{
 
     @Override
     protected GameState<Game> createTestedPhase() {
-	return new EmptyPhase(); 
+	return new EmptyPhase();
     }
-    
+
     @Override
     @Before
     public void resetGame() {
-        super.resetGame();
+	super.resetGame();
     }
-    
+
     @Test
-    public void DEFENDER_WINS_IN_CASE_OF_WITHDRAW(){
-	judge.setAttackValues(new int[]{6,5,4});
-	judge.setDefenseValues(new int[]{6,5,4});
+    public void DEFENDER_WINS_IN_CASE_OF_WITHDRAW() {
+	judge.setAttackValues(new int[] { 6, 5, 4 });
+	judge.setDefenseValues(new int[] { 6, 5, 4 });
 	territoryAtck.setSoldiers(4);
 	territoryDefs.setSoldiers(3);
 	Combat combat = new Combat(territoryAtck, territoryDefs, 3);
@@ -66,33 +65,37 @@ public class CombatJudgeTest extends GamePhaseTest{
 	assertEquals(territoryAtck.getSoldiers(), 1);
 	assertEquals(territoryDefs.getSoldiers(), 3);
     }
-    
+
     @Test
-    public void DEFENDER_WINS_2_ATTACKERS_1_DEFENDER(){
-	judge.setAttackValues(new int[]{3,2});
-	judge.setDefenseValues(new int[]{6});
+    public void DEFENDER_WINS_2_ATTACKERS_1_DEFENDER() {
+	judge.setAttackValues(new int[] { 3, 2 });
+	judge.setDefenseValues(new int[] { 6 });
 	territoryAtck.setSoldiers(3);
 	territoryDefs.setSoldiers(1);
 	Combat combat = new Combat(territoryAtck, territoryDefs, 2);
 	judge.resolve(combat);
+	// TODO: assertEquals(territoryAtck.getSoldiers(), 2);
+	// TODO: assertEquals(territoryDefs.getSoldiers(), 1);
 	assertEquals(territoryAtck.getSoldiers(), 1);
 	assertEquals(territoryDefs.getSoldiers(), 1);
     }
-    
+
     @Test
-    public void ATTACKER_WINS_2_ATTACKERS_1_DEFENDER(){
-	judge.setAttackValues(new int[]{3,2});
-	judge.setDefenseValues(new int[]{1});
+    public void ATTACKER_WINS_2_ATTACKERS_1_DEFENDER() {
+	judge.setAttackValues(new int[] { 3, 2 });
+	judge.setDefenseValues(new int[] { 1 });
 	territoryAtck.setSoldiers(3);
 	territoryDefs.setSoldiers(1);
 	Combat combat = new Combat(territoryAtck, territoryDefs, 2);
 	judge.resolve(combat);
+	// TODO:Attacking soldiers must choose how many soldiers move, in this
+	// case 2 or 1.
 	assertEquals(territoryDefs.getOwner(), territoryAtck.getOwner());
 	assertEquals(territoryAtck.getSoldiers(), 2);
 	assertEquals(territoryDefs.getSoldiers(), 1);
     }
-    
-    private <T> T getAny(Set<T> collection){
+
+    private <T> T getAny(Set<T> collection) {
 	List<T> list = new ArrayList<>(collection);
 	return list.get(0);
     }

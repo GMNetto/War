@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 /**
- *
+ * 
  * @author anacarolinegomesvargas
  */
 public class AlocaController {
@@ -28,8 +28,8 @@ public class AlocaController {
     private Button btn_aloca_ok;
     private int centrox;
     private int centroy;
-    
-    private TerritorioUI terDestino,terOrigem;
+
+    private TerritorioUI terDestino, terOrigem;
     private int acrescenta;
     
      private JogoController jc;
@@ -71,13 +71,10 @@ public class AlocaController {
         
         esconde();
         escondeMov();
-        
-   
-        
     }
-    
-    public void esconde(){
-        pane_aloca.setVisible(false);
+
+    public void esconde() {
+	pane_aloca.setVisible(false);
     }
     
     public void mostra(){
@@ -108,17 +105,16 @@ public class AlocaController {
         this.terDestino=t;
         this.acrescenta=0;
     }
-    
-    public void setTerritorioOrigem(TerritorioUI t){
-        this.terOrigem=t;
-        this.acrescenta=0;
+
+    public void setTerritorioOrigem(TerritorioUI t) {
+	this.terOrigem = t;
+	this.acrescenta = 0;
     }
-    
-    
-    public boolean hasTerritorioOrigem(){
-        return this.terOrigem!=null;
+
+    public boolean hasTerritorioOrigem() {
+	return this.terOrigem != null;
     }
-    
+
     public void actionAloca(final int maxExercitos){
        
         //ações dos botões n fse de alocação

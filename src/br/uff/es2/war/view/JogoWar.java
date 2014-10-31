@@ -13,7 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *
+ * 
  * @author anacarolinegomesvargas
  */
 public class JogoWar extends Application {
@@ -34,11 +34,12 @@ public class JogoWar extends Application {
      * main() serves only as fallback in case the application can not be
      * launched through deployment artifacts, e.g., in IDEs with limited FX
      * support. NetBeans ignores main().
-     *
-     * @param args the command line arguments
+     * 
+     * @param args
+     *            the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+	launch(args);
     }
-    
+
 }

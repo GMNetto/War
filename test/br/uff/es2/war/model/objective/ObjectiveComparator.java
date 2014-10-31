@@ -9,14 +9,14 @@ package br.uff.es2.war.model.objective;
 import java.util.Comparator;
 
 /**
- *
+ * 
  * @author Victor
  */
 public class ObjectiveComparator implements Comparator<Objective> {
 
     @Override
     public int compare(Objective o1, Objective o2) {
-        return o1.toString().compareTo(o2.toString());
+	return o1.toString().compareTo(o2.toString());
     }
-    
+
 }

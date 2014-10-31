@@ -24,19 +24,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * 
  * @author Victor
  */
 @Entity
 @Table(name = "mundo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Mundo.findAll", query = "SELECT m FROM Mundo m"),
-    @NamedQuery(name = "Mundo.findByCodMundo", query = "SELECT m FROM Mundo m WHERE m.codMundo = :codMundo"),
-    @NamedQuery(name = "Mundo.findByNome", query = "SELECT m FROM Mundo m WHERE m.nome = :nome"),
-    @NamedQuery(name = "Mundo.findByURLImagem", query = "SELECT m FROM Mundo m WHERE m.uRLImagem = :uRLImagem"),
-    @NamedQuery(name = "Mundo.findByDataImagem", query = "SELECT m FROM Mundo m WHERE m.dataImagem = :dataImagem"),
-    @NamedQuery(name = "Mundo.findByRaioTerritorio", query = "SELECT m FROM Mundo m WHERE m.raioTerritorio = :raioTerritorio")})
+	@NamedQuery(name = "Mundo.findAll", query = "SELECT m FROM Mundo m"),
+	@NamedQuery(name = "Mundo.findByCodMundo", query = "SELECT m FROM Mundo m WHERE m.codMundo = :codMundo"),
+	@NamedQuery(name = "Mundo.findByNome", query = "SELECT m FROM Mundo m WHERE m.nome = :nome"),
+	@NamedQuery(name = "Mundo.findByURLImagem", query = "SELECT m FROM Mundo m WHERE m.uRLImagem = :uRLImagem"),
+	@NamedQuery(name = "Mundo.findByDataImagem", query = "SELECT m FROM Mundo m WHERE m.dataImagem = :dataImagem"),
+	@NamedQuery(name = "Mundo.findByRaioTerritorio", query = "SELECT m FROM Mundo m WHERE m.raioTerritorio = :raioTerritorio") })
 public class Mundo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -63,98 +63,102 @@ public class Mundo implements Serializable {
     }
 
     public Mundo(Integer codMundo) {
-        this.codMundo = codMundo;
+	this.codMundo = codMundo;
     }
 
     public Integer getCodMundo() {
-        return codMundo;
+	return codMundo;
     }
 
     public void setCodMundo(Integer codMundo) {
-        this.codMundo = codMundo;
+	this.codMundo = codMundo;
     }
 
     public String getNome() {
-        return nome;
+	return nome;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+	this.nome = nome;
     }
 
     public String getURLImagem() {
-        return uRLImagem;
+	return uRLImagem;
     }
 
     public void setURLImagem(String uRLImagem) {
-        this.uRLImagem = uRLImagem;
+	this.uRLImagem = uRLImagem;
     }
 
     public Date getDataImagem() {
-        return dataImagem;
+	return dataImagem;
     }
 
     public void setDataImagem(Date dataImagem) {
-        this.dataImagem = dataImagem;
+	this.dataImagem = dataImagem;
     }
 
     public Integer getRaioTerritorio() {
-        return raioTerritorio;
+	return raioTerritorio;
     }
 
     public void setRaioTerritorio(Integer raioTerritorio) {
-        this.raioTerritorio = raioTerritorio;
+	this.raioTerritorio = raioTerritorio;
     }
 
     @XmlTransient
     public Collection<Continente> getContinenteCollection() {
-        return continenteCollection;
+	return continenteCollection;
     }
 
-    public void setContinenteCollection(Collection<Continente> continenteCollection) {
-        this.continenteCollection = continenteCollection;
+    public void setContinenteCollection(
+	    Collection<Continente> continenteCollection) {
+	this.continenteCollection = continenteCollection;
     }
 
     @XmlTransient
     public Collection<Cor> getCorCollection() {
-        return corCollection;
+	return corCollection;
     }
 
     public void setCorCollection(Collection<Cor> corCollection) {
-        this.corCollection = corCollection;
+	this.corCollection = corCollection;
     }
 
     @XmlTransient
     public Collection<Objetivo> getObjetivoCollection() {
-        return objetivoCollection;
+	return objetivoCollection;
     }
 
     public void setObjetivoCollection(Collection<Objetivo> objetivoCollection) {
-        this.objetivoCollection = objetivoCollection;
+	this.objetivoCollection = objetivoCollection;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (codMundo != null ? codMundo.hashCode() : 0);
-        return hash;
+	int hash = 0;
+	hash += (codMundo != null ? codMundo.hashCode() : 0);
+	return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Mundo)) {
-            return false;
-        }
-        Mundo other = (Mundo) object;
-        if ((this.codMundo == null && other.codMundo != null) || (this.codMundo != null && !this.codMundo.equals(other.codMundo)))
-            return false;
-        return true;
+	// TODO: Warning - this method won't work in the case the id fields are
+	// not set
+	if (!(object instanceof Mundo)) {
+	    return false;
+	}
+	Mundo other = (Mundo) object;
+	if ((this.codMundo == null && other.codMundo != null)
+		|| (this.codMundo != null && !this.codMundo
+			.equals(other.codMundo)))
+	    return false;
+	return true;
     }
 
     @Override
     public String toString() {
-        return "br.uff.es2.war.entity.Mundo[ codMundo=" + codMundo + " ]";
+	return "br.uff.es2.war.entity.Mundo[ codMundo=" + codMundo + " ]";
     }
-    
+
 }

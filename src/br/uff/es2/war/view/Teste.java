@@ -40,7 +40,7 @@ import javax.persistence.Query;
 //import org.eclipse.persistence.exceptions.JAXBException;
 
 /**
- *
+ * 
  * @author Victor
  */
 public class Teste {
@@ -49,76 +49,81 @@ public class Teste {
     private World world;
 
     public Teste(EntityManagerFactory emf) {
-        this.factory = emf;
+	this.factory = emf;
     }
 
     public void loadWorld() throws NonexistentEntityException {
-        GameLoader wc;
+	GameLoader wc;
 
-        wc = new GameLoader(0, factory);
+	wc = new GameLoader(0, factory);
 
-        this.world = wc.getWorld();
+	this.world = wc.getWorld();
 
-        System.out.println(world + " " + world.size() + " Continent(s)");
-        System.out.println();
-        for (Continent continent : world) {
-            System.out.println(continent + " " + continent.size() + " Territory(ies)");
-            for (Territory territory : continent) {
-                System.out.println(territory);
-                for (Territory border : territory.getBorders()) {
-                    System.out.println("---->\t" + border.getName());
-                }
-                System.out.println("");
-            }
-            System.out.println("");
-        }
+	System.out.println(world + " " + world.size() + " Continent(s)");
+	System.out.println();
+	for (Continent continent : world) {
+	    System.out.println(continent + " " + continent.size()
+		    + " Territory(ies)");
+	    for (Territory territory : continent) {
+		System.out.println(territory);
+		for (Territory border : territory.getBorders()) {
+		    System.out.println("---->\t" + border.getName());
+		}
+		System.out.println("");
+	    }
+	    System.out.println("");
+	}
 
     }
 
     public void loadObjective() {
-        EntityManager manager = factory.createEntityManager();
-        Mundo mundo = manager.find(Mundo.class, 0);
+	EntityManager manager = factory.createEntityManager();
+	Mundo mundo = manager.find(Mundo.class, 0);
 
-        for (Objetivo objetivo : mundo.getObjetivoCollection()) {
-            System.out.println(objetivo.getCodObjetivo());
-            System.out.println(objetivo.getDescricao());
+	for (Objetivo objetivo : mundo.getObjetivoCollection()) {
+	    System.out.println(objetivo.getCodObjetivo());
+	    System.out.println(objetivo.getDescricao());
 
-            if (objetivo.getObjconqcont() != null) {
-                System.out.println("Conquista Continente, extras = " + objetivo.getObjconqcont().getContinentesExtras());
-            }
+	    if (objetivo.getObjconqcont() != null) {
+		System.out.println("Conquista Continente, extras = "
+			+ objetivo.getObjconqcont().getContinentesExtras());
+	    }
 
-            if (!objetivo.getObjderjogadorCollection1().isEmpty()) {
-                System.out.println("É opcional de: " + objetivo.getObjderjogadorCollection1().size() + " objetivo(s).");
-            }
+	    if (!objetivo.getObjderjogadorCollection1().isEmpty()) {
+		System.out.println("É opcional de: "
+			+ objetivo.getObjderjogadorCollection1().size()
+			+ " objetivo(s).");
+	    }
 
-            if (!objetivo.getObjderjogadorCollection().isEmpty()) {
-                System.out.println("Derrota Jogador: " + objetivo.getObjderjogadorCollection().size());
-            }
+	    if (!objetivo.getObjderjogadorCollection().isEmpty()) {
+		System.out.println("Derrota Jogador: "
+			+ objetivo.getObjderjogadorCollection().size());
+	    }
 
-            if (objetivo.getObjterritorio() != null) {
-                System.out.println("Objetivo de Território");
-            }
+	    if (objetivo.getObjterritorio() != null) {
+		System.out.println("Objetivo de Território");
+	    }
 
-            System.out.println("");
-        }
+	    System.out.println("");
+	}
     }
 
     private List<Player> shufflePlayers(final Collection<Player> players) {
-        List<Player> p = new ArrayList<>(players.size());
-        for (Player player : players) {
-            p.add(player);
-        }
-        Collections.shuffle(p);
+	List<Player> p = new ArrayList<>(players.size());
+	for (Player player : players) {
+	    p.add(player);
+	}
+	Collections.shuffle(p);
 
-        return p;
+	return p;
     }
 
     public void startGame(final Collection<Player> players) {
-        List<Player> p = shufflePlayers(players);
+	List<Player> p = shufflePlayers(players);
 
-        for (Player player : p) {
-            player.setObjective(null);
-        }
+	for (Player player : p) {
+	    player.setObjective(null);
+	}
 
     }
 

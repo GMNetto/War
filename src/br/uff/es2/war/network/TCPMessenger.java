@@ -6,13 +6,12 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 
-public class TCPMessenger implements Messenger{
-    
+public class TCPMessenger implements Messenger {
+
     private final Socket socket;
     private final PrintStream out;
     private final BufferedReader in;
-    
-    
+
     public TCPMessenger(Socket socket) throws IOException {
 	this.socket = socket;
 	out = new PrintStream(socket.getOutputStream());

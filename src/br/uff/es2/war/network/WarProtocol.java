@@ -6,11 +6,14 @@ import java.util.Set;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 
 public interface WarProtocol {
     
+    String setGame(Game game);
+
     String chooseColor(Color[] colors);
 
     Color chooseColor(String receive);
@@ -18,7 +21,7 @@ public interface WarProtocol {
     String beginTurn(Player current);
 
     String distributeSoldiers(int soldierQuantity, Set<Territory> territories);
-    
+
     void distributeSoldiers(String receive, int soldierQuantity,
 	    Set<Territory> territories);
 
@@ -26,9 +29,9 @@ public interface WarProtocol {
 
     Combat declareCombat(String receive);
 
-    String answerCombat();
+    String answerCombat(Combat combat);
 
-    Object answerCombat(String receive, Combat combat);
+    void answerCombat(String receive, Combat combat);
 
     String moveSoldiers();
 

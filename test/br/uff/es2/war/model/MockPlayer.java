@@ -20,47 +20,23 @@ import br.uff.es2.war.util.CyclicIterator;
 /**
  * @author Arthur Pitzer
  */
-public class MockPlayer implements Player {
-    
-    private Game game;
-    private Objective objective;
-    private Color color;
+public class MockPlayer extends PlayerData {
+
     private int soldierPool;
+    
+    public MockPlayer() {
+	super();
+    }
 
     @Override
     public Color chooseColor(Color[] colors) {
-	int index = (int)(Math.random() * (colors.length - 1));
+	int index = (int) (Math.random() * (colors.length - 1));
 	return colors[index];
     }
 
     @Override
-    public void setGame(Game game) {
-	this.game = game;
-    }
-
-    @Override
-    public Objective getObjective() {
-	return objective;
-    }
-
-    @Override
-    public void setObjective(Objective objective) {
-	this.objective = objective;
-    }
-
-    @Override
-    public Color getColor() {
-	return color;
-    }
-
-    @Override
-    public void setColor(Color color) {
-	this.color = color;
-    }
-
-    @Override
     public void beginTurn(Player current) {
-	
+
     }
 
     @Override
@@ -68,16 +44,18 @@ public class MockPlayer implements Player {
 	    Set<Territory> territories) {
 	this.soldierPool = soldierQuantity;
 	Iterator<Territory> iterator = new CyclicIterator<>(territories);
-	while(soldierQuantity-- > 0 && iterator.hasNext())
+	while (soldierQuantity-- > 0 && iterator.hasNext())
 	    iterator.next().addSoldiers(1);
     }
 
     @Override
     public Combat declareCombat() {
-	Set<Territory> territories = game.getWorld().getTerritoriesByOwner(this);
-	if(!territories.isEmpty()){
+	Set<Territory> territories = game.getWorld()
+		.getTerritoriesByOwner(this);
+	if (!territories.isEmpty()) {
 	    Territory attacking = new LinkedList<>(territories).get(0);
-	    Territory defending = new LinkedList<>(attacking.getBorders()).get(0);
+	    Territory defending = new LinkedList<>(attacking.getBorders())
+		    .get(0);
 	    int soldiers = Math.min(attacking.getSoldiers(), 3);
 	    return new Combat(attacking, defending, soldiers);
 	}
@@ -91,18 +69,13 @@ public class MockPlayer implements Player {
     public Object getSoldierPool() {
 	return soldierPool;
     }
-    
+
     @Override
     public void moveSoldiers() {
     }
 
     @Override
     public void addCard(Card drawCard) {
-    }
-
-    @Override
-    public Collection<Card> getCards() {
-	return null;
     }
 
     @Override

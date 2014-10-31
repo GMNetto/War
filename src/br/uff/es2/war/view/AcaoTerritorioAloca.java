@@ -7,13 +7,13 @@
 package br.uff.es2.war.view;
 
 /**
- *
+ * 
  * @author anacarolinegomesvargas
  */
-public class AcaoTerritorioAloca implements AcaoTerritorioStrategy{
-    
+public class AcaoTerritorioAloca implements AcaoTerritorioStrategy {
+
     private JogoController jc;
-    
+
     public AcaoTerritorioAloca(JogoController jc) {
         this.jc=jc;
         jc.setTextFase("Aloque os exércitos");
@@ -25,20 +25,20 @@ public class AcaoTerritorioAloca implements AcaoTerritorioStrategy{
         jc.getAlocaController().setTerritorioOrigem(null); 
         jc.getAlocaController().esconde();
         jc.getAlocaController().escondeMov();
-        
     }
+
     @Override
     public void AcaoBotao(TerritorioUI ter) {
-        jc.getAlocaController().setTerritorioDestino(ter);
-        jc.getAlocaController().actionAloca(jc.getMaxExercitosAloca());
-        jc.getAlocaController().mostra();
-        jc.getAlocaController().centraliza(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
-        
+	jc.getAlocaController().setTerritorioDestino(ter);
+	jc.getAlocaController().actionAloca(jc.getMaxExercitosAloca());
+	jc.getAlocaController().mostra();
+	jc.getAlocaController().centraliza(ter.getCirculo().getCenterX(),
+		ter.getCirculo().getCenterY());
+
     }
 
     @Override
     public AcaoTerritorioStrategy ProxFase() {
         return new AcaoTerritorioAtaca(jc);
     }
-    
 }

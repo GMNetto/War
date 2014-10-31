@@ -9,11 +9,12 @@ import br.uff.es2.war.events.Action;
 /**
  * @author Arthur Pitzer
  */
-public class SoldierMovementPhase implements GameState<Game>, Action<TerritoryConquestEvent> {
-    
+public class SoldierMovementPhase implements GameState<Game>,
+	Action<TerritoryConquestEvent> {
+
     private static final int CARD_LIMIT = 5;
     private Player conqueror;
-    
+
     @Override
     public GameState<Game> execute(Game context) {
 	Player current = context.getCurrentPlayer();
@@ -21,19 +22,20 @@ public class SoldierMovementPhase implements GameState<Game>, Action<TerritoryCo
 	current.moveSoldiers();
 	if(context.isOver())
 	    return new GameOver();
-	return null;
+	return new TurnChangePhase();
     }
-    
-    private void drawCard(Game game){
-	if(conqueror != null){
+
+    private void drawCard(Game game) {
+	if (conqueror != null) {
 	    conqueror.addCard(game.drawCard());
-	    if(conqueror.getCards().size() > CARD_LIMIT)
+	    if (conqueror.getCards().size() > CARD_LIMIT)
 		game.addCard(conqueror.discard());
+	    conqueror = null;
 	}
     }
 
     @Override
-    public void onEvent(TerritoryConquestEvent event) {
+    public void onAction(TerritoryConquestEvent event) {
 	conqueror = event.getNewOwner();
     }
 }

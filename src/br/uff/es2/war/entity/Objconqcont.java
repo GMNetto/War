@@ -22,16 +22,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
+ * 
  * @author Victor
  */
 @Entity
 @Table(name = "objconqcont")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Objconqcont.findAll", query = "SELECT o FROM Objconqcont o"),
-    @NamedQuery(name = "Objconqcont.findByCodObjetivo", query = "SELECT o FROM Objconqcont o WHERE o.codObjetivo = :codObjetivo"),
-    @NamedQuery(name = "Objconqcont.findByContinentesExtras", query = "SELECT o FROM Objconqcont o WHERE o.continentesExtras = :continentesExtras")})
+	@NamedQuery(name = "Objconqcont.findAll", query = "SELECT o FROM Objconqcont o"),
+	@NamedQuery(name = "Objconqcont.findByCodObjetivo", query = "SELECT o FROM Objconqcont o WHERE o.codObjetivo = :codObjetivo"),
+	@NamedQuery(name = "Objconqcont.findByContinentesExtras", query = "SELECT o FROM Objconqcont o WHERE o.continentesExtras = :continentesExtras") })
 public class Objconqcont implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,64 +50,69 @@ public class Objconqcont implements Serializable {
     }
 
     public Objconqcont(Integer codObjetivo) {
-        this.codObjetivo = codObjetivo;
+	this.codObjetivo = codObjetivo;
     }
 
     public Integer getCodObjetivo() {
-        return codObjetivo;
+	return codObjetivo;
     }
 
     public void setCodObjetivo(Integer codObjetivo) {
-        this.codObjetivo = codObjetivo;
+	this.codObjetivo = codObjetivo;
     }
 
     public Integer getContinentesExtras() {
-        return continentesExtras;
+	return continentesExtras;
     }
 
     public void setContinentesExtras(Integer continentesExtras) {
-        this.continentesExtras = continentesExtras;
+	this.continentesExtras = continentesExtras;
     }
 
     @XmlTransient
     public Collection<Continente> getContinenteCollection() {
-        return continenteCollection;
+	return continenteCollection;
     }
 
-    public void setContinenteCollection(Collection<Continente> continenteCollection) {
-        this.continenteCollection = continenteCollection;
+    public void setContinenteCollection(
+	    Collection<Continente> continenteCollection) {
+	this.continenteCollection = continenteCollection;
     }
 
     public Objetivo getObjetivo() {
-        return objetivo;
+	return objetivo;
     }
 
     public void setObjetivo(Objetivo objetivo) {
-        this.objetivo = objetivo;
+	this.objetivo = objetivo;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (codObjetivo != null ? codObjetivo.hashCode() : 0);
-        return hash;
+	int hash = 0;
+	hash += (codObjetivo != null ? codObjetivo.hashCode() : 0);
+	return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Objconqcont)) {
-            return false;
-        }
-        Objconqcont other = (Objconqcont) object;
-        if ((this.codObjetivo == null && other.codObjetivo != null) || (this.codObjetivo != null && !this.codObjetivo.equals(other.codObjetivo)))
-            return false;
-        return true;
+	// TODO: Warning - this method won't work in the case the id fields are
+	// not set
+	if (!(object instanceof Objconqcont)) {
+	    return false;
+	}
+	Objconqcont other = (Objconqcont) object;
+	if ((this.codObjetivo == null && other.codObjetivo != null)
+		|| (this.codObjetivo != null && !this.codObjetivo
+			.equals(other.codObjetivo)))
+	    return false;
+	return true;
     }
 
     @Override
     public String toString() {
-        return "br.uff.es2.war.entity.Objconqcont[ codObjetivo=" + codObjetivo + " ]";
+	return "br.uff.es2.war.entity.Objconqcont[ codObjetivo=" + codObjetivo
+		+ " ]";
     }
-    
+
 }

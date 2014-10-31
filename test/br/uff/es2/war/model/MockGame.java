@@ -14,23 +14,27 @@ import br.uff.es2.war.model.World;
  * @author Arthur Pitzer
  */
 public class MockGame extends Game {
-    
+
     private static World WORLD;
 
     public MockGame() {
 	super(createPlayers(), createWorld(), createColors(), createCards());
     }
+    
+    public MockGame(Player[] player, World world, Color[] colors, List<Card> cards){
+	super(player, world, colors, cards);
+    }
 
-    private static Player[] createPlayers() {
+    public static Player[] createPlayers() {
 	Player[] players = new Player[4];
 	for (int i = 0; i < players.length; i++)
 	    players[i] = new MockPlayer();
 	return players;
     }
 
-    private static World createWorld() {
+    public static World createWorld() {
 	World world = new World("Test World");
-	
+
 	Continent continentA = new Continent("A", world, 2);
 	Continent continentB = new Continent("B", world, 3);
 	Territory territoryA1 = new Territory("A 1", continentA);
@@ -51,28 +55,24 @@ public class MockGame extends Game {
 	territoryB2.getBorders().add(territoryB1);
 	territoryB2.getBorders().add(territoryA1);
 	territoryA1.getBorders().add(territoryB2);
-	
+
 	world.add(continentA);
 	world.add(continentB);
 	WORLD = world;
 	return world;
     }
-    
-    private static Color[] createColors(){
-	return new Color[]{
-		new Color("Blue"),
-		new Color("White"),
-		new Color("Red"),
-		new Color("Green"),
-	};
+
+    public static Color[] createColors() {
+	return new Color[] { new Color("Blue"), new Color("White"),
+		new Color("Red"), new Color("Green"), };
     }
-    
-    private static List<Card> createCards(){
+
+    public static List<Card> createCards() {
 	List<Card> cards = new LinkedList<Card>();
 	cards.add(new Card(4, null));
 	cards.add(new Card(4, null));
 	int figure = 0;
-	for(Territory territory : WORLD.getTerritories()){
+	for (Territory territory : WORLD.getTerritories()) {
 	    cards.add(new Card(figure, territory));
 	    figure = figure == 2 ? 0 : figure + 1;
 	}

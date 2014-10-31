@@ -19,17 +19,17 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * 
  * @author Victor
  */
 @Entity
 @Table(name = "objterritorio")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Objterritorio.findAll", query = "SELECT o FROM Objterritorio o"),
-    @NamedQuery(name = "Objterritorio.findByCodObjetivo", query = "SELECT o FROM Objterritorio o WHERE o.codObjetivo = :codObjetivo"),
-    @NamedQuery(name = "Objterritorio.findByQtdTerritorio", query = "SELECT o FROM Objterritorio o WHERE o.qtdTerritorio = :qtdTerritorio"),
-    @NamedQuery(name = "Objterritorio.findByMinExercito", query = "SELECT o FROM Objterritorio o WHERE o.minExercito = :minExercito")})
+	@NamedQuery(name = "Objterritorio.findAll", query = "SELECT o FROM Objterritorio o"),
+	@NamedQuery(name = "Objterritorio.findByCodObjetivo", query = "SELECT o FROM Objterritorio o WHERE o.codObjetivo = :codObjetivo"),
+	@NamedQuery(name = "Objterritorio.findByQtdTerritorio", query = "SELECT o FROM Objterritorio o WHERE o.qtdTerritorio = :qtdTerritorio"),
+	@NamedQuery(name = "Objterritorio.findByMinExercito", query = "SELECT o FROM Objterritorio o WHERE o.minExercito = :minExercito") })
 public class Objterritorio implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -49,68 +49,72 @@ public class Objterritorio implements Serializable {
     }
 
     public Objterritorio(Integer codObjetivo) {
-        this.codObjetivo = codObjetivo;
+	this.codObjetivo = codObjetivo;
     }
 
     public Objterritorio(Integer codObjetivo, int qtdTerritorio) {
-        this.codObjetivo = codObjetivo;
-        this.qtdTerritorio = qtdTerritorio;
+	this.codObjetivo = codObjetivo;
+	this.qtdTerritorio = qtdTerritorio;
     }
 
     public Integer getCodObjetivo() {
-        return codObjetivo;
+	return codObjetivo;
     }
 
     public void setCodObjetivo(Integer codObjetivo) {
-        this.codObjetivo = codObjetivo;
+	this.codObjetivo = codObjetivo;
     }
 
     public int getQtdTerritorio() {
-        return qtdTerritorio;
+	return qtdTerritorio;
     }
 
     public void setQtdTerritorio(int qtdTerritorio) {
-        this.qtdTerritorio = qtdTerritorio;
+	this.qtdTerritorio = qtdTerritorio;
     }
 
     public Integer getMinExercito() {
-        return minExercito;
+	return minExercito;
     }
 
     public void setMinExercito(Integer minExercito) {
-        this.minExercito = minExercito;
+	this.minExercito = minExercito;
     }
 
     public Objetivo getObjetivo() {
-        return objetivo;
+	return objetivo;
     }
 
     public void setObjetivo(Objetivo objetivo) {
-        this.objetivo = objetivo;
+	this.objetivo = objetivo;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (codObjetivo != null ? codObjetivo.hashCode() : 0);
-        return hash;
+	int hash = 0;
+	hash += (codObjetivo != null ? codObjetivo.hashCode() : 0);
+	return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Objterritorio)) {
-            return false;
-        }
-        Objterritorio other = (Objterritorio) object;
-        if ((this.codObjetivo == null && other.codObjetivo != null) || (this.codObjetivo != null && !this.codObjetivo.equals(other.codObjetivo)))
-            return false;
-        return true;
+	// TODO: Warning - this method won't work in the case the id fields are
+	// not set
+	if (!(object instanceof Objterritorio)) {
+	    return false;
+	}
+	Objterritorio other = (Objterritorio) object;
+	if ((this.codObjetivo == null && other.codObjetivo != null)
+		|| (this.codObjetivo != null && !this.codObjetivo
+			.equals(other.codObjetivo)))
+	    return false;
+	return true;
     }
 
     @Override
     public String toString() {
-        return "br.uff.es2.war.entity.Objterritorio[ codObjetivo=" + codObjetivo + " ]";
+	return "br.uff.es2.war.entity.Objterritorio[ codObjetivo="
+		+ codObjetivo + " ]";
     }
-    
+
 }

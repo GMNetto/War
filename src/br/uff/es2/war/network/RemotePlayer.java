@@ -1,24 +1,31 @@
 package br.uff.es2.war.network;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.PlayerData;
 import br.uff.es2.war.model.Territory;
 
-public class RemotePlayer extends PlayerData{
-    
+public class RemotePlayer extends PlayerData {
+
     private final Messenger messenger;
     private final WarProtocol protocol;
 
     public RemotePlayer(Messenger messenger, WarProtocol protocol) {
+	super();
 	this.messenger = messenger;
 	this.protocol = protocol;
+    }
+    
+    @Override
+    public void setGame(Game game) {
+	super.setGame(game);
+	messenger.send(protocol.setGame(game));
     }
 
     @Override
@@ -35,8 +42,10 @@ public class RemotePlayer extends PlayerData{
     @Override
     public void distributeSoldiers(int soldierQuantity,
 	    Set<Territory> territories) {
-	messenger.send(protocol.distributeSoldiers(soldierQuantity, territories));
-	protocol.distributeSoldiers(messenger.receive(), soldierQuantity, territories);
+	messenger.send(protocol
+		.distributeSoldiers(soldierQuantity, territories));
+	protocol.distributeSoldiers(messenger.receive(), soldierQuantity,
+		territories);
     }
 
     @Override
@@ -47,30 +56,26 @@ public class RemotePlayer extends PlayerData{
 
     @Override
     public void answerCombat(Combat combat) {
-	messenger.send(protocol.answerCombat());
+	messenger.send(protocol.answerCombat(combat));
 	protocol.answerCombat(messenger.receive(), combat);
     }
 
     @Override
     public void moveSoldiers() {
 	messenger.send(protocol.moveSoldiers());
-	protocol.moveSoldiers(messenger.receive(), game.getWorld().getTerritoriesByOwner(this));
+	protocol.moveSoldiers(messenger.receive(), game.getWorld()
+		.getTerritoriesByOwner(this));
     }
-    
+
     @Override
     public void addCard(Card card) {
 	messenger.send(protocol.addCard(card));
     }
-    
+
     @Override
     public Card discard() {
 	messenger.send(protocol.discard());
 	return protocol.discard(messenger.receive());
-    }
-    
-    @Override
-    public Collection<Card> getCards() {
-        return null;
     }
 
     @Override

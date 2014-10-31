@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- *
+ * 
  * @author Victor
  */
 public class DumbPlayer implements Player {
@@ -29,64 +29,119 @@ public class DumbPlayer implements Player {
     private Game game;
 
     public DumbPlayer(Color color, int codJogador) {
-        this.color = color;
-        this.jogador = new Jogador(codJogador);
+	this.color = color;
+	this.jogador = new Jogador(codJogador);
     }
-    
+
     @Override
     public void setGame(Game game) {
-        this.game = game;
+	this.game = game;
     }
 
     @Override
     public Objective getObjective() {
-        return objective;
+	return objective;
     }
 
     @Override
     public void setObjective(Objective objective) {
-        this.objective = objective;
-        ((FullObjective) this.objective).setOwner(this);
+	this.objective = objective;
+	((FullObjective) this.objective).setOwner(this);
     }
 
     @Override
     public Color chooseColor(Color[] colors) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	throw new UnsupportedOperationException("Not supported yet."); // To
+								       // change
+								       // body
+								       // of
+								       // generated
+								       // methods,
+								       // choose
+								       // Tools
+								       // |
+								       // Templates.
     }
 
     @Override
     public Color getColor() {
-        return color;
+	return color;
     }
 
     @Override
     public void setColor(Color color) {
-        this.color = color;
+	this.color = color;
     }
 
     @Override
     public void beginTurn(Player current) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	throw new UnsupportedOperationException("Not supported yet."); // To
+								       // change
+								       // body
+								       // of
+								       // generated
+								       // methods,
+								       // choose
+								       // Tools
+								       // |
+								       // Templates.
     }
 
     @Override
-    public void distributeSoldiers(int soldierQuantity, Set<Territory> territories) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void distributeSoldiers(int soldierQuantity,
+	    Set<Territory> territories) {
+	throw new UnsupportedOperationException("Not supported yet."); // To
+								       // change
+								       // body
+								       // of
+								       // generated
+								       // methods,
+								       // choose
+								       // Tools
+								       // |
+								       // Templates.
     }
 
     @Override
     public Combat declareCombat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	throw new UnsupportedOperationException("Not supported yet."); // To
+								       // change
+								       // body
+								       // of
+								       // generated
+								       // methods,
+								       // choose
+								       // Tools
+								       // |
+								       // Templates.
     }
 
     @Override
     public void answerCombat(Combat combat) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	throw new UnsupportedOperationException("Not supported yet."); // To
+								       // change
+								       // body
+								       // of
+								       // generated
+								       // methods,
+								       // choose
+								       // Tools
+								       // |
+								       // Templates.
     }
 
     @Override
     public void moveSoldiers() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	throw new UnsupportedOperationException("Not supported yet."); // To
+								       // change
+								       // body
+								       // of
+								       // generated
+								       // methods,
+								       // choose
+								       // Tools
+								       // |
+								       // Templates.
     }
 
     @Override
@@ -111,7 +166,8 @@ public class DumbPlayer implements Player {
 
     @Override
     public String toString() {
-        return "DumbPlayer:\t" + jogador.getCodJogador() + "\tColor:\t" + color.toString();
+	return "DumbPlayer:\t" + jogador.getCodJogador() + "\tColor:\t"
+		+ color.toString();
     }
-    
+
 }

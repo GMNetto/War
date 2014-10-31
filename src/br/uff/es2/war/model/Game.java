@@ -136,5 +136,4 @@ public class Game {
             territory.addSoldiers(1);
         }
     }
-    
 }

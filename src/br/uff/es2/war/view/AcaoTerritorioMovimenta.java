@@ -7,13 +7,13 @@
 package br.uff.es2.war.view;
 
 /**
- *
+ * 
  * @author anacarolinegomesvargas
  */
-public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy{
-    
+public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy {
+
     private JogoController jc;
-    
+
     public AcaoTerritorioMovimenta(JogoController jc) {
         this.jc=jc;
         jc.setTextFase("Movimente exercitos");
@@ -27,6 +27,7 @@ public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy{
         jc.getAlocaController().esconde();
         jc.getAlocaController().escondeMov();
     }
+
     @Override
     public void AcaoBotao(TerritorioUI ter) {
         jc.getAlocaController().actionMovimenta();
@@ -42,9 +43,6 @@ public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy{
             jc.getAlocaController().centralizaMov(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
             jc.getAlocaController().mostraMov();
         }
-        
-       
-        
     }
 
     @Override
@@ -52,5 +50,4 @@ public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy{
         jc.LimpaMovimentaçao();
         return new AcaoTerritorioEspera(jc);
     }
-    
 }

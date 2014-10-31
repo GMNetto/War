@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -35,7 +35,7 @@ import javax.persistence.Query;
  * This class is used to load a game from the persistence. It is able to load
  * the data from the database and serve both the model and the graphic
  * interface.
- *
+ * 
  * @author Victor Guimarães
  */
 public class GameLoader {
@@ -85,13 +85,17 @@ public class GameLoader {
 
     /**
      * Default constructor with the needed parameters.
-     *
-     * @param worldID the world's id in the database
-     * @param factory the {@link EntityManagerFactory} to access the database
-     * @throws NonexistentEntityException In case the id does not exist
+     * 
+     * @param worldID
+     *            the world's id in the database
+     * @param factory
+     *            the {@link EntityManagerFactory} to access the database
+     * @throws NonexistentEntityException
+     *             In case the id does not exist
      */
-    public GameLoader(int worldID, EntityManagerFactory factory) throws NonexistentEntityException {
-        loadGame(worldID, factory);
+    public GameLoader(int worldID, EntityManagerFactory factory)
+	    throws NonexistentEntityException {
+	loadGame(worldID, factory);
     }
 
     /**
@@ -113,12 +117,14 @@ public class GameLoader {
 
     /**
      * Loads the needed information about the world map from the database.
-     *
-     * @param mundo the {@link Mundo}
-     * @throws NonexistentEntityException In case the id does not exist
+     * 
+     * @param mundo
+     *            the {@link Mundo}
+     * @throws NonexistentEntityException
+     *             In case the id does not exist
      */
     private void loadWorld(Mundo mundo) throws NonexistentEntityException {
-        if (mundo == null)
+	if (mundo == null)
             throw new NonexistentEntityException(ExceptionCauses.NONEXISTENT_ENTITY.toString());
 
         this.world = new World(mundo.getNome());
@@ -160,14 +166,17 @@ public class GameLoader {
 
     /**
      * Loads the needed information about the {@link Objective}s.
-     *
-     * @param mundo the {@link Mundo}
-     * @throws NonexistentEntityException In case the id does not exist
+     * 
+     * @param mundo
+     *            the {@link Mundo}
+     * @throws NonexistentEntityException
+     *             In case the id does not exist
      */
     private void loadObjectives(Mundo mundo) throws NonexistentEntityException {
-        FullObjectiveFactory factory = new FullObjectiveFactory(world, mundo.getObjetivoCollection());
-        objectives = factory.getObjectives();
-        iDObjectives = factory.getObjectiveCodeMap();
+	FullObjectiveFactory factory = new FullObjectiveFactory(world,
+		mundo.getObjetivoCollection());
+	objectives = factory.getObjectives();
+	iDObjectives = factory.getObjectiveCodeMap();
     }
 
     private void loadColors(Mundo mundo) {
@@ -207,42 +216,42 @@ public class GameLoader {
 
     /**
      * Getter for the {@link World}.
-     *
+     * 
      * @return the {@link World}
      */
     public World getWorld() {
-        return world;
+	return world;
     }
 
     /**
      * Getter fot the {@link Map} of {@link Territory} and {@link Point2D}.
-     *
+     * 
      * @return the {@link Map} of {@link Territory} and {@link Point2D}
      */
     public Map<Territory, Point2D> getTerritoryPoint() {
-        return territoryPoint;
+	return territoryPoint;
     }
 
     /**
      * Getter for a {@link Set} with all the possible {@link Objective}s for the
      * game.
-     *
+     * 
      * @return a {@link Set} with all the possible {@link Objective}s for the
-     * game
+     *         game
      */
     public Set<Objective> getObjectives() {
-        return objectives;
+	return objectives;
     }
 
     /**
      * Getter for a {@link Map} to link {@link Territory} with its code on the
      * persistence.
-     *
+     * 
      * @return a {@link Map} to link {@link Territory} with its code on the
-     * persistence
+     *         persistence
      */
     public Map<Territory, Integer> getiDOfTerritory() {
-        return iDOfTerritory;
+	return iDOfTerritory;
     }
 
     /**
@@ -252,7 +261,7 @@ public class GameLoader {
      * @return a {@link Set} of possible {@link Color}s to be used on the game
      */
     public Set<Color> getColors() {
-        return colors;
+	return colors;
     }
 
     /**
@@ -267,23 +276,22 @@ public class GameLoader {
     /**
      * Getter for a {@link Map} to link {@link Color} with its @{link Cor} on
      * the persistence.
-     *
+     * 
      * @return a {@link Map} to link {@link Color} with its @{link Cor} on the
-     * persistence
+     *         persistence
      */
     public Map<Color, Cor> getiDOfColor() {
-        return iDOfColor;
+	return iDOfColor;
     }
 
     /**
      * Getter for a {@link Map} to link {@link Objective} with its @{link
      * Objetivo} on the persistence.
-     *
+     * 
      * @return a {@link Map} to link {@link Objective} with its @{link Objetivo}
-     * on the persistence
+     *         on the persistence
      */
     public Map<Objective, Objetivo> getiDObjectives() {
-        return iDObjectives;
+	return iDObjectives;
     }
-
 }

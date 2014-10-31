@@ -13,15 +13,15 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 /**
- *
+ * 
  * @author anacarolinegomesvargas
  */
 public class TerritorioUI {
     private Circle circulo;
     private Text texto;
-    private String nome; //modelo possui
+    private String nome; // modelo possui
     private int dono; // modelo possui
-    private int qtd; //modelo possui
+    private int qtd; // modelo possui
     private boolean bloqueado;
     private int qtdMov;
     
@@ -51,40 +51,40 @@ public class TerritorioUI {
     }
    
     public Text getTexto() {
-        return texto;
+	return texto;
     }
 
     public void setTexto(Text texto) {
-        this.texto = texto;
+	this.texto = texto;
     }
-    
+
     public Circle getCirculo() {
-        return circulo;
+	return circulo;
     }
 
     public void setCirculo(Circle circulo) {
-        this.circulo = circulo;
+	this.circulo = circulo;
     }
-    
-     public String getNome() {
-        return nome;
+
+    public String getNome() {
+	return nome;
     }
 
     public int getDono() {
-        return dono;
+	return dono;
     }
 
     public void setDono(int dono) {
-        this.dono = dono;
+	this.dono = dono;
     }
 
     public int getQtd() {
-        return qtd;
+	return qtd;
     }
 
     public void setQtd(int qtd) {
-        this.qtd = qtd;
-        this.texto.setText(qtd+"");
+	this.qtd = qtd;
+	this.texto.setText(qtd + "");
     }
 
     public int getQtdMov() {
@@ -100,18 +100,17 @@ public class TerritorioUI {
     public boolean isDono(int d){
        return (dono==d);
     }
-    
-    public void addVizinho(TerritorioUI t){
-        viz.add(t);
+
+    public void addVizinho(TerritorioUI t) {
+	viz.add(t);
     }
 
     public List<TerritorioUI> getViz() {
-        return viz;
+	return viz;
     }
-    
-    public boolean isBloqueado(){
-        return this.bloqueado;
+
+    public boolean isBloqueado() {
+	return this.bloqueado;
     }
-    
 
 }

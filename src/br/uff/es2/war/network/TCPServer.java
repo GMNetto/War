@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public abstract class TCPServer extends Server {
-    
+
     private ServerSocket server;
-    
+
     public TCPServer(int port) throws IOException {
 	server = new ServerSocket(port);
     }

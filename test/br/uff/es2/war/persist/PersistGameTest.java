@@ -25,7 +25,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- *
+ * 
  * @author Gustavo
  */
 public class PersistGameTest {

@@ -17,17 +17,17 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * 
  * @author Victor
  */
 @Entity
 @Table(name = "objderjogador")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Objderjogador.findAll", query = "SELECT o FROM Objderjogador o"),
-    @NamedQuery(name = "Objderjogador.findByCodObjetivo", query = "SELECT o FROM Objderjogador o WHERE o.objderjogadorPK.codObjetivo = :codObjetivo"),
-    @NamedQuery(name = "Objderjogador.findByCodCor", query = "SELECT o FROM Objderjogador o WHERE o.objderjogadorPK.codCor = :codCor"),
-    @NamedQuery(name = "Objderjogador.findByCodObjetivoSec", query = "SELECT o FROM Objderjogador o WHERE o.objderjogadorPK.codObjetivoSec = :codObjetivoSec")})
+	@NamedQuery(name = "Objderjogador.findAll", query = "SELECT o FROM Objderjogador o"),
+	@NamedQuery(name = "Objderjogador.findByCodObjetivo", query = "SELECT o FROM Objderjogador o WHERE o.objderjogadorPK.codObjetivo = :codObjetivo"),
+	@NamedQuery(name = "Objderjogador.findByCodCor", query = "SELECT o FROM Objderjogador o WHERE o.objderjogadorPK.codCor = :codCor"),
+	@NamedQuery(name = "Objderjogador.findByCodObjetivoSec", query = "SELECT o FROM Objderjogador o WHERE o.objderjogadorPK.codObjetivoSec = :codObjetivoSec") })
 public class Objderjogador implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
@@ -46,67 +46,72 @@ public class Objderjogador implements Serializable {
     }
 
     public Objderjogador(ObjderjogadorPK objderjogadorPK) {
-        this.objderjogadorPK = objderjogadorPK;
+	this.objderjogadorPK = objderjogadorPK;
     }
 
     public Objderjogador(int codObjetivo, int codCor, int codObjetivoSec) {
-        this.objderjogadorPK = new ObjderjogadorPK(codObjetivo, codCor, codObjetivoSec);
+	this.objderjogadorPK = new ObjderjogadorPK(codObjetivo, codCor,
+		codObjetivoSec);
     }
 
     public ObjderjogadorPK getObjderjogadorPK() {
-        return objderjogadorPK;
+	return objderjogadorPK;
     }
 
     public void setObjderjogadorPK(ObjderjogadorPK objderjogadorPK) {
-        this.objderjogadorPK = objderjogadorPK;
+	this.objderjogadorPK = objderjogadorPK;
     }
 
     public Cor getCor() {
-        return cor;
+	return cor;
     }
 
     public void setCor(Cor cor) {
-        this.cor = cor;
+	this.cor = cor;
     }
 
     public Objetivo getObjetivo() {
-        return objetivo;
+	return objetivo;
     }
 
     public void setObjetivo(Objetivo objetivo) {
-        this.objetivo = objetivo;
+	this.objetivo = objetivo;
     }
 
     public Objetivo getObjetivo1() {
-        return objetivo1;
+	return objetivo1;
     }
 
     public void setObjetivo1(Objetivo objetivo1) {
-        this.objetivo1 = objetivo1;
+	this.objetivo1 = objetivo1;
     }
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (objderjogadorPK != null ? objderjogadorPK.hashCode() : 0);
-        return hash;
+	int hash = 0;
+	hash += (objderjogadorPK != null ? objderjogadorPK.hashCode() : 0);
+	return hash;
     }
 
     @Override
     public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Objderjogador)) {
-            return false;
-        }
-        Objderjogador other = (Objderjogador) object;
-        if ((this.objderjogadorPK == null && other.objderjogadorPK != null) || (this.objderjogadorPK != null && !this.objderjogadorPK.equals(other.objderjogadorPK)))
-            return false;
-        return true;
+	// TODO: Warning - this method won't work in the case the id fields are
+	// not set
+	if (!(object instanceof Objderjogador)) {
+	    return false;
+	}
+	Objderjogador other = (Objderjogador) object;
+	if ((this.objderjogadorPK == null && other.objderjogadorPK != null)
+		|| (this.objderjogadorPK != null && !this.objderjogadorPK
+			.equals(other.objderjogadorPK)))
+	    return false;
+	return true;
     }
 
     @Override
     public String toString() {
-        return "br.uff.es2.war.entity.Objderjogador[ objderjogadorPK=" + objderjogadorPK + " ]";
+	return "br.uff.es2.war.entity.Objderjogador[ objderjogadorPK="
+		+ objderjogadorPK + " ]";
     }
-    
+
 }

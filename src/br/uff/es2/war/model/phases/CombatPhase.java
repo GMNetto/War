@@ -17,26 +17,28 @@ import br.uff.es2.war.model.phases.GameState;
  * @author Arthur Pitzer
  */
 public class CombatPhase implements GameState<Game> {
-    
+
     private final CombatJudge judge;
-    
+
     public CombatPhase() {
 	judge = new CombatJudge();
     }
-    
+
     @Override
     public GameState<Game> execute(Game game) {
 	Player attacker = game.getCurrentPlayer();
 	Combat combat = attacker.declareCombat();
-	if(combat == null)
+	if (combat == null)
 	    return new SoldierMovementPhase();
 	Territory defendingTerritory = combat.getDefendingTerritory();
 	Player defender = defendingTerritory.getOwner();
 	defender.answerCombat(combat);
 	judge.resolve(combat);
-	if(defendingTerritory.getOwner().equals(attacker))
-	    game.getEvents().publish(new TerritoryConquestEvent(defender, attacker, defendingTerritory));
-	if(game.isOver())
+	if (defendingTerritory.getOwner().equals(attacker))
+	    game.getEvents().publish(
+		    new TerritoryConquestEvent(defender, attacker,
+			    defendingTerritory));
+	if (game.isOver())
 	    return new GameOver();
 	return this;
     }

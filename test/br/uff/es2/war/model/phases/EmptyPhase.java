@@ -7,8 +7,8 @@ import br.uff.es2.war.model.Game;
  * 
  * @author Arthur Pitzer
  */
-class EmptyPhase implements GameState<Game>{
-    
+class EmptyPhase implements GameState<Game> {
+
     @Override
     public GameState<Game> execute(Game game) {
 	return null;

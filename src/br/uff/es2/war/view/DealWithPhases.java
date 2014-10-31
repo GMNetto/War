@@ -7,9 +7,9 @@
 package testejogo;
 
 /**
- *
+ * 
  * @author Gustavo
  */
 public interface DealWithPhases {
-    
+
 }

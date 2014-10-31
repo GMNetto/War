@@ -30,7 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
+ * 
  * @author Victor Guimarães
  */
 public class GamePersisterTest {

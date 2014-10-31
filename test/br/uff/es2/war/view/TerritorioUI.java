@@ -12,7 +12,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 /**
- *
+ * 
  * @author anacarolinegomesvargas
  */
 public class TerritorioUI {
@@ -22,62 +22,62 @@ public class TerritorioUI {
     private int dono;
     private int qtd;
     private List<TerritorioUI> viz;
-    
+
     public TerritorioUI(Circle circulo, String nome) {
-        this.nome = nome;
-        this.dono = -1;
-        this.qtd = 0;
-        viz = new ArrayList<TerritorioUI>();
-        this.circulo = circulo;
+	this.nome = nome;
+	this.dono = -1;
+	this.qtd = 0;
+	viz = new ArrayList<TerritorioUI>();
+	this.circulo = circulo;
     }
-      public Text getTexto() {
-        return texto;
+
+    public Text getTexto() {
+	return texto;
     }
 
     public void setTexto(Text texto) {
-        this.texto = texto;
+	this.texto = texto;
     }
-    
+
     public Circle getCirculo() {
-        return circulo;
+	return circulo;
     }
 
     public void setCirculo(Circle circulo) {
-        this.circulo = circulo;
+	this.circulo = circulo;
     }
-    
-     public String getNome() {
-        return nome;
+
+    public String getNome() {
+	return nome;
     }
 
     public int getDono() {
-        return dono;
+	return dono;
     }
 
     public void setDono(int dono) {
-        this.dono = dono;
+	this.dono = dono;
     }
 
     public int getQtd() {
-        return qtd;
+	return qtd;
     }
 
     public void setQtd(int qtd) {
-        this.qtd = qtd;
-        this.texto.setText(qtd+"");
+	this.qtd = qtd;
+	this.texto.setText(qtd + "");
     }
-    
-    public boolean isDono(int d){
-       return (dono==d);
+
+    public boolean isDono(int d) {
+	return (dono == d);
     }
-    
-    public void addViz(TerritorioUI t){
-        viz.add(t);
+
+    public void addViz(TerritorioUI t) {
+	viz.add(t);
     }
 
     public List<TerritorioUI> getViz() {
-        return viz;
+	return viz;
     }
-    
-   
+
 }

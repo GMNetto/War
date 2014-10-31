@@ -26,7 +26,7 @@ public class WarServer extends TCPServer {
 	if(clients.size() >= qtdPlayers){
             List<Messenger> lastMessengerAdded=new ArrayList(6);
 	    Messenger[] array = new Messenger[clients.size()];
-            for (int i = 0; i < (clients.size()>5?qtdPlayers:clients.size()); i++) {
+            for (int i = 0; i < (clients.size()>=qtdPlayers?qtdPlayers:clients.size()); i++) {
                 array[i]=clients.poll();
                 lastMessengerAdded.add(array[i]);
             }
