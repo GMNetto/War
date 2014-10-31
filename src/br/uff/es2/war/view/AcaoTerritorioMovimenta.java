@@ -16,7 +16,7 @@ public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy {
 
     public AcaoTerritorioMovimenta(JogoController jc) {
         this.jc=jc;
-        jc.setTextFase("Movimente exercitos");
+        jc.setTextFase("Movimente exércitos","Selecione um territorio de origem e um de destino","","");
         // para a fase de movimentação é necessário bloquear os territorios que não pertencem ao jogador
         // ações de inicialização bloquear clique, trocar icone do cursor e modificar opacidade do circulo
         jc.desbloqueiaTerritorios(jc.getTerritorios());

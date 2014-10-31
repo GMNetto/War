@@ -104,7 +104,6 @@ public class AlocaController {
     public void setTerritorioDestino(TerritorioUI t){
         this.terDestino=t;
         this.acrescenta=0;
->>>>>>> e8122ac3271d5414da4b6e77f4e9e0712746106d
     }
 
     public void setTerritorioOrigem(TerritorioUI t) {

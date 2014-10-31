@@ -16,7 +16,7 @@ public class AcaoTerritorioAtaca implements AcaoTerritorioStrategy{
     
     public AcaoTerritorioAtaca(JogoController jc) {
         this.jc=jc;
-        jc.setTextFase("Ataque!!!!");
+        jc.setTextFase("Ataque!!","Selecione o territorio de origem e o destino do ataque","","");
         jc.bloqueiaTerritorios(jc.getTerritorios());
         
     }

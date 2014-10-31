@@ -16,7 +16,7 @@ public class AcaoTerritorioEspera implements AcaoTerritorioStrategy{
     
     public AcaoTerritorioEspera(JogoController jc) {
         this.jc=jc;
-        jc.setTextFase("Espere a sua vez");
+        jc.setTextFase("Espere a sua vez","","","");
         jc.bloqueiaTerritorios(jc.getTerritorios());
         
     }

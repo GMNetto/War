@@ -9,6 +9,7 @@ package br.uff.es2.war.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -23,13 +24,24 @@ public class JogoController {
     private List<TerritorioUI> territorios;
     private int jogador;
     private int raio;
-    private Text txt_fase;
+    
+    //textos da caixa de informação
+    private Text txt_fase1;
+    private Text txt_fase2;
+    private Text txt_ataque1;
+    private Text txt_ataque2;
+    
+    //
     private AcaoTerritorioStrategy acaoTerr;
             
-    public JogoController(int jogador, Pane pane_aloca, Pane pane_mov,Text txt_fase) {
+    public JogoController(int jogador, Pane pane_aloca, Pane pane_mov,Group info_bar) {
         this.jogador = jogador;
         this.raio=10;
-        this.txt_fase=txt_fase;
+        this.txt_fase1=(Text) info_bar.lookup("#pane_info_box").lookup("#txt_fase1");
+        this.txt_fase2=(Text) info_bar.lookup("#pane_info_box").lookup("#txt_fase2");
+        this.txt_ataque1=(Text) info_bar.lookup("#pane_info_box").lookup("#txt_ataque1");
+        this.txt_ataque2=(Text) info_bar.lookup("#pane_info_box").lookup("#txt_ataque2");
+        
         this.ac = new AlocaController(pane_aloca,pane_mov, raio, this);
         
         
@@ -48,10 +60,27 @@ public class JogoController {
 	return 10;
     }
     
-    public void setTextFase(String txt){
-        this.txt_fase.setText(txt);
+    public void setTextFase(String txt,String txt2,String txt3,String txt4){
+        this.txt_fase1.setText(txt);
+        this.txt_fase2.setText(txt2);
+        this.txt_ataque1.setText(txt3);
+        this.txt_ataque2.setText(txt4);
     }
-
+    public void setTextFase1(String txt){
+        this.txt_fase1.setText(txt);
+    }
+    
+    public void setTextFase2(String txt){
+        this.txt_fase2.setText(txt);
+    }
+     
+    public void setTextAtaque1(String txt){
+        this.txt_ataque1.setText(txt);
+    }
+    
+    public void setTextAtaque2(String txt){
+        this.txt_ataque2.setText(txt);
+    }
     public AlocaController getAlocaController() {
 	return ac;
     }
