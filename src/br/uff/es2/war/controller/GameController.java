@@ -1,9 +1,7 @@
 package br.uff.es2.war.controller;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
+import br.uff.es2.war.ai.BasicBot;
+import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Continent;
@@ -17,22 +15,49 @@ import br.uff.es2.war.network.JSONWarProtocol;
 import br.uff.es2.war.network.Messenger;
 import br.uff.es2.war.network.RemotePlayer;
 import br.uff.es2.war.network.WarProtocol;
+import br.uff.es2.war.network.WarServer;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.Persistence;
 
 public class GameController implements Runnable {
 
     private final Messenger[] clients;
     private final WarProtocol protocol;
     private final GameMachine<Game> machine;
+    private GameLoader loader;
+    private GamePersister persister;
+    private static int idPlayerGenerator=0;
 
-    public GameController(Messenger[] clients) {
+    public GameController(Messenger[] clients) throws NonexistentEntityException {
 	this.clients = clients;
 	World world = loadWorld();
 	protocol = new JSONWarProtocol(world);
-	Player[] players = loadPlayers();
 	Color[] colors = loadColors();
 	List<Card> cards = loadCards(world.getTerritories());
+        
+        Player[] players = new Player[clients.length];
+        int i,j;
+	for (i = 0; i < players.length; i++)
+	    players[i] = new RemotePlayer(clients[i], protocol);
+        for (; i < WarServer.qtdPlayers; i++) {
+            players[i] = new BasicBot();
+        }
+        
 	Game game = new Game(players, world, colors, cards);
+        
 	machine = new GameMachine<Game>(game, new SetupPhase());
+        /***
+        *The GameLoader class needs a world ID that I defined as 1 but we still have to find  a way to do it.
+        * Also, the name of the persistence.xml file will have to be in a file or will we keep it in hardcode?
+        */
+        loader=new GameLoader(1, Persistence.createEntityManagerFactory("WarESIIPU"));
+        persister=new GamePersister(loader.getiDOfTerritory(), getIDPlayers(players), loader.getiDObjectives(), loader.getiDOfColor(), game, Persistence.createEntityManagerFactory("WarESIIPU"));
     }
 
     @Override
@@ -40,11 +65,13 @@ public class GameController implements Runnable {
 	machine.run();
     }
 
-    private Player[] loadPlayers() {
-	Player[] players = new Player[clients.length];
-	for (int i = 0; i < players.length; i++)
-	    players[i] = new RemotePlayer(clients[i], protocol);
-	return players;
+    
+    private Map<Player,Integer> getIDPlayers(Player[] players){
+        Map<Player, Integer> idPlayers=new HashMap<>();
+        for (Player player : players) {
+            idPlayers.put(player, idPlayerGenerator++);
+        }
+        return idPlayers;
     }
 
     private World loadWorld() {

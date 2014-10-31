@@ -36,6 +36,7 @@ import java.util.Set;
 public class BasicBot implements Player {
 
     private Game game;
+    @Deprecated
     private Jogador jogador;
     private Objective objective;
     private Color color;
@@ -54,16 +55,21 @@ public class BasicBot implements Player {
     }
     private List<Card> cards;
 
+    @Deprecated
     public BasicBot(Jogador jogador) {
         this.jogador = jogador;
         this.cards = new ArrayList<>();
     }
-
+    
+    @Deprecated
     public BasicBot(Jogador jogador, Game game) {
         this(jogador);
         this.game = game;
     }
-
+    
+    public BasicBot(){
+    }
+    
     @Override
     public Objective getObjective() {
         return this.objective;

@@ -95,7 +95,7 @@ public class GreedyChangeCardStrategyTest {
         }
 
         for (int j = 0; j < players.length; j++) {
-            for (int k = 0; k < (j % 2 == 0 ? 3 : 5); k++) {
+            for (int k = 0; k < (j % 2 == 0 ? 4 : 5); k++) {
                 players[j].addCard(game.drawCard());
             }
         }
