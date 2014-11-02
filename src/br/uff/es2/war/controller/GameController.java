@@ -40,7 +40,7 @@ public class GameController implements Runnable {
         int i,j;
 	for (i = 0; i < players.length; i++)
 	    players[i] = new RemotePlayer(clients[i], protocol);
-        for (; i < WarServer.qtdPlayers; i++) {
+        for (; i < WarServer.PLAYER_PER_GAME; i++) {
             players[i] = new BasicBot();
         }  
         Color[] colors=new Color[loader.getColors().size()];

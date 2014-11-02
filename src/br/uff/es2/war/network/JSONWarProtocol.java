@@ -17,19 +17,18 @@ import br.uff.es2.war.model.World;
 
 public class JSONWarProtocol implements WarProtocol {
     
-    
-    private static final String SPACE = " ";
-    private static final String SET_GAME = "SET_GAME";
-    private static final String CHOOSE_COLOR = "CHOOSE_COLOR";
-    private static final String BEGIN_TURN = "BEGIN_TURN";
-    private static final String DISTRIBUTE_SOLDIERS = "DISTRIBUTE_SOLDIERS";
-    private static final String ADD_CARD = "ADD_CARD";
-    private static final String DISCARD = "DISCARD";
-    private static final String EXCHANGE_CARDS = "EXCHANGE_CARDS";
-    private static final String DECLARE_COMBAT = "DECLARE_COMBAT";
-    private static final String ANSWER_COMBAT = "ANSWER_COMBAT";
-    private static final String MOVE_SOLDIERS = "MOVE_SOLDIERS";
-    private static final String FINISH_ATTACK = "FINISH_ATTACK";
+    public static final String SPACE = " ";
+    public static final String SET_GAME = "SET_GAME";
+    public static final String CHOOSE_COLOR = "CHOOSE_COLOR";
+    public static final String BEGIN_TURN = "BEGIN_TURN";
+    public static final String DISTRIBUTE_SOLDIERS = "DISTRIBUTE_SOLDIERS";
+    public static final String ADD_CARD = "ADD_CARD";
+    public static final String DISCARD = "DISCARD";
+    public static final String EXCHANGE_CARDS = "EXCHANGE_CARDS";
+    public static final String DECLARE_COMBAT = "DECLARE_COMBAT";
+    public static final String ANSWER_COMBAT = "ANSWER_COMBAT";
+    public static final String MOVE_SOLDIERS = "MOVE_SOLDIERS";
+    public static final String FINISH_ATTACK = "FINISH_ATTACK";
     private final World world;
     private final JSONEncoder encoder;
 
