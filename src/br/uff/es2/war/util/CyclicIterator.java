@@ -44,11 +44,12 @@ public class CyclicIterator<E> implements Iterator<E> {
 
     @Override
     public E next() {
+        cicles++;
 	try {
 	    return innerIterator.next();
 	} catch (NoSuchElementException e) {
 	    if (hasNext()) {
-		cicles++;
+		
 		return next();
 	    }
 	    throw e;

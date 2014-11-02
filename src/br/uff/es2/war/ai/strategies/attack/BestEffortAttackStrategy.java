@@ -5,6 +5,7 @@
  */
 package br.uff.es2.war.ai.strategies.attack;
 
+import br.uff.es2.war.ai.strategies.TerritoryValue;
 import br.uff.es2.war.ai.strategies.TerritoryValueComparator;
 import br.uff.es2.war.ai.strategies.WinLoseTerritoryValue;
 import br.uff.es2.war.model.Combat;
@@ -47,7 +48,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
      * A {@link TerritoryValueComparator} to get the importance of a
      * {@link Territory}.
      */
-    private final TerritoryValueComparator territoryValueComparator;
+    private final TerritoryValue territoryValue;
 
     /**
      * A threshold to measure the acceptable risk of a combat.
@@ -71,15 +72,15 @@ public class BestEffortAttackStrategy implements AttackStrategy {
      * @param game the game context.
      * @param winLoseTerritoryValue a {@link WinLoseTerritoryValue} to get the
      * probabilities of a combat.
-     * @param territoryValueComparator a {@link TerritoryValueComparator} to get
+     * @param territoryValue a {@link TerritoryValueComparator} to get
      * the importance of a {@link Territory}.
      * @param threshold a threshold to measure the acceptable risk of a combat.
      */
-    public BestEffortAttackStrategy(Player player, Game game, WinLoseTerritoryValue winLoseTerritoryValue, TerritoryValueComparator territoryValueComparator, double threshold) {
+    public BestEffortAttackStrategy(Player player, Game game, WinLoseTerritoryValue winLoseTerritoryValue, TerritoryValue territoryValue, double threshold) {
         this.player = player;
         this.game = game;
         this.winLoseTerritoryValue = winLoseTerritoryValue;
-        this.territoryValueComparator = territoryValueComparator;
+        this.territoryValue = territoryValue;
         this.threshold = threshold;
 
         this.optimisticThreshold = threshold;
@@ -96,7 +97,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
                 turnsSinceLastAttack = 0;
                 attacker = getBestAttackerFor(territory);
                 if (attacker != null)
-                    return new Combat(attacker, territory, Math.max(attacker.getSoldiers(), 3));
+                    return new Combat(attacker, territory, Math.max(attacker.getSoldiers() - 1, 3));
             }
         }
 
@@ -122,7 +123,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
             territories.addAll(game.getWorld().getTerritoriesByOwner(enemy));
         }
 
-        Collections.sort(territories, territoryValueComparator);
+        Collections.sort(territories, territoryValue);
 
         return territories;
     }
@@ -170,7 +171,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         } else if (a.getSoldiers() < b.getSoldiers()) {
             return b;
         } else {
-            value = territoryValueComparator.compare(a, b);
+            value = territoryValue.compare(a, b);
             if (value == 0) {
                 return a;
             } else if (value < 0) {

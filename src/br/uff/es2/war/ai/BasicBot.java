@@ -35,7 +35,7 @@ import java.util.Set;
  */
 public class BasicBot implements Player {
 
-    private Game game;
+    protected Game game;
     @Deprecated
     private Jogador jogador;
     private Objective objective;
@@ -46,30 +46,24 @@ public class BasicBot implements Player {
     private RearrangeStrategy relocationStrategy;
     private ChangeCardStrategy changeCardStrategy;
 
-    public ChangeCardStrategy getChangeCardStrategy() {
-        return changeCardStrategy;
-    }
-
-    public void setChangeCardStrategy(ChangeCardStrategy changeCardStrategy) {
-        this.changeCardStrategy = changeCardStrategy;
-    }
     private List<Card> cards;
 
     @Deprecated
     public BasicBot(Jogador jogador) {
+        this();
         this.jogador = jogador;
-        this.cards = new ArrayList<>();
     }
-    
+
     @Deprecated
     public BasicBot(Jogador jogador, Game game) {
         this(jogador);
         this.game = game;
     }
-    
-    public BasicBot(){
+
+    public BasicBot() {
+        this.cards = new ArrayList<>();
     }
-    
+
     @Override
     public Objective getObjective() {
         return this.objective;
@@ -78,6 +72,7 @@ public class BasicBot implements Player {
     @Override
     public void setObjective(Objective objective) {
         this.objective = objective;
+        this.objective.setOwner(this);
     }
 
     @Override
@@ -112,7 +107,7 @@ public class BasicBot implements Player {
 
     @Override
     public void answerCombat(Combat combat) {
-        //Gives the BOT a chance to do something when a combat ends.
+        combat.setDefendingSoldiers(Math.min(combat.getDefendingTerritory().getSoldiers(), 3));
     }
 
     @Override
@@ -137,7 +132,9 @@ public class BasicBot implements Player {
 
     @Override
     public List<Card> exchangeCards() {
-        return changeCardStrategy.changeCard(cards);
+        List<Card> answer = changeCardStrategy.changeCard(cards);
+        cards.removeAll(answer);
+        return answer;
     }
 
     @Override
@@ -167,6 +164,14 @@ public class BasicBot implements Player {
 
     public void setRelocationStrategy(RearrangeStrategy relocationStrategy) {
         this.relocationStrategy = relocationStrategy;
+    }
+
+    public ChangeCardStrategy getChangeCardStrategy() {
+        return changeCardStrategy;
+    }
+
+    public void setChangeCardStrategy(ChangeCardStrategy changeCardStrategy) {
+        this.changeCardStrategy = changeCardStrategy;
     }
 
 }

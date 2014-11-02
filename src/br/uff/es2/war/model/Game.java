@@ -1,17 +1,17 @@
 package br.uff.es2.war.model;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import br.uff.es2.war.events.EventBus;
-import br.uff.es2.war.events.LocalEventBus;
 import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.entity.Territorio;
+import br.uff.es2.war.events.EventBus;
+import br.uff.es2.war.events.LocalEventBus;
+import br.uff.es2.war.model.objective.Objective;
 import br.uff.es2.war.util.CyclicIterator;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Holds the state of a War game. The game is updated by the players during the
@@ -33,10 +33,11 @@ public class Game {
     private int exchange;
     private Date startDate;
     private Date endDate;
+    private Set<Objective> objectives;
 
     public Game(Player[] players, World world, Color[] colors, List<Card> cards) {
         events = new LocalEventBus();
-        exchange = 0;
+        exchange = -1;
         Collections.shuffle(cards);
         this.players = players;
         this.world = world;
@@ -44,6 +45,11 @@ public class Game {
         this.cards = cards;
         turns = new CyclicIterator<Player>(players);
         startDate = new Date();
+    }
+    
+    public Game(Player[] players, World world, Color[] colors, List<Card> cards, Set<Objective> objectives) {
+        this(players, world, colors, cards);
+        this.objectives = objectives;
     }
 
     public Player[] getPlayers() {
@@ -136,4 +142,9 @@ public class Game {
             territory.addSoldiers(1);
         }
     }
+
+    public Set<Objective> getObjectives() {
+        return objectives;
+    }
+    
 }

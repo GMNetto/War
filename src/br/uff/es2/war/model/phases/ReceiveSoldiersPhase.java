@@ -9,7 +9,6 @@ import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
-import br.uff.es2.war.model.phases.GameState;
 
 /**
  * During the receive soldier phase the current player receives a number of
@@ -20,35 +19,51 @@ import br.uff.es2.war.model.phases.GameState;
  */
 public class ReceiveSoldiersPhase implements GameState<Game> {
 
-    private static final int MINIMUN_CARD_QUANTITY_TO_EXCHANGE = 2;
+    private static final int MINIMUN_CARD_QUANTITY_TO_EXCHANGE = 3;
     private static final int EXCHANGE_OWNED_TERRITORY_BONUS = 2;
 
     @Override
     public GameState<Game> execute(Game game) {
 	World world = game.getWorld();
 	Player current = game.getCurrentPlayer();
-	int bonus = cardBonus(current, game) + continentBonus(current, world);
+        continentBonusAllocation(current, world);
 	Set<Territory> territories = world.getTerritoriesByOwner(current);
-	int soldierQuantity = (territories.size() / 2) + bonus;
+        int bonus = cardBonus(current, game);// + continentBonus(current, world);
+	int soldierQuantity = Math.max((territories.size() / 2), 3) + bonus;
+        
 	current.distributeSoldiers(soldierQuantity, territories);
-	if (game.isOver())
+	
+        if (game.isOver())
 	    return new GameOver();
+        
+        if (game.getNumberOfTurns() < game.getPlayers().length + 1) {
+            return new TurnChangePhase();
+        }
+        
 	return new CombatPhase();
     }
 
     private int cardBonus(Player player, Game game) {
-	if(player.getCards().size() < MINIMUN_CARD_QUANTITY_TO_EXCHANGE)
-	    return 0;
 	List<Card> cards = player.exchangeCards();
-	if (cards.size() == 0)
-	    return 0;
+        
+        if (! checkExchange(cards))
+            return 0;
+        
 	for (Card card : cards) {
 	    game.addCard(card);
-	    if (card.getTerritory().getOwner().equals(player))
+	    if (card.getTerritory() != null && card.getTerritory().getOwner().equals(player))
 		card.getTerritory().addSoldiers(EXCHANGE_OWNED_TERRITORY_BONUS);
 	}
 	game.incrementExchangeCounter();
 	return game.getExchangeBonus();
+    }
+    
+    private void continentBonusAllocation(Player player, World world) {
+        Set<Territory> territories = world.getTerritoriesByOwner(player);
+        
+        for (Continent continent : world)
+            if (territories.containsAll(continent))
+		player.distributeSoldiers(continent.getTotalityBonus(), continent);
     }
 
     private int continentBonus(Player player, World world) {
@@ -58,5 +73,34 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
 	    if (territories.containsAll(continent))
 		bonus += continent.getTotalityBonus();
 	return bonus;
+    }
+    
+    private boolean checkExchange(List<Card> cards) {
+        if (cards == null || cards.size() < MINIMUN_CARD_QUANTITY_TO_EXCHANGE)
+	    return false;
+        
+        int[] figures = new int[3];
+        
+        for (Card card : cards) {
+            if (card.getFigure() == 0) {
+                figures[0]++;
+                figures[1]++;
+                figures[2]++;
+            } else {
+                figures[card.getFigure() - 1]++;
+            }
+        }
+        
+        for (int figure : figures) {
+            if (figure >= MINIMUN_CARD_QUANTITY_TO_EXCHANGE) 
+                return true;
+        }
+        
+        for (int figure : figures) {
+            if (figure < 1)
+                return false;
+        }
+        
+        return false;
     }
 }

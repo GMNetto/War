@@ -213,6 +213,7 @@ public class FullObjective implements Objective {
      *
      * @param owner the owner of the {@link Objective}
      */
+    @Override
     public void setOwner(Player owner) {
         this.owner = owner;
         for (ParcialObjetive parcialObjetive : mandatoryObjectives) {

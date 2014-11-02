@@ -1,5 +1,6 @@
 package br.uff.es2.war.model.objective;
 
+import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 
 /**
@@ -25,5 +26,7 @@ public interface Objective {
      * @return true if it is, false otherwise
      */
     public boolean isNeeded(Territory territory);
+    
+    public void setOwner(Player owner);
 
 }
