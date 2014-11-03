@@ -61,9 +61,7 @@ public class AlocaController {
         this.centrox=28+raio;
         this.centroy=25+raio;
         
-        
-        this.btn_mov_cancel.setLayoutX(15+raio);
-        this.btn_mov_cancel.setLayoutY(30+2*raio);
+        this.btn_mov_cancel.setLayoutY(15+raio);
         
         
         this.img_point.setLayoutX(30+2*raio);
@@ -111,6 +109,15 @@ public class AlocaController {
 	this.acrescenta = 0;
     }
 
+    public TerritorioUI getTerDestino() {
+        return terDestino;
+    }
+
+    public TerritorioUI getTerOrigem() {
+        return terOrigem;
+    }
+
+    
     public boolean hasTerritorioOrigem() {
 	return this.terOrigem != null;
     }
@@ -152,6 +159,7 @@ public class AlocaController {
                 setTerritorioDestino(null);
                 setTerritorioOrigem(null);
                 esconde();
+                jc.setTextFase2("Selecione o territorio onde deseja alocar");
             }
         });
         
@@ -162,6 +170,7 @@ public class AlocaController {
                 terDestino.getTexto().setText(terDestino.getQtd()+"");
                 setTerritorioDestino(null);
                 setTerritorioOrigem(null);
+                jc.setTextFase2("Selecione o territorio onde deseja alocar");
                 esconde();
             }
         });
@@ -217,6 +226,7 @@ public class AlocaController {
                 escondeMov();
                 jc.desbloqueiaTerritorios(jc.getTerritorios());
                 jc.bloqueiaTerririosAdversarios();
+                jc.setTextFase2("Selecione um territorio de origem e um de destino");
             }
         });
         
@@ -233,6 +243,7 @@ public class AlocaController {
                 escondeMov();
                 jc.desbloqueiaTerritorios(jc.getTerritorios());
                 jc.bloqueiaTerririosAdversarios();
+                jc.setTextFase2("Selecione um territorio de origem e um de destino");
             }
         });
         
@@ -247,6 +258,7 @@ public class AlocaController {
                 escondeMov();
                 jc.desbloqueiaTerritorios(jc.getTerritorios());
                 jc.bloqueiaTerririosAdversarios();
+                jc.setTextFase2("Selecione um territorio de origem e um de destino");
             }
         });
     }
