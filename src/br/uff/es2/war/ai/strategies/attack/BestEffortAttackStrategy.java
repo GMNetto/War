@@ -97,7 +97,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
                 turnsSinceLastAttack = 0;
                 attacker = getBestAttackerFor(territory);
                 if (attacker != null)
-                    return new Combat(attacker, territory, Math.max(attacker.getSoldiers() - 1, 3));
+                    return new Combat(attacker, territory, Math.min(attacker.getSoldiers() - 1, 3));
             }
         }
 
