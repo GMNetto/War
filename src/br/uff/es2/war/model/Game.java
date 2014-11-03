@@ -146,5 +146,12 @@ public class Game {
     public Set<Objective> getObjectives() {
         return objectives;
     }
+
+    public Player playerByColor(Color color) {
+	for(Player player : players)
+	    if(player.getColor().equals(color))
+		return player;
+	return null;
+    }
     
 }

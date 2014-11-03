@@ -17,19 +17,41 @@ public class AcaoTerritorioAtaca implements AcaoTerritorioStrategy{
     public AcaoTerritorioAtaca(JogoController jc) {
         this.jc=jc;
         jc.setTextFase("Ataque!!","Selecione o territorio de origem e o destino do ataque","","");
-        jc.bloqueiaTerritorios(jc.getTerritorios());
+        jc.desbloqueiaTerritorios(jc.getTerritorios());
+        jc.bloqueiaTerririosAdversarios();
+        jc.getAtacaController().actionAtaca();
+        jc.getAtacaController().setTerritorioDestino(null);
+        jc.getAtacaController().setTerritorioOrigem(null); 
+        jc.getAtacaController().esconde1();
+        jc.getAtacaController().esconde2();
         
     }
 
     
     @Override
     public void AcaoBotao(TerritorioUI ter) {
-        // não faz nada 
+        jc.getAtacaController().actionAtaca();
+        
+        if(jc.getAtacaController().hasTerritorioOrigem()){
+            jc.getAtacaController().setTerritorioDestino(ter);
+            jc.getAtacaController().mostra2();
+            jc.getAtacaController().centraliza2(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
+            jc.setTextFase2(jc.getAtacaController().getTerOrigem().getNome() +" -> "+ter.getNome());
+        }
+        else{
+            jc.getAtacaController().setTerritorioOrigem(ter);
+            jc.bloqueiaTerririosNaoVizinhos(ter);
+            jc.getAtacaController().centraliza1(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
+            jc.getAtacaController().mostra1();
+            jc.setTextFase2(ter.getNome()+" ->");
+        }
         
     }
 
     @Override
     public AcaoTerritorioStrategy ProxFase() {
+        jc.getAtacaController().esconde1();
+        jc.getAtacaController().esconde2();
         return new AcaoTerritorioMovimenta(jc);
     }
     
