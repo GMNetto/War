@@ -36,18 +36,22 @@ public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy {
             jc.getAlocaController().setTerritorioDestino(ter);
             jc.getAlocaController().mostra();
             jc.getAlocaController().centraliza(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
+            jc.setTextFase2(jc.getAlocaController().getTerOrigem().getNome() +" -> "+ter.getNome());
         }
         else{
             jc.getAlocaController().setTerritorioOrigem(ter);
             jc.bloqueiaTerririosNaoVizinhosAdversarios(ter);
             jc.getAlocaController().centralizaMov(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
             jc.getAlocaController().mostraMov();
+            jc.setTextFase2(ter.getNome()+" ->");
         }
     }
 
     @Override
     public AcaoTerritorioStrategy ProxFase() {
         jc.LimpaMovimentaçao();
+        jc.getAlocaController().esconde();
+        jc.getAlocaController().escondeMov();
         return new AcaoTerritorioEspera(jc);
     }
 }

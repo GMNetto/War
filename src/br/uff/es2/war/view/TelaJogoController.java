@@ -52,6 +52,11 @@ public class TelaJogoController implements Initializable {
     private Pane pane_aloca;
     @FXML
     private Pane pane_mov;
+    // painel de ataque
+    @FXML
+    private Pane pane_ataca1;
+    @FXML
+    private Pane pane_ataca2;
     
     @FXML
     private ImageView img_fundo;
@@ -100,7 +105,16 @@ public class TelaJogoController implements Initializable {
         text.setTextAlignment(TextAlignment.CENTER);
         text.setWrappingWidth(gameController.getRaio()*1.5);
 	text.setCursor(Cursor.HAND);
+        text.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
+	    @Override
+	    public void handle(MouseEvent arg0) {
+		if (!terr.isBloqueado()) {
+		    gameController.getAcaoTerr().AcaoBotao(terr);
+		}
+
+	    }
+	});
 	pane_map.getChildren().add(text);
 
 	terr.setCirculo(circle);
@@ -172,7 +186,7 @@ public class TelaJogoController implements Initializable {
         img_fundo2.setImage(image2);
         
         
-        this.gameController =new JogoController(0,pane_aloca, pane_mov, group_info_bar);
+        this.gameController =new JogoController(0,pane_aloca, pane_mov, group_info_bar, pane_ataca1,pane_ataca2);
         desenhaTerritorios();
         
         gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
