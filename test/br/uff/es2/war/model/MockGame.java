@@ -25,6 +25,10 @@ public class MockGame extends Game {
 	super(createPlayers(), createWorld(), createColors(), createCards(), createObjectives());
     }
     
+    public MockGame(Player[] player, World world, Color[] colors, List<Card> cards){
+	super(player, world, colors, cards);
+    }
+    
     public MockGame(Player[] player, World world, Color[] colors, List<Card> cards, Set<Objective> objectives){
 	super(player, world, colors, cards, objectives);
     }
@@ -98,27 +102,19 @@ public class MockGame extends Game {
     }
     
     private static class MockObjective implements Objective{
-	@Override
-	public boolean wasAchieved() {
-	    return false;
-	}
 
-	@Override
-	public boolean isNeeded(Territory territory) {
-	    return false;
-	}
+        @Override
+        public boolean wasAchieved() {
+            return false;
+        }
 
-	@Override
-	public void setOwner(Player owner) {
-	}
+        @Override
+        public boolean isNeeded(Territory territory) {
+            return false;
+        }
 
-	@Override
-	public void switchToAlternativeObjective() {
-	}
-
-	@Override
-	public boolean isPossible() {
-	    return false;
-	}
+        @Override
+        public void setOwner(Player owner) {
+        }
     }
 }

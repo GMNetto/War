@@ -45,7 +45,7 @@ public class GameController implements Runnable {
         }  
         Color[] colors=new Color[loader.getColors().size()];
         colors=loader.getColors().toArray(colors);
-	Game game = new Game(players, loader.getWorld(), colors, loader.getCards());
+	Game game = new Game(players, loader.getWorld(), colors, loader.getCards(),loader.getObjectives());
         
 	machine = new GameMachine<Game>(game, new SetupPhase());
         /***

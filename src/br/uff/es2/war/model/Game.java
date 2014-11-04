@@ -9,6 +9,7 @@ import br.uff.es2.war.util.CyclicIterator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,6 +49,20 @@ public class Game {
         turns = new CyclicIterator<Player>(players);
         startDate = new Date();
         this.objectives = objectives;
+    }
+    
+    public Game(Player[] players, World world, Color[] colors, List<Card> cards) {
+	events = new LocalEventBus();
+        exchange = -1;
+        Collections.shuffle(cards);
+        this.players = players;
+        shufflePlayers();
+        this.world = world;
+        this.colors = colors;
+        this.cards = cards;
+        turns = new CyclicIterator<Player>(players);
+        startDate = new Date();
+        this.objectives = new HashSet<>();
     }
 
     private void shufflePlayers() {

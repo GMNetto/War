@@ -27,6 +27,7 @@ public class JSONWarProtocolTest {
 		new RemotePlayer(new ProceduralMessenger(PLAYER_SCRIPT_2), protocol)
 	};
     }
+    private MockGame game;
     
     @Ignore
     @Test
@@ -34,7 +35,7 @@ public class JSONWarProtocolTest {
 	World world = MockGame.createWorld();
 	WarProtocol protocol = new JSONWarProtocol(world);
 	Player[] players = createProceduralPlayers(protocol);
-	Game game = new MockGame(players, world, MockGame.createColors(), MockGame.createCards());
+        game = new MockGame(players, world, MockGame.createColors(), MockGame.createCards());
 	GameMachine<Game> machine = new GameMachine<Game>(game, new SetupPhase());
 	machine.run();
     }
