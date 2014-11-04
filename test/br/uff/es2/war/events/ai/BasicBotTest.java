@@ -51,7 +51,7 @@ public class BasicBotTest {
         Color[] colors = new Color[gl.getColors().size()];
         colors = gl.getColors().toArray(colors);
 
-        BasicBot[] players = new BasicBot[6];
+        BasicBot[] players = new BasicBot[4];
 
         for (int i = 0; i < players.length; i++) {
             players[i] = new PrintStateBasicBot();

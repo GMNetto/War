@@ -209,12 +209,15 @@ public class WeightEquationTerritoryValue extends TerritoryValue {
         result += numberOfAlliedBordersWeight * ((double) alliedBorder) / balanceWeight[4];
 
         int ownedOnSameContinent = 0;
+        
         for (Territory t : territory.getContinent()) {
             if (t.getOwner().equals(player)) {
                 ownedOnSameContinent++;
             }
         }
-
+        
+        
+        ownedOnSameContinent=3;
         result += numberOfTerritoriesOnSameContinentWeight * ((double) ownedOnSameContinent) / balanceWeight[5];
 
         return result / 6.0;
