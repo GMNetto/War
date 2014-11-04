@@ -147,6 +147,17 @@ public class FullObjective implements Objective {
         }
     }
 
+    @Override
+    public boolean isPossible() {
+        for (ParcialObjetive parcialObjetive : mandatoryObjectives) {
+            if (!parcialObjetive.isPossible()) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+    
     /**
      * Getter for a {@link Set} of mandatory objectives. To win the game, the
      * {@link Player} must achieve each {@link ParcialObjective} from this

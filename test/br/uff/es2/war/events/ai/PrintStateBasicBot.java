@@ -32,6 +32,12 @@ public class PrintStateBasicBot extends BasicBot {
     @Override
     public void distributeSoldiers(int soldierQuantity, Set<Territory> territories) {
         super.distributeSoldiers(soldierQuantity, territories);
+        //printStatus();
+    }
+
+    @Override
+    public void moveSoldiers() {
+        super.moveSoldiers(); //To change body of generated methods, choose Tools | Templates.
         printStatus();
     }
 
@@ -41,7 +47,7 @@ public class PrintStateBasicBot extends BasicBot {
         System.out.println("Player: " + super.getColor().getName() + "\tObjective: " + objective.toString() + "\n");
     }
 
-    public void printStatus() {
+    private void printStatus() {
         System.out.println("Player: " + super.getColor().getName() + "\tRound: " + round + "\tThreshold: " + getThreshold() + "\tCards: " + getCards().toString());
         for (Territory t : game.getWorld().getTerritories()) {
             if (t.getName().length() > 9)

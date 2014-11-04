@@ -129,6 +129,11 @@ public class ConquerExtraContinent extends ParcialObjetive {
 	return false;
     }
 
+    @Override
+    public boolean isPossible() {
+        return true;
+    }
+    
     /**
      * Getter for the {@link Set} of {@link Continent} which should not count as
      * extra {@link Continent}s.

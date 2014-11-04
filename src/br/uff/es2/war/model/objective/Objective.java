@@ -29,4 +29,8 @@ public interface Objective {
     
     public void setOwner(Player owner);
 
+    public void switchToAlternativeObjective();
+    
+    public boolean isPossible();
+    
 }

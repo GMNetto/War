@@ -12,9 +12,12 @@ import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import javax.management.InvalidAttributeValueException;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 
@@ -100,7 +103,9 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         Territory attacker = null;
         optimisticThreshold = threshold * Math.pow(0.9, turnsSinceLastAttack);
 
-        for (Territory territory : loadAllEnemiesTerritories()) {
+        List<Territory> list = getAllEnemiesOnBorders();
+        
+        for (Territory territory : list) {
             if (winLoseTerritoryValue.getTerritoryValue(territory) >= optimisticThreshold) {
                 turnsSinceLastAttack = 0;
                 attacker = getBestAttackerFor(territory);
@@ -121,6 +126,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
      *
      * @return a {@link List} of the enemies {@link Territory}s
      */
+    @Deprecated
     private List<Territory> loadAllEnemiesTerritories() {
         List<Territory> territories = new LinkedList<>();
 
@@ -134,6 +140,24 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         Collections.sort(territories, territoryValue);
 
         return territories;
+    }
+    
+    private List<Territory> getAllEnemiesOnBorders() {
+        Set<Territory> territories = new HashSet<>();
+        
+        for (Territory territory : game.getWorld().getTerritoriesByOwner(player)) {
+            for (Territory t : territory.getBorders()) {
+                if (!t.getOwner().equals(player)) {
+                    territories.add(t);
+                }
+            }
+        }
+        
+        List<Territory> ter = new ArrayList<>(territories);
+        
+        Collections.sort(ter, territoryValue);
+        
+        return ter;
     }
 
     /**

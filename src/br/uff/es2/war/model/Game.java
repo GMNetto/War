@@ -48,12 +48,12 @@ public class Game {
         turns = new CyclicIterator<Player>(players);
         startDate = new Date();
     }
-    
+
     public Game(Player[] players, World world, Color[] colors, List<Card> cards, Set<Objective> objectives) {
         this(players, world, colors, cards);
         this.objectives = objectives;
     }
-    
+
     private void shufflePlayers() {
         List<Player> p = new ArrayList<>(players.length);
         for (Player player : players) {
@@ -97,8 +97,12 @@ public class Game {
             return true;
         for (Player player : players) {
             if (player.getObjective().wasAchieved()) {
-                winner = player;
-                return true;
+                if (player.equals(currentPlayer)) {
+                    winner = player;
+                    return true;
+                } else {
+                    player.getObjective().switchToAlternativeObjective();
+                }
             }
         }
         return false;
@@ -159,10 +163,11 @@ public class Game {
     }
 
     public Player playerByColor(Color color) {
-	for(Player player : players)
-	    if(player.getColor().equals(color))
-		return player;
-	return null;
+        for (Player player : players) {
+            if (player.getColor().equals(color))
+                return player;
+        }
+        return null;
     }
-    
+
 }
