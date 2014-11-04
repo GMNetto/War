@@ -50,6 +50,11 @@ public class ConquerContinent extends ParcialObjetive {
 
 	return true;
     }
+    
+    @Override
+    public boolean isPossible() {
+        return true;
+    }
 
     /**
      * Getter for the {@link Continent}.

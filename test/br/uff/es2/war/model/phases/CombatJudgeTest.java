@@ -56,8 +56,8 @@ public class CombatJudgeTest extends GamePhaseTest {
 
     @Test
     public void DEFENDER_WINS_IN_CASE_OF_WITHDRAW() {
-	judge.setAttackValues(new int[] { 6, 5, 4 });
-	judge.setDefenseValues(new int[] { 6, 5, 4 });
+	judge.setAttackValues(new Integer[] { 6, 5, 4 });
+	judge.setDefenseValues(new Integer[] { 6, 5, 4 });
 	territoryAtck.setSoldiers(4);
 	territoryDefs.setSoldiers(3);
 	Combat combat = new Combat(territoryAtck, territoryDefs, 3);
@@ -68,8 +68,8 @@ public class CombatJudgeTest extends GamePhaseTest {
 
     @Test
     public void DEFENDER_WINS_2_ATTACKERS_1_DEFENDER() {
-	judge.setAttackValues(new int[] { 3, 2 });
-	judge.setDefenseValues(new int[] { 6 });
+	judge.setAttackValues(new Integer[] { 3, 2 });
+	judge.setDefenseValues(new Integer[] { 6 });
 	territoryAtck.setSoldiers(3);
 	territoryDefs.setSoldiers(1);
 	Combat combat = new Combat(territoryAtck, territoryDefs, 2);
@@ -82,8 +82,8 @@ public class CombatJudgeTest extends GamePhaseTest {
 
     @Test
     public void ATTACKER_WINS_2_ATTACKERS_1_DEFENDER() {
-	judge.setAttackValues(new int[] { 3, 2 });
-	judge.setDefenseValues(new int[] { 1 });
+	judge.setAttackValues(new Integer[] { 3, 2 });
+	judge.setDefenseValues(new Integer[] { 1 });
 	territoryAtck.setSoldiers(3);
 	territoryDefs.setSoldiers(1);
 	Combat combat = new Combat(territoryAtck, territoryDefs, 2);

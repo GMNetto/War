@@ -90,6 +90,8 @@ public class WeightEquationTerritoryValue extends TerritoryValue {
      * allied borders
      * @param w5 a weight to be applied on a value that represents the number of
      * {@link Territory}is on the the same {@link Continent}.
+     * @throws javax.management.InvalidAttributeValueException in case a weight
+     * not be between [1, 0]
      */
     public WeightEquationTerritoryValue(final Game game, final Player player, double w0, double w1, double w2, double w3, double w4, double w5) throws InvalidAttributeValueException {
         this.game = game;
@@ -109,8 +111,8 @@ public class WeightEquationTerritoryValue extends TerritoryValue {
      *
      * @param w the weight
      * @return the weight
-     * @throws InvalidAttributeValueException in case the value does not be [0,
-     * 1]
+     * @throws javax.management.InvalidAttributeValueException in case a weight
+     * not be between [1, 0]
      */
     private double ensureInterval(double w) throws InvalidAttributeValueException {
         if (w < 0.0 || w > 1.0)

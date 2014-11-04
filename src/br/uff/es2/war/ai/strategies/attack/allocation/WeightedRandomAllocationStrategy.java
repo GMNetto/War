@@ -27,9 +27,9 @@ public class WeightedRandomAllocationStrategy implements AllocationStrategy {
      * Variable to hold a set of {@link TerritoryValue}s. This class will try to
      * distribute the soldiers based on the values got by the first
      * {@link TerritoryValue}. If it does not work, it will try the next until
-     * it works or the arrays reaches the end. In case none of those works, it will
-     * give the same wight for all the {@link Territory}s. The order is defined
-     * by the parameters on the constructor.
+     * it works or the arrays reaches the end. In case none of those works, it
+     * will give the same wight for all the {@link Territory}s. The order is
+     * defined by the parameters on the constructor.
      *
      * The first {@link TerritoryValue} will be the combination of all the given
      * {@link TerritoryValue}s.
@@ -81,6 +81,9 @@ public class WeightedRandomAllocationStrategy implements AllocationStrategy {
 
     @Override
     public void distributeSoldiers(int soldierQuantity, Set<Territory> territories) {
+        if (territories.isEmpty())
+            return;
+
         for (int i = 0; i < soldierQuantity; i++) {
             allocSoldierWeightedRandom(territories, 0);
         }

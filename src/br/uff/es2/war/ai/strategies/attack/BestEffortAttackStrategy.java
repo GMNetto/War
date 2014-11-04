@@ -12,9 +12,14 @@ import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import javax.management.InvalidAttributeValueException;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 
 /**
  * This class is used to get declarations of attacks from BOTs. It declares
@@ -72,16 +77,22 @@ public class BestEffortAttackStrategy implements AttackStrategy {
      * @param game the game context.
      * @param winLoseTerritoryValue a {@link WinLoseTerritoryValue} to get the
      * probabilities of a combat.
-     * @param territoryValue a {@link TerritoryValueComparator} to get
-     * the importance of a {@link Territory}.
-     * @param threshold a threshold to measure the acceptable risk of a combat.
+     * @param territoryValue a {@link TerritoryValueComparator} to get the
+     * importance of a {@link Territory}.
+     * @param threshold a threshold to measure the acceptable risk of a combat
+     * must be [1, 0].
+     * @throws javax.management.InvalidAttributeValueException in case a weight
+     * not be between [1, 0]
      */
-    public BestEffortAttackStrategy(Player player, Game game, WinLoseTerritoryValue winLoseTerritoryValue, TerritoryValue territoryValue, double threshold) {
+    public BestEffortAttackStrategy(Player player, Game game, WinLoseTerritoryValue winLoseTerritoryValue, TerritoryValue territoryValue, double threshold) throws InvalidAttributeValueException {
         this.player = player;
         this.game = game;
         this.winLoseTerritoryValue = winLoseTerritoryValue;
         this.territoryValue = territoryValue;
         this.threshold = threshold;
+
+        if (threshold < 0.0 || threshold > 1.0)
+            throw new InvalidAttributeValueException();
 
         this.optimisticThreshold = threshold;
         this.turnsSinceLastAttack = 0;
@@ -92,7 +103,9 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         Territory attacker = null;
         optimisticThreshold = threshold * Math.pow(0.9, turnsSinceLastAttack);
 
-        for (Territory territory : loadAllEnemiesTerritories()) {
+        List<Territory> list = getAllEnemiesOnBorders();
+        
+        for (Territory territory : list) {
             if (winLoseTerritoryValue.getTerritoryValue(territory) >= optimisticThreshold) {
                 turnsSinceLastAttack = 0;
                 attacker = getBestAttackerFor(territory);
@@ -113,6 +126,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
      *
      * @return a {@link List} of the enemies {@link Territory}s
      */
+    @Deprecated
     private List<Territory> loadAllEnemiesTerritories() {
         List<Territory> territories = new LinkedList<>();
 
@@ -126,6 +140,24 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         Collections.sort(territories, territoryValue);
 
         return territories;
+    }
+    
+    private List<Territory> getAllEnemiesOnBorders() {
+        Set<Territory> territories = new HashSet<>();
+        
+        for (Territory territory : game.getWorld().getTerritoriesByOwner(player)) {
+            for (Territory t : territory.getBorders()) {
+                if (!t.getOwner().equals(player)) {
+                    territories.add(t);
+                }
+            }
+        }
+        
+        List<Territory> ter = new ArrayList<>(territories);
+        
+        Collections.sort(ter, territoryValue);
+        
+        return ter;
     }
 
     /**
@@ -143,14 +175,11 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         for (Territory t : territory.getBorders()) {
             if (!t.getOwner().equals(player))
                 continue;
-            
-            
-            if(!numberAllowAttack(attacker)){
-                if (attacker == null) {
-                    attacker = t;
-                } else {
-                    attacker = getBestAttacker(attacker, t);
-                }
+
+            if (attacker == null) {
+                attacker = t;
+            } else {
+                attacker = getBestAttacker(attacker, t);
             }
         }
 
@@ -184,8 +213,12 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         }
     }
 
-    private boolean numberAllowAttack(Territory attacker) {
-        return attacker!=null && attacker.getSoldiers()>1;
+    public double getThreshold() {
+        return threshold;
     }
 
+    public double getOptimisticThreshold() {
+        return optimisticThreshold;
+    }
+    
 }

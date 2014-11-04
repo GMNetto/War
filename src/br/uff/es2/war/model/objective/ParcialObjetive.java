@@ -13,7 +13,7 @@ import br.uff.es2.war.model.World;
  * This class represents a part of a objective. This part is a specific part
  * which compose the main objective, such as conquer a single continent or
  * destroy a player.
- * 
+ *
  * @author Victor Guimarães
  */
 public abstract class ParcialObjetive implements Objective {
@@ -30,40 +30,43 @@ public abstract class ParcialObjetive implements Objective {
 
     /**
      * Constructor with all needed parameters.
-     * 
-     * @param world
-     *            the specific {@link World} of the {@link Objective}
+     *
+     * @param world the specific {@link World} of the {@link Objective}
      */
     public ParcialObjetive(World world) {
-	this.world = world;
+        this.world = world;
     }
 
     /**
      * Getter for the specific {@link World} of the {@link Objective}.
-     * 
+     *
      * @return the specific {@link World} of the {@link Objective}
      */
     public World getWorld() {
-	return world;
+        return world;
     }
 
     /**
      * Setter for the owner of the {@link Objective}.
-     * 
-     * @param owner
-     *            the owner of the {@link Objective}
+     *
+     * @param owner the owner of the {@link Objective}
      */
     public void setOwner(Player owner) {
-	this.owner = owner;
+        this.owner = owner;
     }
 
     /**
      * Getter for the owner of the {@link Objective}.
-     * 
+     *
      * @return the owner of the {@link Objective}
      */
     public Player getOwner() {
-	return owner;
+        return owner;
+    }
+
+    @Override
+    public void switchToAlternativeObjective() {
+
     }
 
 }
