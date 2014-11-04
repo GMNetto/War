@@ -27,8 +27,6 @@ public class SetupPhase implements GameState<Game> {
 
     private Game game;
 
-    
-    
     @Override
     public GameState<Game> execute(Game game) {
 	this.game = game;

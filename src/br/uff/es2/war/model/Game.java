@@ -6,6 +6,7 @@ import br.uff.es2.war.events.EventBus;
 import br.uff.es2.war.events.LocalEventBus;
 import br.uff.es2.war.model.objective.Objective;
 import br.uff.es2.war.util.CyclicIterator;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -40,6 +41,7 @@ public class Game {
         exchange = -1;
         Collections.shuffle(cards);
         this.players = players;
+        shufflePlayers();
         this.world = world;
         this.colors = colors;
         this.cards = cards;
@@ -50,6 +52,15 @@ public class Game {
     public Game(Player[] players, World world, Color[] colors, List<Card> cards, Set<Objective> objectives) {
         this(players, world, colors, cards);
         this.objectives = objectives;
+    }
+    
+    private void shufflePlayers() {
+        List<Player> p = new ArrayList<>(players.length);
+        for (Player player : players) {
+            p.add(player);
+        }
+        Collections.shuffle(p);
+        p.toArray(players);
     }
 
     public Player[] getPlayers() {

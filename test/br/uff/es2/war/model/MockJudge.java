@@ -4,20 +4,20 @@ import br.uff.es2.war.model.CombatJudge;
 
 public class MockJudge extends CombatJudge {
 
-    private int[] attackValues;
-    private int[] defenseValues;
+    private Integer[] attackValues;
+    private Integer[] defenseValues;
     private boolean flag;
 
-    public void setAttackValues(int[] values) {
+    public void setAttackValues(Integer[] values) {
 	attackValues = values;
 	flag = true;
     }
 
-    public void setDefenseValues(int[] values) {
+    public void setDefenseValues(Integer[] values) {
 	defenseValues = values;
     }
 
-    protected int[] combatValues(int soldiers) {
+    protected Integer[] combatValues(int soldiers) {
 	if (flag) {
 	    flag = false;
 	    return attackValues;

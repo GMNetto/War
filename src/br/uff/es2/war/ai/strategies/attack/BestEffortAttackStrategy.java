@@ -15,6 +15,8 @@ import br.uff.es2.war.model.Territory;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import javax.management.InvalidAttributeValueException;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 
 /**
  * This class is used to get declarations of attacks from BOTs. It declares
@@ -72,16 +74,22 @@ public class BestEffortAttackStrategy implements AttackStrategy {
      * @param game the game context.
      * @param winLoseTerritoryValue a {@link WinLoseTerritoryValue} to get the
      * probabilities of a combat.
-     * @param territoryValue a {@link TerritoryValueComparator} to get
-     * the importance of a {@link Territory}.
-     * @param threshold a threshold to measure the acceptable risk of a combat.
+     * @param territoryValue a {@link TerritoryValueComparator} to get the
+     * importance of a {@link Territory}.
+     * @param threshold a threshold to measure the acceptable risk of a combat
+     * must be [1, 0].
+     * @throws javax.management.InvalidAttributeValueException in case a weight
+     * not be between [1, 0]
      */
-    public BestEffortAttackStrategy(Player player, Game game, WinLoseTerritoryValue winLoseTerritoryValue, TerritoryValue territoryValue, double threshold) {
+    public BestEffortAttackStrategy(Player player, Game game, WinLoseTerritoryValue winLoseTerritoryValue, TerritoryValue territoryValue, double threshold) throws InvalidAttributeValueException {
         this.player = player;
         this.game = game;
         this.winLoseTerritoryValue = winLoseTerritoryValue;
         this.territoryValue = territoryValue;
         this.threshold = threshold;
+
+        if (threshold < 0.0 || threshold > 1.0)
+            throw new InvalidAttributeValueException();
 
         this.optimisticThreshold = threshold;
         this.turnsSinceLastAttack = 0;
@@ -181,4 +189,12 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         }
     }
 
+    public double getThreshold() {
+        return threshold;
+    }
+
+    public double getOptimisticThreshold() {
+        return optimisticThreshold;
+    }
+    
 }
