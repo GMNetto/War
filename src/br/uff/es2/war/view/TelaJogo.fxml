@@ -17,7 +17,7 @@
          <children>
             <Pane fx:id="pane_user_info" layoutY="460.0" prefHeight="130.0" prefWidth="280.0">
                <children>
-              <Button fx:id="btn_card" layoutX="137.0" layoutY="14.0" mnemonicParsing="false" text="Minhas Cartas" />
+              <Button fx:id="btn_carta" layoutX="137.0" layoutY="14.0" mnemonicParsing="false" text="Minhas Cartas" />
             <Button fx:id="btn_obj" layoutX="141.0" layoutY="52.0" mnemonicParsing="false" text="Meu Objetivo" />
             <Text fx:id="txt_jog" layoutX="22.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fulaninho">
                <font>
@@ -190,6 +190,62 @@
         
       </children>
     </Group>
+      <Pane fx:id="pane_sub_janela" prefHeight="600.0" prefWidth="800.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="600.0" opacity="0.8" stroke="BLACK" strokeType="INSIDE" width="800.0" />
+            <ImageView fitHeight="351.0" fitWidth="461.0" layoutX="170.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="tela2.jpg" />
+               </image>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </ImageView>
+            <Button fx:id="btn_janela_x" layoutX="618.0" layoutY="114.0" mnemonicParsing="false" text="X" />
+            <Pane fx:id="pane_obj" layoutX="183.0" layoutY="141.0" prefHeight="319.0" prefWidth="435.0">
+               <children>
+                  <Text layoutX="108.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meu Objetivo">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txt_obj" layoutX="19.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Texto do objetivo aqui!!!! Texto do objetivo aqui!!!! Texto do objetivo aqui!!!! Texto do objetivo aqui!!!! Texto do objetivo aqui!!!! " textAlignment="CENTER" wrappingWidth="396.6829261779785">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="pane_info" layoutX="183.0" layoutY="141.0" prefHeight="319.0" prefWidth="435.0">
+               <children>
+                  <Text layoutX="2.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Informações de Troca" textAlignment="CENTER" wrappingWidth="464.42681884765625">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txt_info" layoutX="19.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Info das trocas aqui" textAlignment="CENTER" wrappingWidth="396.6829261779785">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane fx:id="pane_cartas" layoutX="183.0" layoutY="141.0" prefHeight="319.0" prefWidth="435.0">
+               <children>
+                  <Text layoutX="2.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Minhas Cartas" textAlignment="CENTER" wrappingWidth="464.42681884765625">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txt_cartas" layoutX="19.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exibir cartas aqui!!" textAlignment="CENTER" wrappingWidth="396.6829261779785">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
       
    </children>
 </AnchorPane>

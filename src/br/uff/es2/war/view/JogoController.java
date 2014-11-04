@@ -22,6 +22,7 @@ public class JogoController {
 
     private AlocaController ac;
     private AtacaController atc;
+    private JanelaInfoController jc;
     private List<TerritorioUI> territorios;
     private int jogador;
     private int raio;
@@ -35,7 +36,7 @@ public class JogoController {
     //
     private AcaoTerritorioStrategy acaoTerr;
             
-    public JogoController(int jogador, Pane pane_aloca, Pane pane_mov,Group info_bar,Pane pane_ataca1, Pane pane_ataca2) {
+    public JogoController(int jogador, Pane pane_aloca, Pane pane_mov,Group info_bar,Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela) {
         this.jogador = jogador;
         this.raio=10;
         this.txt_fase1=(Text) info_bar.lookup("#pane_info_box").lookup("#txt_fase1");
@@ -45,6 +46,7 @@ public class JogoController {
         
         this.ac = new AlocaController(pane_aloca,pane_mov, raio, this);
         this.atc= new AtacaController(pane_ataca1, pane_ataca2, raio, this);
+        this.jc= new JanelaInfoController(pane_sub_janela, this);
         
         inicializaParaTestes();
     }
@@ -88,6 +90,10 @@ public class JogoController {
 
     public AtacaController getAtacaController() {
         return atc;
+    }
+
+    public JanelaInfoController getJanelaController() {
+        return jc;
     }
     
     public List<TerritorioUI> getTerritorios() {

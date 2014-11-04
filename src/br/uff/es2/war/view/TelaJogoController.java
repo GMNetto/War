@@ -46,6 +46,13 @@ public class TelaJogoController implements Initializable {
     //botao para mudança de estado do jogo
     @FXML
     private Button btn_prox;
+    
+    @FXML
+    private Button btn_carta;
+    @FXML
+    private Button btn_obj;
+    @FXML
+    private Button btn_troca;
 
     // painel de alocação
     @FXML
@@ -57,6 +64,9 @@ public class TelaJogoController implements Initializable {
     private Pane pane_ataca1;
     @FXML
     private Pane pane_ataca2;
+    //janela modal
+    @FXML
+    private Pane pane_sub_janela;
     
     @FXML
     private ImageView img_fundo;
@@ -186,7 +196,7 @@ public class TelaJogoController implements Initializable {
         img_fundo2.setImage(image2);
         
         
-        this.gameController =new JogoController(0,pane_aloca, pane_mov, group_info_bar, pane_ataca1,pane_ataca2);
+        this.gameController =new JogoController(0,pane_aloca, pane_mov, group_info_bar, pane_ataca1,pane_ataca2, pane_sub_janela);
         desenhaTerritorios();
         
         gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
@@ -198,6 +208,35 @@ public class TelaJogoController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 gameController.setAcaoTerr(gameController.getAcaoTerr().ProxFase());
+            }
+        });
+        
+        this.btn_carta.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                gameController.getJanelaController().mostra();
+                gameController.getJanelaController().mostraCartas();
+            }
+        });
+        
+        this.btn_obj.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                gameController.getJanelaController().mostra();
+                gameController.getJanelaController().mostraObj();
+             
+            }
+        });
+        
+        this.btn_troca.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                gameController.getJanelaController().mostra();
+                gameController.getJanelaController().mostraInfo();
+             
             }
         });
     }
