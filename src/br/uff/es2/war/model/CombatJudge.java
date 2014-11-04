@@ -24,8 +24,17 @@ public class CombatJudge {
         Territory attackingTerritory = combat.getAttackingTerritory();
         Territory defendingTerritory = combat.getDefendingTerritory();
         applyScores(scores, attackingTerritory, defendingTerritory, combat);
+        if((attackingTerritory.getSoldiers()-(combat.getAttackingSoldiers() - scores[1])+1)<1){
+            System.out.println("erro");
+        }
         updateOwnership(attackingTerritory, defendingTerritory,
                 combat.getAttackingSoldiers() - scores[1]);
+        if(attackingTerritory.getSoldiers()<1){
+            System.out.println("erro");
+        }
+        if(defendingTerritory.getSoldiers()<1){
+            System.out.println("erro");
+        }
     }
 
     protected int[] combatValues(int soldiers) {
@@ -53,7 +62,7 @@ public class CombatJudge {
      */
     private int[] calculateScores(int[] attackValues, int[] defenseValues) {
         //I think that it should be a min, don't you think?
-        int length = Math.max(attackValues.length, defenseValues.length);
+        int length = Math.min(attackValues.length, defenseValues.length);
         int[] scores = new int[2];
         for (int i = 0; i < length; i++) {
             int attack = getIthGreatest(i, attackValues);

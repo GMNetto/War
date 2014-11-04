@@ -97,7 +97,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
                 turnsSinceLastAttack = 0;
                 attacker = getBestAttackerFor(territory);
                 if (attacker != null)
-                    return new Combat(attacker, territory, Math.max(attacker.getSoldiers() - 1, 3));
+                    return new Combat(attacker, territory, Math.min(attacker.getSoldiers() - 1, 3));
             }
         }
 
@@ -143,11 +143,14 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         for (Territory t : territory.getBorders()) {
             if (!t.getOwner().equals(player))
                 continue;
-
-            if (attacker == null) {
-                attacker = t;
-            } else {
-                attacker = getBestAttacker(attacker, t);
+            
+            
+            if(!numberAllowAttack(attacker)){
+                if (attacker == null) {
+                    attacker = t;
+                } else {
+                    attacker = getBestAttacker(attacker, t);
+                }
             }
         }
 
@@ -179,6 +182,10 @@ public class BestEffortAttackStrategy implements AttackStrategy {
             }
             return a;
         }
+    }
+
+    private boolean numberAllowAttack(Territory attacker) {
+        return attacker!=null && attacker.getSoldiers()>1;
     }
 
 }
