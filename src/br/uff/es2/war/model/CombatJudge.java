@@ -62,12 +62,31 @@ public class CombatJudge {
             else
                 scores[1]++;
         }
+        }
         return scores;
     }
 
+    private int getIthGreatest(int i, int[] values) {
+        //Again you are supposing the ascending sort.
+        i = Math.min(values.length - 1, i);
+        return values[values.length-1-i];
     }
 }
 
+    private void applyScores(int[] scores, Territory attackingTerritory,
+            Territory defendingTerritory, Combat combat) {
+        defendingTerritory.removeSoldiers(scores[0]);
+        attackingTerritory.removeSoldiers(scores[1]);
     }
     
+    private void updateOwnership(Territory attackingTerritory,
+            Territory defendingTerritory, int survivingSoldiers) {
+        if (defendingTerritory.getSoldiers() <= 0) {
+            defendingTerritory.setSoldiers(1);
+            //Why are you doing it, the player should decide how many soldiers he would like to move?
+            //However none of us have thought about it, so maybe we will maintain it.
+            attackingTerritory.removeSoldiers(survivingSoldiers - 1);
+            defendingTerritory.setOwner(attackingTerritory.getOwner());
+}
+    }
 }
