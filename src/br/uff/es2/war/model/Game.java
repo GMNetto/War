@@ -36,8 +36,8 @@ public class Game {
     private Date endDate;
     private Set<Objective> objectives;
 
-    public Game(Player[] players, World world, Color[] colors, List<Card> cards) {
-        events = new LocalEventBus();
+    public Game(Player[] players, World world, Color[] colors, List<Card> cards, Set<Objective> objectives) {
+	events = new LocalEventBus();
         exchange = -1;
         Collections.shuffle(cards);
         this.players = players;
@@ -47,10 +47,6 @@ public class Game {
         this.cards = cards;
         turns = new CyclicIterator<Player>(players);
         startDate = new Date();
-    }
-
-    public Game(Player[] players, World world, Color[] colors, List<Card> cards, Set<Objective> objectives) {
-        this(players, world, colors, cards);
         this.objectives = objectives;
     }
 

@@ -28,7 +28,7 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
 	Player current = game.getCurrentPlayer();
         continentBonusAllocation(current, world);
 	Set<Territory> territories = world.getTerritoriesByOwner(current);
-        int bonus = cardBonus(current, game);// + continentBonus(current, world);
+        int bonus = cardBonus(current, game) + continentBonus(current, world);
 	int soldierQuantity = Math.max((territories.size() / 2), 3) + bonus;
         
 	current.distributeSoldiers(soldierQuantity, territories);
@@ -60,7 +60,7 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
     
     private void continentBonusAllocation(Player player, World world) {
         Set<Territory> territories = world.getTerritoriesByOwner(player);
-        
+        	
         for (Continent continent : world)
             if (territories.containsAll(continent))
 		player.distributeSoldiers(continent.getTotalityBonus(), continent);

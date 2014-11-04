@@ -50,38 +50,6 @@ public class SetupPhase implements GameState<Game> {
         }
     }
 
-    @Deprecated
-    private Objective randomObjective() {
-        return new Objective() {
-
-            @Override
-            public boolean wasAchieved() {
-                return false;
-            }
-
-            @Override
-            public boolean isNeeded(Territory territory) {
-                return false;
-            }
-
-            @Override
-            public void setOwner(Player owner) {
-
-            }
-
-            @Override
-            public void switchToAlternativeObjective() {
-
-            }
-
-            @Override
-            public boolean isPossible() {
-                return true;
-            }
-
-        };
-    }
-
     private void loadObjectives() {
         List<Objective> remaining = new ArrayList<>(game.getObjectives());
         Collections.shuffle(remaining);
