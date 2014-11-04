@@ -1,8 +1,5 @@
 package br.uff.es2.war.model;
 
-import br.uff.es2.war.entity.Jogador;
-
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -11,10 +8,8 @@ import java.util.Set;
 
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
-import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.model.objective.Objective;
 import br.uff.es2.war.util.CyclicIterator;
 
 /**
