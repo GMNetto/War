@@ -80,14 +80,14 @@ public class BasicBotTest {
             functionBasedRearrangeStrategy = new FunctionBasedRearrangeStrategy(new LinearThresholdFunction(), player, game, winLoseTerritoryValue, weightEquationTerritoryValue);
 
             player.setAllocationInstruction(weightedRandomAllocation);
-            player.setAttackStrategy(new BestEffortAttackStrategy(player, game, winLoseTerritoryValue, weightEquationTerritoryValue, r.nextDouble() * 0.7 + 0.2));
+            player.setAttackStrategy(new BestEffortAttackStrategy(player, game, winLoseTerritoryValue, weightEquationTerritoryValue, (r.nextInt(10) + 1) / 10.0));
             player.setRelocationStrategy(functionBasedRearrangeStrategy);
             player.setChangeCardStrategy(new GreedyChangeCardStrategy(0, player, game, weightEquationTerritoryValue));
         }
 
     }
 
-    @Test
+    @Test(timeout = 30 * 6000)
     public void RUN_GAME() {
         machine.run();
 
