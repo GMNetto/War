@@ -183,7 +183,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
             }
         }
 
-        return attacker;
+        return (attacker != null && attacker.getSoldiers() > 1 ? attacker : null);
     }
 
     /**
