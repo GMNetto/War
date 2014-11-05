@@ -77,15 +77,13 @@ public class CombatJudge {
             defendingTerritory.setOwner(attackingTerritory.getOwner());
         }
     }
-    
+
     private static class InverseIntegerComparator implements Comparator<Integer> {
 
-    @Override
-    public int compare(Integer o1, Integer o2) {
-        return -1 * Integer.compare(o1, o2);
+        @Override
+        public int compare(Integer o1, Integer o2) {
+            return -1 * Integer.compare(o1, o2);
+        }
+
     }
-
 }
-}
-
-

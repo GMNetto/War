@@ -104,7 +104,6 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         optimisticThreshold = threshold * Math.pow(0.9, turnsSinceLastAttack);
 
         List<Territory> list = getAllEnemiesOnBorders();
-        
         for (Territory territory : list) {
             if (winLoseTerritoryValue.getTerritoryValue(territory) >= optimisticThreshold) {
                 turnsSinceLastAttack = 0;
