@@ -31,11 +31,11 @@ public class SetupPhase implements GameState<Game> {
     public GameState<Game> execute(Game game) {
         this.game = game;
         readColors();
-        loadObjectives();
         game.distributeTerritories();
         for (Player player : game.getPlayers()) {
             player.setGame(game);
         }
+        loadObjectives();
         return new TurnChangePhase();
     }
 
@@ -56,15 +56,20 @@ public class SetupPhase implements GameState<Game> {
         Random random = new Random();
         int r;
         for (Player player : game.getPlayers()) {
-            r = random.nextInt(remaining.size());
-            player.setObjective(remaining.get(r));
-            remaining.remove(r);
-
-            if (!player.getObjective().isPossible()) {
-                player.getObjective().switchToAlternativeObjective();
+            while (player.getObjective() == null || player.getObjective().wasAchieved()) {
+                r = random.nextInt(remaining.size());
+                setObjectiveToPlayer(r, remaining, player);
             }
-
         }
 
+    }
+
+    private void setObjectiveToPlayer(int r, List<Objective> remaining, Player player) {
+        player.setObjective(remaining.get(r));
+        remaining.remove(r);
+
+        if (!player.getObjective().isPossible()) {
+            player.getObjective().switchToAlternativeObjective();
+        }
     }
 }

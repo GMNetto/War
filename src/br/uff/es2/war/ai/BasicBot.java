@@ -133,7 +133,7 @@ public class BasicBot implements Player {
     @Override
     public List<Card> exchangeCards() {
         List<Card> answer = changeCardStrategy.changeCard(cards);
-        cards.removeAll(answer);
+        //cards.removeAll(answer);
         return answer;
     }
 
