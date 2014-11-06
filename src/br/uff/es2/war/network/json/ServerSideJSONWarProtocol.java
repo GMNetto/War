@@ -22,6 +22,11 @@ public class ServerSideJSONWarProtocol implements ServerSideWarProtocol {
     public ServerSideJSONWarProtocol(){
 	encoder = new JSONEncoder();
     }
+    
+    public ServerSideJSONWarProtocol(Game game) {
+	this();
+	setGame(game);
+    }
 
     @Override
     public String setGame(Game game) {

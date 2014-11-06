@@ -11,9 +11,12 @@ import org.json.JSONObject;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.PlayerData;
 import br.uff.es2.war.model.Territory;
+import br.uff.es2.war.model.World;
 
 /**
  * Decode complex objects encode by JSONEncoder and map then to real instances in the memory.
@@ -23,10 +26,40 @@ import br.uff.es2.war.model.Territory;
  */
 class JSONDecoder {
     
-    private final Game game;
+    private Game game;
+    
+    public JSONDecoder() {
+    }
     
     JSONDecoder(Game game) {
 	this.game = game;
+    }
+    
+    void setGame(Game game) {
+	this.game = game;
+    }
+    
+    public Game decodeGame(String suffix) {
+	JSONObject json = new JSONObject(suffix);
+	Player[] players = decodePlayers(json.getJSONArray("players"));
+	World world = decodeWorld(json.getJSONObject("world"));
+	Color[] colors = decodeColors(json.getJSONArray("colors"));
+	List<Card> cards = decodeCards(json.getJSONArray("cards"));
+	return new Game(players, world, colors, cards);
+    }
+    
+    Player[] decodePlayers(JSONArray array){
+	Player[] players = new Player[array.length()];
+	for(int i = 0; i < players.length; i++)
+	    players[i] = decodePlayer(array.getJSONObject(i));
+	return players;
+    }
+    
+    Player decodePlayer(JSONObject json){
+	Player player = new PlayerData();
+	Color color = decodeColor(json.getJSONObject("color"));
+	player.setColor(color);
+	return player;
     }
 
     Player decodePlayer(String sufix) {
@@ -34,20 +67,51 @@ class JSONDecoder {
 	String color = json.getString("color");
 	return game.playerByColor(new Color(color));
     }
+    
+    World decodeWorld(JSONObject obj){
+	String name = obj.getString("name");
+	World world = new World(name);
+	Set<Continent> continents = decodeContinents(obj.getJSONArray("continents"), world);
+	world.addAll(continents);
+	return world;
+    }
+    
+    Set<Continent> decodeContinents(JSONArray array, World world){
+	Set<Continent> continents = new HashSet<>();
+	for(int i = 0; i < array.length(); i++)
+	    continents.add(decodeContinent(array.getJSONObject(i), world));
+	return continents;
+    }
+    
+    Continent decodeContinent(JSONObject json, World world){
+	String name = json.getString("name");
+	int totalityBonus = json.getInt("totalityBonus");
+	return new Continent(name, world, totalityBonus);
+    }
 
-    Color[] decodeColors(String sufix) {
-	JSONArray array = new JSONArray(sufix);
+    Color[] decodeColors(String suffix) {
+	return decodeColors(new JSONArray(suffix));
+    }
+    
+    Color[] decodeColors(JSONArray array) {
 	Color[] colors = new Color[array.length()];
 	for (int i = 0; i < array.length(); i++) {
 	    JSONObject obj = array.getJSONObject(i);
-	    colors[i] = new Color(obj.getString("name"));
+	    colors[i] = decodeColor(obj);
 	}
 	return colors;
     }
 
-    Set<Territory> decodeTerritories(String sufix) {
+    Color decodeColor(JSONObject json){
+	return new Color(json.getString("name"));
+    }
+    
+    Set<Territory> decodeTerritories(String suffix) {
+	return decodeTerritories(new JSONArray(suffix));
+    }
+    
+    Set<Territory> decodeTerritories(JSONArray array){
 	Set<Territory> territories = new HashSet<>();
-	JSONArray array = new JSONArray(sufix);
 	for(int i = 0; i < array.length(); i++){
 	    JSONObject obj = array.getJSONObject(i);
 	    territories.add(decodeTerritory(obj));
@@ -70,10 +134,13 @@ class JSONDecoder {
     }
 
     public List<Card> decodeCards(String receive) {
-	JSONArray cardsJSON = new JSONArray(receive);
+	return decodeCards(new JSONArray(receive));
+    }
+    
+    public List<Card> decodeCards(JSONArray array){
 	List<Card> cards = new LinkedList<>();
-	for (int i = 0; i < cardsJSON.length(); i++) {
-	    JSONObject cardItem = cardsJSON.getJSONObject(i);
+	for (int i = 0; i < array.length(); i++) {
+	    JSONObject cardItem = array.getJSONObject(i);
 	    Territory territory = game.getWorld().getTerritoryByName(cardItem
 		    .getString("name"));
 	    cards.add(new Card(cardItem.getInt("figure"), territory));

@@ -9,8 +9,10 @@ import br.uff.es2.war.events.DeclareCombatEvent;
 import br.uff.es2.war.events.ExchangeCardsEvent;
 import br.uff.es2.war.events.DistributeSoldiersEvent;
 import br.uff.es2.war.events.MoveSoldierEvent;
+import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.network.MessengeToEventFactory;
@@ -33,9 +35,8 @@ public class JSONWarProtocolEventFactory implements MessengeToEventFactory {
 
     private Object mapToEvent(String prefix, String suffix) {
 	switch (prefix) {
-	/*TODO: SetGame carries the game object that should be used by JSONDecoder that is a dependency of this class.
-	case JSONWarProtocol.SET_GAME:
-	    return createSetGameEvent(suffix); */
+	case JSONProtocolMessages.SET_GAME:
+	    return createSetGameEvent(suffix);
 	case JSONProtocolMessages.BEGIN_TURN:
 	    return createBeginTurnEvent(suffix);
 	case JSONProtocolMessages.CHOOSE_COLOR:
@@ -53,6 +54,11 @@ public class JSONWarProtocolEventFactory implements MessengeToEventFactory {
 	default:
 	    return null;
 	}
+    }
+    
+    private Object createSetGameEvent(String suffix){
+	Game game = decoder.decodeGame(suffix);
+	return new SetGameEvent(game);
     }
 
     private Object createBeginTurnEvent(String suffix) {

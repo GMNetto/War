@@ -32,11 +32,11 @@ public class JSONWarProtocolTest {
     
     @Ignore
     @Test
-    public void FullRun() {
-	World world = MockGame.createWorld();
-	ServerSideWarProtocol protocol = new ServerSideJSONWarProtocol(world);
+    public void ONE_TURN() {
+	ServerSideWarProtocol protocol = new ServerSideJSONWarProtocol();
 	Player[] players = createProceduralPlayers(protocol);
-        game = new MockGame(players, world, MockGame.createColors(), MockGame.createCards());
+	Game game = new MockGame(players, MockGame.createWorld(), MockGame.createColors(), MockGame.createCards());
+	protocol.setGame(game);
 	GameMachine<Game> machine = new GameMachine<Game>(game, new SetupPhase());
 	machine.run();
     }
