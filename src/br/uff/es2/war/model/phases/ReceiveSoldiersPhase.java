@@ -55,7 +55,8 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
 		card.getTerritory().addSoldiers(EXCHANGE_OWNED_TERRITORY_BONUS);
 	}
 	game.incrementExchangeCounter();
-	return game.getExchangeBonus();
+        player.getCards().removeAll(cards);
+        return game.getExchangeBonus();
     }
     
     private void continentBonusAllocation(Player player, World world) {

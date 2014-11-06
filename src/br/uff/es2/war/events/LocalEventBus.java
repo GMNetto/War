@@ -21,7 +21,7 @@ public class LocalEventBus implements EventBus {
 	Set<Object> actions = bus.get(event);
 	if (actions == null)
 	    subscribeNew(event, action);
-	else
+        else
 	    actions.add(action);
     }
 
@@ -37,8 +37,6 @@ public class LocalEventBus implements EventBus {
 	List<Class<?>> supers = new LinkedList<>();
 	supers.add(event.getClass().getSuperclass());
 	supers.addAll(Arrays.asList(event.getClass().getInterfaces()));
-	if (supers.isEmpty())
-	    return;
 	for (Class<?> item : supers)
 	    publish(item, event);
     }

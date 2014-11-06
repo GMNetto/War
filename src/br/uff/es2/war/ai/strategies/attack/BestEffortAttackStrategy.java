@@ -115,7 +115,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
         }
 
         turnsSinceLastAttack++;
-        turnsSinceLastAttack = Math.max(turnsSinceLastAttack, 7);
+        turnsSinceLastAttack = Math.min(turnsSinceLastAttack, 7);
 
         return null;
     }
@@ -183,7 +183,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
             }
         }
 
-        return attacker;
+        return (attacker != null && attacker.getSoldiers() > 1 ? attacker : null);
     }
 
     /**

@@ -38,7 +38,7 @@ public class Game {
     private Set<Objective> objectives;
 
     public Game(Player[] players, World world, Color[] colors, List<Card> cards, Set<Objective> objectives) {
-	events = new LocalEventBus();
+        events = new LocalEventBus();
         exchange = -1;
         Collections.shuffle(cards);
         this.players = players;
@@ -50,9 +50,9 @@ public class Game {
         startDate = new Date();
         this.objectives = objectives;
     }
-    
+
     public Game(Player[] players, World world, Color[] colors, List<Card> cards) {
-	events = new LocalEventBus();
+        events = new LocalEventBus();
         exchange = -1;
         Collections.shuffle(cards);
         this.players = players;

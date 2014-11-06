@@ -19,9 +19,11 @@ import br.uff.es2.war.model.phases.GameState;
 public class CombatPhase implements GameState<Game> {
 
     private final CombatJudge judge;
+    private final SoldierMovementPhase soldierMovement;
 
     public CombatPhase() {
 	judge = new CombatJudge();
+        soldierMovement = new SoldierMovementPhase();
     }
 
     @Override
@@ -29,11 +31,12 @@ public class CombatPhase implements GameState<Game> {
 	Player attacker = game.getCurrentPlayer();
 	Combat combat = attacker.declareCombat();
 	if (combat == null)
-	    return new SoldierMovementPhase();
+	    return soldierMovement;
 	Territory defendingTerritory = combat.getDefendingTerritory();
 	Player defender = defendingTerritory.getOwner();
 	defender.answerCombat(combat);
 	judge.resolve(combat);
+        game.getEvents().subscribe(TerritoryConquestEvent.class, soldierMovement);
 	if (defendingTerritory.getOwner().equals(attacker))
 	    game.getEvents().publish(
 		    new TerritoryConquestEvent(defender, attacker,

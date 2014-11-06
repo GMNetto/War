@@ -28,8 +28,6 @@ public class SoldierMovementPhase implements GameState<Game>,
     private void drawCard(Game game) {
 	if (conqueror != null) {
 	    conqueror.addCard(game.drawCard());
-	    if (conqueror.getCards().size() > CARD_LIMIT)
-		game.addCard(conqueror.discard());
 	    conqueror = null;
 	}
     }
