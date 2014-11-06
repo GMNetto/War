@@ -37,7 +37,6 @@ public class GameController implements Runnable {
     public GameController(Messenger[] clients) throws NonexistentEntityException {
 	this.clients = clients;
         loader=new GameLoader(0, Persistence.createEntityManagerFactory("WarESIIPU"));
-        protocol = new ServerSideJSONWarProtocol(loader.getWorld());
         Player[] players = new Player[clients.length];
         int i,j;
 	for (i = 0; i < players.length; i++)
@@ -48,6 +47,7 @@ public class GameController implements Runnable {
         Color[] colors=new Color[loader.getColors().size()];
         colors=loader.getColors().toArray(colors);
 	Game game = new Game(players, loader.getWorld(), colors, loader.getCards(),loader.getObjectives());
+	protocol = new ServerSideJSONWarProtocol(game);
         
 	machine = new GameMachine<Game>(game, new SetupPhase());
         /***

@@ -1,9 +1,10 @@
 package br.uff.es2.war.network.json;
 
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,6 +12,7 @@ import org.json.JSONObject;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
@@ -22,14 +24,6 @@ import br.uff.es2.war.model.World;
  * @author Arthur Pitzer
  */
 class JSONEncoder {
-    
-    JSONArray encode(Collection<Territory> territories) {
-	JSONArray array = new JSONArray();
-	Iterator<Territory> iterator = territories.iterator();
-	for (int i = 0; i < territories.size(); i++)
-	    array = array.put(i, encode(iterator.next()));
-	return array;
-    }
 
     JSONObject encode(Territory territory) {
 	JSONObject obj = new JSONObject();
@@ -55,8 +49,23 @@ class JSONEncoder {
     JSONObject encode(World world){
 	JSONObject json = new JSONObject();
 	json.put("name", world.getName());
-	json.put("territories", encode(world.getTerritories()));
+	json.put("continents", encode(new HashSet<Continent>(world)));
 	return json;
+    }
+    
+    JSONArray encode(Set<Continent> continents){
+	JSONArray array = new JSONArray();
+	for(Continent continent : continents)
+	    array.put(encode(continent));
+	return array;
+    }
+    
+    JSONArray encode(Continent continent) {
+	JSONArray array = new JSONArray();
+	Iterator<Territory> iterator = continent.iterator();
+	for (int i = 0; i < continent.size(); i++)
+	    array = array.put(i, encode(iterator.next()));
+	return array;
     }
      
     JSONArray encode(Player[] players){
