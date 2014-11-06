@@ -54,7 +54,7 @@ public class ServerSideJSONWarProtocol implements ServerSideWarProtocol {
     @Override
     public String distributeSoldiers(int soldierQuantity,
 	    Set<Territory> territories) {
-	JSONArray territoriesJSON = encoder.encode(territories);
+	JSONArray territoriesJSON = encoder.encodeTerritories(territories);
 	return join(JSONProtocolMessages.DISTRIBUTE_SOLDIERS, soldierQuantity, territoriesJSON);
     }
 
