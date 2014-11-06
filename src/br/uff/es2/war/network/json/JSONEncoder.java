@@ -18,7 +18,8 @@ import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 
 /**
- * Encode complex objects avoiding recursive structures and unnecessary attributes
+ * Encode complex objects avoiding recursive structures and unnecessary
+ * attributes
  * 
  * @author Arthur Pitzer
  */
@@ -29,14 +30,15 @@ class JSONEncoder {
 	obj.put("name", territory.getName());
 	obj.put("soldiers", territory.getSoldiers());
 	obj.put("continent", territory.getContinent().getName());
-	obj.put("owner", territory.getOwner().getColor().getName());
+	if(territory.getOwner().getColor() != null)
+	    obj.put("owner", territory.getOwner().getColor().getName());
 	List<String> borders = new LinkedList<>();
 	for (Territory border : territory.getBorders())
 	    borders.add(border.getName());
 	obj.put("borders", borders);
 	return obj;
     }
-    
+
     JSONObject encode(Game game) {
 	JSONObject json = new JSONObject();
 	json.put("world", encode(game.getWorld()));
@@ -44,21 +46,21 @@ class JSONEncoder {
 	json.put("players", encode(game.getPlayers()));
 	return json;
     }
-    
-    JSONObject encode(World world){
+
+    JSONObject encode(World world) {
 	JSONObject json = new JSONObject();
 	json.put("name", world.getName());
 	json.put("continents", encode(new HashSet<Continent>(world)));
 	return json;
     }
-    
-    JSONArray encode(Set<Continent> continents){
+
+    JSONArray encode(Set<Continent> continents) {
 	JSONArray array = new JSONArray();
-	for(Continent continent : continents)
+	for (Continent continent : continents)
 	    array.put(encode(continent));
 	return array;
     }
-    
+
     JSONObject encode(Continent continent) {
 	JSONObject json = new JSONObject();
 	json.put("name", continent.getName());
@@ -66,22 +68,22 @@ class JSONEncoder {
 	json.put("territories", encodeTerritories(continent));
 	return json;
     }
-    
-    JSONArray encodeTerritories(Set<Territory> territories){
+
+    JSONArray encodeTerritories(Set<Territory> territories) {
 	JSONArray array = new JSONArray();
-	for(Territory territory : territories)
+	for (Territory territory : territories)
 	    array.put(encode(territory));
 	return array;
     }
-     
-    JSONArray encode(Player[] players){
+
+    JSONArray encode(Player[] players) {
 	JSONArray json = new JSONArray();
 	for (int i = 0; i < players.length; i++)
 	    json.put(i, encode(players[i]));
 	return json;
     }
-    
-    JSONObject encode(Player player){
+
+    JSONObject encode(Player player) {
 	JSONObject json = new JSONObject();
 	json.put("color", player.getColor().getName());
 	return json;
@@ -101,12 +103,12 @@ class JSONEncoder {
 
     JSONArray encode(List<Card> cards) {
 	JSONArray array = new JSONArray();
-	for(Card card : cards)
+	for (Card card : cards)
 	    array.put(encode(card));
 	return array;
     }
-    
-    JSONObject encode(Card card){
+
+    JSONObject encode(Card card) {
 	JSONObject json = new JSONObject();
 	json.put("figure", card.getFigure());
 	json.put("territory", encode(card.getTerritory()));

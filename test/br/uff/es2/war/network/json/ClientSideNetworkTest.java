@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import org.junit.Test;
+
 import br.uff.es2.war.events.Action;
 import br.uff.es2.war.events.AnswerCombatEvent;
 import br.uff.es2.war.events.BeginTurnEvent;
@@ -26,7 +28,7 @@ public class ClientSideNetworkTest {
     private static final String SERVER_IP = "127.0.0.1";
     private static final int SERVER_PORT = 55555;
     
-    
+    @Test
     public void TWO_PLAYERS_GAME() throws UnknownHostException, IOException{
 	Messenger server = new TCPMessenger(new Socket(SERVER_IP, SERVER_PORT));
 	final JSONDecoder decoder = new JSONDecoder();
@@ -95,5 +97,4 @@ public class ClientSideNetworkTest {
 	new Thread(listener).start();
 	
     }
-
 }
