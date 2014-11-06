@@ -1,7 +1,5 @@
 package br.uff.es2.war.network;
 
-import br.uff.es2.war.events.Action;
-import br.uff.es2.war.events.AnswerCombatEvent;
 import br.uff.es2.war.events.EventBus;
 
 public class NetworkListener implements Runnable {

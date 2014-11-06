@@ -14,9 +14,9 @@ import br.uff.es2.war.model.Territory;
 public class RemotePlayer extends PlayerData {
 
     private final Messenger messenger;
-    private final WarProtocol protocol;
+    private final ServerSideWarProtocol protocol;
 
-    public RemotePlayer(Messenger messenger, WarProtocol protocol) {
+    public RemotePlayer(Messenger messenger, ServerSideWarProtocol protocol) {
 	super();
 	this.messenger = messenger;
 	this.protocol = protocol;
@@ -70,12 +70,6 @@ public class RemotePlayer extends PlayerData {
     @Override
     public void addCard(Card card) {
 	messenger.send(protocol.addCard(card));
-    }
-
-    @Override
-    public Card discard() {
-	messenger.send(protocol.discard());
-	return protocol.discard(messenger.receive());
     }
 
     @Override

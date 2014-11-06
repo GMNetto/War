@@ -1,4 +1,4 @@
-package br.uff.es2.war.network;
+package br.uff.es2.war.network.json;
 
 import java.util.Set;
 
@@ -13,6 +13,7 @@ import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
+import br.uff.es2.war.network.MessengeToEventFactory;
 
 public class JSONWarProtocolEventFactory implements MessengeToEventFactory {
 
@@ -24,7 +25,7 @@ public class JSONWarProtocolEventFactory implements MessengeToEventFactory {
 
     @Override
     public Object eventTo(String message) {
-	int space = message.indexOf(JSONWarProtocol.SPACE);
+	int space = message.indexOf(JSONProtocolMessages.SPACE);
 	String prefix = message.substring(0, space);
 	String sufixf = message.substring(space + 1, message.length());
 	return mapToEvent(prefix, sufixf);
@@ -35,19 +36,19 @@ public class JSONWarProtocolEventFactory implements MessengeToEventFactory {
 	/*TODO: SetGame carries the game object that should be used by JSONDecoder that is a dependency of this class.
 	case JSONWarProtocol.SET_GAME:
 	    return createSetGameEvent(suffix); */
-	case JSONWarProtocol.BEGIN_TURN:
+	case JSONProtocolMessages.BEGIN_TURN:
 	    return createBeginTurnEvent(suffix);
-	case JSONWarProtocol.CHOOSE_COLOR:
+	case JSONProtocolMessages.CHOOSE_COLOR:
 	    return createChooseColorEvent(suffix);
-	case JSONWarProtocol.EXCHANGE_CARDS:
+	case JSONProtocolMessages.EXCHANGE_CARDS:
 	    return createExchangeCardsEvent(suffix);
-	case JSONWarProtocol.DISTRIBUTE_SOLDIERS:
+	case JSONProtocolMessages.DISTRIBUTE_SOLDIERS:
 	    return createDistributeSoldiersEvent(suffix);
-	case JSONWarProtocol.DECLARE_COMBAT:
+	case JSONProtocolMessages.DECLARE_COMBAT:
 	    return createDeclareCombatEvent(suffix);
-	case JSONWarProtocol.ANSWER_COMBAT:
+	case JSONProtocolMessages.ANSWER_COMBAT:
 	    return createAnswerCombatEvent(suffix);
-	case JSONWarProtocol.MOVE_SOLDIERS:
+	case JSONProtocolMessages.MOVE_SOLDIERS:
 	    return createMoveSoldiersEvent(suffix);
 	default:
 	    return null;
@@ -69,7 +70,7 @@ public class JSONWarProtocolEventFactory implements MessengeToEventFactory {
     }
     
     private Object createDistributeSoldiersEvent(String suffix){
-	int space = suffix.indexOf(JSONWarProtocol.SPACE);
+	int space = suffix.indexOf(JSONProtocolMessages.SPACE);
 	int quantity = Integer.parseInt(suffix.substring(0, space));
 	suffix = suffix.substring(space + 1, suffix.length());
 	Set<Territory> territories = decoder.decodeTerritories(suffix);

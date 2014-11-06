@@ -1,4 +1,4 @@
-package br.uff.es2.war.network;
+package br.uff.es2.war.network.json;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,6 +8,9 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import br.uff.es2.war.model.Card;
+import br.uff.es2.war.model.Color;
+import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
@@ -66,6 +69,32 @@ class JSONEncoder {
     JSONObject encode(Player player){
 	JSONObject json = new JSONObject();
 	json.put("color", player.getColor().getName());
+	return json;
+    }
+
+    JSONObject encode(Combat combat) {
+	JSONObject json = new JSONObject();
+	json.put("attacking", encode(combat.getAttackingTerritory()));
+	json.put("defending", encode(combat.getDefendingTerritory()));
+	json.put("soldiers", combat.getAttackingSoldiers());
+	return json;
+    }
+
+    JSONObject encode(Color color) {
+	return new JSONObject(color);
+    }
+
+    JSONArray encode(List<Card> cards) {
+	JSONArray array = new JSONArray();
+	for(Card card : cards)
+	    array.put(encode(card));
+	return array;
+    }
+    
+    JSONObject encode(Card card){
+	JSONObject json = new JSONObject();
+	json.put("figure", card.getFigure());
+	json.put("territory", encode(card.getTerritory()));
 	return json;
     }
 }

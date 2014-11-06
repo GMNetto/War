@@ -40,8 +40,6 @@ public interface Player {
 
     Collection<Card> getCards();
 
-    Card discard();
-
     List<Card> exchangeCards();
 
 }

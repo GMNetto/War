@@ -24,14 +24,17 @@ import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.phases.GameMachine;
 import br.uff.es2.war.model.phases.SetupPhase;
-import br.uff.es2.war.network.JSONWarProtocol;
 import br.uff.es2.war.network.RemotePlayer;
 import br.uff.es2.war.network.WarServer;
+import br.uff.es2.war.network.json.ServerSideJSONWarProtocol;
+
 import java.util.Random;
+
 import javax.management.InvalidAttributeValueException;
 import javax.persistence.Entity;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -51,7 +54,7 @@ public class BasicBotTest {
         Color[] colors = new Color[gl.getColors().size()];
         colors = gl.getColors().toArray(colors);
 
-        BasicBot[] players = new BasicBot[4];
+        BasicBot[] players = new BasicBot[3];
 
         for (int i = 0; i < players.length; i++) {
             players[i] = new PrintStateBasicBot();
@@ -80,7 +83,7 @@ public class BasicBotTest {
             functionBasedRearrangeStrategy = new FunctionBasedRearrangeStrategy(new LinearThresholdFunction(), player, game, winLoseTerritoryValue, weightEquationTerritoryValue);
 
             player.setAllocationInstruction(weightedRandomAllocation);
-            player.setAttackStrategy(new BestEffortAttackStrategy(player, game, winLoseTerritoryValue, weightEquationTerritoryValue, (r.nextInt(6) + 1) / 10.0));
+            player.setAttackStrategy(new BestEffortAttackStrategy(player, game, winLoseTerritoryValue, weightEquationTerritoryValue, (r.nextInt(10) + 1) / 10.0));
             player.setRelocationStrategy(functionBasedRearrangeStrategy);
             player.setChangeCardStrategy(new GreedyChangeCardStrategy(0, player, game, weightEquationTerritoryValue));
         }
