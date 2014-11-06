@@ -86,7 +86,9 @@ class JSONDecoder {
     Continent decodeContinent(JSONObject json, World world){
 	String name = json.getString("name");
 	int totalityBonus = json.getInt("totalityBonus");
-	return new Continent(name, world, totalityBonus);
+	Continent continent = new Continent(name, world, totalityBonus);
+	continent.addAll(decodeTerritories(json.getJSONArray("territories")));
+	return continent;
     }
 
     Color[] decodeColors(String suffix) {

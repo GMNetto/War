@@ -1,7 +1,6 @@
 package br.uff.es2.war.network.json;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -60,11 +59,18 @@ class JSONEncoder {
 	return array;
     }
     
-    JSONArray encode(Continent continent) {
+    JSONObject encode(Continent continent) {
+	JSONObject json = new JSONObject();
+	json.put("name", continent.getName());
+	json.put("totalityBonus", continent.getTotalityBonus());
+	json.put("territories", encodeTerritories(continent));
+	return json;
+    }
+    
+    JSONArray encodeTerritories(Set<Territory> territories){
 	JSONArray array = new JSONArray();
-	Iterator<Territory> iterator = continent.iterator();
-	for (int i = 0; i < continent.size(); i++)
-	    array = array.put(i, encode(iterator.next()));
+	for(Territory territory : territories)
+	    array.put(encode(territory));
 	return array;
     }
      
