@@ -11,22 +11,24 @@ import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 import br.uff.es2.war.model.phases.GameMachine;
 import br.uff.es2.war.model.phases.SetupPhase;
-import br.uff.es2.war.network.JSONWarProtocol;
 import br.uff.es2.war.network.Messenger;
 import br.uff.es2.war.network.RemotePlayer;
-import br.uff.es2.war.network.WarProtocol;
+import br.uff.es2.war.network.ServerSideWarProtocol;
 import br.uff.es2.war.network.WarServer;
+import br.uff.es2.war.network.json.ServerSideJSONWarProtocol;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import javax.persistence.Persistence;
 
 public class GameController implements Runnable {
 
     private final Messenger[] clients;
-    private final WarProtocol protocol;
+    private final ServerSideWarProtocol protocol;
     private final GameMachine<Game> machine;
     private GameLoader loader;
     private GamePersister persister;
@@ -35,7 +37,7 @@ public class GameController implements Runnable {
     public GameController(Messenger[] clients) throws NonexistentEntityException {
 	this.clients = clients;
         loader=new GameLoader(0, Persistence.createEntityManagerFactory("WarESIIPU"));
-        protocol = new JSONWarProtocol(loader.getWorld());
+        protocol = new ServerSideJSONWarProtocol(loader.getWorld());
         Player[] players = new Player[clients.length];
         int i,j;
 	for (i = 0; i < players.length; i++)
