@@ -51,7 +51,7 @@ public class BasicBotTest {
         Color[] colors = new Color[gl.getColors().size()];
         colors = gl.getColors().toArray(colors);
 
-        BasicBot[] players = new BasicBot[3];
+        BasicBot[] players = new BasicBot[4];
 
         for (int i = 0; i < players.length; i++) {
             players[i] = new PrintStateBasicBot();
@@ -80,7 +80,7 @@ public class BasicBotTest {
             functionBasedRearrangeStrategy = new FunctionBasedRearrangeStrategy(new LinearThresholdFunction(), player, game, winLoseTerritoryValue, weightEquationTerritoryValue);
 
             player.setAllocationInstruction(weightedRandomAllocation);
-            player.setAttackStrategy(new BestEffortAttackStrategy(player, game, winLoseTerritoryValue, weightEquationTerritoryValue, (r.nextInt(10) + 1) / 10.0));
+            player.setAttackStrategy(new BestEffortAttackStrategy(player, game, winLoseTerritoryValue, weightEquationTerritoryValue, (r.nextInt(6) + 1) / 10.0));
             player.setRelocationStrategy(functionBasedRearrangeStrategy);
             player.setChangeCardStrategy(new GreedyChangeCardStrategy(0, player, game, weightEquationTerritoryValue));
         }
