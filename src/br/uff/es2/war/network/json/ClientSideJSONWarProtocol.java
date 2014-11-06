@@ -25,7 +25,7 @@ public class ClientSideJSONWarProtocol implements ClientSideWarProtocol {
 
     @Override
     public String distributeSoldiers(Set<Territory> territories) {
-	return join(JSONProtocolMessages.DISTRIBUTE_SOLDIERS, encoder.encode(territories));
+	return join(JSONProtocolMessages.DISTRIBUTE_SOLDIERS, encoder.encodeTerritories(territories));
     }
 
     @Override
