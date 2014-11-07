@@ -216,8 +216,6 @@ public class WeightEquationTerritoryValue extends TerritoryValue {
             }
         }
         
-        
-        ownedOnSameContinent=3;
         result += numberOfTerritoriesOnSameContinentWeight * ((double) ownedOnSameContinent) / balanceWeight[5];
 
         return result / 6.0;

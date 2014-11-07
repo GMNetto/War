@@ -72,8 +72,9 @@ public class CombatJudge {
 
     private void updateOwnership(Territory attackingTerritory, Territory defendingTerritory, int survivingSoldiers) {
         if (defendingTerritory.getSoldiers() <= 0) {
-            defendingTerritory.setSoldiers(survivingSoldiers);
-            attackingTerritory.removeSoldiers(survivingSoldiers);
+            int movedSoldiers = Math.min(attackingTerritory.getSoldiers() - 1, 3);
+            defendingTerritory.setSoldiers(movedSoldiers);
+            attackingTerritory.removeSoldiers(movedSoldiers);
             defendingTerritory.setOwner(attackingTerritory.getOwner());
         }
     }
