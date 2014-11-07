@@ -38,7 +38,7 @@ public class CombatJudgeTest extends GamePhaseTest {
 	return new GameState<Game>() {
 	    @Override
 	    public GameState<Game> execute(Game game) {
-		return new SetupPhase().execute(game).execute(game);
+		return new SetupPhase().execute(game);
 	    }
 	};
     }

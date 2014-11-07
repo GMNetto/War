@@ -155,11 +155,6 @@ public class DumbPlayer implements Player {
     }
 
     @Override
-    public Card discard() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public List<Card> exchangeCards() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

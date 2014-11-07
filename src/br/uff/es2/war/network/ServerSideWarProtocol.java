@@ -10,7 +10,11 @@ import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 
-public interface WarProtocol {
+/**
+ * Format the messages send by the server to clients.
+ * @author Arthur Pitzer
+ */
+public interface ServerSideWarProtocol {
     
     String setGame(Game game);
 
@@ -38,10 +42,6 @@ public interface WarProtocol {
     void moveSoldiers(String receive, Set<Territory> territoriesByOwner);
 
     String addCard(Card card);
-
-    String discard();
-
-    Card discard(String receive);
 
     String exchangeCards();
 

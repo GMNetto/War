@@ -24,14 +24,17 @@ import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.phases.GameMachine;
 import br.uff.es2.war.model.phases.SetupPhase;
-import br.uff.es2.war.network.JSONWarProtocol;
 import br.uff.es2.war.network.RemotePlayer;
 import br.uff.es2.war.network.WarServer;
+import br.uff.es2.war.network.json.ServerSideJSONWarProtocol;
+
 import java.util.Random;
+
 import javax.management.InvalidAttributeValueException;
 import javax.persistence.Entity;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 import org.junit.Assert;
 import org.junit.Test;
 

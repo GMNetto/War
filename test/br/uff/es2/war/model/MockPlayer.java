@@ -74,11 +74,6 @@ public class MockPlayer extends PlayerData {
     }
 
     @Override
-    public Card discard() {
-	return null;
-    }
-
-    @Override
     public List<Card> exchangeCards() {
 	return Collections.EMPTY_LIST;
     }

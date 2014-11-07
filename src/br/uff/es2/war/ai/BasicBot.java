@@ -126,11 +126,6 @@ public class BasicBot implements Player {
     }
 
     @Override
-    public Card discard() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public List<Card> exchangeCards() {
         List<Card> answer = changeCardStrategy.changeCard(cards);
         //cards.removeAll(answer);

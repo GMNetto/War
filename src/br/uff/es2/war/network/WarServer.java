@@ -11,7 +11,7 @@ import java.util.Queue;
 public class WarServer extends TCPServer {
 
     private final Queue<Messenger> clients;
-    public static final int PLAYER_PER_GAME = 6;
+    public static final int PLAYER_PER_GAME = 2;
 
     public WarServer(int port) throws IOException {
 	super(port);
