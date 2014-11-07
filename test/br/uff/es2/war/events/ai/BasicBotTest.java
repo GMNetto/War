@@ -20,6 +20,7 @@ import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.NoExchangeGame;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.phases.GameMachine;
@@ -27,14 +28,14 @@ import br.uff.es2.war.model.phases.SetupPhase;
 import br.uff.es2.war.network.RemotePlayer;
 import br.uff.es2.war.network.WarServer;
 import br.uff.es2.war.network.json.ServerSideJSONWarProtocol;
-
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
-
 import javax.management.InvalidAttributeValueException;
 import javax.persistence.Entity;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -48,6 +49,10 @@ public class BasicBotTest {
     Game game;
 
     public BasicBotTest() throws NonexistentEntityException, InvalidAttributeValueException {
+
+    }
+
+    private void setupGame() throws NonexistentEntityException, InvalidAttributeValueException {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WarESIIPU");
         GameLoader gl = new GameLoader(0, factory);
 
@@ -60,7 +65,7 @@ public class BasicBotTest {
             players[i] = new PrintStateBasicBot();
         }
 
-        game = new Game(players, gl.getWorld(), colors, gl.getCards(), gl.getObjectives());
+        game = new NoExchangeGame(players, gl.getWorld(), colors, gl.getCards(), gl.getObjectives());
 
         WinLoseTerritoryValue winLoseTerritoryValue;
         WeightEquationTerritoryValue weightEquationTerritoryValue;
@@ -87,11 +92,18 @@ public class BasicBotTest {
             player.setRelocationStrategy(functionBasedRearrangeStrategy);
             player.setChangeCardStrategy(new GreedyChangeCardStrategy(0, player, game, weightEquationTerritoryValue));
         }
-
     }
 
-    @Test(timeout = 30 * 6000)
-    public void RUN_GAME() {
+    @Test(timeout = 30 * 6000 * 20)
+    public void RUN_GAME() throws NonexistentEntityException, InvalidAttributeValueException {
+        for (int i = 0; i < 1; i++) {
+            setupGame();
+            run();
+            System.out.println("\nNumber of turns: " + game.getTurns());
+        }
+    }
+
+    private int run() {
         machine.run();
 
         boolean active = false;
@@ -113,6 +125,8 @@ public class BasicBotTest {
         }
 
         Assert.assertTrue(active);
+
+        return game.getNumberOfTurns();
     }
 
 }
