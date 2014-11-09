@@ -1,4 +1,4 @@
-package br.uff.es2.war.network;
+package br.uff.es2.war.network.server;
 
 import java.util.List;
 import java.util.Set;
@@ -10,13 +10,14 @@ import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.PlayerData;
 import br.uff.es2.war.model.Territory;
+import br.uff.es2.war.network.Messenger;
 
-public class RemotePlayer extends PlayerData {
+public class ServerSidePlayer extends PlayerData {
 
     private final Messenger messenger;
-    private final ServerSideWarProtocol protocol;
+    private final ServerSideProtocol protocol;
 
-    public RemotePlayer(Messenger messenger, ServerSideWarProtocol protocol) {
+    public ServerSidePlayer(Messenger messenger, ServerSideProtocol protocol) {
 	super();
 	this.messenger = messenger;
 	this.protocol = protocol;
@@ -42,10 +43,8 @@ public class RemotePlayer extends PlayerData {
     @Override
     public void distributeSoldiers(int soldierQuantity,
 	    Set<Territory> territories) {
-	messenger.send(protocol
-		.distributeSoldiers(soldierQuantity, territories));
-	protocol.distributeSoldiers(messenger.receive(), soldierQuantity,
-		territories);
+	messenger.send(protocol.distributeSoldiers(soldierQuantity, territories));
+	protocol.distributeSoldiers(messenger.receive(), soldierQuantity, territories);
     }
 
     @Override

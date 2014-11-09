@@ -1,4 +1,4 @@
-package br.uff.es2.war.network;
+package br.uff.es2.war.network.client;
 
 import java.util.List;
 import java.util.Set;
@@ -8,13 +8,14 @@ import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
+import br.uff.es2.war.network.Messenger;
 
-public class ClientPlayer{
+public class ClientSidePlayer{
     
     private final Messenger messenger;
-    private final ClientSideWarProtocol protocol;
+    private final ClientSideProtocol protocol;
     
-    public ClientPlayer(Messenger messenger, ClientSideWarProtocol protocol) {
+    public ClientSidePlayer(Messenger messenger, ClientSideProtocol protocol) {
 	this.messenger = messenger;
 	this.protocol = protocol;
     }

@@ -9,7 +9,9 @@ import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.World;
 import br.uff.es2.war.model.phases.GameMachine;
 import br.uff.es2.war.model.phases.SetupPhase;
-import br.uff.es2.war.network.json.ServerSideJSONWarProtocol;
+import br.uff.es2.war.network.json.ServerSideJSONProtocol;
+import br.uff.es2.war.network.server.ServerSidePlayer;
+import br.uff.es2.war.network.server.ServerSideProtocol;
 
 public class JSONWarProtocolTest {
     
@@ -22,10 +24,10 @@ public class JSONWarProtocolTest {
     private static final String PLAYER_SCRIPT_2 = "CHOOSE_COLOR {\"name\":\"White\"}\n"
     						+ "DECLARE_COMBAT 1\n";
     
-    private static Player[] createProceduralPlayers(ServerSideWarProtocol protocol){
+    private static Player[] createProceduralPlayers(ServerSideProtocol protocol){
 	return new Player[]{
-		new RemotePlayer(new ProceduralMessenger(PLAYER_SCRIPT_1), protocol),
-		new RemotePlayer(new ProceduralMessenger(PLAYER_SCRIPT_2), protocol)
+		new ServerSidePlayer(new ProceduralMessenger(PLAYER_SCRIPT_1), protocol),
+		new ServerSidePlayer(new ProceduralMessenger(PLAYER_SCRIPT_2), protocol)
 	};
     }
     private MockGame game;
@@ -33,7 +35,7 @@ public class JSONWarProtocolTest {
     @Ignore
     @Test
     public void ONE_TURN() {
-	ServerSideWarProtocol protocol = new ServerSideJSONWarProtocol();
+	ServerSideProtocol protocol = new ServerSideJSONProtocol();
 	Player[] players = createProceduralPlayers(protocol);
 	Game game = new MockGame(players, MockGame.createWorld(), MockGame.createColors(), MockGame.createCards());
 	protocol.setGame(game);

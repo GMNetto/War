@@ -1,4 +1,4 @@
-package br.uff.es2.war.network.json;
+package br.uff.es2.war.network.client;
 
 import java.util.Set;
 
@@ -8,62 +8,56 @@ import br.uff.es2.war.events.ChooseColorEvent;
 import br.uff.es2.war.events.DeclareCombatEvent;
 import br.uff.es2.war.events.ExchangeCardsEvent;
 import br.uff.es2.war.events.DistributeSoldiersEvent;
-import br.uff.es2.war.events.MoveSoldierEvent;
+import br.uff.es2.war.events.MoveSoldiersEvents;
 import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.network.MessengeToEventFactory;
+import br.uff.es2.war.network.Decoder;
+import br.uff.es2.war.network.ProtocolMessages;
 
-public class JSONWarProtocolEventFactory implements MessengeToEventFactory {
+public class JSONWarProtocolToEvents implements MessageToEventConverter {
 
-    private final JSONDecoder decoder;
+    private final Decoder decoder;
 
-    public JSONWarProtocolEventFactory(JSONDecoder decoder) {
+    public JSONWarProtocolToEvents(Decoder decoder) {
 	this.decoder = decoder;
     }
 
     @Override
-    public Object eventTo(String message) {
-	int space = message.indexOf(JSONProtocolMessages.SPACE);
-	String prefix = message.substring(0, space);
-	String sufixf = message.substring(space + 1, message.length());
-	return mapToEvent(prefix, sufixf);
+    public Object toEvent(String message) {
+	int space = message.indexOf(ProtocolMessages.SPACE);
+	if(space != -1){
+	    String prefix = message.substring(0, space);
+	    String sufixf = message.substring(space + 1, message.length());
+	    return mapToEvent(prefix, sufixf);
+	}
+	return mapToEvent(message, "");
     }
 
     private Object mapToEvent(String prefix, String suffix) {
 	switch (prefix) {
-	case JSONProtocolMessages.SET_GAME:
-	    return createSetGameEvent(suffix);
-	case JSONProtocolMessages.BEGIN_TURN:
-	    return createBeginTurnEvent(suffix);
-	case JSONProtocolMessages.CHOOSE_COLOR:
+	case ProtocolMessages.CHOOSE_COLOR:
 	    return createChooseColorEvent(suffix);
-	case JSONProtocolMessages.EXCHANGE_CARDS:
-	    return createExchangeCardsEvent(suffix);
-	case JSONProtocolMessages.DISTRIBUTE_SOLDIERS:
+	case ProtocolMessages.SET_GAME:
+	    return createSetGameEvent(suffix);
+	case ProtocolMessages.BEGIN_TURN:
+	    return createBeginTurnEvent(suffix);
+	case ProtocolMessages.EXCHANGE_CARDS:
+	    return createExchangeCardsEvent(prefix);
+	case ProtocolMessages.DISTRIBUTE_SOLDIERS:
 	    return createDistributeSoldiersEvent(suffix);
-	case JSONProtocolMessages.DECLARE_COMBAT:
+	case ProtocolMessages.DECLARE_COMBAT:
 	    return createDeclareCombatEvent(suffix);
-	case JSONProtocolMessages.ANSWER_COMBAT:
+	case ProtocolMessages.ANSWER_COMBAT:
 	    return createAnswerCombatEvent(suffix);
-	case JSONProtocolMessages.MOVE_SOLDIERS:
+	case ProtocolMessages.MOVE_SOLDIERS:
 	    return createMoveSoldiersEvent(suffix);
 	default:
 	    return null;
 	}
-    }
-    
-    private Object createSetGameEvent(String suffix){
-	Game game = decoder.decodeGame(suffix);
-	return new SetGameEvent(game);
-    }
-
-    private Object createBeginTurnEvent(String suffix) {
-	Player player = decoder.decodePlayer(suffix);
-	return new BeginTurnEvent(player);
     }
     
     private Object createChooseColorEvent(String suffix){
@@ -71,12 +65,22 @@ public class JSONWarProtocolEventFactory implements MessengeToEventFactory {
 	return new ChooseColorEvent(colors);
     }
     
+    private Object createSetGameEvent(String suffix){
+	Game game = decoder.decodeGame(suffix);
+	return new SetGameEvent(game);
+    }
+    
+    private Object createBeginTurnEvent(String suffix) {
+	Player player = decoder.decodePlayer(suffix);
+	return new BeginTurnEvent(player);
+    }
+    
     private Object createExchangeCardsEvent(String suffix){
 	return new ExchangeCardsEvent();
     }
     
     private Object createDistributeSoldiersEvent(String suffix){
-	int space = suffix.indexOf(JSONProtocolMessages.SPACE);
+	int space = suffix.indexOf(ProtocolMessages.SPACE);
 	int quantity = Integer.parseInt(suffix.substring(0, space));
 	suffix = suffix.substring(space + 1, suffix.length());
 	Set<Territory> territories = decoder.decodeTerritories(suffix);
@@ -84,7 +88,7 @@ public class JSONWarProtocolEventFactory implements MessengeToEventFactory {
     }
     
     private Object createMoveSoldiersEvent(String suffix){
-	return new MoveSoldierEvent();
+	return new MoveSoldiersEvents();
     }
     
     private Object createDeclareCombatEvent(String suffix){

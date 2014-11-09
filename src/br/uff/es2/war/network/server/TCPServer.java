@@ -1,7 +1,10 @@
-package br.uff.es2.war.network;
+package br.uff.es2.war.network.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+
+import br.uff.es2.war.network.Messenger;
+import br.uff.es2.war.network.TCPMessenger;
 
 public abstract class TCPServer extends Server {
 

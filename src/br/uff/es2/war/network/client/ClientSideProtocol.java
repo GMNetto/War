@@ -1,4 +1,4 @@
-package br.uff.es2.war.network;
+package br.uff.es2.war.network.client;
 
 import java.util.List;
 import java.util.Set;
@@ -13,7 +13,7 @@ import br.uff.es2.war.model.World;
  * Format the messages sent by the client to the server
  * @author Arthur Pitzer
  */
-public interface ClientSideWarProtocol {
+public interface ClientSideProtocol {
 
     String chooseColor(Color color);
 

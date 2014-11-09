@@ -65,7 +65,7 @@ class JSONDecoder {
     Player decodePlayer(String sufix) {
 	JSONObject json = new JSONObject(sufix);
 	String color = json.getString("color");
-	return game.playerByColor(new Color(color));
+	return game.getPlayerByColor(new Color(color));
     }
     
     World decodeWorld(JSONObject obj){
@@ -95,7 +95,7 @@ class JSONDecoder {
 	return decodeColors(new JSONArray(suffix));
     }
     
-    Color[] decodeColors(JSONArray array) {
+    private Color[] decodeColors(JSONArray array) {
 	Color[] colors = new Color[array.length()];
 	for (int i = 0; i < array.length(); i++) {
 	    JSONObject obj = array.getJSONObject(i);
@@ -104,7 +104,7 @@ class JSONDecoder {
 	return colors;
     }
 
-    Color decodeColor(JSONObject json){
+    private Color decodeColor(JSONObject json){
 	return new Color(json.getString("name"));
     }
     

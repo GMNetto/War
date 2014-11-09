@@ -35,7 +35,7 @@ public class SetupPhase implements GameState<Game> {
         for (Player player : game.getPlayers()) {
             player.setGame(game);
         }
-        loadObjectives();
+        setObjectives();
         return new TurnChangePhase();
     }
 
@@ -50,7 +50,7 @@ public class SetupPhase implements GameState<Game> {
         }
     }
 
-    private void loadObjectives() {
+    private void setObjectives() {
         List<Objective> remaining = new ArrayList<>(game.getObjectives());
         Collections.shuffle(remaining);
         Random random = new Random();

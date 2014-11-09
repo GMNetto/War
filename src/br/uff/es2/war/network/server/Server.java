@@ -1,6 +1,8 @@
-package br.uff.es2.war.network;
+package br.uff.es2.war.network.server;
 
 import java.io.IOException;
+
+import br.uff.es2.war.network.Messenger;
 
 public abstract class Server implements Runnable {
 

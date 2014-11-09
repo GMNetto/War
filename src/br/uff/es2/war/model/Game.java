@@ -1,12 +1,12 @@
 package br.uff.es2.war.model;
 
-import br.uff.es2.war.entity.Partida;
-import br.uff.es2.war.entity.Territorio;
 import br.uff.es2.war.events.EventBus;
 import br.uff.es2.war.events.LocalEventBus;
 import br.uff.es2.war.model.objective.Objective;
 import br.uff.es2.war.util.CyclicIterator;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -52,24 +52,15 @@ public class Game {
     }
 
     public Game(Player[] players, World world, Color[] colors, List<Card> cards) {
-        events = new LocalEventBus();
-        exchange = -1;
-        Collections.shuffle(cards);
-        this.players = players;
-        shufflePlayers();
-        this.world = world;
-        this.colors = colors;
-        this.cards = cards;
-        turns = new CyclicIterator<Player>(players);
-        startDate = new Date();
-        this.objectives = new HashSet<>();
+        this(players, world, colors, cards, new HashSet<Objective>());
+    }
+    
+    public Game(Player[] players, World world){
+	this(players, world, new Color[0], new ArrayList<Card>(0));
     }
 
     private void shufflePlayers() {
-        List<Player> p = new ArrayList<>(players.length);
-        for (Player player : players) {
-            p.add(player);
-        }
+        List<Player> p = Arrays.asList(players);
         Collections.shuffle(p);
         p.toArray(players);
     }
@@ -173,7 +164,7 @@ public class Game {
         return objectives;
     }
 
-    public Player playerByColor(Color color) {
+    public Player getPlayerByColor(Color color) {
         for (Player player : players) {
             if (player.getColor().equals(color))
                 return player;

@@ -1,7 +1,8 @@
-package br.uff.es2.war.network;
+package br.uff.es2.war.network.server;
 
 import br.uff.es2.war.controller.GameController;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
+import br.uff.es2.war.network.Messenger;
 
 import java.io.IOException;
 import java.util.Arrays;
