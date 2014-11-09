@@ -1,10 +1,5 @@
 package br.uff.es2.war.model;
 
-import br.uff.es2.war.events.EventBus;
-import br.uff.es2.war.events.LocalEventBus;
-import br.uff.es2.war.model.objective.Objective;
-import br.uff.es2.war.util.CyclicIterator;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +9,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
+import br.uff.es2.war.events.EventBus;
+import br.uff.es2.war.events.LocalEventBus;
+import br.uff.es2.war.model.objective.Objective;
+import br.uff.es2.war.util.CyclicIterator;
 
 /**
  * Holds the state of a War game. The game is updated by the players during the

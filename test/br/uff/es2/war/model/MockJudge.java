@@ -1,6 +1,5 @@
 package br.uff.es2.war.model;
 
-import br.uff.es2.war.model.CombatJudge;
 
 public class MockJudge extends CombatJudge {
 

@@ -5,8 +5,9 @@
  */
 package br.uff.es2.war.ai.attack.probability;
 
-import br.uff.es2.war.util.Triple;
 import java.util.Objects;
+
+import br.uff.es2.war.util.Triple;
 
 /**
  * Class to represent a node from a Attack Probability Tree.

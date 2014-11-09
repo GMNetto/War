@@ -15,13 +15,13 @@ import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 
-public class JSONEncoder2 implements Encoder{
+class JSONEncoder implements Encoder{
 
     @Override
     public String encode(Color[] colors) {
 	JSONArray array = new JSONArray();
 	for(Color color : colors)
-	    array.put(encode(color));
+	    array.put(new JSONObject(encode(color)));
 	return array.toString();
     }
 
@@ -36,7 +36,7 @@ public class JSONEncoder2 implements Encoder{
     private JSONArray encode(Player[] players){
 	JSONArray array = new JSONArray();
 	for (Player player : players) 
-	    array.put(encode(player));
+	    array.put(new JSONObject(encode(player)));
 	return array;
     }
     
@@ -50,14 +50,23 @@ public class JSONEncoder2 implements Encoder{
     private JSONArray encodeContinents(Set<Continent> continents){
 	JSONArray array = new JSONArray();
 	for (Continent continent : continents)
-	    array.put(encode(continent));
+	    array.put(encodeContinent(continent));
 	return array;
     }
+    
+    private JSONObject encodeContinent(Continent continent){
+	JSONObject json = new JSONObject();
+	json.put("name", continent.getName());
+	json.put("totalityBonus", continent.getTotalityBonus());
+	json.put("territories", new JSONArray(encode(continent)));
+	return json;
+    }
+     
 
     @Override
     public String encode(Player current) {
 	JSONObject json = new JSONObject();
-	json.put("color", current.getColor());
+	json.put("color", new JSONObject(encode(current.getColor())));
 	return json.toString();
     }
 
@@ -72,9 +81,11 @@ public class JSONEncoder2 implements Encoder{
     private JSONObject encode(Territory territory){
 	JSONObject obj = new JSONObject();
 	obj.put("name", territory.getName());
-	obj.put("continent", territory.getContinent().getName());
+	if(territory.getContinent() != null)
+	    obj.put("continent", territory.getContinent().getName());
+	obj.put("soldiers", territory.getSoldiers());
 	if(territory.getOwner() != null)
-	    obj.put("owner", encode(territory.getOwner()));
+	    obj.put("owner", new JSONObject(encode(territory.getOwner())));
 	return obj;
     }
 
@@ -107,7 +118,7 @@ public class JSONEncoder2 implements Encoder{
     public String encode(List<Card> cards) {
 	JSONArray array = new JSONArray();
 	for (Card card : cards) 
-	    array.put(encode(card));
+	    array.put(new JSONObject(encode(card)));
 	return array.toString();
     }
 }

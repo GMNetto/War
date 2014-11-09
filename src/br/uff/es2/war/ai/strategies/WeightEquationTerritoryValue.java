@@ -5,14 +5,16 @@
  */
 package br.uff.es2.war.ai.strategies;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.management.InvalidAttributeValueException;
+
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.objective.Objective;
-import java.util.HashSet;
-import java.util.Set;
-import javax.management.InvalidAttributeValueException;
 
 /**
  * Class to stimate how important is a {@link territory} for a {@link Player}.

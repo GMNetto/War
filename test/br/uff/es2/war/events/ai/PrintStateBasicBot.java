@@ -5,13 +5,14 @@
  */
 package br.uff.es2.war.events.ai;
 
+import java.util.Set;
+
 import br.uff.es2.war.ai.BasicBot;
 import br.uff.es2.war.ai.strategies.attack.AttackStrategy;
 import br.uff.es2.war.ai.strategies.attack.BestEffortAttackStrategy;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.objective.Objective;
-import java.util.Set;
 
 /**
  *

@@ -6,10 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import br.uff.es2.war.model.Color;
-import br.uff.es2.war.model.Combat;
-import br.uff.es2.war.model.Player;
-import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.util.CyclicIterator;
 
 /**

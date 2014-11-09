@@ -5,9 +5,10 @@
  */
 package br.uff.es2.war.model.objective;
 
+import java.util.Set;
+
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
-import java.util.Set;
 
 /**
  * This class represents a partial objective of conquer a specific number of

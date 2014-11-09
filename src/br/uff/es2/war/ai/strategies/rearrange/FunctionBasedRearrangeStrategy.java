@@ -5,20 +5,19 @@
  */
 package br.uff.es2.war.ai.strategies.rearrange;
 
-import br.uff.es2.war.ai.strategies.TerritoryValue;
-import br.uff.es2.war.ai.strategies.TerritoryValueComparator;
-import br.uff.es2.war.ai.strategies.rearrange.thresholdfunction.ThresholdFunction;
-import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.Player;
-import br.uff.es2.war.model.Territory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+
+import br.uff.es2.war.ai.strategies.TerritoryValue;
+import br.uff.es2.war.ai.strategies.TerritoryValueComparator;
+import br.uff.es2.war.ai.strategies.rearrange.thresholdfunction.ThresholdFunction;
+import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.Territory;
 //import java.util.function.Predicate;
 
 /**

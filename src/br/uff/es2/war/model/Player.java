@@ -3,6 +3,7 @@ package br.uff.es2.war.model;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
 import br.uff.es2.war.model.objective.Objective;
 
 /**

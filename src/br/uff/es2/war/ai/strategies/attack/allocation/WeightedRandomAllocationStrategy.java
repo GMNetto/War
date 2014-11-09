@@ -5,14 +5,15 @@
  */
 package br.uff.es2.war.ai.strategies.attack.allocation;
 
-import br.uff.es2.war.ai.strategies.TerritoryValueComparator;
-import br.uff.es2.war.ai.strategies.TerritoryValue;
-import br.uff.es2.war.model.Territory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+
+import br.uff.es2.war.ai.strategies.TerritoryValue;
+import br.uff.es2.war.ai.strategies.TerritoryValueComparator;
+import br.uff.es2.war.model.Territory;
 
 /**
  * This class allocates soldiers on {@link Territory}s weighted ramdon based on

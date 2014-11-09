@@ -5,12 +5,13 @@
  */
 package br.uff.es2.war.ai.strategies;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Class to estimate, statistically, the probability of a {@link Player} wins or

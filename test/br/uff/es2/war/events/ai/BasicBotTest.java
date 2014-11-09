@@ -5,6 +5,15 @@
  */
 package br.uff.es2.war.events.ai;
 
+import java.util.Random;
+
+import javax.management.InvalidAttributeValueException;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import br.uff.es2.war.ai.BasicBot;
 import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
 import br.uff.es2.war.ai.strategies.OffensiveTerritoryValue;
@@ -15,7 +24,6 @@ import br.uff.es2.war.ai.strategies.attack.allocation.WeightedRandomAllocationSt
 import br.uff.es2.war.ai.strategies.cardchange.GreedyChangeCardStrategy;
 import br.uff.es2.war.ai.strategies.rearrange.FunctionBasedRearrangeStrategy;
 import br.uff.es2.war.ai.strategies.rearrange.thresholdfunction.LinearThresholdFunction;
-import br.uff.es2.war.controller.GameController;
 import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.model.Color;
@@ -25,22 +33,6 @@ import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.phases.GameMachine;
 import br.uff.es2.war.model.phases.SetupPhase;
-import br.uff.es2.war.network.json.ServerSideJSONProtocol;
-import br.uff.es2.war.network.server.ServerSidePlayer;
-import br.uff.es2.war.network.server.WarServer;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Random;
-
-import javax.management.InvalidAttributeValueException;
-import javax.persistence.Entity;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 /**
  *

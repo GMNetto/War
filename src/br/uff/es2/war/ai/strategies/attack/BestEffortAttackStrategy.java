@@ -5,6 +5,15 @@
  */
 package br.uff.es2.war.ai.strategies.attack;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import javax.management.InvalidAttributeValueException;
+
 import br.uff.es2.war.ai.strategies.TerritoryValue;
 import br.uff.es2.war.ai.strategies.TerritoryValueComparator;
 import br.uff.es2.war.ai.strategies.WinLoseTerritoryValue;
@@ -12,14 +21,6 @@ import br.uff.es2.war.model.Combat;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import javax.management.InvalidAttributeValueException;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 
 /**
  * This class is used to get declarations of attacks from BOTs. It declares

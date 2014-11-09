@@ -5,6 +5,17 @@
  */
 package br.uff.es2.war.events.ai;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.junit.Test;
+
 import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
 import br.uff.es2.war.ai.strategies.WinLoseTerritoryValue;
 import br.uff.es2.war.controller.GameLoader;
@@ -17,12 +28,6 @@ import br.uff.es2.war.model.World;
 import br.uff.es2.war.model.objective.DumbPlayer;
 import br.uff.es2.war.model.objective.Objective;
 import br.uff.es2.war.model.objective.ObjectiveComparator;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import static org.junit.Assert.*;
-import org.junit.Test;
 
 /**
  * Test the probabilities of wining or losing a {@link Territory}.

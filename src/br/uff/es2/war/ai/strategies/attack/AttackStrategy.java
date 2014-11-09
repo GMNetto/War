@@ -6,6 +6,7 @@
 package br.uff.es2.war.ai.strategies.attack;
 
 import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.Game;
 
 /**
  * This interface describes a strategy that will be used on the attack phase of

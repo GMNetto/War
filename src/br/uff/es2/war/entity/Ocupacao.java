@@ -7,6 +7,7 @@
 package br.uff.es2.war.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;

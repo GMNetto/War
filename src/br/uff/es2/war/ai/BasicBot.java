@@ -5,11 +5,16 @@
  */
 package br.uff.es2.war.ai;
 
-import br.uff.es2.war.entity.Jogador;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 import br.uff.es2.war.ai.strategies.attack.AttackStrategy;
 import br.uff.es2.war.ai.strategies.attack.allocation.AllocationStrategy;
 import br.uff.es2.war.ai.strategies.cardchange.ChangeCardStrategy;
 import br.uff.es2.war.ai.strategies.rearrange.RearrangeStrategy;
+import br.uff.es2.war.entity.Jogador;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
@@ -17,11 +22,6 @@ import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.objective.Objective;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * this classe represents a basic BOT. This class takes actions based on

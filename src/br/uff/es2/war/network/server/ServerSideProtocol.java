@@ -131,4 +131,8 @@ public class ServerSideProtocol {
 	    b.remove(lastB);
 	}
     }
+
+    public Combat finishAttack() {
+	return null;
+    }
 }

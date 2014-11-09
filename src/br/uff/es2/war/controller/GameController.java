@@ -1,5 +1,15 @@
 package br.uff.es2.war.controller;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.persistence.Persistence;
+
 import br.uff.es2.war.ai.BasicBot;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.model.Card;
@@ -14,20 +24,9 @@ import br.uff.es2.war.model.phases.GameMachine;
 import br.uff.es2.war.model.phases.SetupPhase;
 import br.uff.es2.war.network.Messenger;
 import br.uff.es2.war.network.ProtocolFactory;
-import br.uff.es2.war.network.json.JSONEncoder;
 import br.uff.es2.war.network.server.ServerSidePlayer;
 import br.uff.es2.war.network.server.ServerSideProtocol;
 import br.uff.es2.war.network.server.WarServer;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.persistence.Persistence;
 
 public class GameController implements Runnable {
 
@@ -50,18 +49,20 @@ public class GameController implements Runnable {
 	    players[i] = new BasicBot();
 	}
 
+	// Load from database
+	Game game = loadFromDatabase(players); // The
 	/*
-	 * //Load from database Game game = loadFromDatabase(players); //The
 	 * GameLoader class needs a world ID that I defined as 1 but we still
 	 * have to find a way to do it. //Also, the name of the persistence.xml
 	 * file will have to be in a file or will we keep it in hardcode?
-	 * persister=new GamePersister(loader.getiDOfTerritory(),
-	 * getIDPlayers(players), loader.getiDObjectives(),
-	 * loader.getiDOfColor(), game,
-	 * Persistence.createEntityManagerFactory("WarESIIPU"));
 	 */
+	persister = new GamePersister(loader.getiDOfTerritory(),
+		getIDPlayers(players), loader.getiDObjectives(),
+		loader.getiDOfColor(), game,
+		Persistence.createEntityManagerFactory("WarESIIPU"));
+
 	// Load Stubs
-	Game game = createStubGame(players);
+	// Game game = createStubGame(players);
 
 	machine = new GameMachine<Game>(game, new SetupPhase());
     }
@@ -87,29 +88,29 @@ public class GameController implements Runnable {
 	Set<Objective> objectives = new HashSet<Objective>();
 	for (int i = 0; i < length; i++) {
 	    objectives.add(new Objective() {
-	        
-	        @Override
-	        public boolean wasAchieved() {
-	    	return false;
-	        }
-	        
-	        @Override
-	        public void switchToAlternativeObjective() {
-	        }
-	        
-	        @Override
-	        public void setOwner(Player owner) {
-	        }
-	        
-	        @Override
-	        public boolean isPossible() {
-	    	return false;
-	        }
-	        
-	        @Override
-	        public boolean isNeeded(Territory territory) {
-	    	return false;
-	        }
+
+		@Override
+		public boolean wasAchieved() {
+		    return false;
+		}
+
+		@Override
+		public void switchToAlternativeObjective() {
+		}
+
+		@Override
+		public void setOwner(Player owner) {
+		}
+
+		@Override
+		public boolean isPossible() {
+		    return false;
+		}
+
+		@Override
+		public boolean isNeeded(Territory territory) {
+		    return false;
+		}
 	    });
 	}
 	return objectives;

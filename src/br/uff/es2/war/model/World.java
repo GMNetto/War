@@ -1,12 +1,7 @@
 package br.uff.es2.war.model;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
-
-import br.uff.es2.war.util.CyclicIterator;
 
 /**
  * World is a named graph of territories. The territories can be accessed

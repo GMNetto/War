@@ -8,6 +8,7 @@ package br.uff.es2.war.view;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javafx.scene.Cursor;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;

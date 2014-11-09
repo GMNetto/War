@@ -3,9 +3,7 @@ package br.uff.es2.war.network.json;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Set;
 
 import org.junit.Test;
@@ -18,19 +16,13 @@ import br.uff.es2.war.events.DeclareCombatEvent;
 import br.uff.es2.war.events.DistributeSoldiersEvent;
 import br.uff.es2.war.events.EventBus;
 import br.uff.es2.war.events.ExchangeCardsEvent;
-import br.uff.es2.war.events.LocalEventBus;
 import br.uff.es2.war.events.MoveSoldiersEvents;
 import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.model.Color;
-import br.uff.es2.war.network.Decoder;
 import br.uff.es2.war.network.Messenger;
+import br.uff.es2.war.network.ProtocolFactory;
 import br.uff.es2.war.network.TCPMessenger;
-import br.uff.es2.war.network.client.ClientSideJSONDecoder;
-import br.uff.es2.war.network.client.ClientSideJSONProtocol;
 import br.uff.es2.war.network.client.ClientSidePlayer;
-import br.uff.es2.war.network.client.JSONWarProtocolToEvents;
-import br.uff.es2.war.network.client.MessageToEventConverter;
-import br.uff.es2.war.network.client.NetworkListener;
 
 public class ClientSideNetworkTest {
     
@@ -40,12 +32,8 @@ public class ClientSideNetworkTest {
     @Test
     public void TWO_PLAYERS_GAME() throws UnknownHostException, IOException{
 	Messenger server = new TCPMessenger(new Socket(SERVER_IP, SERVER_PORT));
-	final Decoder decoder = new ClientSideJSONDecoder();
-	MessageToEventConverter factory = new JSONWarProtocolToEvents(decoder);
-	EventBus events = new LocalEventBus();
-	NetworkListener listener = new NetworkListener(server, factory, events);
-	
-	final ClientSidePlayer player = new ClientSidePlayer(server, new ClientSideJSONProtocol());
+	final ClientSidePlayer player = new ClientSidePlayer(server, ProtocolFactory.defaultJSONClientSideProtocol());
+	EventBus events = player.getEvents();
 	
 	events.subscribe(ChooseColorEvent.class, new Action<ChooseColorEvent>() {
 	    @Override
@@ -112,8 +100,6 @@ public class ClientSideNetworkTest {
 		System.out.println("Move Soldiers " + args);
 	    }
 	});
-	
-	new Thread(listener).start();
     }
     
     private <T> T any(Set<T> collection){

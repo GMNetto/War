@@ -5,12 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import br.uff.es2.war.model.Color;
-import br.uff.es2.war.model.Continent;
-import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.Player;
-import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.model.World;
 import br.uff.es2.war.model.objective.Objective;
 
 /**

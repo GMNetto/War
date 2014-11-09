@@ -5,6 +5,12 @@
  */
 package br.uff.es2.war.model.objective;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import br.uff.es2.war.entity.Continente;
 import br.uff.es2.war.entity.Objconqcont;
 import br.uff.es2.war.entity.Objderjogador;
@@ -13,11 +19,6 @@ import br.uff.es2.war.entity.Objterritorio;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.World;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Class to communicate with the persistence and load the {@link FullObjective}

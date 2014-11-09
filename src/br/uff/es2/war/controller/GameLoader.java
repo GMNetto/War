@@ -5,6 +5,21 @@
  */
 package br.uff.es2.war.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javafx.geometry.Point2D;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
+
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.entity.Continente;
 import br.uff.es2.war.entity.Cor;
@@ -18,18 +33,6 @@ import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 import br.uff.es2.war.model.objective.FullObjectiveFactory;
 import br.uff.es2.war.model.objective.Objective;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.geometry.Point2D;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 
 /**
  * This class is used to load a game from the persistence. It is able to load

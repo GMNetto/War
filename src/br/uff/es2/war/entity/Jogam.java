@@ -8,6 +8,7 @@ package br.uff.es2.war.entity;
 
 import java.io.Serializable;
 import java.util.Collection;
+
 import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;

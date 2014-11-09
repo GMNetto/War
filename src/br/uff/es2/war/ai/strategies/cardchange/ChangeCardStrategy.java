@@ -6,8 +6,9 @@
 
 package br.uff.es2.war.ai.strategies.cardchange;
 
-import br.uff.es2.war.model.Card;
 import java.util.List;
+
+import br.uff.es2.war.model.Card;
 
 /**
  *

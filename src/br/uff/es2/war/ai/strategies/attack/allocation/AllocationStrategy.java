@@ -5,9 +5,11 @@
  */
 package br.uff.es2.war.ai.strategies.attack.allocation;
 
-import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.ai.BasicBot;
 import java.util.Set;
+
+import br.uff.es2.war.ai.BasicBot;
+import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.Territory;
 
 /**
  * This interface describes a strategy that will be used for the allocation of

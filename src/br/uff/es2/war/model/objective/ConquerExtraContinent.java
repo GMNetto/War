@@ -5,12 +5,13 @@
  */
 package br.uff.es2.war.model.objective;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import br.uff.es2.war.model.Continent;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * This class represents a partial objective of conquer a specific number of

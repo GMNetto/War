@@ -1,9 +1,10 @@
 package br.uff.es2.war.model;
 
+import java.util.Set;
+
 import br.uff.es2.war.model.phases.CombatPhase;
 import br.uff.es2.war.model.phases.GameOver;
 import br.uff.es2.war.model.phases.GameState;
-import java.util.Set;
 
 /**
  * During the receive soldier phase the current player receives a number of

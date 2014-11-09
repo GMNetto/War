@@ -1,9 +1,11 @@
 package br.uff.es2.war.model.phases;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 

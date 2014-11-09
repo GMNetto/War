@@ -5,9 +5,7 @@
  */
 package br.uff.es2.war.ai.strategies;
 
-import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.model.World;
 
 /**
  * This class is used for a more offensive strategy. Its {@link #getTerritoryValue(br.uff.es2.war.model.Territory)

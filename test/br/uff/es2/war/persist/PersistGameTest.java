@@ -5,24 +5,20 @@
  */
 package br.uff.es2.war.persist;
 
-import br.uff.es2.war.controller.GameLoader;
-import br.uff.es2.war.controller.GamePersister;
-import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
-import br.uff.es2.war.entity.Partida;
-import br.uff.es2.war.model.Continent;
-import br.uff.es2.war.model.Player;
-import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.model.World;
-import br.uff.es2.war.model.objective.DumbPlayer;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManagerFactory;
+
 import javax.persistence.Persistence;
+
+import br.uff.es2.war.controller.GameLoader;
+import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
+import br.uff.es2.war.entity.Partida;
+import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.Territory;
+import br.uff.es2.war.model.World;
+import br.uff.es2.war.model.objective.DumbPlayer;
 
 /**
  * 

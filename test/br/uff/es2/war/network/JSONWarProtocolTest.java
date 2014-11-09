@@ -6,10 +6,8 @@ import org.junit.Test;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.MockGame;
 import br.uff.es2.war.model.Player;
-import br.uff.es2.war.model.World;
 import br.uff.es2.war.model.phases.GameMachine;
 import br.uff.es2.war.model.phases.SetupPhase;
-import br.uff.es2.war.network.json.ServerSideJSONProtocol;
 import br.uff.es2.war.network.server.ServerSidePlayer;
 import br.uff.es2.war.network.server.ServerSideProtocol;
 

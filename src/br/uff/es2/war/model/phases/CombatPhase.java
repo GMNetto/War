@@ -6,7 +6,6 @@ import br.uff.es2.war.model.CombatJudge;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.model.phases.GameState;
 
 /**
  * During each turn, after receive new soldiers and before moving his soldiers,

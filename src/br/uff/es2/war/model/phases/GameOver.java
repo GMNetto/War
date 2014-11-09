@@ -2,7 +2,6 @@ package br.uff.es2.war.model.phases;
 
 import br.uff.es2.war.events.GameOverEvent;
 import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.phases.GameState;
 
 /**
  * This phase is executed after a player achieve his objective.

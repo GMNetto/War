@@ -1,8 +1,8 @@
 package br.uff.es2.war.model;
 
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Observable;
+import java.util.Set;
 
 /**
  * A territory is owned by a player and occupied by soldiers. Territories are

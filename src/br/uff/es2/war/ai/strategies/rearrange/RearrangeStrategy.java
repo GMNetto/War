@@ -6,6 +6,7 @@
 package br.uff.es2.war.ai.strategies.rearrange;
 
 import br.uff.es2.war.ai.BasicBot;
+import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Territory;
 
 /**

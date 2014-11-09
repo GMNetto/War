@@ -5,6 +5,19 @@
  */
 package br.uff.es2.war.events.ai;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import javax.management.InvalidAttributeValueException;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import br.uff.es2.war.ai.strategies.WeightEquationTerritoryValue;
 import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
@@ -16,16 +29,6 @@ import br.uff.es2.war.model.World;
 import br.uff.es2.war.model.objective.DumbPlayer;
 import br.uff.es2.war.model.objective.Objective;
 import br.uff.es2.war.model.objective.ObjectiveComparator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import javax.management.InvalidAttributeValueException;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import org.junit.Assert;
-import org.junit.Test;
 
 /**
  *

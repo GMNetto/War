@@ -5,8 +5,9 @@
  */
 package br.uff.es2.war.ai.strategies;
 
-import br.uff.es2.war.model.Territory;
 import java.util.Comparator;
+
+import br.uff.es2.war.model.Territory;
 
 /**
  * Interface that defines a way to measure the value of a given

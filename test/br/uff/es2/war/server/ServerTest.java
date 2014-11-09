@@ -6,14 +6,14 @@
 
 package br.uff.es2.war.server;
 
-import br.uff.es2.war.controller.GameController;
-import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
-import br.uff.es2.war.model.MockGame;
-import br.uff.es2.war.network.Messenger;
-import br.uff.es2.war.network.ProceduralMessenger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.junit.Test;
+
+import br.uff.es2.war.controller.GameController;
+import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
+import br.uff.es2.war.network.ProceduralMessenger;
 
 /**
  *

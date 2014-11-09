@@ -9,8 +9,8 @@ package br.uff.es2.war.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 

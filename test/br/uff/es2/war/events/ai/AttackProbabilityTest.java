@@ -5,11 +5,11 @@
  */
 package br.uff.es2.war.events.ai;
 
-import br.uff.es2.war.ai.attack.probability.AttackProbability;
-import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
-import br.uff.es2.war.ai.attack.probability.ProbabilityTriple;
 import org.junit.Assert;
 import org.junit.Test;
+
+import br.uff.es2.war.ai.attack.probability.AttackProbability;
+import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
 
 /**
  * Class to test if a probability and it complementation sums one.

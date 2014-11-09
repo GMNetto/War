@@ -6,25 +6,27 @@
 
 package br.uff.es2.war.dao;
 
-import br.uff.es2.war.dao.exceptions.IllegalOrphanException;
-import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import br.uff.es2.war.entity.Objterritorio;
-import br.uff.es2.war.entity.Mundo;
-import br.uff.es2.war.entity.Objconqcont;
-import br.uff.es2.war.entity.Jogam;
 import java.util.ArrayList;
 import java.util.Collection;
-import br.uff.es2.war.entity.Historico;
-import br.uff.es2.war.entity.Objderjogador;
-import br.uff.es2.war.entity.Objetivo;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import br.uff.es2.war.dao.exceptions.IllegalOrphanException;
+import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
+import br.uff.es2.war.entity.Historico;
+import br.uff.es2.war.entity.Jogam;
+import br.uff.es2.war.entity.Mundo;
+import br.uff.es2.war.entity.Objconqcont;
+import br.uff.es2.war.entity.Objderjogador;
+import br.uff.es2.war.entity.Objetivo;
+import br.uff.es2.war.entity.Objterritorio;
 
 /**
  * 

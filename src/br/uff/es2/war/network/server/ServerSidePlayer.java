@@ -50,7 +50,12 @@ public class ServerSidePlayer extends PlayerData {
     @Override
     public Combat declareCombat() {
 	messenger.send(protocol.declareCombat());
-	return protocol.declareCombat(messenger.receive());
+	String received = messenger.receive();
+	try{
+	    return protocol.declareCombat(received);
+	}catch(IndexOutOfBoundsException e){
+	    return protocol.finishAttack();
+	}
     }
 
     @Override

@@ -5,12 +5,13 @@
  */
 package br.uff.es2.war.ai.attack.probability;
 
-import br.uff.es2.war.util.TreeNode;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
+import br.uff.es2.war.util.TreeNode;
 
 /**
  * Factory to build {@link AttackProbability}s.

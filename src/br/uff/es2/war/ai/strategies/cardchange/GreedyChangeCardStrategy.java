@@ -5,18 +5,17 @@
  */
 package br.uff.es2.war.ai.strategies.cardchange;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import br.uff.es2.war.ai.strategies.TerritoryValue;
 import br.uff.es2.war.ai.strategies.TerritoryValueComparator;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  *

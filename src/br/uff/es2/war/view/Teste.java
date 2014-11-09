@@ -5,25 +5,6 @@
  */
 package br.uff.es2.war.view;
 
-import br.uff.es2.war.controller.GameLoader;
-import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
-import br.uff.es2.war.entity.Continente;
-import br.uff.es2.war.entity.Mundo;
-import br.uff.es2.war.entity.Objetivo;
-import br.uff.es2.war.entity.Partida;
-import br.uff.es2.war.entity.Territorio;
-import br.uff.es2.war.ai.BasicBot;
-import br.uff.es2.war.ai.attack.probability.AttackProbability;
-import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
-import br.uff.es2.war.ai.attack.probability.ProbabilityTriple;
-import br.uff.es2.war.ai.strategies.WeightEquationTerritoryValue;
-import br.uff.es2.war.model.Color;
-import br.uff.es2.war.model.Continent;
-import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.Player;
-import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.model.World;
-import br.uff.es2.war.model.objective.Objective;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -31,13 +12,31 @@ import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.management.InvalidAttributeValueException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 //import org.eclipse.persistence.exceptions.JAXBException;
+
+import br.uff.es2.war.ai.BasicBot;
+import br.uff.es2.war.ai.attack.probability.AttackProbability;
+import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
+import br.uff.es2.war.ai.strategies.WeightEquationTerritoryValue;
+import br.uff.es2.war.controller.GameLoader;
+import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
+import br.uff.es2.war.entity.Continente;
+import br.uff.es2.war.entity.Mundo;
+import br.uff.es2.war.entity.Objetivo;
+import br.uff.es2.war.entity.Territorio;
+import br.uff.es2.war.model.Color;
+import br.uff.es2.war.model.Continent;
+import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.Territory;
+import br.uff.es2.war.model.World;
+import br.uff.es2.war.model.objective.Objective;
 
 /**
  * 

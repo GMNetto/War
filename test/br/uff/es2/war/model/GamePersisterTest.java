@@ -5,6 +5,23 @@
  */
 package br.uff.es2.war.model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+
+import org.junit.Test;
+
 import br.uff.es2.war.controller.GameLoader;
 import br.uff.es2.war.controller.GamePersister;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
@@ -13,21 +30,6 @@ import br.uff.es2.war.entity.Jogam;
 import br.uff.es2.war.entity.Partida;
 import br.uff.es2.war.model.objective.DumbPlayer;
 import br.uff.es2.war.model.objective.Objective;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * 

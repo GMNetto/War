@@ -5,6 +5,19 @@
  */
 package br.uff.es2.war.events.ai;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+import javax.management.InvalidAttributeValueException;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.junit.Test;
+
 import br.uff.es2.war.ai.BasicBot;
 import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
 import br.uff.es2.war.ai.strategies.OffensiveTerritoryValue;
@@ -19,19 +32,8 @@ import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.World;
-import br.uff.es2.war.model.objective.DumbPlayer;
 import br.uff.es2.war.model.objective.Objective;
 import br.uff.es2.war.model.objective.ObjectiveComparator;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import javax.management.InvalidAttributeValueException;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import org.junit.Test;
 
 /**
  *

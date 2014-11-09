@@ -18,7 +18,7 @@ import br.uff.es2.war.model.PlayerData;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
 
-public class JSONDecoder2 implements Decoder {
+class JSONDecoder implements Decoder {
 
     @Override
     public Game decodeGame(String code) {

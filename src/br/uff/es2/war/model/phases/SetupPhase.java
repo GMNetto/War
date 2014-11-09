@@ -1,18 +1,16 @@
 package br.uff.es2.war.model.phases;
 
-import br.uff.es2.war.model.Color;
-import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.Player;
-import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.model.objective.FullObjective;
-import br.uff.es2.war.model.objective.Objective;
-import br.uff.es2.war.model.phases.GameState;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
+import br.uff.es2.war.model.Color;
+import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.objective.Objective;
 
 /**
  * During the setup phase each player chooses his color and receives his
