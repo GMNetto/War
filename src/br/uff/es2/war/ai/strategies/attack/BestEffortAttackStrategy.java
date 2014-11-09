@@ -101,6 +101,7 @@ public class BestEffortAttackStrategy implements AttackStrategy {
     @Override
     public Combat declareCombat() {
         Territory attacker = null;
+        boolean attack = false;
         optimisticThreshold = threshold * Math.pow(0.9, turnsSinceLastAttack);
 
         List<Territory> list = getAllEnemiesOnBorders();
@@ -108,13 +109,19 @@ public class BestEffortAttackStrategy implements AttackStrategy {
             if (winLoseTerritoryValue.getTerritoryValue(territory) >= optimisticThreshold) {
                 turnsSinceLastAttack = 0;
                 attacker = getBestAttackerFor(territory);
-                if (attacker != null)
+                if (attacker != null) {
+                    attack = true;
                     return new Combat(attacker, territory, Math.min(attacker.getSoldiers() - 1, 3));
+                }
             }
         }
 
-        turnsSinceLastAttack++;
-        turnsSinceLastAttack = Math.min(turnsSinceLastAttack, 7);
+        if (attack) {
+            turnsSinceLastAttack = 0;
+        } else {
+            turnsSinceLastAttack++;
+            turnsSinceLastAttack = Math.min(turnsSinceLastAttack, 7);
+        }
 
         return null;
     }
@@ -140,10 +147,10 @@ public class BestEffortAttackStrategy implements AttackStrategy {
 
         return territories;
     }
-    
+
     private List<Territory> getAllEnemiesOnBorders() {
         Set<Territory> territories = new HashSet<>();
-        
+
         for (Territory territory : game.getWorld().getTerritoriesByOwner(player)) {
             for (Territory t : territory.getBorders()) {
                 if (!t.getOwner().equals(player)) {
@@ -151,11 +158,11 @@ public class BestEffortAttackStrategy implements AttackStrategy {
                 }
             }
         }
-        
+
         List<Territory> ter = new ArrayList<>(territories);
-        
+
         Collections.sort(ter, territoryValue);
-        
+
         return ter;
     }
 
@@ -219,5 +226,5 @@ public class BestEffortAttackStrategy implements AttackStrategy {
     public double getOptimisticThreshold() {
         return optimisticThreshold;
     }
-    
+
 }
