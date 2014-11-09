@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.uff.es2.war.ai.strategies;
 
 import java.util.HashSet;
@@ -147,16 +142,11 @@ public class WeightEquationTerritoryValue extends TerritoryValue {
     private void loadBalanceWeightArray() {
         balanceWeight[0] = 1;
 
-        balanceWeight[1] = 0;
         balanceWeight[2] = 1;
-        balanceWeight[3] = 0;
-        balanceWeight[4] = 0;
-        balanceWeight[5] = 0;
         Set<Continent> others;
-        int sameContinent, alliedBorders;
+        int sameContinent;
         for (Territory territory : game.getWorld().getTerritories()) {
             sameContinent = 0;
-            alliedBorders = 0;
             balanceWeight[1] = Math.max(balanceWeight[1], territory.getBorders().size());
             others = new HashSet<>();
             for (Territory t : territory.getBorders()) {
@@ -165,15 +155,12 @@ public class WeightEquationTerritoryValue extends TerritoryValue {
                 } else {
                     others.add(t.getContinent());
                 }
-                if (t.getOwner().equals(player)) {
-                    alliedBorders++;
-                }
             }
             balanceWeight[3] = Math.max(balanceWeight[3], others.size());
-            balanceWeight[4] = Math.max(balanceWeight[4], alliedBorders);
             balanceWeight[5] = Math.max(balanceWeight[5], sameContinent);
         }
 
+        balanceWeight[4] = balanceWeight[1];
         balanceWeight[2] = 1;
     }
 
