@@ -67,7 +67,7 @@ public class GameController implements Runnable {
 	machine = new GameMachine<Game>(game, new SetupPhase());
     }
 
-    private Game loadFromDatabase(Player[] players) {
+    private Game loadFromDatabase(Player[] players) throws NonexistentEntityException {
 	loader = new GameLoader(0,
 		Persistence.createEntityManagerFactory("WarESIIPU"));
 

@@ -5,6 +5,7 @@
  */
 package br.uff.es2.war.view;
 
+import br.uff.es2.war.network.client.ClientSidePlayer;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -242,4 +243,8 @@ public class TelaJogoController implements Initializable {
         });
     }
 
+    
+     public void setPlayer(ClientSidePlayer player) {
+        gameController.setPlayer(player);
+    }
 }

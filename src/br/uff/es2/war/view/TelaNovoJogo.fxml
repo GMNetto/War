@@ -18,16 +18,39 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Text layoutX="223.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carregar tela de teste">
+      <Text layoutX="244.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Criar um novo jogo">
          <font>
             <Font size="36.0" />
          </font>
       </Text>
-      <Text layoutX="207.0" layoutY="237.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Colocar futuramente as opções para criar jogo ">
+      <Text fx:id="txt_aguarde" layoutX="269.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aguarde... Iniciando a partida...." visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
+      <ComboBox fx:id="combo_cor" layoutX="402.0" layoutY="171.0" prefWidth="150.0" />
+      <Text layoutX="249.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selecione a cor:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <CheckBox fx:id="check_avancada" layoutX="301.0" layoutY="240.0" mnemonicParsing="false" text="Mostrar opções avançadas" />
+      <Pane fx:id="pane_avancada" layoutX="187.0" layoutY="274.0" prefHeight="118.0" prefWidth="426.0" visible="false">
+         <children>
+            <Text layoutX="87.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Servidor:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <TextField fx:id="input_server" layoutX="176.0" layoutY="14.0" text="127.0.0.1" />
+            <TextField fx:id="input_porta" layoutX="176.0" layoutY="59.0" text="55555" />
+            <Text layoutX="87.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Porta:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
       
    </children>
 </AnchorPane>
