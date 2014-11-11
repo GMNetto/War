@@ -364,12 +364,7 @@ public class GameController implements Runnable {
         territory18.getBorders().add(territory29);
         territory18.getBorders().add(territory30);
         
-        
-        
-        
-        
-        
-        
+      
 	world.add(continent1);
 	world.add(continent2);
         world.add(continent3);

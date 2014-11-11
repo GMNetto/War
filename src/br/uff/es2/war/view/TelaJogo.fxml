@@ -91,10 +91,10 @@
       </Group>
       <ScrollPane hbarPolicy="ALWAYS" prefHeight="450.0" prefWidth="800.0" vbarPolicy="ALWAYS">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+          <AnchorPane fx:id="pane_map" minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <ImageView fx:id="img_fundo" fitHeight="2000.0" fitWidth="2000.0" pickOnBounds="true" preserveRatio="true" />
-                  <Pane fx:id="pane_map" prefHeight="450.0" prefWidth="800.0" />
+                  <ImageView fx:id="img_fundo" pickOnBounds="true" preserveRatio="true" />
+                  <Pane prefHeight="450.0" prefWidth="800.0" />
                   <Pane fx:id="pane_mov" prefHeight="122.0" prefWidth="123.0">
                      <children>
                         <Button fx:id="btn_mov_cancel" layoutY="25.0" mnemonicParsing="false" text="x">
