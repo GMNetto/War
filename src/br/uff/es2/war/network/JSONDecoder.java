@@ -108,6 +108,8 @@ class JSONDecoder implements Decoder {
 	Player owner = decodePlayer(json.getJSONObject("owner"));
 	territory.setSoldiers(soldiers);
 	territory.setOwner(owner);
+	territory.setX(json.getInt("x"));
+	territory.setY(json.getInt("y"));
 	return territory;
     }
     
