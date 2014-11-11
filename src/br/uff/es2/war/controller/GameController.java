@@ -11,6 +11,15 @@ import java.util.Set;
 import javax.persistence.Persistence;
 
 import br.uff.es2.war.ai.BasicBot;
+import br.uff.es2.war.ai.attack.probability.AttackProbabilityFactory;
+import br.uff.es2.war.ai.strategies.OffensiveTerritoryValue;
+import br.uff.es2.war.ai.strategies.WeightEquationTerritoryValue;
+import br.uff.es2.war.ai.strategies.WinLoseTerritoryValue;
+import br.uff.es2.war.ai.strategies.attack.BestEffortAttackStrategy;
+import br.uff.es2.war.ai.strategies.attack.allocation.WeightedRandomAllocationStrategy;
+import br.uff.es2.war.ai.strategies.cardchange.GreedyChangeCardStrategy;
+import br.uff.es2.war.ai.strategies.rearrange.FunctionBasedRearrangeStrategy;
+import br.uff.es2.war.ai.strategies.rearrange.thresholdfunction.LinearThresholdFunction;
 import br.uff.es2.war.dao.exceptions.NonexistentEntityException;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
@@ -27,6 +36,10 @@ import br.uff.es2.war.network.ProtocolFactory;
 import br.uff.es2.war.network.server.ServerSidePlayer;
 import br.uff.es2.war.network.server.ServerSideProtocol;
 import br.uff.es2.war.network.server.WarServer;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.management.InvalidAttributeValueException;
 
 public class GameController implements Runnable {
 
@@ -45,6 +58,7 @@ public class GameController implements Runnable {
 	int i, j;
 	for (i = 0; i < players.length; i++)
 	    players[i] = new ServerSidePlayer(clients[i], protocol);
+        j=i;
 	for (; i < WarServer.PLAYER_PER_GAME; i++) {
 	    players[i] = new BasicBot();
 	}
@@ -62,8 +76,35 @@ public class GameController implements Runnable {
 //		Persistence.createEntityManagerFactory("WarESIIPU"));
 
 	// Load Stubs
-	 Game game = createStubGame(players);
+	WinLoseTerritoryValue winLoseTerritoryValue;
+        WeightEquationTerritoryValue weightEquationTerritoryValue = null;
+        WeightedRandomAllocationStrategy weightedRandomAllocation;
+        OffensiveTerritoryValue offensiveTerritoryValue;
+        FunctionBasedRearrangeStrategy functionBasedRearrangeStrategy;
+        AttackProbabilityFactory afp = new AttackProbabilityFactory();
+        Random r = new Random();
+        Game game = createStubGame(players);
+        for (; j < WarServer.PLAYER_PER_GAME; j++) {
+            winLoseTerritoryValue = new WinLoseTerritoryValue(game, players[j], afp);
+            try {
+                weightEquationTerritoryValue = new WeightEquationTerritoryValue(game, players[j], 0.9, 0.1, 0.15, 0.1, 0.1, 0.3);
+            } catch (InvalidAttributeValueException ex) {
+                Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            offensiveTerritoryValue = new OffensiveTerritoryValue(winLoseTerritoryValue);
+            weightedRandomAllocation = new WeightedRandomAllocationStrategy(offensiveTerritoryValue, weightEquationTerritoryValue, winLoseTerritoryValue);
+            functionBasedRearrangeStrategy = new FunctionBasedRearrangeStrategy(new LinearThresholdFunction(), players[j], game, winLoseTerritoryValue, weightEquationTerritoryValue);
 
+            ((BasicBot)players[j]).setAllocationInstruction(weightedRandomAllocation);
+            try {
+                ((BasicBot)players[j]).setAttackStrategy(new BestEffortAttackStrategy(players[j], game, winLoseTerritoryValue, weightEquationTerritoryValue, (r.nextInt(10) + 1) / 10.0));
+            } catch (InvalidAttributeValueException ex) {
+                Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ((BasicBot)players[j]).setRelocationStrategy(functionBasedRearrangeStrategy);
+            ((BasicBot)players[j]).setChangeCardStrategy(new GreedyChangeCardStrategy(0, players[j], game, weightEquationTerritoryValue));
+        }
+         
 	machine = new GameMachine<Game>(game, new SetupPhase());
     }
 

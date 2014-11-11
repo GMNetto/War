@@ -13,7 +13,7 @@ import java.util.TimerTask;
 public class WarServer extends TCPServer {
 
     private final Queue<Messenger> clients;
-    public static final int PLAYER_PER_GAME = 2;
+    public static final int PLAYER_PER_GAME =2;
     private boolean timeLimitAchieved=false;
     
     public WarServer(int port) throws IOException {
@@ -24,12 +24,13 @@ public class WarServer extends TCPServer {
     @Override
     protected void onClientReceived(Messenger client) {
         clients.add(client);
-        Timer timer = new Timer();
+        final Timer timer = new Timer();
         timer.schedule(new TimerTask() {
 
             @Override
             public void run() {
                 timeLimitAchieved=true;
+                timer.cancel();
             }
 
         }, 10000);
