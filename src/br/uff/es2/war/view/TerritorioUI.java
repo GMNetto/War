@@ -9,6 +9,8 @@ package br.uff.es2.war.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.Territory;
 import javafx.scene.Cursor;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -20,20 +22,18 @@ import javafx.scene.text.Text;
 public class TerritorioUI {
     private Circle circulo;
     private Text texto;
-    private String nome; // modelo possui
-    private int dono; // modelo possui
-    private int qtd; // modelo possui
+    private Territory model;
     private boolean bloqueado;
     private int qtdMov;
     
     private List<TerritorioUI> viz; //como integrar a representação do modelo com a da interface?
     
-    public TerritorioUI(Circle circulo, String nome) {
-        this.nome = nome;
-        this.dono = -1;
-        this.qtd = 0;
+    public TerritorioUI() {
         this.viz = new ArrayList<TerritorioUI>();
-        this.circulo = circulo;
+    }
+    
+    public void setModel(Territory model) {
+	this.model = model;
     }
     
     public void bloqueia(){
@@ -68,24 +68,24 @@ public class TerritorioUI {
     }
 
     public String getNome() {
-	return nome;
+	return model.getName();
     }
 
-    public int getDono() {
-	return dono;
+    public Player getDono() {
+	return model.getOwner();
     }
 
-    public void setDono(int dono) {
-	this.dono = dono;
+    public void setDono(Player player) {
+	this.model.setOwner(player);
     }
 
     public int getQtd() {
-	return qtd;
+	return model.getSoldiers();
     }
 
     public void setQtd(int qtd) {
-	this.qtd = qtd;
-	this.texto.setText(qtd + "");
+	model.setSoldiers(qtd);
+	this.texto.setText(String.valueOf(qtd));
     }
 
     public int getQtdMov() {
@@ -96,10 +96,8 @@ public class TerritorioUI {
         this.qtdMov = qtdMov;
     }
     
-    
-    //comapara no modelo
-    public boolean isDono(int d){
-       return (dono==d);
+    public boolean isDono(Player player){
+	return model.getOwner().equals(player);
     }
 
     public void addVizinho(TerritorioUI t) {
@@ -113,5 +111,11 @@ public class TerritorioUI {
     public boolean isBloqueado() {
 	return this.bloqueado;
     }
-
+    public int getX(){
+	return model.getX();
+    }
+    
+    public int getY(){
+	return model.getY();
+    }
 }

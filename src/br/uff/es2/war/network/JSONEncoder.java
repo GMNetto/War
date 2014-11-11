@@ -81,6 +81,8 @@ class JSONEncoder implements Encoder{
     private JSONObject encode(Territory territory){
 	JSONObject obj = new JSONObject();
 	obj.put("name", territory.getName());
+	obj.put("x", territory.getX());
+	obj.put("y", territory.getY());
 	if(territory.getContinent() != null)
 	    obj.put("continent", territory.getContinent().getName());
 	obj.put("soldiers", territory.getSoldiers());

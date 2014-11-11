@@ -6,10 +6,16 @@
 
 package br.uff.es2.war.view;
 
+import br.uff.es2.war.entity.Territorio;
+import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.network.client.ClientSidePlayer;
+
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
@@ -25,10 +31,9 @@ public class JogoController {
     private AtacaController atc;
     private JanelaInfoController jc;
     private List<TerritorioUI> territorios;
-    private int jogador;
     private int raio;
     
-    private ClientSidePlayer player;
+    private ClientSidePlayer jogador;
     
     //textos da caixa de informação
     private Text txt_fase1;
@@ -36,11 +41,10 @@ public class JogoController {
     private Text txt_ataque1;
     private Text txt_ataque2;
     
-    //
     private AcaoTerritorioStrategy acaoTerr;
+    private Game game;
             
-    public JogoController(int jogador, Pane pane_aloca, Pane pane_mov,Group info_bar,Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela) {
-        this.jogador = jogador;
+    public JogoController(Pane pane_aloca, Pane pane_mov,Group info_bar,Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela) {
         this.raio=10;
         this.txt_fase1=(Text) info_bar.lookup("#pane_info_box").lookup("#txt_fase1");
         this.txt_fase2=(Text) info_bar.lookup("#pane_info_box").lookup("#txt_fase2");
@@ -50,23 +54,14 @@ public class JogoController {
         this.ac = new AlocaController(pane_aloca,pane_mov, raio, this);
         this.atc= new AtacaController(pane_ataca1, pane_ataca2, raio, this);
         this.jc= new JanelaInfoController(pane_sub_janela, this);
-        
-        inicializaParaTestes();
-        
-        /*events.subscribe(ClasseDoEvento.class, new Action<ClasseDoEvento>{
-	    @Override
-	    public void onAction(ClasseDoEvento args){
-		...
-	    }
-    });*/
     }
 
     public ClientSidePlayer getPlayer() {
-        return player;
+        return jogador;
     }
 
     public void setPlayer(ClientSidePlayer player) {
-        this.player = player;
+        this.jogador = player;
     }
 
     public AcaoTerritorioStrategy getAcaoTerr() {
@@ -118,7 +113,7 @@ public class JogoController {
 	return territorios;
     }
 
-    public int getJogador() {
+    public ClientSidePlayer getJogador() {
 	return jogador;
     }
 
@@ -152,7 +147,6 @@ public class JogoController {
     public void bloqueiaTerririosAdversarios() {
 	// bloqueia territorios que não pertencem ao usuário
 	// Utilizado para a fase de alocação
-
 	for (TerritorioUI terr : territorios) {
 	    if (!terr.isDono(jogador)) {
 		// territorio de adversário
@@ -194,52 +188,20 @@ public class JogoController {
 		terr.desbloqueia();
 	    }
 	}
-
     }
 
-    private void inicializaParaTestes() {
+    public void setGame(Game game) {
+	territorios = createTerritoryUI(game.getWorld().getTerritories());
+	this.game = game;
+    }
 
-	// criando territorios
-	territorios = new ArrayList<>();
-	territorios.add(new TerritorioUI(null, "America do norte"));
-	territorios.add(new TerritorioUI(null, "America do Sul"));
-	territorios.add(new TerritorioUI(null, "Europa"));
-	territorios.add(new TerritorioUI(null, "África"));
-	territorios.add(new TerritorioUI(null, "Ásia"));
-	territorios.add(new TerritorioUI(null, "Oceania"));
-
-	// America do norte
-	territorios.get(0).addVizinho(territorios.get(1));// america do sul
-	territorios.get(0).addVizinho(territorios.get(2));// europa
-
-	// America do sul
-	territorios.get(1).addVizinho(territorios.get(0));// america do norte
-	territorios.get(1).addVizinho(territorios.get(3));// africa
-
-	// europa
-	territorios.get(2).addVizinho(territorios.get(0));// america do norte
-	territorios.get(2).addVizinho(territorios.get(3));// africa
-	territorios.get(2).addVizinho(territorios.get(4));// asia
-
-	// africa
-	territorios.get(3).addVizinho(territorios.get(1));// america dosul
-	territorios.get(3).addVizinho(territorios.get(2));// europa
-	territorios.get(3).addVizinho(territorios.get(4));// asia
-
-	// asia
-	territorios.get(4).addVizinho(territorios.get(2));// europa
-	territorios.get(4).addVizinho(territorios.get(3));// africa
-	territorios.get(4).addVizinho(territorios.get(5));// oceania
-
-	// oceania
-	territorios.get(5).addVizinho(territorios.get(4));// asia
-
-	// distribuindo territorios para 3 jogadores aleatoriamente
-	Random gerador = new Random();
-
-	for (TerritorioUI terr : territorios) {
-	    terr.setDono(gerador.nextInt(3));
+    private List<TerritorioUI> createTerritoryUI(Set<Territory> territories) {
+	List<TerritorioUI> widgets = new LinkedList<TerritorioUI>();
+	for(Territory territory : game.getWorld().getTerritories()){
+	    TerritorioUI widget = new TerritorioUI();
+	    widget.setModel(territory);
+	    widgets.add(widget);
 	}
+	return widgets;
     }
-
 }

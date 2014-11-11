@@ -299,9 +299,14 @@ public class GameController implements Runnable {
 
     private Color[] createColors() {
 	// TODO: Load colors from database
-	Color[] colors = new Color[clients.length];
-	for (int i = 0; i < colors.length; i++)
-	    colors[i] = new Color("Color " + i);
+	Color[] colors = new Color[]{
+		new Color("Branco"),
+		new Color("Preto"),
+		new Color("Vermelho"),
+		new Color("Amarelo"),
+		new Color("Azul"),
+		new Color("Verde")
+	};
 	return colors;
     }
 

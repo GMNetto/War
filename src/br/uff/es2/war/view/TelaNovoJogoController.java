@@ -9,6 +9,7 @@ import br.uff.es2.war.events.Action;
 import br.uff.es2.war.events.ChooseColorEvent;
 import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.model.Color;
+import br.uff.es2.war.model.Game;
 import br.uff.es2.war.network.Messenger;
 import br.uff.es2.war.network.ProtocolFactory;
 import br.uff.es2.war.network.TCPMessenger;
@@ -85,13 +86,10 @@ public class TelaNovoJogoController implements Initializable {
 
     private ClientSidePlayer jogador;
 
-    @SuppressWarnings("unchecked")
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	Image image = new Image("tela2.jpg");
 	img_fundo.setImage(image);
-	combo_cor.getItems().addAll("Branco", "Preto", "Vermelho", "Amarelo",
-		"Azul", "Verde");
 	check_avancada.selectedProperty().addListener(
 		new ChangeListener<Boolean>() {
 		    public void changed(ObservableValue<? extends Boolean> ov,
@@ -135,7 +133,7 @@ public class TelaNovoJogoController implements Initializable {
 			new Action<SetGameEvent>() {
 			    @Override
 			    public void onAction(SetGameEvent args) {
-				iniciarTelaJogo(jogador);
+				iniciarTelaJogo(jogador, args.getGame());
 			    }
 			});
 		txt_erro.setVisible(false);
@@ -147,6 +145,8 @@ public class TelaNovoJogoController implements Initializable {
 	Platform.runLater(new Runnable() {
 	    @Override
 	    public void run() {
+		check_avancada.setVisible(false);
+		pane_avancada.setVisible(false);
 		btn_joga.setVisible(true);
 		Object[] nomes = new Object[colors.length];
 		for (int i = 0; i < nomes.length; i++)
@@ -167,7 +167,7 @@ public class TelaNovoJogoController implements Initializable {
 	return new Color(combo_cor.getValue().toString());
     }
 
-    private void iniciarTelaJogo(final ClientSidePlayer jogador) {
+    private void iniciarTelaJogo(final ClientSidePlayer jogador, final Game game) {
 	Platform.runLater(new Runnable() {
 	    @Override
 	    public void run() {
@@ -185,6 +185,7 @@ public class TelaNovoJogoController implements Initializable {
 		TelaJogoController tjc = (TelaJogoController) fxmlLoader
 			.getController();
 		tjc.setPlayer(jogador);
+		tjc.setGame(game);
 	    }
 	});
     }

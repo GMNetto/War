@@ -8,10 +8,11 @@ import br.uff.es2.war.events.LocalEventBus;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
+import br.uff.es2.war.model.PlayerData;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.network.Messenger;
 
-public class ClientSidePlayer {
+public class ClientSidePlayer extends PlayerData {
     
     private Messenger messenger;
     private ClientSideProtocol protocol;
@@ -31,6 +32,7 @@ public class ClientSidePlayer {
     }
     
     public void chooseColor(Color color){
+	setColor(color);
 	messenger.send(protocol.chooseColor(color));
     }
     
