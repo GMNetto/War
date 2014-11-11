@@ -50,19 +50,19 @@ public class GameController implements Runnable {
 	}
 
 	// Load from database
-	Game game = loadFromDatabase(players); // The
-	/*
-	 * GameLoader class needs a world ID that I defined as 1 but we still
-	 * have to find a way to do it. //Also, the name of the persistence.xml
-	 * file will have to be in a file or will we keep it in hardcode?
-	 */
-	persister = new GamePersister(loader.getiDOfTerritory(),
-		getIDPlayers(players), loader.getiDObjectives(),
-		loader.getiDOfColor(), game,
-		Persistence.createEntityManagerFactory("WarESIIPU"));
+//	Game game = loadFromDatabase(players); // The
+//	/*
+//	 * GameLoader class needs a world ID that I defined as 1 but we still
+//	 * have to find a way to do it. //Also, the name of the persistence.xml
+//	 * file will have to be in a file or will we keep it in hardcode?
+//	 */
+//	persister = new GamePersister(loader.getiDOfTerritory(),
+//		getIDPlayers(players), loader.getiDObjectives(),
+//		loader.getiDOfColor(), game,
+//		Persistence.createEntityManagerFactory("WarESIIPU"));
 
 	// Load Stubs
-	// Game game = createStubGame(players);
+	 Game game = createStubGame(players);
 
 	machine = new GameMachine<Game>(game, new SetupPhase());
     }

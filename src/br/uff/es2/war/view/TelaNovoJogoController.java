@@ -10,16 +10,20 @@ import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.network.Messenger;
 import br.uff.es2.war.network.ProtocolFactory;
+import br.uff.es2.war.network.TCPMessenger;
 import br.uff.es2.war.network.client.ClientSidePlayer;
+import br.uff.es2.war.network.client.ClientSideProtocol;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -36,96 +40,115 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 /**
- *
+ * 
  * @author anacarolinegomesvargas
  * 
-
  */
 public class TelaNovoJogoController implements Initializable {
 
     @FXML
     private AnchorPane parent;
-    
+
     @FXML
     private Button btn_joga;
 
     @FXML
     private ImageView img_fundo;
-    
+
     @FXML
     private Text txt_aguarde;
-    
+
     @FXML
     private Pane pane_avancada;
-    
+
     @FXML
     private ComboBox combo_cor;
-    
+
     @FXML
     private CheckBox check_avancada;
-    
+
     @FXML
     private TextField input_server;
-    
+
     @FXML
     private TextField input_porta;
-    
+
+    @SuppressWarnings("unchecked")
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // load the image
-        Image image = new Image("tela2.jpg");
+	Image image = new Image("tela2.jpg");
+	img_fundo.setImage(image);
+	combo_cor.getItems().addAll("Branco", "Preto", "Vermelho", "Amarelo",
+		"Azul", "Verde");
+	check_avancada.selectedProperty().addListener(
+		new ChangeListener<Boolean>() {
+		    public void changed(ObservableValue<? extends Boolean> ov,
+			    Boolean old_val, Boolean new_val) {
+			pane_avancada.setVisible(new_val);
+		    }
+		});
 
-        img_fundo.setImage(image);
-        
-        combo_cor.getItems().addAll("Branco","Preto","Vermelho","Amarelo","Azul","Verde");
-        
-        check_avancada.selectedProperty().addListener(new ChangeListener<Boolean>() {
-        public void changed(ObservableValue<? extends Boolean> ov,
-            Boolean old_val, Boolean new_val) {
-                pane_avancada.setVisible(new_val);
-        }
-    });
-       
-        //Iniciando comunicação com servidor
-       
-        this.btn_joga.setOnAction(new EventHandler<ActionEvent>() {
- 
-            @Override
-            public void handle(ActionEvent event) {
-                txt_aguarde.setVisible(true);
-                
-                Socket server = null;
-                try {
-                    server = new Socket(input_server.getText(), Integer.valueOf(input_porta.getText()));
-                } catch (IOException ex) {
-                    Logger.getLogger(TelaNovoJogoController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                
-                //iniciando comunicação com servidor
-                final ClientSidePlayer player = new ClientSidePlayer((Messenger) server, ProtocolFactory.defaultJSONClientSideProtocol());
-                // informando cor do jogador
-                player.chooseColor(new Color((String) combo_cor.getValue()));
-                
-                player.getEvents().subscribe(SetGameEvent.class, new Action<SetGameEvent>(){
-                    @Override
-                    public void onAction(SetGameEvent args){
-                        //trocar de tela e passar o player
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        URL location = getClass().getResource("TelaJogo.fxml");
-                        fxmlLoader.setLocation(location);
-                        try {
-                            parent.getChildren().setAll((AnchorPane)fxmlLoader.load(location.openStream()));
-                        } catch (IOException ex) {
-                            Logger.getLogger(TelaNovoJogoController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                
-                        TelaJogoController tjc=(TelaJogoController)fxmlLoader.getController();
-                        
-                        tjc.setPlayer(player);
-                    }
-                });
-            }
-        });
+	this.btn_joga.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override
+	    public void handle(ActionEvent event) {
+		iniciarNovaPartida();
+		
+	    }
+	});
+    }
+    
+    private void iniciarNovaPartida(){
+	txt_aguarde.setVisible(true);
+	String endereco = input_server.getText();
+	int porta = Integer.parseInt(input_porta.getText());
+	try {
+	    Messenger servidor = conectarAoServidor(endereco, porta);
+	    ClientSideProtocol protocolo = ProtocolFactory
+		    .defaultJSONClientSideProtocol();
+	    final ClientSidePlayer jogador = new ClientSidePlayer(servidor,
+		    protocolo);
+	    jogador.chooseColor(getCorEscolhida());
+	    jogador.getEvents().subscribe(SetGameEvent.class,
+		    new Action<SetGameEvent>() {
+			@Override
+			public void onAction(SetGameEvent args) {
+			    iniciarTelaJogo(jogador);
+			}
+		    });
+	} catch (IOException e) {
+	    // TODO: alert
+	    System.err.println(e);
+	}
     }
 
+    private Messenger conectarAoServidor(String endereco, int porta)
+	    throws IOException {
+	Socket server = new Socket(endereco, porta);
+	return new TCPMessenger(server);
+    }
+
+    private Color getCorEscolhida() {
+	return new Color(combo_cor.getValue().toString());
+    }
+
+    private void iniciarTelaJogo(final ClientSidePlayer jogador) {
+	Platform.runLater(new Runnable() {
+	    @Override
+	    public void run() {
+		FXMLLoader fxmlLoader = new FXMLLoader();
+		URL location = getClass().getResource("TelaJogo.fxml");
+		fxmlLoader.setLocation(location);
+		try {
+		    parent.getChildren().setAll(
+			    (AnchorPane) fxmlLoader.load(location.openStream()));
+		} catch (IOException ex) {
+		    Logger.getLogger(TelaNovoJogoController.class.getName()).log(
+			    Level.SEVERE, null, ex);
+		}
+		TelaJogoController tjc = (TelaJogoController) fxmlLoader
+			.getController();
+		tjc.setPlayer(jogador);
+	    }
+	});
+    }
 }
