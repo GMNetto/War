@@ -6,6 +6,7 @@
 
 package br.uff.es2.war.view;
 
+import br.uff.es2.war.network.client.ClientSidePlayer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -26,6 +27,8 @@ public class JogoController {
     private List<TerritorioUI> territorios;
     private int jogador;
     private int raio;
+    
+    private ClientSidePlayer player;
     
     //textos da caixa de informação
     private Text txt_fase1;
@@ -49,6 +52,21 @@ public class JogoController {
         this.jc= new JanelaInfoController(pane_sub_janela, this);
         
         inicializaParaTestes();
+        
+        /*events.subscribe(ClasseDoEvento.class, new Action<ClasseDoEvento>{
+	    @Override
+	    public void onAction(ClasseDoEvento args){
+		...
+	    }
+    });*/
+    }
+
+    public ClientSidePlayer getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(ClientSidePlayer player) {
+        this.player = player;
     }
 
     public AcaoTerritorioStrategy getAcaoTerr() {

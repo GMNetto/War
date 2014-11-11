@@ -89,11 +89,12 @@
             </Pane>
          </children>
       </Group>
-       <Group id="Group">
-      <children>
-            <Pane fx:id="pane_map" prefHeight="450.0" prefWidth="800.0">
+      <ScrollPane hbarPolicy="ALWAYS" prefHeight="450.0" prefWidth="800.0" vbarPolicy="ALWAYS">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <ImageView fx:id="img_fundo" fitHeight="450.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="img_fundo" fitHeight="2000.0" fitWidth="2000.0" pickOnBounds="true" preserveRatio="true" />
+                  <Pane fx:id="pane_map" prefHeight="450.0" prefWidth="800.0" />
                   <Pane fx:id="pane_mov" prefHeight="122.0" prefWidth="123.0">
                      <children>
                         <Button fx:id="btn_mov_cancel" layoutY="25.0" mnemonicParsing="false" text="x">
@@ -132,7 +133,7 @@
                         </Button>
                      </children>
                   </Pane>
-                  <Pane fx:id="pane_ataca1" layoutX="10.0" layoutY="10.0" prefHeight="122.0" prefWidth="123.0">
+                  <Pane fx:id="pane_ataca1" prefHeight="122.0" prefWidth="123.0">
                      <children>
                         <Button fx:id="btn_ataca1_cancel" layoutY="25.0" mnemonicParsing="false" text="x">
                            <font>
@@ -158,7 +159,7 @@
                         <Text fx:id="txt_ataca1" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Atacar com" />
                      </children>
                   </Pane>
-                  <Pane fx:id="pane_ataca2" layoutX="20.0" layoutY="20.0" prefHeight="122.0" prefWidth="123.0">
+                  <Pane fx:id="pane_ataca2" prefHeight="122.0" prefWidth="123.0">
                      <children>
                         <Button fx:id="btn_ataca2_cancel" layoutY="25.0" mnemonicParsing="false" text="x">
                            <font>
@@ -185,11 +186,9 @@
                      </children>
                   </Pane>
                </children>
-            </Pane>
-      
-        
-      </children>
-    </Group>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
       <Pane fx:id="pane_sub_janela" prefHeight="600.0" prefWidth="800.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" height="600.0" opacity="0.8" stroke="BLACK" strokeType="INSIDE" width="800.0" />

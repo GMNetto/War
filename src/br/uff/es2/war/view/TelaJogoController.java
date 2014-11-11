@@ -5,6 +5,7 @@
  */
 package br.uff.es2.war.view;
 
+import br.uff.es2.war.network.client.ClientSidePlayer;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -189,7 +190,7 @@ public class TelaJogoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // load the image
-        Image image = new Image("war.jpg");
+        Image image = new Image("war1.jpg");
 
         img_fundo.setImage(image);
         Image image2 = new Image("tela2.jpg");
@@ -242,4 +243,8 @@ public class TelaJogoController implements Initializable {
         });
     }
 
+    
+     public void setPlayer(ClientSidePlayer player) {
+        gameController.setPlayer(player);
+    }
 }
