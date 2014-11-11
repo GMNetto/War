@@ -15,7 +15,7 @@ public final class MapaCores{
 	mapa.put(new Color("Preto"), Paint.valueOf("gray"));
 	mapa.put(new Color("Vermelho"), Paint.valueOf("red"));
 	mapa.put(new Color("Amarelo"), Paint.valueOf("yellow"));
-	mapa.put(new Color("Azul"), Paint.valueOf("blue"));
+	mapa.put(new Color("Azul"), Paint.valueOf("aqua"));
 	mapa.put(new Color("Verde"), Paint.valueOf("green"));
     }
     

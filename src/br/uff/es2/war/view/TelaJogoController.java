@@ -59,7 +59,13 @@ public class TelaJogoController implements Initializable {
     private Button btn_obj;
     @FXML
     private Button btn_troca;
-
+    
+    @FXML
+    private Button btn_z_mais;
+    
+    @FXML
+    private Button btn_z_menos;
+    
     // painel de alocação
     @FXML
     private Pane pane_aloca;
@@ -81,6 +87,8 @@ public class TelaJogoController implements Initializable {
 
     @FXML
     private Group group_info_bar;
+    
+    private float scaleMin;
 
     // controlador responsável por se comunicar com o modelo e interagir com a
     // view
@@ -150,7 +158,41 @@ public class TelaJogoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	// load the image
-	Image image = new Image("war1.jpg");
+	final Image image = new Image("war1.jpg");
+        
+        scaleMin=Math.max((float) (800/image.getWidth()), (float) (450/image.getHeight()));
+                
+       // pane_map.setScaleX(scaleMin);
+        //pane_map.setScaleY(scaleMin);
+        
+        pane_map.setPrefSize(image.getWidth(), image.getHeight());
+        
+        //opção de zoom
+        this.btn_z_mais.setOnAction(new EventHandler<ActionEvent>() {
+
+	    @Override
+	    public void handle(ActionEvent event) {
+		if(pane_map.getScaleX()<1){
+                    double novo=Math.min(1, pane_map.getScaleX()+0.1);
+                    pane_map.setScaleX(novo);
+                    pane_map.setScaleY(novo);
+                    pane_map.setPrefSize(image.getWidth()*novo, image.getHeight()*novo);
+                }
+	    }
+	});
+        
+        this.btn_z_menos.setOnAction(new EventHandler<ActionEvent>() {
+
+	    @Override
+	    public void handle(ActionEvent event) {
+		if(pane_map.getScaleX()>scaleMin){
+                    double novo=Math.max(scaleMin, pane_map.getScaleX()-0.1);
+                    pane_map.setScaleX(novo);
+                    pane_map.setScaleY(novo);
+                    pane_map.setPrefSize(image.getWidth()*novo, image.getHeight()*novo);
+                }
+	    }
+	});
 
 	img_fundo.setImage(image);
 	Image image2 = new Image("tela2.jpg");
