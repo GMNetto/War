@@ -13,7 +13,7 @@
 <AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.uff.es2.war.view.TelaNovoJogoController">
    <children>
       <ImageView fx:id="img_fundo" fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
-  <Button fx:id="btn_joga" layoutX="353.0" layoutY="452.0" mnemonicParsing="false" text="Jogar">
+  <Button fx:id="btn_joga" layoutX="353.0" layoutY="452.0" mnemonicParsing="false" text="Jogar" visible="false">
          <font>
             <Font size="24.0" />
          </font>
@@ -24,12 +24,6 @@
          </font>
       </Text>
       <Text fx:id="txt_aguarde" layoutX="269.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Aguarde... Iniciando a partida...." visible="false">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <ComboBox fx:id="combo_cor" layoutX="402.0" layoutY="171.0" prefWidth="150.0" />
-      <Text layoutX="249.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selecione a cor:">
          <font>
             <Font size="18.0" />
          </font>
@@ -51,6 +45,26 @@
             </Text>
          </children>
       </Pane>
+      <Pane fx:id="pane_cor" layoutX="208.0" layoutY="150.0" prefHeight="69.0" prefWidth="389.0" visible="false">
+         <children>
+            <ComboBox fx:id="combo_cor" layoutX="187.0" layoutY="14.0" prefWidth="150.0" />
+            <Text layoutX="34.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selecione a cor:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+      <Button fx:id="btn_conecta" layoutX="336.0" layoutY="452.0" mnemonicParsing="false" text="Conectar">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+      <Text fx:id="txt_erro" fill="RED" layoutX="256.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Não foi possível conectar ao servidor!!">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
       
    </children>
 </AnchorPane>

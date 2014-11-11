@@ -51,15 +51,24 @@ public class TelaNovoJogoController implements Initializable {
 
     @FXML
     private Button btn_joga;
+    
+     @FXML
+    private Button btn_conecta;
 
     @FXML
     private ImageView img_fundo;
 
     @FXML
     private Text txt_aguarde;
+    @FXML
+    private Text txt_erro;
 
     @FXML
     private Pane pane_avancada;
+    
+    @FXML
+    private Pane pane_cor;
+
 
     @FXML
     private ComboBox combo_cor;
@@ -88,17 +97,28 @@ public class TelaNovoJogoController implements Initializable {
 		    }
 		});
 
-	this.btn_joga.setOnAction(new EventHandler<ActionEvent>() {
+	this.btn_conecta.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override
 	    public void handle(ActionEvent event) {
 		iniciarNovaPartida();
+                
+		
+	    }
+	});
+        
+        this.btn_joga.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override
+	    public void handle(ActionEvent event) {
+		//passar a cor e trocar de tela
+                txt_erro.setVisible(false);
+                txt_aguarde.setVisible(true);
 		
 	    }
 	});
     }
     
     private void iniciarNovaPartida(){
-	txt_aguarde.setVisible(true);
+	
 	String endereco = input_server.getText();
 	int porta = Integer.parseInt(input_porta.getText());
 	try {
@@ -115,9 +135,15 @@ public class TelaNovoJogoController implements Initializable {
 			    iniciarTelaJogo(jogador);
 			}
 		    });
+            
+            btn_conecta.setVisible(false);
+            btn_joga.setVisible(true);
+            //trocar as opçnoes de cores disponíveis aqui!
+            pane_cor.setVisible(true);
+            
 	} catch (IOException e) {
 	    // TODO: alert
-	    System.err.println(e);
+	    txt_erro.setVisible(true);
 	}
     }
 

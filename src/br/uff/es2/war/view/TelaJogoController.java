@@ -190,7 +190,7 @@ public class TelaJogoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // load the image
-        Image image = new Image("war.jpg");
+        Image image = new Image("war1.jpg");
 
         img_fundo.setImage(image);
         Image image2 = new Image("tela2.jpg");
