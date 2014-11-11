@@ -6,6 +6,7 @@
 package br.uff.es2.war.view;
 
 import br.uff.es2.war.events.Action;
+import br.uff.es2.war.events.ChooseColorEvent;
 import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.network.Messenger;
@@ -13,6 +14,7 @@ import br.uff.es2.war.network.ProtocolFactory;
 import br.uff.es2.war.network.TCPMessenger;
 import br.uff.es2.war.network.client.ClientSidePlayer;
 import br.uff.es2.war.network.client.ClientSideProtocol;
+import br.uff.es2.war.network.server.ServerSideProtocol;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -51,8 +53,8 @@ public class TelaNovoJogoController implements Initializable {
 
     @FXML
     private Button btn_joga;
-    
-     @FXML
+
+    @FXML
     private Button btn_conecta;
 
     @FXML
@@ -65,10 +67,9 @@ public class TelaNovoJogoController implements Initializable {
 
     @FXML
     private Pane pane_avancada;
-    
+
     @FXML
     private Pane pane_cor;
-
 
     @FXML
     private ComboBox combo_cor;
@@ -81,6 +82,8 @@ public class TelaNovoJogoController implements Initializable {
 
     @FXML
     private TextField input_porta;
+
+    private ClientSidePlayer jogador;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -100,51 +103,58 @@ public class TelaNovoJogoController implements Initializable {
 	this.btn_conecta.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override
 	    public void handle(ActionEvent event) {
-		iniciarNovaPartida();
-                
-		
+		txt_aguarde.setVisible(true);
+		String endereco = input_server.getText();
+		int porta = Integer.parseInt(input_porta.getText());
+		try {
+		    Messenger mensageiro = conectarAoServidor(endereco, porta);
+		    ClientSideProtocol protocolo = ProtocolFactory
+			    .defaultJSONClientSideProtocol();
+		    jogador = new ClientSidePlayer(mensageiro, protocolo);
+		    jogador.getEvents().subscribe(ChooseColorEvent.class,
+			    new Action<ChooseColorEvent>() {
+				@Override
+				public void onAction(ChooseColorEvent args) {
+				    mostrarBotaoJogar(args.getColors());
+				}
+			    });
+		    btn_conecta.setVisible(false);
+		    txt_erro.setVisible(false);
+		} catch (IOException e) {
+		    txt_erro.setVisible(true);
+		}
 	    }
 	});
-        
-        this.btn_joga.setOnAction(new EventHandler<ActionEvent>() {
+
+	this.btn_joga.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override
 	    public void handle(ActionEvent event) {
-		//passar a cor e trocar de tela
-                txt_erro.setVisible(false);
-                txt_aguarde.setVisible(true);
-		
+		btn_joga.setDisable(true);
+		jogador.chooseColor(getCorEscolhida());
+		jogador.getEvents().subscribe(SetGameEvent.class,
+			new Action<SetGameEvent>() {
+			    @Override
+			    public void onAction(SetGameEvent args) {
+				iniciarTelaJogo(jogador);
+			    }
+			});
+		txt_erro.setVisible(false);
 	    }
 	});
     }
-    
-    private void iniciarNovaPartida(){
-	
-	String endereco = input_server.getText();
-	int porta = Integer.parseInt(input_porta.getText());
-	try {
-	    Messenger servidor = conectarAoServidor(endereco, porta);
-	    ClientSideProtocol protocolo = ProtocolFactory
-		    .defaultJSONClientSideProtocol();
-	    final ClientSidePlayer jogador = new ClientSidePlayer(servidor,
-		    protocolo);
-	    jogador.chooseColor(getCorEscolhida());
-	    jogador.getEvents().subscribe(SetGameEvent.class,
-		    new Action<SetGameEvent>() {
-			@Override
-			public void onAction(SetGameEvent args) {
-			    iniciarTelaJogo(jogador);
-			}
-		    });
-            
-            btn_conecta.setVisible(false);
-            btn_joga.setVisible(true);
-            //trocar as opçnoes de cores disponíveis aqui!
-            pane_cor.setVisible(true);
-            
-	} catch (IOException e) {
-	    // TODO: alert
-	    txt_erro.setVisible(true);
-	}
+
+    private void mostrarBotaoJogar(final Color[] colors) {
+	Platform.runLater(new Runnable() {
+	    @Override
+	    public void run() {
+		btn_joga.setVisible(true);
+		Object[] nomes = new Object[colors.length];
+		for (int i = 0; i < nomes.length; i++)
+		    nomes[i] = colors[i].getName();
+		combo_cor.getItems().addAll(nomes);
+		pane_cor.setVisible(true);
+	    }
+	});
     }
 
     private Messenger conectarAoServidor(String endereco, int porta)
@@ -165,11 +175,12 @@ public class TelaNovoJogoController implements Initializable {
 		URL location = getClass().getResource("TelaJogo.fxml");
 		fxmlLoader.setLocation(location);
 		try {
-		    parent.getChildren().setAll(
-			    (AnchorPane) fxmlLoader.load(location.openStream()));
+		    parent.getChildren()
+			    .setAll((AnchorPane) fxmlLoader.load(location
+				    .openStream()));
 		} catch (IOException ex) {
-		    Logger.getLogger(TelaNovoJogoController.class.getName()).log(
-			    Level.SEVERE, null, ex);
+		    Logger.getLogger(TelaNovoJogoController.class.getName())
+			    .log(Level.SEVERE, null, ex);
 		}
 		TelaJogoController tjc = (TelaJogoController) fxmlLoader
 			.getController();
