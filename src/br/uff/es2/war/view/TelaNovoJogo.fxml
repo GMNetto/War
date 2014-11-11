@@ -60,7 +60,7 @@
             <Font size="24.0" />
          </font>
       </Button>
-      <Text fx:id="txt_erro" fill="RED" layoutX="256.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Não foi possível conectar ao servidor!!">
+      <Text fx:id="txt_erro" fill="RED" layoutX="256.0" layoutY="440.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Não foi possível conectar ao servidor!!" visible="false">
          <font>
             <Font size="18.0" />
          </font>
