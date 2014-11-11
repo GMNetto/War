@@ -285,7 +285,90 @@ public class GameController implements Runnable {
         
         territory2.getBorders().add(territory2);
         territory2.getBorders().add(territory6);
-        territory2.getBorders().add(territory38);
+        territory2.getBorders().add(territory3);
+        territory2.getBorders().add(territory5);
+        
+        territory3.getBorders().add(territory2);
+        territory3.getBorders().add(territory4);
+        territory3.getBorders().add(territory14);
+        
+        territory4.getBorders().add(territory3);
+        territory4.getBorders().add(territory5);
+        territory4.getBorders().add(territory8);
+        
+        territory5.getBorders().add(territory2);
+        territory5.getBorders().add(territory4);
+        territory5.getBorders().add(territory6);
+        territory5.getBorders().add(territory7);
+        territory5.getBorders().add(territory8);
+        
+        territory6.getBorders().add(territory1);
+        territory6.getBorders().add(territory2);
+        territory6.getBorders().add(territory5);
+        territory6.getBorders().add(territory7);
+        
+        
+        territory7.getBorders().add(territory6);
+        territory7.getBorders().add(territory5);
+        territory7.getBorders().add(territory8);
+        territory7.getBorders().add(territory9);
+        
+        territory8.getBorders().add(territory4);
+        territory8.getBorders().add(territory5);
+        territory8.getBorders().add(territory7);
+        territory8.getBorders().add(territory9);
+        
+        territory9.getBorders().add(territory7);
+        territory9.getBorders().add(territory8);
+        territory9.getBorders().add(territory10);
+        
+        territory10.getBorders().add(territory9);
+        territory10.getBorders().add(territory11);
+        territory10.getBorders().add(territory12);
+        
+        territory11.getBorders().add(territory10);
+        territory11.getBorders().add(territory12);
+        territory11.getBorders().add(territory13);
+        
+        territory12.getBorders().add(territory10);
+        territory12.getBorders().add(territory11);
+        territory12.getBorders().add(territory13);
+        territory12.getBorders().add(territory22);
+        
+        territory13.getBorders().add(territory11);
+        territory13.getBorders().add(territory12);
+        
+        territory14.getBorders().add(territory2);
+        territory14.getBorders().add(territory15);
+        territory14.getBorders().add(territory21);
+        
+        territory15.getBorders().add(territory14);
+        territory15.getBorders().add(territory21);
+        territory15.getBorders().add(territory16);
+        territory15.getBorders().add(territory19);
+        
+        territory16.getBorders().add(territory15);
+        territory16.getBorders().add(territory19);
+        territory16.getBorders().add(territory17);
+        territory16.getBorders().add(territory22);
+        
+        territory17.getBorders().add(territory19);
+        territory17.getBorders().add(territory16);
+        territory17.getBorders().add(territory18);
+        territory17.getBorders().add(territory23);
+        territory17.getBorders().add(territory31);
+        
+        territory18.getBorders().add(territory17);
+        territory18.getBorders().add(territory31);
+        territory18.getBorders().add(territory21);
+        territory18.getBorders().add(territory29);
+        territory18.getBorders().add(territory30);
+        
+        
+        
+        
+        
+        
         
 	world.add(continent1);
 	world.add(continent2);
