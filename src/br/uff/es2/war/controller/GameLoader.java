@@ -143,6 +143,8 @@ public class GameLoader {
 
             for (Territorio territory : continent.getTerritorioCollection()) {
                 t = new Territory(territory.getNome(), c);
+                t.setX(territory.getPosicaoX());
+                t.setY(territory.getPosicaoY());
                 territoryByName.put(t.getName(), t);
                 c.add(t);
                 territories.add(territory);
