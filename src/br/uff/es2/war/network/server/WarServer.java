@@ -12,33 +12,41 @@ import java.util.TimerTask;
 
 public class WarServer extends TCPServer {
 
-    private final Queue<Messenger> clients;
+    private static final long MAX_WAIT_TIME = 10000;
     public static final int PLAYER_PER_GAME = 2;
-    private boolean timeLimitAchieved=false;
+    private final Queue<Messenger> clients;
+    private final Timer timer;
     
     public WarServer(int port) throws IOException {
         super(port);
         clients = new LinkedList<>();
+        timer = new Timer();
     }
 
     @Override
     protected void onClientReceived(Messenger client) {
         clients.add(client);
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-                timeLimitAchieved=true;
-            }
-
-        }, 10000);
-        if (clients.size() >= PLAYER_PER_GAME || timeLimitAchieved) {
-            Messenger[] nextClients = poolNextClients(PLAYER_PER_GAME);
-            startGame(nextClients);
-        }
+        if (clients.size() >= PLAYER_PER_GAME)
+            startNextGame();
+        else if(clients.size() == 1)
+            scheduleNextGame();
     }
-
+    
+    private void scheduleNextGame(){
+	timer.schedule(new TimerTask() {
+	    @Override
+	    public void run() {
+		Messenger[] nextPlayers = poolNextClients(clients.size());
+		startGame(nextPlayers);
+	    }
+	}, MAX_WAIT_TIME);
+    }
+    
+    private synchronized void startNextGame(){
+	Messenger[] nextClients = poolNextClients(PLAYER_PER_GAME);
+        startGame(nextClients);
+    }
+    
     private Messenger[] poolNextClients(int n) {
         Messenger[] nextClients = new Messenger[n];
         for (int i = 0; i < n; i++) {
@@ -46,8 +54,9 @@ public class WarServer extends TCPServer {
         }
         return nextClients;
     }
-
+    
     private void startGame(Messenger[] nextClients) {
+	timer.cancel();
         try {
             GameController controller = new GameController(nextClients);
             new Thread(controller).start();
