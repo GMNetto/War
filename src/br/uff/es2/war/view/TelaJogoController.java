@@ -150,7 +150,7 @@ public class TelaJogoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	// load the image
-	Image image = new Image("war2.jpg");
+	Image image = new Image("war1.jpg");
 
 	img_fundo.setImage(image);
 	Image image2 = new Image("tela2.jpg");
@@ -159,9 +159,8 @@ public class TelaJogoController implements Initializable {
 
 	this.gameController = new JogoController(pane_aloca, pane_mov,
 		group_info_bar, pane_ataca1, pane_ataca2, pane_sub_janela);
-	desenhaTerritorios();
 
-	gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
+	
 
 	// alterando fase do jogo
 	this.btn_prox.setOnAction(new EventHandler<ActionEvent>() {
@@ -209,5 +208,7 @@ public class TelaJogoController implements Initializable {
     
     public void setGame(Game game){
 	gameController.setGame(game);
+	desenhaTerritorios();
+	gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
     }
 }

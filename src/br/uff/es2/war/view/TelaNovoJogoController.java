@@ -120,6 +120,7 @@ public class TelaNovoJogoController implements Initializable {
 		    txt_erro.setVisible(false);
 		} catch (IOException e) {
 		    txt_erro.setVisible(true);
+		    txt_aguarde.setVisible(false);
 		}
 	    }
 	});

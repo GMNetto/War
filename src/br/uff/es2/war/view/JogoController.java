@@ -130,8 +130,7 @@ public class JogoController {
     }
     
     public void desbloqueiaTerritorios(List<TerritorioUI> territorios){
-        
-        for ( TerritorioUI terr : territorios){
+        for (TerritorioUI terr : territorios){
             terr.desbloqueia();
         }
     }
@@ -191,8 +190,8 @@ public class JogoController {
     }
 
     public void setGame(Game game) {
-	territorios = createTerritoryUI(game.getWorld().getTerritories());
 	this.game = game;
+	territorios = createTerritoryUI(game.getWorld().getTerritories());
     }
 
     private List<TerritorioUI> createTerritoryUI(Set<Territory> territories) {
