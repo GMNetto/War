@@ -54,14 +54,13 @@ public class GameController implements Runnable {
 	    throws NonexistentEntityException {
 	this.clients = clients;
 	protocol = ProtocolFactory.defaultJSONServerSideProtocol();
-	Player[] players = new Player[clients.length];
-	int i, j;
-	for (i = 0; i < players.length; i++)
+	Player[] players = new Player[WarServer.PLAYER_PER_GAME];
+	int i;
+	for (i = 0; i < clients.length; i++)
 	    players[i] = new ServerSidePlayer(clients[i], protocol);
         j=i;
 	for (; i < WarServer.PLAYER_PER_GAME; i++) {
 	    players[i] = new BasicBot();
-	}
 
 	// Load from database
 //	Game game = loadFromDatabase(players); // The
