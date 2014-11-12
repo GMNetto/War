@@ -55,13 +55,13 @@ public class GameController implements Runnable {
 	this.clients = clients;
 	protocol = ProtocolFactory.defaultJSONServerSideProtocol();
 	Player[] players = new Player[WarServer.PLAYER_PER_GAME];
-	int i;
+	int i,j;
 	for (i = 0; i < clients.length; i++)
 	    players[i] = new ServerSidePlayer(clients[i], protocol);
         j=i;
 	for (; i < WarServer.PLAYER_PER_GAME; i++) {
 	    players[i] = new BasicBot();
-
+        }
 	// Load from database
 //	Game game = loadFromDatabase(players); // The
 //	/*
@@ -104,7 +104,7 @@ public class GameController implements Runnable {
             ((BasicBot)players[j]).setChangeCardStrategy(new GreedyChangeCardStrategy(0, players[j], game, weightEquationTerritoryValue));
         }
          
-	machine = new GameMachine<Game>(game, new SetupPhase());
+	machine = new GameMachine<>(game, new SetupPhase());
     }
 
     private Game loadFromDatabase(Player[] players) throws NonexistentEntityException {
