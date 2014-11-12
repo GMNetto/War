@@ -4,21 +4,22 @@
  * and open the template in the editor.
  */
 
-package br.uff.es2.war.view;
+package br.uff.es2.war.view.widget;
 
 import br.uff.es2.war.events.Action;
 import br.uff.es2.war.events.BeginTurnEvent;
 import br.uff.es2.war.events.ChooseColorEvent;
+import br.uff.es2.war.view.GameController2;
 
 /**
  *
  * @author anacarolinegomesvargas
  */
-public class AcaoTerritorioEspera implements AcaoTerritorioStrategy{
+public class WaitTerritoryStrategy implements TerritoryUIStrategy{
     
-    private JogoController jc;
+    private GameController2 jc;
     
-    public AcaoTerritorioEspera(final JogoController jc) {
+    public WaitTerritoryStrategy(final GameController2 jc) {
         this.jc=jc;
         jc.setTextFase("Espere a sua vez","","","");
         jc.bloqueiaTerritorios(jc.getTerritorios());
@@ -27,22 +28,19 @@ public class AcaoTerritorioEspera implements AcaoTerritorioStrategy{
             new Action<BeginTurnEvent>() {
 		@Override
                     public void onAction(BeginTurnEvent args) {
-                        jc.setAcaoTerr(new AcaoTerritorioAloca(jc));
+                        jc.setAcaoTerr(new AllocTerritoryStrategy(jc));
                     }
         });
-        
     }
 
-    
     @Override
-    public void AcaoBotao(TerritorioUI ter) {
+    public void buttonAction(TerritoryUI ter) {
         // não faz nada 
-        
     }
 
     @Override
-    public AcaoTerritorioStrategy ProxFase() {
-        return new AcaoTerritorioAloca(jc);
+    public TerritoryUIStrategy nextPhase() {
+        return new AllocTerritoryStrategy(jc);
     }
     
 }

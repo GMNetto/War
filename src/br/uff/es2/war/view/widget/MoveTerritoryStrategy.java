@@ -4,17 +4,19 @@
  * and open the template in the editor.
  */
 
-package br.uff.es2.war.view;
+package br.uff.es2.war.view.widget;
+
+import br.uff.es2.war.view.GameController2;
 
 /**
  * 
  * @author anacarolinegomesvargas
  */
-public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy {
+public class MoveTerritoryStrategy implements TerritoryUIStrategy {
 
-    private JogoController jc;
+    private GameController2 jc;
 
-    public AcaoTerritorioMovimenta(JogoController jc) {
+    public MoveTerritoryStrategy(GameController2 jc) {
         this.jc=jc;
         jc.setTextFase("Movimente exércitos","Selecione um territorio de origem e um de destino","","");
         // para a fase de movimentação é necessário bloquear os territorios que não pertencem ao jogador
@@ -29,7 +31,7 @@ public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy {
     }
 
     @Override
-    public void AcaoBotao(TerritorioUI ter) {
+    public void buttonAction(TerritoryUI ter) {
         jc.getAlocaController().actionMovimenta();
         
         if(jc.getAlocaController().hasTerritorioOrigem()){
@@ -48,10 +50,10 @@ public class AcaoTerritorioMovimenta implements AcaoTerritorioStrategy {
     }
 
     @Override
-    public AcaoTerritorioStrategy ProxFase() {
+    public TerritoryUIStrategy nextPhase() {
         jc.LimpaMovimentaçao();
         jc.getAlocaController().esconde();
         jc.getAlocaController().escondeMov();
-        return new AcaoTerritorioEspera(jc);
+        return new WaitTerritoryStrategy(jc);
     }
 }

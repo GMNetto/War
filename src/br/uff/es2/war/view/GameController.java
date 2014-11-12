@@ -11,9 +11,13 @@ import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.network.client.ClientSidePlayer;
+import br.uff.es2.war.view.widget.WaitTerritoryStrategy;
+import br.uff.es2.war.view.widget.TerritoryUI;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -43,7 +47,7 @@ import javafx.scene.text.TextAlignment;
  *         comunicação com o modelo exite outra classe responsável para isso
  *         (JogoController)
  */
-public class TelaJogoController implements Initializable {
+public class GameController implements Initializable {
 
     @FXML
     private Pane pane_map;
@@ -96,9 +100,9 @@ public class TelaJogoController implements Initializable {
 
     // controlador responsável por se comunicar com o modelo e interagir com a
     // view
-    private JogoController gameController;
+    private GameController2 gameController;
 
-    private void criarCirculo(final TerritorioUI terr) {
+    private void criarCirculo(final TerritoryUI terr) {
 	int x = terr.getX();
 	int y = terr.getY();
 	final Circle circle = new Circle();
@@ -120,7 +124,7 @@ public class TelaJogoController implements Initializable {
 	    @Override
 	    public void handle(MouseEvent arg0) {
 		if (!terr.isBloqueado()) {
-		    gameController.getAcaoTerr().AcaoBotao(terr);
+		    gameController.getAcaoTerr().buttonAction(terr);
 		}
 
 	    }
@@ -140,7 +144,7 @@ public class TelaJogoController implements Initializable {
 	    @Override
 	    public void handle(MouseEvent arg0) {
 		if (!terr.isBloqueado()) {
-		    gameController.getAcaoTerr().AcaoBotao(terr);
+		    gameController.getAcaoTerr().buttonAction(terr);
 		}
 
 	    }
@@ -153,9 +157,9 @@ public class TelaJogoController implements Initializable {
     }
 
     private void desenhaTerritorios() {
-	for(TerritorioUI ui : gameController.getTerritorios()){
+	for(TerritoryUI ui : gameController.getTerritorios()){
 	    criarCirculo(ui);
-	    ui.getCirculo().setFill(MapaCores.getPaint(ui.getDono().getColor()));
+	    ui.getCirculo().setFill(ColorMap.getPaint(ui.getDono().getColor()));
 	}
     }
 
@@ -203,7 +207,7 @@ public class TelaJogoController implements Initializable {
 
 	img_fundo2.setImage(image2);
 
-	this.gameController = new JogoController(pane_aloca, pane_mov,
+	this.gameController = new GameController2(pane_aloca, pane_mov,
 		group_info_bar, pane_ataca1, pane_ataca2, pane_sub_janela);
 
 	
@@ -214,7 +218,7 @@ public class TelaJogoController implements Initializable {
 	    @Override
 	    public void handle(ActionEvent event) {
 		gameController.setAcaoTerr(gameController.getAcaoTerr()
-			.ProxFase());
+			.nextPhase());
 	    }
 	});
 
@@ -256,6 +260,6 @@ public class TelaJogoController implements Initializable {
     public void setGame(Game game){
 	gameController.setGame(game);
 	desenhaTerritorios();
-	gameController.setAcaoTerr(new AcaoTerritorioEspera(gameController));
+	gameController.setAcaoTerr(new WaitTerritoryStrategy(gameController));
     }
 }

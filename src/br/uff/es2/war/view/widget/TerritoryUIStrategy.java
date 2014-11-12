@@ -4,15 +4,15 @@
  * and open the template in the editor.
  */
 
-package br.uff.es2.war.view;
+package br.uff.es2.war.view.widget;
 
 /**
  * 
  * @author anacarolinegomesvargas
  */
-public interface AcaoTerritorioStrategy {
+public interface TerritoryUIStrategy {
 
-    public void AcaoBotao(TerritorioUI ter);
+    public void buttonAction(TerritoryUI ter);
     
-    public AcaoTerritorioStrategy ProxFase();
+    public TerritoryUIStrategy nextPhase();
 }

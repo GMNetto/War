@@ -8,6 +8,10 @@ import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.network.client.ClientSidePlayer;
+import br.uff.es2.war.view.widget.AllocController;
+import br.uff.es2.war.view.widget.AttackController;
+import br.uff.es2.war.view.widget.TerritoryUIStrategy;
+import br.uff.es2.war.view.widget.TerritoryUI;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -21,15 +25,14 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 /**
- * 
  * @author anacarolinegomesvargas
  */
-public class JogoController {
+public class GameController2 {
 
-    private AlocaController ac;
-    private AtacaController atc;
-    private JanelaInfoController jc;
-    private List<TerritorioUI> territorios;
+    private AllocController ac;
+    private AttackController atc;
+    private PopUpController jc;
+    private List<TerritoryUI> territorios;
     private int raio;
 
     private ClientSidePlayer jogador;
@@ -43,13 +46,13 @@ public class JogoController {
     private Pane pane_jogadores;
     private Circle cor_jog;
 
-    private AcaoTerritorioStrategy acaoTerr;
+    private TerritoryUIStrategy acaoTerr;
     private Game game;
 
     private int maxQuantityToDistribute;
     private int quantityBeforeDistribution;
 
-    public JogoController(Pane pane_aloca, Pane pane_mov, Group info_bar,
+    public GameController2(Pane pane_aloca, Pane pane_mov, Group info_bar,
 	    Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela) {
 	this.raio = 10;
 	this.txt_fase1 = (Text) info_bar.lookup("#pane_info_box").lookup(
@@ -64,9 +67,9 @@ public class JogoController {
 	this.cor_jog = (Circle) info_bar.lookup("#cor_jog");
 	this.pane_jogadores = (Pane) info_bar.lookup("#pane_jogadores");
 
-	this.ac = new AlocaController(pane_aloca, pane_mov, raio, this);
-	this.atc = new AtacaController(pane_ataca1, pane_ataca2, raio, this);
-	this.jc = new JanelaInfoController(pane_sub_janela, this);
+	this.ac = new AllocController(pane_aloca, pane_mov, raio, this);
+	this.atc = new AttackController(pane_ataca1, pane_ataca2, raio, this);
+	this.jc = new PopUpController(pane_sub_janela, this);
 
     }
 
@@ -94,9 +97,9 @@ public class JogoController {
 			maxQuantityToDistribute = args.getQuantity();
 			Set<Territory> territoriosRecebidos = args
 				.getTerritories();
-			List<TerritorioUI> territoriesToUnlock = new ArrayList<>();
+			List<TerritoryUI> territoriesToUnlock = new ArrayList<>();
 			for (Territory territory : territoriosRecebidos) {
-			    for (TerritorioUI ui : territorios) {
+			    for (TerritoryUI ui : territorios) {
 				if (ui.getModel().equals(territory))
 				    territoriesToUnlock.add(ui);
 			    }
@@ -106,11 +109,11 @@ public class JogoController {
 		});
     }
 
-    public AcaoTerritorioStrategy getAcaoTerr() {
+    public TerritoryUIStrategy getAcaoTerr() {
 	return acaoTerr;
     }
 
-    public void setAcaoTerr(AcaoTerritorioStrategy acTerr) {
+    public void setAcaoTerr(TerritoryUIStrategy acTerr) {
 	this.acaoTerr = acTerr;
     }
 
@@ -124,7 +127,7 @@ public class JogoController {
 
     public int getTotalArmys() {
 	int counter = 0;
-	for (TerritorioUI territorioUI : this.territorios) {
+	for (TerritoryUI territorioUI : this.territorios) {
 	    counter += territorioUI.getQtd();
 	}
 	return counter;
@@ -153,19 +156,19 @@ public class JogoController {
 	this.txt_ataque2.setText(txt);
     }
 
-    public AlocaController getAlocaController() {
+    public AllocController getAlocaController() {
 	return ac;
     }
 
-    public AtacaController getAtacaController() {
+    public AttackController getAtacaController() {
 	return atc;
     }
 
-    public JanelaInfoController getJanelaController() {
+    public PopUpController getJanelaController() {
 	return jc;
     }
 
-    public List<TerritorioUI> getTerritorios() {
+    public List<TerritoryUI> getTerritorios() {
 	return territorios;
     }
 
@@ -179,21 +182,21 @@ public class JogoController {
 
     public void LimpaMovimentaçao() {
 
-	for (TerritorioUI terr : territorios) {
+	for (TerritoryUI terr : territorios) {
 	    terr.setQtdMov(0);
 	}
 
     }
 
-    public void desbloqueiaTerritorios(List<TerritorioUI> territorios) {
-	for (TerritorioUI terr : territorios) {
+    public void desbloqueiaTerritorios(List<TerritoryUI> territorios) {
+	for (TerritoryUI terr : territorios) {
 	    terr.desbloqueia();
 	}
     }
 
-    public void bloqueiaTerritorios(List<TerritorioUI> territorios) {
+    public void bloqueiaTerritorios(List<TerritoryUI> territorios) {
 
-	for (TerritorioUI terr : territorios) {
+	for (TerritoryUI terr : territorios) {
 	    terr.bloqueia();
 	}
 
@@ -202,7 +205,7 @@ public class JogoController {
     public void bloqueiaTerririosAdversarios() {
 	// bloqueia territorios que não pertencem ao usuário
 	// Utilizado para a fase de alocação
-	for (TerritorioUI terr : territorios) {
+	for (TerritoryUI terr : territorios) {
 	    if (!terr.isDono(jogador)) {
 		// territorio de adversário
 		terr.bloqueia();
@@ -210,7 +213,7 @@ public class JogoController {
 	}
     }
 
-    public void bloqueiaTerririosNaoVizinhos(TerritorioUI territorio) {
+    public void bloqueiaTerririosNaoVizinhos(TerritoryUI territorio) {
 	// bloqueia territorios que não são vizinhos e territorios que pertencem
 	// ao usuário
 	// Utilizado para a fase de ataque
@@ -219,7 +222,7 @@ public class JogoController {
 	bloqueiaTerritorios(this.territorios);
 
 	// agora desbloquei apenas os vizinhos necessários
-	for (TerritorioUI terr : territorio.getViz()) {
+	for (TerritoryUI terr : territorio.getViz()) {
 	    if (!terr.isDono(jogador)) {
 		// territorio vizinho e não pertence ao jogador
 		terr.desbloqueia();
@@ -228,7 +231,7 @@ public class JogoController {
 
     }
 
-    public void bloqueiaTerririosNaoVizinhosAdversarios(TerritorioUI territorio) {
+    public void bloqueiaTerririosNaoVizinhosAdversarios(TerritoryUI territorio) {
 	// bloqueia territorios que não são vizinhos e territorios que pertencem
 	// não pertencem ao usuário
 	// Utilizado para a fase de moviementação
@@ -237,7 +240,7 @@ public class JogoController {
 	bloqueiaTerritorios(this.territorios);
 
 	// agora desbloqueia apenas os vizinhos necessários
-	for (TerritorioUI terr : territorio.getViz()) {
+	for (TerritoryUI terr : territorio.getViz()) {
 	    if (terr.isDono(jogador)) {
 		// territorio vizinho e pertence ao jogador
 		terr.desbloqueia();
@@ -249,13 +252,13 @@ public class JogoController {
 	this.game = game;
 	territorios = createTerritoryUI(game.getWorld().getTerritories());
 	Color minhaCor = jogador.getColor();
-	cor_jog.setFill(MapaCores.getPaint(minhaCor));
+	cor_jog.setFill(ColorMap.getPaint(minhaCor));
 	int total = 1;
 	for (Player jog : game.getPlayers()) {
 	    if (!jog.getColor().getName().equals(minhaCor.getName())) {
 		Text tx = (Text) pane_jogadores.lookup("#txt_jog" + total);
 		Circle c = (Circle) pane_jogadores.lookup("#cor_jog" + total);
-		c.setFill(MapaCores.getPaint(jog.getColor()));
+		c.setFill(ColorMap.getPaint(jog.getColor()));
 		c.setVisible(true);
 		tx.setVisible(true);
 		total++;
@@ -265,10 +268,10 @@ public class JogoController {
 
     }
 
-    private List<TerritorioUI> createTerritoryUI(Set<Territory> territories) {
-	List<TerritorioUI> widgets = new LinkedList<TerritorioUI>();
+    private List<TerritoryUI> createTerritoryUI(Set<Territory> territories) {
+	List<TerritoryUI> widgets = new LinkedList<TerritoryUI>();
 	for (Territory territory : game.getWorld().getTerritories()) {
-	    TerritorioUI widget = new TerritorioUI();
+	    TerritoryUI widget = new TerritoryUI();
 	    widget.setModel(territory);
 	    widgets.add(widget);
 	}

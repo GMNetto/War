@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package br.uff.es2.war.view;
+package br.uff.es2.war.view.widget;
 
+import br.uff.es2.war.view.GameController2;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -16,7 +17,8 @@ import javafx.scene.layout.Pane;
  * 
  * @author anacarolinegomesvargas
  */
-public class AlocaController {
+public class AllocController {
+    
     private Pane pane_aloca;
     private Pane pane_mov;
     private Button btn_mov_cancel;
@@ -28,13 +30,12 @@ public class AlocaController {
     private int centrox;
     private int centroy;
 
-    private TerritorioUI terDestino, terOrigem;
+    private TerritoryUI terDestino, terOrigem;
     private int acrescenta;
-    
-     private JogoController jc;
-    
 
-    public AlocaController(Pane pane_aloca, Pane pane_mov, int raio, JogoController jc) {
+    private GameController2 jc;
+
+    public AllocController(Pane pane_aloca, Pane pane_mov, int raio, GameController2 jc) {
         this.pane_aloca = pane_aloca;
         this.btn_aloca_mais = (Button) pane_aloca.lookup("#btn_aloca_mais");
         this.btn_aloca_cancel =(Button) pane_aloca.lookup("#btn_aloca_cancel");
@@ -98,21 +99,21 @@ public class AlocaController {
         pane_mov.toFront();
     }
     
-    public void setTerritorioDestino(TerritorioUI t){
+    public void setTerritorioDestino(TerritoryUI t){
         this.terDestino=t;
         this.acrescenta=0;
     }
 
-    public void setTerritorioOrigem(TerritorioUI t) {
+    public void setTerritorioOrigem(TerritoryUI t) {
 	this.terOrigem = t;
 	this.acrescenta = 0;
     }
 
-    public TerritorioUI getTerDestino() {
+    public TerritoryUI getTerDestino() {
         return terDestino;
     }
 
-    public TerritorioUI getTerOrigem() {
+    public TerritoryUI getTerOrigem() {
         return terOrigem;
     }
 

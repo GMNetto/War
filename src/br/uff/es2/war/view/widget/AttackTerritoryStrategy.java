@@ -4,17 +4,19 @@
  * and open the template in the editor.
  */
 
-package br.uff.es2.war.view;
+package br.uff.es2.war.view.widget;
+
+import br.uff.es2.war.view.GameController2;
 
 /**
  *
  * @author anacarolinegomesvargas
  */
-public class AcaoTerritorioAtaca implements AcaoTerritorioStrategy{
+public class AttackTerritoryStrategy implements TerritoryUIStrategy{
     
-    private JogoController jc;
+    private GameController2 jc;
     
-    public AcaoTerritorioAtaca(JogoController jc) {
+    public AttackTerritoryStrategy(GameController2 jc) {
         this.jc=jc;
         jc.setTextFase("Ataque!!","Selecione o territorio de origem e o destino do ataque","","");
         jc.desbloqueiaTerritorios(jc.getTerritorios());
@@ -29,7 +31,7 @@ public class AcaoTerritorioAtaca implements AcaoTerritorioStrategy{
 
     
     @Override
-    public void AcaoBotao(TerritorioUI ter) {
+    public void buttonAction(TerritoryUI ter) {
         jc.getAtacaController().actionAtaca();
         
         if(jc.getAtacaController().hasTerritorioOrigem()){
@@ -49,10 +51,10 @@ public class AcaoTerritorioAtaca implements AcaoTerritorioStrategy{
     }
 
     @Override
-    public AcaoTerritorioStrategy ProxFase() {
+    public TerritoryUIStrategy nextPhase() {
         jc.getAtacaController().esconde1();
         jc.getAtacaController().esconde2();
-        return new AcaoTerritorioMovimenta(jc);
+        return new MoveTerritoryStrategy(jc);
     }
     
 }

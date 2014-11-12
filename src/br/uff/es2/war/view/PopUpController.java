@@ -13,28 +13,22 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 /**
- * 
  * @author anacarolinegomesvargas
  */
-public class JanelaInfoController {
+public class PopUpController {
+    
     private Pane pane_sub_janela;
     private Pane pane_obj;
     private Pane pane_info;
     private Pane pane_cartas;
-   
     private Button btn_janela_x;
     private Text txt_ataca1;
     private Text txt_ataca2;
-    
-     private JogoController jc;
-    
+    private GameController2 jc;
 
-    public JanelaInfoController(Pane pane_sub_janela, JogoController jc) {
-        
+    public PopUpController(Pane pane_sub_janela, GameController2 jc) {
         this.jc=jc;
-        
         this.pane_sub_janela=pane_sub_janela;
-        
         this.pane_obj = (Pane) pane_sub_janela.lookup("#pane_obj");
         this.pane_info = (Pane) pane_sub_janela.lookup("#pane_info");
         this.pane_cartas = (Pane) pane_sub_janela.lookup("#pane_cartas");
@@ -48,9 +42,6 @@ public class JanelaInfoController {
                 esconde();
             }
         });
-        
-        
-       
     }
 
     public void esconde() {

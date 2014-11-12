@@ -4,17 +4,19 @@
  * and open the template in the editor.
  */
 
-package br.uff.es2.war.view;
+package br.uff.es2.war.view.widget;
+
+import br.uff.es2.war.view.GameController2;
 
 /**
  * 
  * @author anacarolinegomesvargas
  */
-public class AcaoTerritorioAloca implements AcaoTerritorioStrategy {
+public class AllocTerritoryStrategy implements TerritoryUIStrategy {
 
-    private JogoController jc;
+    private GameController2 jc;
 
-    public AcaoTerritorioAloca(JogoController jc) {
+    public AllocTerritoryStrategy(GameController2 jc) {
         this.jc=jc;
         jc.setTextFase("Aloque seu exércitos","Selecione o territorio onde deseja alocar","","");
         // para a fase de alocação é necessário bloquear os territorios que não pertencem ao jogador
@@ -28,7 +30,7 @@ public class AcaoTerritorioAloca implements AcaoTerritorioStrategy {
     }
 
     @Override
-    public void AcaoBotao(TerritorioUI ter) {
+    public void buttonAction(TerritoryUI ter) {
 	jc.getAlocaController().setTerritorioDestino(ter);
 	jc.getAlocaController().actionAloca(jc.getMaxExercitosAloca());
 	jc.getAlocaController().mostra();
@@ -39,8 +41,8 @@ public class AcaoTerritorioAloca implements AcaoTerritorioStrategy {
     }
 
     @Override
-    public AcaoTerritorioStrategy ProxFase() {
+    public TerritoryUIStrategy nextPhase() {
         jc.getAlocaController().esconde();
-        return new AcaoTerritorioAtaca(jc);
+        return new AttackTerritoryStrategy(jc);
     }
 }

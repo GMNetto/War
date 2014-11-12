@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package br.uff.es2.war.view;
+package br.uff.es2.war.view.widget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +19,17 @@ import javafx.scene.text.Text;
  * 
  * @author anacarolinegomesvargas
  */
-public class TerritorioUI {
+public class TerritoryUI {
     private Circle circulo;
     private Text texto;
     private Territory model;
     private boolean bloqueado;
     private int qtdMov;
     
-    private List<TerritorioUI> viz; //como integrar a representação do modelo com a da interface?
+    private List<TerritoryUI> viz; //como integrar a representação do modelo com a da interface?
     
-    public TerritorioUI() {
-        this.viz = new ArrayList<TerritorioUI>();
+    public TerritoryUI() {
+        this.viz = new ArrayList<TerritoryUI>();
     }
     
     public void setModel(Territory model) {
@@ -100,11 +100,11 @@ public class TerritorioUI {
 	return model.getOwner().equals(player);
     }
 
-    public void addVizinho(TerritorioUI t) {
+    public void addVizinho(TerritoryUI t) {
 	viz.add(t);
     }
 
-    public List<TerritorioUI> getViz() {
+    public List<TerritoryUI> getViz() {
 	return viz;
     }
 

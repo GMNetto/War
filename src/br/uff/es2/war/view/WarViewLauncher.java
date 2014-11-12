@@ -16,7 +16,7 @@ import javafx.stage.Stage;
  * 
  * @author anacarolinegomesvargas
  */
-public class JogoWar extends Application {
+public class WarViewLauncher extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
