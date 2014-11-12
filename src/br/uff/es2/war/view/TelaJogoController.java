@@ -5,14 +5,15 @@
  */
 package br.uff.es2.war.view;
 
+import br.uff.es2.war.events.Action;
+import br.uff.es2.war.events.DistributeSoldiersEvent;
 import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.network.client.ClientSidePlayer;
-
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -87,6 +88,9 @@ public class TelaJogoController implements Initializable {
 
     @FXML
     private Group group_info_bar;
+    
+    @FXML
+    private Text txt_obj;
     
     private float scaleMin;
 
@@ -246,6 +250,7 @@ public class TelaJogoController implements Initializable {
 
     public void setPlayer(ClientSidePlayer player) {
 	gameController.setPlayer(player);
+        txt_obj.setText(player.getObjective().toString());
     }
     
     public void setGame(Game game){

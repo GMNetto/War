@@ -131,6 +131,7 @@ public class AlocaController {
                 //limitando para numero máximo de execitos a serem alocados
                 if(acrescenta<maxExercitos){
                     acrescenta++;
+                    jc.setMaxQuantityToDistribute(jc.getMaxExercitosAloca()-1);
                     terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
                 }
             }
@@ -143,6 +144,7 @@ public class AlocaController {
                 // limitando para não retirar exercitos
                 if(acrescenta>0){
                     acrescenta--;
+                    jc.setMaxQuantityToDistribute(jc.getMaxExercitosAloca()+1);
                     terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
                 }
                 

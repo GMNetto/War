@@ -13,7 +13,7 @@ public class PlayerData implements Player {
     protected Game game;
     protected Objective objective;
     protected Color color;
-    protected Collection<Card> cards;
+    protected List<Card> cards;
     
     public PlayerData(){
 	cards = new LinkedList<>();
@@ -45,7 +45,7 @@ public class PlayerData implements Player {
     }
     
     @Override
-    public Collection<Card> getCards() {
+    public List<Card> getCards() {
 	return cards;
     }
 

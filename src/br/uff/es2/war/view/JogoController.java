@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package br.uff.es2.war.view;
 
 import br.uff.es2.war.entity.Territorio;
+import br.uff.es2.war.events.Action;
+import br.uff.es2.war.events.DistributeSoldiersEvent;
+import br.uff.es2.war.events.ExchangeCardsEvent;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
@@ -49,6 +46,8 @@ public class JogoController {
     
     private AcaoTerritorioStrategy acaoTerr;
     private Game game;
+    
+    private int maxQuantityToDistribute;
             
     public JogoController(Pane pane_aloca, Pane pane_mov,Group info_bar,Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela) {
         this.raio=10;
@@ -70,8 +69,34 @@ public class JogoController {
         return jogador;
     }
 
-    public void setPlayer(ClientSidePlayer player) {
+    public void setPlayer(final ClientSidePlayer player) {
         this.jogador = player;
+        player.getEvents().subscribe(ExchangeCardsEvent.class, new Action<ExchangeCardsEvent>() {
+            
+            @Override
+            public void onAction(ExchangeCardsEvent args) {
+                player.exchangeCards(player.getCards());
+            }
+        });
+        
+        
+        player.getEvents().subscribe(DistributeSoldiersEvent.class, new Action<DistributeSoldiersEvent>(){
+
+            @Override
+            public void onAction(DistributeSoldiersEvent args) {
+                int quantity = args.getQuantity();
+                maxQuantityToDistribute=quantity+getTotalArmys();
+                Set<Territory> territoriosRecebidos = args.getTerritories();
+                List<TerritorioUI> territoriesToUnlock=new ArrayList<>();
+                for (Territory territory : territoriosRecebidos) {
+                    for (TerritorioUI ui  : territorios) {
+                        if(ui.getModel().equals(territory))
+                            territoriesToUnlock.add(ui);
+                    }
+                }
+                desbloqueiaTerritorios(territoriesToUnlock);
+            }
+        });
     }
 
     public AcaoTerritorioStrategy getAcaoTerr() {
@@ -83,8 +108,21 @@ public class JogoController {
     }
 
     public int getMaxExercitosAloca() {
-	return 10;
+	return maxQuantityToDistribute;
     }
+    
+    public void setMaxQuantityToDistribute(int quantityToDistribute){
+        this.maxQuantityToDistribute=quantityToDistribute;
+    }
+    
+    public int getTotalArmys(){
+        int counter=0;
+        for (TerritorioUI territorioUI : this.territorios) {
+            counter+=territorioUI.getQtd();
+        }
+        return counter;
+    }
+    
     
     public void setTextFase(String txt,String txt2,String txt3,String txt4){
         this.txt_fase1.setText(txt);

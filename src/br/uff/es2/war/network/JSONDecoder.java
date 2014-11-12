@@ -1,13 +1,5 @@
 package br.uff.es2.war.network;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
@@ -17,6 +9,13 @@ import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.PlayerData;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.model.World;
+import br.uff.es2.war.model.objective.ClientObjective;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 class JSONDecoder implements Decoder {
 
@@ -64,8 +63,10 @@ class JSONDecoder implements Decoder {
     
     private Player decodePlayer(JSONObject json){
 	Color color = decodeColor(json.getJSONObject("color"));
-	Player player = new PlayerData();
+	ClientObjective clientObjective = new ClientObjective(json.getString("objective"));
+        Player player = new PlayerData();
 	player.setColor(color);
+        player.setObjective(clientObjective);
 	return player;
     }
     
