@@ -99,6 +99,7 @@ public class PopUpController {
         });
         
         //Pegar cartas do jogo
+        /*
         jc.getPlayer().getEvents().subscribe(AddCardEvent.class,
             new Action<AddCardEvent>() {
 		@Override
@@ -108,6 +109,7 @@ public class PopUpController {
                         
                     }
         });
+        
         
         //verificando selecão de cartas
         final CheckBox check_card1=(CheckBox) pane_cartas.lookup("#check_card1");
@@ -154,6 +156,7 @@ public class PopUpController {
 			selecionaCarta(new_val,4,check_card5);
 		    }
 		});
+		*/
     }
     
     public void selecionaCarta(Boolean new_val,int n, CheckBox check){

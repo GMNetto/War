@@ -160,7 +160,11 @@ public class GameController implements Runnable {
 
     @Override
     public void run() {
-        machine.run();
+	try{
+	    machine.run();
+	}catch(Throwable e){
+	    System.err.println("client error: " + e);
+	}
     }
 
     private Map<Player, Integer> getIDPlayers(Player[] players) {

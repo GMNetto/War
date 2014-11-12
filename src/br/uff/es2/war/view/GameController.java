@@ -82,12 +82,12 @@ public class GameController implements Initializable {
     private Pane pane_sub_janela;
 
     @FXML
-    private ImageView background;
+    private ImageView img_fundo;
     
     private Image backgroundImage;
 
     @FXML
-    private ImageView background2;
+    private ImageView img_fundo2;
     
     private Image backgroundImage2;
 
@@ -105,8 +105,8 @@ public class GameController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 	backgroundImage = new Image("war1.jpg");
 	Image backgroundImage2 = new Image("tela2.jpg");
-	background.setImage(backgroundImage);
-	background2.setImage(backgroundImage2);
+	img_fundo.setImage(backgroundImage);
+	img_fundo2.setImage(backgroundImage2);
 	scaleMin = Math.max((float) (800 / backgroundImage.getWidth()),
 		(float) (450 / backgroundImage.getHeight()));
 	pane_map.setPrefSize(backgroundImage.getWidth(), backgroundImage.getHeight());
