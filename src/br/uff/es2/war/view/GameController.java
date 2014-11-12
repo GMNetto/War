@@ -5,18 +5,8 @@
  */
 package br.uff.es2.war.view;
 
-import br.uff.es2.war.events.Action;
-import br.uff.es2.war.events.DistributeSoldiersEvent;
-import br.uff.es2.war.events.SetGameEvent;
-import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.network.client.ClientSidePlayer;
-import br.uff.es2.war.view.widget.WaitTerritoryStrategy;
-import br.uff.es2.war.view.widget.TerritoryUI;
-
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -37,6 +27,10 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import br.uff.es2.war.model.Game;
+import br.uff.es2.war.network.client.ClientSidePlayer;
+import br.uff.es2.war.view.widget.TerritoryUI;
+import br.uff.es2.war.view.widget.WaitTerritoryStrategy;
 
 /**
  * 
@@ -54,59 +48,151 @@ public class GameController implements Initializable {
     @FXML
     private Parent parent;
 
-    // botao para mudança de estado do jogo
     @FXML
     private Button btn_prox;
 
     @FXML
     private Button btn_carta;
+
     @FXML
     private Button btn_obj;
+
     @FXML
     private Button btn_troca;
-    
+
     @FXML
     private Button btn_z_mais;
-    
+
     @FXML
     private Button btn_z_menos;
-    
-    // painel de alocação
+
     @FXML
     private Pane pane_aloca;
+
     @FXML
     private Pane pane_mov;
-    // painel de ataque
+
     @FXML
     private Pane pane_ataca1;
+
     @FXML
     private Pane pane_ataca2;
-    // janela modal
+
     @FXML
     private Pane pane_sub_janela;
 
     @FXML
-    private ImageView img_fundo;
+    private ImageView background;
+    
+    private Image backgroundImage;
+
     @FXML
-    private ImageView img_fundo2;
+    private ImageView background2;
+    
+    private Image backgroundImage2;
 
     @FXML
     private Group group_info_bar;
-    
+
     @FXML
     private Text txt_obj;
-    
+
     private float scaleMin;
 
-    // controlador responsável por se comunicar com o modelo e interagir com a
-    // view
-    private GameController2 gameController;
+    private GameController2 controller2;
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+	backgroundImage = new Image("war1.jpg");
+	Image backgroundImage2 = new Image("tela2.jpg");
+	background.setImage(backgroundImage);
+	background2.setImage(backgroundImage2);
+	scaleMin = Math.max((float) (800 / backgroundImage.getWidth()),
+		(float) (450 / backgroundImage.getHeight()));
+	pane_map.setPrefSize(backgroundImage.getWidth(), backgroundImage.getHeight());
+	controller2 = new GameController2(pane_aloca, pane_mov,
+		group_info_bar, pane_ataca1, pane_ataca2, pane_sub_janela);
+	addEvents();
+    }
+    
+    private void addEvents(){
+	this.btn_z_mais.setOnAction(new EventHandler<ActionEvent>() {
+	    @Override
+	    public void handle(ActionEvent event) {
+		zoomIn();
+	    }
+	});
+
+	this.btn_z_menos.setOnAction(new EventHandler<ActionEvent>() {
+
+	    @Override
+	    public void handle(ActionEvent event) {
+		zoomOut();
+	    }
+	});
+
+	this.btn_prox.setOnAction(new EventHandler<ActionEvent>() {
+
+	    @Override
+	    public void handle(ActionEvent event) {
+		controller2.setAcaoTerr(controller2.getAcaoTerr().nextPhase());
+	    }
+	});
+
+	this.btn_carta.setOnAction(new EventHandler<ActionEvent>() {
+
+	    @Override
+	    public void handle(ActionEvent event) {
+		controller2.getJanelaController().mostra();
+		controller2.getJanelaController().mostraCartas();
+	    }
+	});
+
+	this.btn_obj.setOnAction(new EventHandler<ActionEvent>() {
+
+	    @Override
+	    public void handle(ActionEvent event) {
+		controller2.getJanelaController().mostra();
+		controller2.getJanelaController().mostraObj();
+	    }
+	});
+
+	this.btn_troca.setOnAction(new EventHandler<ActionEvent>() {
+
+	    @Override
+	    public void handle(ActionEvent event) {
+		controller2.getJanelaController().mostra();
+		controller2.getJanelaController().mostraInfo();
+
+	    }
+	});
+    }
+    
+    private void zoomIn(){
+	if (pane_map.getScaleX() < 1) {
+	    double novo = Math.min(1, pane_map.getScaleX() + 0.1);
+	    pane_map.setScaleX(novo);
+	    pane_map.setScaleY(novo);
+	    pane_map.setPrefSize(backgroundImage.getWidth() * novo,
+		    backgroundImage.getHeight() * novo);
+	}
+    }
+    
+    private void zoomOut(){
+	if (pane_map.getScaleX() > scaleMin) {
+	    double novo = Math.max(scaleMin, pane_map.getScaleX() - 0.1);
+	    pane_map.setScaleX(novo);
+	    pane_map.setScaleY(novo);
+	    pane_map.setPrefSize(backgroundImage.getWidth() * novo,
+		    backgroundImage.getHeight() * novo);
+	}
+    }
 
     private void criarCirculo(final TerritoryUI terr) {
 	int x = terr.getX();
 	int y = terr.getY();
 	final Circle circle = new Circle();
-	circle.setRadius(gameController.getRaio());
+	circle.setRadius(controller2.getRaio());
 	circle.setCenterX(x);
 	circle.setCenterY(y);
 	circle.setStroke(Paint.valueOf("Black"));
@@ -120,31 +206,29 @@ public class GameController implements Initializable {
 	circle.setEffect(dropShadow);
 	circle.setCursor(Cursor.HAND);
 	circle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
 	    @Override
 	    public void handle(MouseEvent arg0) {
 		if (!terr.isBloqueado()) {
-		    gameController.getAcaoTerr().buttonAction(terr);
+		    controller2.getAcaoTerr().buttonAction(terr);
 		}
-
 	    }
 	});
 	pane_map.getChildren().add(circle);
 
 	Text text = new Text();
-	text.setFont(new Font(gameController.getRaio()));
+	text.setFont(new Font(controller2.getRaio()));
 	text.setText(terr.getQtd() + "");
-	text.setX(x - 4 - gameController.getRaio() / 2);
+	text.setX(x - 4 - controller2.getRaio() / 2);
 	text.setY(y + 2);
 	text.setTextAlignment(TextAlignment.CENTER);
-	text.setWrappingWidth(gameController.getRaio() * 1.5);
+	text.setWrappingWidth(controller2.getRaio() * 1.5);
 	text.setCursor(Cursor.HAND);
 	text.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 	    @Override
 	    public void handle(MouseEvent arg0) {
 		if (!terr.isBloqueado()) {
-		    gameController.getAcaoTerr().buttonAction(terr);
+		    controller2.getAcaoTerr().buttonAction(terr);
 		}
 
 	    }
@@ -153,113 +237,23 @@ public class GameController implements Initializable {
 
 	terr.setCirculo(circle);
 	terr.setTexto(text);
-
     }
 
     private void desenhaTerritorios() {
-	for(TerritoryUI ui : gameController.getTerritorios()){
+	for (TerritoryUI ui : controller2.getTerritorios()) {
 	    criarCirculo(ui);
 	    ui.getCirculo().setFill(ColorMap.getPaint(ui.getDono().getColor()));
 	}
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-	// load the image
-	final Image image = new Image("war1.jpg");
-        
-        scaleMin=Math.max((float) (800/image.getWidth()), (float) (450/image.getHeight()));
-                
-       // pane_map.setScaleX(scaleMin);
-        //pane_map.setScaleY(scaleMin);
-        
-        pane_map.setPrefSize(image.getWidth(), image.getHeight());
-        
-        //opção de zoom
-        this.btn_z_mais.setOnAction(new EventHandler<ActionEvent>() {
-
-	    @Override
-	    public void handle(ActionEvent event) {
-		if(pane_map.getScaleX()<1){
-                    double novo=Math.min(1, pane_map.getScaleX()+0.1);
-                    pane_map.setScaleX(novo);
-                    pane_map.setScaleY(novo);
-                    pane_map.setPrefSize(image.getWidth()*novo, image.getHeight()*novo);
-                }
-	    }
-	});
-        
-        this.btn_z_menos.setOnAction(new EventHandler<ActionEvent>() {
-
-	    @Override
-	    public void handle(ActionEvent event) {
-		if(pane_map.getScaleX()>scaleMin){
-                    double novo=Math.max(scaleMin, pane_map.getScaleX()-0.1);
-                    pane_map.setScaleX(novo);
-                    pane_map.setScaleY(novo);
-                    pane_map.setPrefSize(image.getWidth()*novo, image.getHeight()*novo);
-                }
-	    }
-	});
-
-	img_fundo.setImage(image);
-	Image image2 = new Image("tela2.jpg");
-
-	img_fundo2.setImage(image2);
-
-	this.gameController = new GameController2(pane_aloca, pane_mov,
-		group_info_bar, pane_ataca1, pane_ataca2, pane_sub_janela);
-
-	
-
-	// alterando fase do jogo
-	this.btn_prox.setOnAction(new EventHandler<ActionEvent>() {
-
-	    @Override
-	    public void handle(ActionEvent event) {
-		gameController.setAcaoTerr(gameController.getAcaoTerr()
-			.nextPhase());
-	    }
-	});
-
-	this.btn_carta.setOnAction(new EventHandler<ActionEvent>() {
-
-	    @Override
-	    public void handle(ActionEvent event) {
-		gameController.getJanelaController().mostra();
-		gameController.getJanelaController().mostraCartas();
-	    }
-	});
-
-	this.btn_obj.setOnAction(new EventHandler<ActionEvent>() {
-
-	    @Override
-	    public void handle(ActionEvent event) {
-		gameController.getJanelaController().mostra();
-		gameController.getJanelaController().mostraObj();
-
-	    }
-	});
-
-	this.btn_troca.setOnAction(new EventHandler<ActionEvent>() {
-
-	    @Override
-	    public void handle(ActionEvent event) {
-		gameController.getJanelaController().mostra();
-		gameController.getJanelaController().mostraInfo();
-
-	    }
-	});
-    }
-
     public void setPlayer(ClientSidePlayer player) {
-	gameController.setPlayer(player);
-        //txt_obj.setText(player.getObjective().toString());
+	controller2.setPlayer(player);
+	// txt_obj.setText(player.getObjective().toString());
     }
-    
-    public void setGame(Game game){
-	gameController.setGame(game);
+
+    public void setGame(Game game) {
+	controller2.setGame(game);
 	desenhaTerritorios();
-	gameController.setAcaoTerr(new WaitTerritoryStrategy(gameController));
+	controller2.setAcaoTerr(new WaitTerritoryStrategy(controller2));
     }
 }

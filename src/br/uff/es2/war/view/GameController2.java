@@ -8,15 +8,14 @@ import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.network.client.ClientSidePlayer;
-import br.uff.es2.war.view.widget.AllocController;
-import br.uff.es2.war.view.widget.AttackController;
+import br.uff.es2.war.view.widget.AlloctTerritoryController;
+import br.uff.es2.war.view.widget.AttackTerritoryController;
 import br.uff.es2.war.view.widget.TerritoryUIStrategy;
 import br.uff.es2.war.view.widget.TerritoryUI;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import javafx.scene.Group;
@@ -29,8 +28,8 @@ import javafx.scene.text.Text;
  */
 public class GameController2 {
 
-    private AllocController ac;
-    private AttackController atc;
+    private AlloctTerritoryController ac;
+    private AttackTerritoryController atc;
     private PopUpController jc;
     private List<TerritoryUI> territorios;
     private int raio;
@@ -67,8 +66,8 @@ public class GameController2 {
 	this.cor_jog = (Circle) info_bar.lookup("#cor_jog");
 	this.pane_jogadores = (Pane) info_bar.lookup("#pane_jogadores");
 
-	this.ac = new AllocController(pane_aloca, pane_mov, raio, this);
-	this.atc = new AttackController(pane_ataca1, pane_ataca2, raio, this);
+	this.ac = new AlloctTerritoryController(pane_aloca, pane_mov, raio, this);
+	this.atc = new AttackTerritoryController(pane_ataca1, pane_ataca2, raio, this);
 	this.jc = new PopUpController(pane_sub_janela, this);
 
     }
@@ -156,11 +155,11 @@ public class GameController2 {
 	this.txt_ataque2.setText(txt);
     }
 
-    public AllocController getAlocaController() {
+    public AlloctTerritoryController getAlocaController() {
 	return ac;
     }
 
-    public AttackController getAtacaController() {
+    public AttackTerritoryController getAtacaController() {
 	return atc;
     }
 
@@ -195,11 +194,9 @@ public class GameController2 {
     }
 
     public void bloqueiaTerritorios(List<TerritoryUI> territorios) {
-
 	for (TerritoryUI terr : territorios) {
 	    terr.bloqueia();
 	}
-
     }
 
     public void bloqueiaTerririosAdversarios() {

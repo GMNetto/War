@@ -19,7 +19,7 @@ import javafx.scene.text.Text;
  * 
  * @author anacarolinegomesvargas
  */
-public class AttackController {
+public class AttackTerritoryController {
     private Pane pane_ataca1;
     private Pane pane_ataca2;
     
@@ -44,7 +44,7 @@ public class AttackController {
      private GameController2 jc;
     
 
-    public AttackController(Pane pane_ataca1, Pane pane_ataca2, int raio, GameController2 jc) {
+    public AttackTerritoryController(Pane pane_ataca1, Pane pane_ataca2, int raio, GameController2 jc) {
         this.pane_ataca1 = pane_ataca1;
         this.btn_ataca1_cancel = (Button) pane_ataca1.lookup("#btn_ataca1_cancel");
         this.btn_ataca1_mais =(Button) pane_ataca1.lookup("#btn_ataca1_mais");

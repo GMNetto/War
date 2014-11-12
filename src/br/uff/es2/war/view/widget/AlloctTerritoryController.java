@@ -17,7 +17,7 @@ import javafx.scene.layout.Pane;
  * 
  * @author anacarolinegomesvargas
  */
-public class AllocController {
+public class AlloctTerritoryController {
     
     private Pane pane_aloca;
     private Pane pane_mov;
@@ -35,7 +35,7 @@ public class AllocController {
 
     private GameController2 jc;
 
-    public AllocController(Pane pane_aloca, Pane pane_mov, int raio, GameController2 jc) {
+    public AlloctTerritoryController(Pane pane_aloca, Pane pane_mov, int raio, GameController2 jc) {
         this.pane_aloca = pane_aloca;
         this.btn_aloca_mais = (Button) pane_aloca.lookup("#btn_aloca_mais");
         this.btn_aloca_cancel =(Button) pane_aloca.lookup("#btn_aloca_cancel");
