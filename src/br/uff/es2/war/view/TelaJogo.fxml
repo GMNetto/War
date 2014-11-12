@@ -237,11 +237,47 @@
                         <Font size="36.0" />
                      </font>
                   </Text>
-                  <Text fx:id="txt_cartas" layoutX="19.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exibir cartas aqui!!" textAlignment="CENTER" wrappingWidth="396.6829261779785">
+                  <Text fx:id="txt_cartas" layoutX="19.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Selecione as cartas que deseja trocar" textAlignment="CENTER" wrappingWidth="396.6829261779785">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
+                  <Pane fx:id="pane_card1" layoutX="5.0" layoutY="110.0" prefHeight="0.0" prefWidth="0.0" visible="false">
+                     <children>
+                        <Text fx:id="txt_form_card1" strokeType="OUTSIDE" strokeWidth="0.0" text="Forma" textAlignment="CENTER" wrappingWidth="120.0" />
+                        <Text fx:id="txt_nome_card1" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" textAlignment="CENTER" wrappingWidth="120.0" />
+                        <CheckBox fx:id="check_card1" layoutY="45.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="120.0" text="Trocar" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="pane_card2" layoutX="140.0" layoutY="110.0" prefHeight="0.0" prefWidth="0.0" visible="false">
+                     <children>
+                        <Text fx:id="txt_form_card2" strokeType="OUTSIDE" strokeWidth="0.0" text="Forma" textAlignment="CENTER" wrappingWidth="120.0" />
+                        <Text fx:id="txt_nome_card2" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" textAlignment="CENTER" wrappingWidth="120.0" />
+                        <CheckBox fx:id="check_card2" layoutY="45.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="120.0" text="Trocar" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="pane_card3" layoutX="290.0" layoutY="110.0" prefHeight="0.0" prefWidth="0.0" visible="false">
+                     <children>
+                        <Text fx:id="txt_form_card3" strokeType="OUTSIDE" strokeWidth="0.0" text="Forma" textAlignment="CENTER" wrappingWidth="120.0" />
+                        <Text fx:id="txt_nome_card3" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" textAlignment="CENTER" wrappingWidth="120.0" />
+                        <CheckBox fx:id="check_card3" layoutY="45.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="120.0" text="Trocar" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="pane_card4" layoutX="5.0" layoutY="200.0" prefHeight="0.0" prefWidth="0.0" visible="false">
+                     <children>
+                        <Text fx:id="txt_form_card4" strokeType="OUTSIDE" strokeWidth="0.0" text="Forma" textAlignment="CENTER" wrappingWidth="120.0" />
+                        <Text fx:id="txt_nome_card4" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" textAlignment="CENTER" wrappingWidth="120.0" />
+                        <CheckBox fx:id="check_card4" layoutY="45.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="120.0" text="Trocar" />
+                     </children>
+                  </Pane>
+                  <Pane fx:id="pane_card41" layoutX="140.0" layoutY="200.0" prefHeight="0.0" prefWidth="0.0" visible="false">
+                     <children>
+                        <Text fx:id="txt_form_card41" strokeType="OUTSIDE" strokeWidth="0.0" text="Forma" textAlignment="CENTER" wrappingWidth="120.0" />
+                        <Text fx:id="txt_nome_card41" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome" textAlignment="CENTER" wrappingWidth="120.0" />
+                        <CheckBox fx:id="check_card41" layoutY="45.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="120.0" text="Trocar" />
+                     </children>
+                  </Pane>
+                  <Button fx:id="btn_trocar" layoutX="300.0" layoutY="220.0" mnemonicParsing="false" text="Trocar Cartas" />
                </children>
             </Pane>
          </children>

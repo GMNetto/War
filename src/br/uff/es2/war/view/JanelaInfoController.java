@@ -6,9 +6,17 @@
 
 package br.uff.es2.war.view;
 
+import br.uff.es2.war.events.Action;
+import br.uff.es2.war.events.AddCardEvent;
+import br.uff.es2.war.events.BeginTurnEvent;
+import br.uff.es2.war.events.ExchangeCardsEvent;
+import br.uff.es2.war.model.Card;
+import java.util.LinkedList;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
@@ -26,10 +34,12 @@ public class JanelaInfoController {
     private Text txt_ataca1;
     private Text txt_ataca2;
     
-     private JogoController jc;
+    private List<Card> cartas;
+    
+    private JogoController jc;
     
 
-    public JanelaInfoController(Pane pane_sub_janela, JogoController jc) {
+    public JanelaInfoController(Pane pane_sub_janela, final JogoController jc) {
         
         this.jc=jc;
         
@@ -49,10 +59,58 @@ public class JanelaInfoController {
             }
         });
         
+        cartas=new LinkedList<Card>();
+        
+        //Pegar cartas do jogo
+        jc.getPlayer().getEvents().subscribe(AddCardEvent.class,
+            new Action<AddCardEvent>() {
+		@Override
+                    public void onsAction(AddCardEvent args) {
+                        cartas.add(args.getCard());
+                        atualizaCartas();
+                        
+                    }
+        });
+        
         
        
     }
-
+    public void atualizaCartas(){
+        for(int i=1; i<=5;i++){
+            Pane pane_carta=(Pane) pane_cartas.lookup("#pane_card"+i);
+            pane_carta.setVisible(false);
+        }
+        
+        for(int i=1; i<=cartas.size();i++){
+            Text txt_forma=(Text) pane_cartas.lookup("#txt_form_card"+i);
+            Text txt_nome=(Text) pane_cartas.lookup("#txt_nome_card"+i);
+            CheckBox check=(CheckBox) pane_cartas.lookup("#check_card"+i);
+            String forma="";
+            switch(cartas.get(i).getFigure()){
+                case 0:
+                    forma="Coringa";
+                    break;
+                case 1:
+                    forma="Circulo";
+                    break;
+                case 2:
+                    forma="Triângulo";
+                    break;
+                case 3:
+                    forma="Quadrado";
+                    break;
+            }
+            txt_forma.setText(forma);
+            txt_nome.setText("");
+            if(cartas.get(i).getFigure()!=0){
+                txt_nome.setText(cartas.get(i).getTerritory().getName());
+            }
+            check.setSelected(false);
+            Pane pane_carta=(Pane) pane_cartas.lookup("#pane_card"+i);
+            pane_carta.setVisible(true);
+        }
+    }
+    
     public void esconde() {
 	pane_sub_janela.setVisible(false);
     }
