@@ -67,6 +67,7 @@ class JSONEncoder implements Encoder{
     public String encode(Player current) {
 	JSONObject json = new JSONObject();
 	json.put("color", new JSONObject(encode(current.getColor())));
+        json.put("objective", current.getObjective().toString());
 	return json.toString();
     }
 

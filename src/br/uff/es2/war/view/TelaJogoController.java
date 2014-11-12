@@ -89,6 +89,9 @@ public class TelaJogoController implements Initializable {
     @FXML
     private Group group_info_bar;
     
+    @FXML
+    private Text txt_obj;
+    
     private float scaleMin;
 
     // controlador responsável por se comunicar com o modelo e interagir com a
@@ -247,6 +250,7 @@ public class TelaJogoController implements Initializable {
 
     public void setPlayer(ClientSidePlayer player) {
 	gameController.setPlayer(player);
+        txt_obj.setText(player.getObjective().toString());
     }
     
     public void setGame(Game game){
