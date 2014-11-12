@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -52,30 +51,13 @@ public class TelaInicialController implements Initializable {
                 final FXMLLoader fxmlLoader = new FXMLLoader();
                 final URL location = getClass().getResource("TelaNovoJogo.fxml");
                 fxmlLoader.setLocation(location);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(5000);
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(TelaInicialController.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                                try {
-                                    parent.getChildren().setAll((AnchorPane) fxmlLoader.load(location.openStream()));
-                                } catch (IOException ex) {
-                                    Logger.getLogger(TelaInicialController.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                                TelaNovoJogoController tnjc = (TelaNovoJogoController) fxmlLoader.getController();
-                            }
-                        });
-                    }
-                }).start();
+                try {
+                    parent.getChildren().setAll((AnchorPane) fxmlLoader.load(location.openStream()));
+                } catch (IOException ex) {
+                    Logger.getLogger(TelaInicialController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                TelaNovoJogoController tnjc = (TelaNovoJogoController) fxmlLoader.getController();
             }
         });
-
     }
-
 }
