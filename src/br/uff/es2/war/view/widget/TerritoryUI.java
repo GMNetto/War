@@ -100,8 +100,17 @@ public class TerritoryUI {
 	return model.getOwner().getColor().getName().equals(player.getColor().getName());
     }
 
-    public void addVizinho(TerritoryUI t) {
-	viz.add(t);
+    public void setVizinhos(List<TerritoryUI> terrs) {
+        //setando os vizinhos da classe territorioUI
+	for(TerritoryUI ter: terrs){
+            
+            for(Territory t: model.getBorders()){
+                
+                if(ter.getModel().equals(t)){
+                    viz.add(ter);
+                }
+            }
+        }
     }
 
     public List<TerritoryUI> getViz() {
