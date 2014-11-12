@@ -97,7 +97,7 @@ public class TerritoryUI {
     }
     
     public boolean isDono(Player player){
-	return model.getOwner().equals(player);
+	return model.getOwner().getColor().getName().equals(player.getColor().getName());
     }
 
     public void addVizinho(TerritoryUI t) {
