@@ -202,6 +202,7 @@ public class JogoController {
     public void setGame(Game game) {
 	this.game = game;
 	territorios = createTerritoryUI(game.getWorld().getTerritories());
+        
         Color minhaCor=jogador.getColor();
         cor_jog.setFill(MapaCores.getPaint(minhaCor));
         int total=1;

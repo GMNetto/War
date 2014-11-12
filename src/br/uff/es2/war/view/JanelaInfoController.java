@@ -13,6 +13,8 @@ import br.uff.es2.war.events.ExchangeCardsEvent;
 import br.uff.es2.war.model.Card;
 import java.util.LinkedList;
 import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -31,10 +33,12 @@ public class JanelaInfoController {
     private Pane pane_cartas;
    
     private Button btn_janela_x;
+    private Button btn_trocar;
     private Text txt_ataca1;
     private Text txt_ataca2;
     
     private List<Card> cartas;
+    private List<Card> cartasTroca;
     
     private JogoController jc;
     
@@ -49,6 +53,9 @@ public class JanelaInfoController {
         this.pane_info = (Pane) pane_sub_janela.lookup("#pane_info");
         this.pane_cartas = (Pane) pane_sub_janela.lookup("#pane_cartas");
         this.btn_janela_x = (Button) pane_sub_janela.lookup("#btn_janela_x");
+        
+        this.btn_trocar = (Button) pane_sub_janela.lookup("#btn_trocar");
+        
         esconde();
         
         this.btn_janela_x.setOnAction(new EventHandler<ActionEvent>() {
@@ -59,21 +66,120 @@ public class JanelaInfoController {
             }
         });
         
+        
+        
         cartas=new LinkedList<Card>();
+        cartasTroca=new LinkedList<Card>();
+        
+        
+        this.btn_trocar.setOnAction(new EventHandler<ActionEvent>() {
+ 
+            @Override
+            public void handle(ActionEvent event) {
+                if(cartasTroca.size()==3){
+                    //verificar se as cartas podem ser trocadas
+                    int circulo=0,quadrado=0,triangulo=0,coringa=0;
+                    for(Card carta: cartasTroca){
+                        switch(carta.getFigure()){
+                            case 0:coringa++;break;
+                            case 1:circulo++;break;
+                            case 2:triangulo++;break;
+                            case 3:quadrado++;break;
+                        }
+                    }
+                    if(circulo==3||triangulo==3||quadrado==3||(circulo==1&&triangulo==1&&quadrado==1)||
+                            (circulo+coringa)==3||(triangulo+coringa)==3||(quadrado+coringa)==3||
+                            (circulo==1&&triangulo==1&&coringa==1)||
+                            (coringa==1&&triangulo==1&&quadrado==1)||
+                            (circulo==1&&coringa==1&&quadrado==1)){
+                        //envia troca para o servidor
+                        jc.getPlayer().exchangeCards(cartasTroca);
+                        //apaga cartas trocadas
+                        for(Card carta:cartasTroca){
+                            cartas.remove(carta);
+                        }
+                        cartasTroca.clear();
+                        //atualiza exibicão das cartas
+                        atualizaCartas();
+                        
+                    }
+                }
+            }
+        });
         
         //Pegar cartas do jogo
         jc.getPlayer().getEvents().subscribe(AddCardEvent.class,
             new Action<AddCardEvent>() {
 		@Override
-                    public void onsAction(AddCardEvent args) {
+                    public void onAction(AddCardEvent args) {
                         cartas.add(args.getCard());
                         atualizaCartas();
                         
                     }
         });
         
+        //verificando selecão de cartas
+        final CheckBox check_card1=(CheckBox) pane_cartas.lookup("#check_card1");
+        check_card1.selectedProperty().addListener(
+		new ChangeListener<Boolean>() {
+		    public void changed(ObservableValue<? extends Boolean> ov,
+			    Boolean old_val, Boolean new_val) {
+                        
+                        selecionaCarta(new_val,0,check_card1);
+		    }
+		});
+        
+        final CheckBox check_card2=(CheckBox) pane_cartas.lookup("#check_card2");
+        check_card2.selectedProperty().addListener(
+		new ChangeListener<Boolean>() {
+		    public void changed(ObservableValue<? extends Boolean> ov,
+			    Boolean old_val, Boolean new_val) {
+			selecionaCarta(new_val,1,check_card2);
+		    }
+		});
+        
+        final CheckBox check_card3=(CheckBox) pane_cartas.lookup("#check_card3");
+        check_card3.selectedProperty().addListener(
+		new ChangeListener<Boolean>() {
+		    public void changed(ObservableValue<? extends Boolean> ov,
+			    Boolean old_val, Boolean new_val) {
+			selecionaCarta(new_val,2,check_card3);
+		    }
+		});
+        final CheckBox check_card4=(CheckBox) pane_cartas.lookup("#check_card4");
+        check_card4.selectedProperty().addListener(
+		new ChangeListener<Boolean>() {
+		    public void changed(ObservableValue<? extends Boolean> ov,
+			    Boolean old_val, Boolean new_val) {
+			selecionaCarta(new_val,3,check_card4);
+		    }
+		});
+        
+        final CheckBox check_card5=(CheckBox) pane_cartas.lookup("#check_card5");
+        check_card5.selectedProperty().addListener(
+		new ChangeListener<Boolean>() {
+		    public void changed(ObservableValue<? extends Boolean> ov,
+			    Boolean old_val, Boolean new_val) {
+			selecionaCarta(new_val,4,check_card5);
+		    }
+		});
         
        
+    }
+    
+    public void selecionaCarta(Boolean new_val,int n, CheckBox check){
+        if(new_val && cartasTroca.size()<3){
+            //pode selecionar mais uma carta
+            cartasTroca.add(cartas.get(n));
+        }
+        if(new_val && cartasTroca.size()==3){
+            //bloquear novas selecões
+            check.setSelected(false);
+        }
+        if(!new_val){
+            //deselecionado a carta
+            cartasTroca.remove(cartas.get(n));
+        }
     }
     public void atualizaCartas(){
         for(int i=1; i<=5;i++){
