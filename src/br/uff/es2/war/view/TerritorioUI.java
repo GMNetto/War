@@ -118,4 +118,9 @@ public class TerritorioUI {
     public int getY(){
 	return model.getY();
     }
+    
+    public Territory getModel(){
+        return this.model;
+    }
+    
 }
