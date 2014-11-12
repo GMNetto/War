@@ -59,7 +59,7 @@ public class GameController implements Runnable {
 	for (i = 0; i < clients.length; i++)
 	    players[i] = new ServerSidePlayer(clients[i], protocol);
         j=i;
-	for (; i < WarServer.PLAYER_PER_GAME; i++) {
+	for (; i < WarServer.PLAYER_PER_GAME; i++) 
 	    players[i] = new BasicBot();
         }
 	// Load from database
