@@ -15,7 +15,7 @@ public class WarServer extends TCPServer {
     private static final long MAX_WAIT_TIME = 10000;
     public static final int PLAYER_PER_GAME = 2;
     private final Queue<Messenger> clients;
-    private final Timer timer;
+    private Timer timer;
     
     public WarServer(int port) throws IOException {
         super(port);
@@ -57,6 +57,7 @@ public class WarServer extends TCPServer {
     
     private void startGame(Messenger[] nextClients) {
 	timer.cancel();
+	timer = new Timer();
         try {
             GameController controller = new GameController(nextClients);
             new Thread(controller).start();
