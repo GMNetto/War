@@ -18,7 +18,7 @@ public class AllocTerritoryStrategy implements TerritoryUIStrategy {
 
     public AllocTerritoryStrategy(GameController2 jc) {
         this.jc=jc;
-        jc.setTextFase("Aloque seu exércitos","Selecione o territorio onde deseja alocar","","");
+        jc.setTextFase("Aloque seus "+jc.getMaxQuantityToDistribute()+" exércitos","Selecione o territorio onde deseja alocar","","");
         // para a fase de alocação é necessário bloquear os territorios que não pertencem ao jogador
         // ações de inicialização bloquear clique, trocar icone do cursor e modificar opacidade do circulo
         jc.desbloqueiaTerritorios(jc.getTerritorios());
@@ -32,7 +32,7 @@ public class AllocTerritoryStrategy implements TerritoryUIStrategy {
     @Override
     public void buttonAction(TerritoryUI ter) {
 	jc.getAlocaController().setTerritorioDestino(ter);
-	jc.getAlocaController().actionAloca(jc.getMaxExercitosAloca());
+	jc.getAlocaController().actionAloca(jc.getMaxQuantityToDistribute());
 	jc.getAlocaController().mostra();
 	jc.getAlocaController().centraliza(ter.getCirculo().getCenterX(),
 		ter.getCirculo().getCenterY());

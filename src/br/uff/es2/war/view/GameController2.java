@@ -86,7 +86,7 @@ public class GameController2 {
 			player.exchangeCards(player.getCards());
 		    }
 		});
-
+        
 	player.getEvents().subscribe(DistributeSoldiersEvent.class,
 		new Action<DistributeSoldiersEvent>() {
 
@@ -94,6 +94,10 @@ public class GameController2 {
 		    public void onAction(DistributeSoldiersEvent args) {
 			quantityBeforeDistribution = getTotalArmys();
 			maxQuantityToDistribute = args.getQuantity();
+                        
+                        acaoTerr=acaoTerr.nextPhase();
+                        /// Porque recebemos uma lista de territórios???
+                        /*
 			Set<Territory> territoriosRecebidos = args
 				.getTerritories();
 			List<TerritoryUI> territoriesToUnlock = new ArrayList<>();
@@ -104,6 +108,7 @@ public class GameController2 {
 			    }
 			}
 			desbloqueiaTerritorios(territoriesToUnlock);
+                                */
 		    }
 		});
     }
@@ -119,7 +124,11 @@ public class GameController2 {
     public int getMaxExercitosAloca() {
 	return quantityBeforeDistribution - getTotalArmys();
     }
-
+    
+    public int getMaxQuantityToDistribute() {
+	return maxQuantityToDistribute;
+    }
+    
     public void setMaxQuantityToDistribute(int quantityToDistribute) {
 	this.maxQuantityToDistribute = quantityToDistribute;
     }

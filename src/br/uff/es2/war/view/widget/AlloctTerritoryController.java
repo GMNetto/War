@@ -158,10 +158,15 @@ public class AlloctTerritoryController {
             @Override
             public void handle(ActionEvent event) {
                 terDestino.setQtd(terDestino.getQtd()+acrescenta);
+                jc.setMaxQuantityToDistribute(maxExercitos-acrescenta);
+                System.out.println(maxExercitos);
+                System.out.println(acrescenta);
+                jc.setTextFase1("Aloque seus "+jc.getMaxQuantityToDistribute()+" exércitos");
+                jc.setTextFase2("Selecione o territorio onde deseja alocar");
                 setTerritorioDestino(null);
                 setTerritorioOrigem(null);
                 esconde();
-                jc.setTextFase2("Selecione o territorio onde deseja alocar");
+                
             }
         });
         
