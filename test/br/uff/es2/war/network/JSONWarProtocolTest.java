@@ -29,7 +29,8 @@ public class JSONWarProtocolTest {
 	};
     }
     private MockGame game;
-    
+
+    /*
     @Ignore
     @Test
     public void ONE_TURN() {
@@ -40,4 +41,5 @@ public class JSONWarProtocolTest {
 	GameMachine<Game> machine = new GameMachine<Game>(game, new SetupPhase());
 	machine.run();
     }
+    */
 }

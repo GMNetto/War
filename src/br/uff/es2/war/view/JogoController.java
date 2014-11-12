@@ -7,7 +7,9 @@
 package br.uff.es2.war.view;
 
 import br.uff.es2.war.entity.Territorio;
+import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.network.client.ClientSidePlayer;
 
@@ -19,6 +21,7 @@ import java.util.Set;
 
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 /**
@@ -41,6 +44,9 @@ public class JogoController {
     private Text txt_ataque1;
     private Text txt_ataque2;
     
+    private Pane pane_jogadores;
+    private Circle cor_jog;
+    
     private AcaoTerritorioStrategy acaoTerr;
     private Game game;
             
@@ -51,9 +57,13 @@ public class JogoController {
         this.txt_ataque1=(Text) info_bar.lookup("#pane_info_box").lookup("#txt_ataque1");
         this.txt_ataque2=(Text) info_bar.lookup("#pane_info_box").lookup("#txt_ataque2");
         
+        this.cor_jog=(Circle) info_bar.lookup("#cor_jog");
+        this.pane_jogadores=(Pane) info_bar.lookup("#pane_jogadores");
+        
         this.ac = new AlocaController(pane_aloca,pane_mov, raio, this);
         this.atc= new AtacaController(pane_ataca1, pane_ataca2, raio, this);
         this.jc= new JanelaInfoController(pane_sub_janela, this);
+        
     }
 
     public ClientSidePlayer getPlayer() {
@@ -192,6 +202,21 @@ public class JogoController {
     public void setGame(Game game) {
 	this.game = game;
 	territorios = createTerritoryUI(game.getWorld().getTerritories());
+        Color minhaCor=jogador.getColor();
+        cor_jog.setFill(MapaCores.getPaint(minhaCor));
+        int total=1;
+        for(Player jog: game.getPlayers()){
+            if(!jog.getColor().getName().equals(minhaCor.getName())){
+                Text tx=(Text) pane_jogadores.lookup("#txt_jog"+total);
+                Circle c=(Circle) pane_jogadores.lookup("#cor_jog"+total);
+                c.setFill(MapaCores.getPaint(jog.getColor()));
+                c.setVisible(true);
+                tx.setVisible(true);
+                total++;
+            }
+            
+        }
+        
     }
 
     private List<TerritorioUI> createTerritoryUI(Set<Territory> territories) {

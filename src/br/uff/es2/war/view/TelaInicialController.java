@@ -40,7 +40,6 @@ public class TelaInicialController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // load the image
         Image image = new Image("tela1.jpg");
-
         img_fundo.setImage(image);
 
         //trocando de tela

@@ -251,6 +251,6 @@ public class TelaJogoController implements Initializable {
     public void setGame(Game game){
 	gameController.setGame(game);
 	desenhaTerritorios();
-	gameController.setAcaoTerr(new AcaoTerritorioAloca(gameController));
+	gameController.setAcaoTerr(new AcaoTerritorioEspera(gameController));
     }
 }

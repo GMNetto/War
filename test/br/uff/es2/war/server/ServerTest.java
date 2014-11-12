@@ -30,7 +30,7 @@ public class ServerTest {
     }
     @Test
     public void TEST_SERVER(){
-        ProceduralMessenger[] messengers=new ProceduralMessenger[2];
+        ProceduralMessenger[] messengers=new ProceduralMessenger[1];
         for (int i = 0; i < messengers.length; i++) {
            messengers[i]=new ProceduralMessenger("Testando server.");
         }
