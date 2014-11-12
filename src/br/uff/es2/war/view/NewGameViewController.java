@@ -43,11 +43,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 
 /**
- * 
  * @author anacarolinegomesvargas
- * 
  */
-public class TelaNovoJogoController implements Initializable {
+public class NewGameViewController implements Initializable {
 
     @FXML
     private AnchorPane parent;
@@ -63,6 +61,7 @@ public class TelaNovoJogoController implements Initializable {
 
     @FXML
     private Text txt_aguarde;
+    
     @FXML
     private Text txt_erro;
 
@@ -180,10 +179,10 @@ public class TelaNovoJogoController implements Initializable {
 			    .setAll((AnchorPane) fxmlLoader.load(location
 				    .openStream()));
 		} catch (IOException ex) {
-		    Logger.getLogger(TelaNovoJogoController.class.getName())
+		    Logger.getLogger(NewGameViewController.class.getName())
 			    .log(Level.SEVERE, null, ex);
 		}
-		TelaJogoController tjc = (TelaJogoController) fxmlLoader
+		GameController tjc = (GameController) fxmlLoader
 			.getController();
 		tjc.setPlayer(jogador);
 		tjc.setGame(game);

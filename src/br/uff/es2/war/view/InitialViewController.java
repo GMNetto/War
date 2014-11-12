@@ -21,11 +21,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 /**
- *
  * @author anacarolinegomesvargas
- *
  */
-public class TelaInicialController implements Initializable {
+public class InitialViewController implements Initializable {
 
     @FXML
     private AnchorPane parent;
@@ -44,7 +42,6 @@ public class TelaInicialController implements Initializable {
 
         //trocando de tela
         this.btn_joga.setOnAction(new EventHandler<ActionEvent>() {
-
             @Override
             public void handle(ActionEvent event) {
                 final FXMLLoader fxmlLoader = new FXMLLoader();
@@ -53,9 +50,9 @@ public class TelaInicialController implements Initializable {
                 try {
                     parent.getChildren().setAll((AnchorPane) fxmlLoader.load(location.openStream()));
                 } catch (IOException ex) {
-                    Logger.getLogger(TelaInicialController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(InitialViewController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                TelaNovoJogoController tnjc = (TelaNovoJogoController) fxmlLoader.getController();
+                NewGameViewController tnjc = (NewGameViewController) fxmlLoader.getController();
             }
         });
     }

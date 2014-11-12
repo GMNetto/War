@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package br.uff.es2.war.view;
+package br.uff.es2.war.view.widget;
 
+import br.uff.es2.war.view.GameController2;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -18,7 +19,7 @@ import javafx.scene.text.Text;
  * 
  * @author anacarolinegomesvargas
  */
-public class AtacaController {
+public class AttackTerritoryController {
     private Pane pane_ataca1;
     private Pane pane_ataca2;
     
@@ -37,13 +38,13 @@ public class AtacaController {
     private int centrox;
     private int centroy;
 
-    private TerritorioUI terDestino, terOrigem;
+    private TerritoryUI terDestino, terOrigem;
     private int nAtaca,nMove;
     
-     private JogoController jc;
+     private GameController2 jc;
     
 
-    public AtacaController(Pane pane_ataca1, Pane pane_ataca2, int raio, JogoController jc) {
+    public AttackTerritoryController(Pane pane_ataca1, Pane pane_ataca2, int raio, GameController2 jc) {
         this.pane_ataca1 = pane_ataca1;
         this.btn_ataca1_cancel = (Button) pane_ataca1.lookup("#btn_ataca1_cancel");
         this.btn_ataca1_mais =(Button) pane_ataca1.lookup("#btn_ataca1_mais");
@@ -119,23 +120,23 @@ public class AtacaController {
         pane_ataca2.toFront();
     }
     
-    public void setTerritorioDestino(TerritorioUI t){
+    public void setTerritorioDestino(TerritoryUI t){
         this.terDestino=t;
         this.nMove=0;
         input_ataca2.setText(nMove+"");
     }
 
-    public void setTerritorioOrigem(TerritorioUI t) {
+    public void setTerritorioOrigem(TerritoryUI t) {
 	this.terOrigem = t;
 	this.nAtaca = 0;
         input_ataca1.setText(nAtaca+"");
     }
 
-    public TerritorioUI getTerDestino() {
+    public TerritoryUI getTerDestino() {
         return terDestino;
     }
 
-    public TerritorioUI getTerOrigem() {
+    public TerritoryUI getTerOrigem() {
         return terOrigem;
     }
 

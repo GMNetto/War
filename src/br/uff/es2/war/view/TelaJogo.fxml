@@ -10,7 +10,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.uff.es2.war.view.TelaJogoController">
+<AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.uff.es2.war.view.GameController">
    <children>
       <ImageView fx:id="img_fundo2" fitHeight="600.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" />
       <Group fx:id="group_info_bar">
