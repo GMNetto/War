@@ -250,7 +250,7 @@ public class TelaJogoController implements Initializable {
 
     public void setPlayer(ClientSidePlayer player) {
 	gameController.setPlayer(player);
-        txt_obj.setText(player.getObjective().toString());
+        //txt_obj.setText(player.getObjective().toString());
     }
     
     public void setGame(Game game){
