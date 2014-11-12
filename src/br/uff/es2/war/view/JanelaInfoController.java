@@ -8,9 +8,8 @@ package br.uff.es2.war.view;
 
 import br.uff.es2.war.events.Action;
 import br.uff.es2.war.events.AddCardEvent;
-import br.uff.es2.war.events.BeginTurnEvent;
-import br.uff.es2.war.events.ExchangeCardsEvent;
 import br.uff.es2.war.model.Card;
+import br.uff.es2.war.model.Territory;
 import java.util.LinkedList;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
@@ -34,8 +33,8 @@ public class JanelaInfoController {
    
     private Button btn_janela_x;
     private Button btn_trocar;
-    private Text txt_ataca1;
-    private Text txt_ataca2;
+    
+    private Text txt_obj;
     
     private List<Card> cartas;
     private List<Card> cartasTroca;
@@ -56,6 +55,11 @@ public class JanelaInfoController {
         
         this.btn_trocar = (Button) pane_sub_janela.lookup("#btn_trocar");
         
+        this.txt_obj=(Text) pane_sub_janela.lookup("#txt_obj");
+        
+        //setando objetivo
+        txt_obj.setText(jc.getPlayer().getObjective().toString());
+        
         esconde();
         
         this.btn_janela_x.setOnAction(new EventHandler<ActionEvent>() {
@@ -69,7 +73,14 @@ public class JanelaInfoController {
         
         
         cartas=new LinkedList<Card>();
+        
         cartasTroca=new LinkedList<Card>();
+        
+        //teste 
+        cartas.add(new Card(1, new Territory("teste", null)));
+        cartas.add(new Card(1, new Territory("teste2", null)));
+        cartas.add(new Card(1, new Territory("teste3", null)));
+        atualizaCartas();
         
         
         this.btn_trocar.setOnAction(new EventHandler<ActionEvent>() {

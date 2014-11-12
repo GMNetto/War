@@ -265,6 +265,11 @@ public class JogoController {
 	    widget.setModel(territory);
 	    widgets.add(widget);
 	}
+        for(TerritorioUI ter: widgets){
+            ter.setVizinhos(widgets);
+        }
+        
+        
 	return widgets;
     }
 }
