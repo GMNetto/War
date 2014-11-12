@@ -55,36 +55,36 @@
             </Pane>
             <Pane fx:id="pane_jogadores" layoutX="600.0" layoutY="460.0" prefHeight="130.0" prefWidth="200.0">
                <children>
-            <Text fx:id="txt_jog1" layoutX="30.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador1">
+            <Text fx:id="txt_jog1" layoutX="30.0" layoutY="15.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador1" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="txt_jog2" layoutX="30.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador2">
+            <Text fx:id="txt_jog2" layoutX="30.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador2" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="txt_jog3" layoutX="30.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador3">
+            <Text fx:id="txt_jog3" layoutX="30.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador3" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="txt_jog4" layoutX="30.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador4">
+            <Text fx:id="txt_jog4" layoutX="30.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador4" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Text fx:id="txt_jog5" layoutX="30.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador5">
+            <Text fx:id="txt_jog5" layoutX="30.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Jogador5" visible="false">
                <font>
                   <Font size="18.0" />
                </font>
             </Text>
-            <Circle fx:id="cor_jog1" fill="AQUA" layoutX="10.0" layoutY="10.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="cor_jog2" fill="GREEN" layoutX="10.0" layoutY="35.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="cor_jog3" fill="#feff1f" layoutX="10.0" layoutY="60.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="cor_jog4" fill="WHITE" layoutX="10.0" layoutY="85.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
-            <Circle fx:id="cor_jog5" fill="GREY" layoutX="10.0" layoutY="110.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" />
+            <Circle fx:id="cor_jog1" fill="AQUA" layoutX="10.0" layoutY="10.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+            <Circle fx:id="cor_jog2" fill="GREEN" layoutX="10.0" layoutY="35.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+            <Circle fx:id="cor_jog3" fill="#feff1f" layoutX="10.0" layoutY="60.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+            <Circle fx:id="cor_jog4" fill="WHITE" layoutX="10.0" layoutY="85.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+            <Circle fx:id="cor_jog5" fill="GREY" layoutX="10.0" layoutY="110.0" radius="10.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                </children>
             </Pane>
          </children>

@@ -55,11 +55,11 @@ public class GameController implements Runnable {
 	this.clients = clients;
 	protocol = ProtocolFactory.defaultJSONServerSideProtocol();
 	Player[] players = new Player[WarServer.PLAYER_PER_GAME];
-	int i;
+	int i,j;
 	for (i = 0; i < clients.length; i++)
 	    players[i] = new ServerSidePlayer(clients[i], protocol);
         j=i;
-	for (; i < WarServer.PLAYER_PER_GAME; i++) {
+	for (; i < WarServer.PLAYER_PER_GAME; i++) 
 	    players[i] = new BasicBot();
 
 	// Load from database
