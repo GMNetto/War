@@ -50,5 +50,4 @@ public class ClientObjective implements Objective {
     public String toString() {
         return description;
     }
-    
 }

@@ -13,4 +13,5 @@ public class AttackState extends ViewState {
     protected void innerExecute(GameController controller) {
 	throw new NotImplementedException();
     }
+    
 }
