@@ -51,6 +51,7 @@
                         <Font size="14.0" />
                      </font>
                   </Text>
+                  <Button fx:id="btn_continua" layoutX="118.0" layoutY="104.0" mnemonicParsing="false" text="Continuar" visible="false" />
                </children>
             </Pane>
             <Pane fx:id="pane_jogadores" layoutX="600.0" layoutY="460.0" prefHeight="130.0" prefWidth="200.0">
