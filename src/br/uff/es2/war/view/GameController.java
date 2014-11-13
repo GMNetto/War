@@ -327,7 +327,8 @@ public class GameController implements Initializable {
 		    @Override
 		    public void onAction(AnswerCombatEvent args) {
 			System.out.println("Client AnswerCombat");
-			ViewState state = new AnswerState();
+			AnswerState state = new AnswerState();
+                        state.setBtn(btn_continua);
 			state.execute(GameController.this);
 		    }
 		});
