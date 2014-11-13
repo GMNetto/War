@@ -42,7 +42,12 @@ public class AllocTerritoryStrategy implements TerritoryUIStrategy {
 
     @Override
     public TerritoryUIStrategy nextPhase() {
-        gameController2.getAlocaController().esconde();
+        finishPhase();
         return new AttackTerritoryStrategy(gameController2);
+    }
+
+    @Override
+    public void finishPhase() {
+    gameController2.getAlocaController().esconde();
     }
 }

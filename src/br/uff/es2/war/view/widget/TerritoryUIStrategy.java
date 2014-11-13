@@ -14,5 +14,7 @@ public interface TerritoryUIStrategy {
 
     public void buttonAction(TerritoryUI ter);
     
+    public void finishPhase();
+     
     public TerritoryUIStrategy nextPhase();
 }

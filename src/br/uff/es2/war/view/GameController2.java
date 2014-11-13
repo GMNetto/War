@@ -23,11 +23,13 @@ import br.uff.es2.war.view.widget.AlloctTerritoryController;
 import br.uff.es2.war.view.widget.AttackTerritoryController;
 import br.uff.es2.war.view.widget.TerritoryUI;
 import br.uff.es2.war.view.widget.TerritoryUIStrategy;
+import br.uff.es2.war.view.widget.WaitTerritoryStrategy;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import javafx.application.Platform;
 
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -131,23 +133,28 @@ public class GameController2 {
 		new Action<DistributeSoldiersEvent>() {
 
 		    @Override
-		    public void onAction(DistributeSoldiersEvent args) {
-			quantityBeforeDistribution = getTotalArmys();
-			maxQuantityToDistribute = args.getQuantity();
+		    public void onAction(final DistributeSoldiersEvent args) {
+                        Platform.runLater(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                quantityBeforeDistribution = getTotalArmys();
+                                maxQuantityToDistribute = args.getQuantity();
                         
-                        acaoTerr=acaoTerr.nextPhase();
-                        /// Porque recebemos uma lista de territórios???
+                                acaoTerr=acaoTerr.nextPhase();
                         
-			Set<Territory> territoriosRecebidos = args
-				.getTerritories();
-			List<TerritoryUI> territoriesToUnlock = new ArrayList<>();
-			for (Territory territory : territoriosRecebidos) {
-			    for (TerritoryUI ui : territorios) {
-				if (ui.getModel().equals(territory))
-				    territoriesToUnlock.add(ui);
-			    }
-			}
-			ac.setTerritoriesToUnlock(territoriesToUnlock);
+                                Set<Territory> territoriosRecebidos = args.getTerritories();
+                                List<TerritoryUI> territoriesToUnlock = new ArrayList<>();
+                                for (Territory territory : territoriosRecebidos) {
+                                    for (TerritoryUI ui : territorios) {
+                                        if (ui.getModel().equals(territory))
+                                            territoriesToUnlock.add(ui);
+                                    }
+                                }
+                                ac.setTerritoriesToUnlock(territoriesToUnlock);
+                            }
+                        });
+			
                                
 		    }
 		});
@@ -170,7 +177,17 @@ public class GameController2 {
     }
     
     public void setMaxQuantityToDistribute(int quantityToDistribute) {
+        //se diminuir para zero a quantidade envia a mensagem para o servidor
+        if(quantityToDistribute==0){
+            
+            jogador.distributeSoldiers(game.getWorld().getTerritories());
+            acaoTerr.finishPhase();
+            acaoTerr=new WaitTerritoryStrategy(this);
+            
+        }
+        
 	this.maxQuantityToDistribute = quantityToDistribute;
+         
     }
 
     public int getTotalArmys() {

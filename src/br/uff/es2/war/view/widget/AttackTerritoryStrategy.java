@@ -14,10 +14,10 @@ import br.uff.es2.war.view.GameController2;
  */
 public class AttackTerritoryStrategy implements TerritoryUIStrategy{
     
-    private GameController2 jc;
+    private GameController2 gameCont2;
     
     public AttackTerritoryStrategy(GameController2 jc) {
-        this.jc=jc;
+        this.gameCont2=jc;
         jc.getBtn_prox().setVisible(true);
         jc.setTextFase("Ataque!!","Selecione o territorio de origem e o destino do ataque","","");
         jc.desbloqueiaTerritorios(jc.getTerritorios());
@@ -33,29 +33,34 @@ public class AttackTerritoryStrategy implements TerritoryUIStrategy{
     
     @Override
     public void buttonAction(TerritoryUI ter) {
-        jc.getAtacaController().actionAtaca();
+        gameCont2.getAtacaController().actionAtaca();
         
-        if(jc.getAtacaController().hasTerritorioOrigem()){
-            jc.getAtacaController().setTerritorioDestino(ter);
-            jc.getAtacaController().mostra2();
-            jc.getAtacaController().centraliza2(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
-            jc.setTextFase2(jc.getAtacaController().getTerOrigem().getNome() +" -> "+ter.getNome());
+        if(gameCont2.getAtacaController().hasTerritorioOrigem()){
+            gameCont2.getAtacaController().setTerritorioDestino(ter);
+            gameCont2.getAtacaController().mostra2();
+            gameCont2.getAtacaController().centraliza2(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
+            gameCont2.setTextFase2(gameCont2.getAtacaController().getTerOrigem().getNome() +" -> "+ter.getNome());
         }
         else{
-            jc.getAtacaController().setTerritorioOrigem(ter);
-            jc.bloqueiaTerririosNaoVizinhos(ter);
-            jc.getAtacaController().centraliza1(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
-            jc.getAtacaController().mostra1();
-            jc.setTextFase2(ter.getNome()+" ->");
+            gameCont2.getAtacaController().setTerritorioOrigem(ter);
+            gameCont2.bloqueiaTerririosNaoVizinhos(ter);
+            gameCont2.getAtacaController().centraliza1(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
+            gameCont2.getAtacaController().mostra1();
+            gameCont2.setTextFase2(ter.getNome()+" ->");
         }
         
     }
 
     @Override
     public TerritoryUIStrategy nextPhase() {
-        jc.getAtacaController().esconde1();
-        jc.getAtacaController().esconde2();
-        return new MoveTerritoryStrategy(jc);
+        finishPhase();
+        return new MoveTerritoryStrategy(gameCont2);
+    }
+
+    @Override
+    public void finishPhase() {
+        gameCont2.getAtacaController().esconde1();
+        gameCont2.getAtacaController().esconde2();
     }
     
 }

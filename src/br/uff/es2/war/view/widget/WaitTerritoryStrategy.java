@@ -17,10 +17,10 @@ import br.uff.es2.war.view.GameController2;
  */
 public class WaitTerritoryStrategy implements TerritoryUIStrategy{
     
-    private GameController2 jc;
+    private GameController2 gameCont2;
     
     public WaitTerritoryStrategy(final GameController2 jc) {
-        this.jc=jc;
+        this.gameCont2=jc;
         jc.setTextFase("Espere a sua vez","","","");
         jc.bloqueiaTerritorios(jc.getTerritorios());
         jc.getBtn_prox().setVisible(true);
@@ -43,7 +43,12 @@ public class WaitTerritoryStrategy implements TerritoryUIStrategy{
 
     @Override
     public TerritoryUIStrategy nextPhase() {
-        return new AllocTerritoryStrategy(jc);
+        return new AllocTerritoryStrategy(gameCont2);
+    }
+
+    @Override
+    public void finishPhase() {
+       //não faz nada
     }
     
 }
