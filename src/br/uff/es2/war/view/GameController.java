@@ -147,7 +147,6 @@ public class GameController implements Initializable {
 	    public void onAction(DistributeSoldiersEvent args) {
 		System.out.println("Client DistributeSoldiers");
 		DistributeSoldiersState state = new DistributeSoldiersState();
-                
 		state.execute(GameController.this);
 	    }
 	});

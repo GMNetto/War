@@ -65,6 +65,7 @@ public class ClientSidePlayer extends PlayerData {
 	    running = true;
 	    while(running){
 		String message = messenger.receive();
+		System.out.println(message);
 		Object event = protocol.parseMessage(message);
 		events.publish(event);
 	    }

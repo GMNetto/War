@@ -12,7 +12,7 @@ import java.util.TimerTask;
 
 public class WarServer extends TCPServer {
 
-    private static final long MAX_WAIT_TIME = 10000;
+    private static final long MAX_WAIT_TIME = 1000;
     public static final int PLAYER_PER_GAME = 2;
     private final Queue<Messenger> clients;
     private Timer timer;
