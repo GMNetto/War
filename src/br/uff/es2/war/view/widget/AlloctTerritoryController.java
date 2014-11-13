@@ -6,7 +6,10 @@
 
 package br.uff.es2.war.view.widget;
 
+import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.view.GameController2;
+import java.util.List;
+import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -29,6 +32,8 @@ public class AlloctTerritoryController {
     private Button btn_aloca_ok;
     private int centrox;
     private int centroy;
+    
+    private List<TerritoryUI> territoriesToUnlock;
 
     private TerritoryUI terDestino, terOrigem;
     private int acrescenta;
@@ -69,6 +74,14 @@ public class AlloctTerritoryController {
         
         esconde();
         escondeMov();
+    }
+
+    public List<TerritoryUI> getTerritoriesToUnlock() {
+        return territoriesToUnlock;
+    }
+
+    public void setTerritoriesToUnlock(List<TerritoryUI> territoriesToUnlock) {
+        this.territoriesToUnlock = territoriesToUnlock;
     }
 
     public void esconde() {
@@ -159,8 +172,6 @@ public class AlloctTerritoryController {
             public void handle(ActionEvent event) {
                 terDestino.setQtd(terDestino.getQtd()+acrescenta);
                 jc.setMaxQuantityToDistribute(maxExercitos-acrescenta);
-                System.out.println(maxExercitos);
-                System.out.println(acrescenta);
                 jc.setTextFase1("Aloque seus "+jc.getMaxQuantityToDistribute()+" exércitos");
                 jc.setTextFase2("Selecione o territorio onde deseja alocar");
                 setTerritorioDestino(null);
@@ -231,8 +242,8 @@ public class AlloctTerritoryController {
                 setTerritorioOrigem(null); 
                 esconde();
                 escondeMov();
-                jc.desbloqueiaTerritorios(jc.getTerritorios());
-                jc.bloqueiaTerririosAdversarios();
+                jc.bloqueiaTerritorios(jc.getTerritorios());
+                jc.desbloqueiaTerritorios(jc.getAlocaController().getTerritoriesToUnlock());
                 jc.setTextFase2("Selecione um territorio de origem e um de destino");
             }
         });
@@ -248,8 +259,8 @@ public class AlloctTerritoryController {
                 setTerritorioOrigem(null);
                 esconde();
                 escondeMov();
-                jc.desbloqueiaTerritorios(jc.getTerritorios());
-                jc.bloqueiaTerririosAdversarios();
+                jc.bloqueiaTerritorios(jc.getTerritorios());
+                jc.desbloqueiaTerritorios(jc.getAlocaController().getTerritoriesToUnlock());
                 jc.setTextFase2("Selecione um territorio de origem e um de destino");
             }
         });
