@@ -24,28 +24,28 @@ public class MoveTerritoryStrategy implements TerritoryUIStrategy {
         // ações de inicialização bloquear clique, trocar icone do cursor e modificar opacidade do circulo
         jc.desbloqueiaTerritorios(jc.getTerritorios());
         jc.bloqueiaTerririosAdversarios();
-        jc.getAlocaController().actionMovimenta();
-        jc.getAlocaController().setTerritorioDestino(null);
-        jc.getAlocaController().setTerritorioOrigem(null); 
-        jc.getAlocaController().esconde();
-        jc.getAlocaController().escondeMov();
+        jc.getAllocTerritoryCont().actionMovimenta();
+        jc.getAllocTerritoryCont().setTerritorioDestino(null);
+        jc.getAllocTerritoryCont().setTerritorioOrigem(null); 
+        jc.getAllocTerritoryCont().esconde();
+        jc.getAllocTerritoryCont().escondeMov();
     }
 
     @Override
     public void buttonAction(TerritoryUI ter) {
-        gameCont2.getAlocaController().actionMovimenta();
+        gameCont2.getAllocTerritoryCont().actionMovimenta();
         
-        if(gameCont2.getAlocaController().hasTerritorioOrigem()){
-            gameCont2.getAlocaController().setTerritorioDestino(ter);
-            gameCont2.getAlocaController().mostra();
-            gameCont2.getAlocaController().centraliza(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
-            gameCont2.setTextFase2(gameCont2.getAlocaController().getTerOrigem().getNome() +" -> "+ter.getNome());
+        if(gameCont2.getAllocTerritoryCont().hasTerritorioOrigem()){
+            gameCont2.getAllocTerritoryCont().setTerritorioDestino(ter);
+            gameCont2.getAllocTerritoryCont().mostra();
+            gameCont2.getAllocTerritoryCont().centraliza(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
+            gameCont2.setTextFase2(gameCont2.getAllocTerritoryCont().getTerOrigem().getNome() +" -> "+ter.getNome());
         }
         else{
-            gameCont2.getAlocaController().setTerritorioOrigem(ter);
+            gameCont2.getAllocTerritoryCont().setTerritorioOrigem(ter);
             gameCont2.bloqueiaTerririosNaoVizinhosAdversarios(ter);
-            gameCont2.getAlocaController().centralizaMov(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
-            gameCont2.getAlocaController().mostraMov();
+            gameCont2.getAllocTerritoryCont().centralizaMov(ter.getCirculo().getCenterX(), ter.getCirculo().getCenterY());
+            gameCont2.getAllocTerritoryCont().mostraMov();
             gameCont2.setTextFase2(ter.getNome()+" ->");
         }
     }
@@ -59,7 +59,7 @@ public class MoveTerritoryStrategy implements TerritoryUIStrategy {
     @Override
     public void finishPhase() {
         gameCont2.LimpaMovimentaçao();
-        gameCont2.getAlocaController().esconde();
-        gameCont2.getAlocaController().escondeMov();
+        gameCont2.getAllocTerritoryCont().esconde();
+        gameCont2.getAllocTerritoryCont().escondeMov();
     }
 }

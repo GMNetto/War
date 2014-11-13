@@ -146,7 +146,8 @@ public class GameController implements Initializable {
 	    @Override
 	    public void onAction(DistributeSoldiersEvent args) {
 		System.out.println("Client DistributeSoldiers");
-		ViewState state = new DistributeSoldiersState();
+		DistributeSoldiersState state = new DistributeSoldiersState();
+                
 		state.execute(GameController.this);
 	    }
 	});
