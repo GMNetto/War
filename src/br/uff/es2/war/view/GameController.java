@@ -42,7 +42,7 @@ import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.network.client.ClientSidePlayer;
 import br.uff.es2.war.view.states.AttackState;
-import br.uff.es2.war.view.states.DefenseState;
+import br.uff.es2.war.view.states.AnswerState;
 import br.uff.es2.war.view.states.DistributeSoldiersState;
 import br.uff.es2.war.view.states.ExchangeCardsState;
 import br.uff.es2.war.view.states.GameOverState;
@@ -323,7 +323,7 @@ public class GameController implements Initializable {
 		    @Override
 		    public void onAction(AnswerCombatEvent args) {
 			System.out.println("Client AnswerCombat");
-			ViewState state = new DefenseState();
+			ViewState state = new AnswerState();
 			state.execute(GameController.this);
 		    }
 		});
