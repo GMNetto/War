@@ -91,12 +91,10 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
                 figures[card.getFigure() - 1]++;
             }
         }
-        
         for (int figure : figures) {
             if (figure >= MINIMUN_CARD_QUANTITY_TO_EXCHANGE) 
                 return true;
         }
-        
         return false;
     }
 }

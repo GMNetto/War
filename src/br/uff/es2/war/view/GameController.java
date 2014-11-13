@@ -39,6 +39,7 @@ import br.uff.es2.war.events.GameOverEvent;
 import br.uff.es2.war.events.MoveSoldiersEvents;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.phases.GameOver;
+import br.uff.es2.war.model.phases.ReceiveSoldiersPhase;
 import br.uff.es2.war.network.client.ClientSidePlayer;
 import br.uff.es2.war.view.states.DistributeSoldiersState;
 import br.uff.es2.war.view.states.AttackState;
@@ -137,7 +138,7 @@ public class GameController implements Initializable {
 	    @Override
 	    public void onAction(ExchangeCardsEvent args) {
 		System.out.println("Client ExchangeCards");
-		ViewState state = new ExchangeCardsState();
+                ViewState state = new ExchangeCardsState();
 		state.execute(GameController.this);
 	    }
 	});

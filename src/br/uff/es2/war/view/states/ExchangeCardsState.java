@@ -4,15 +4,36 @@ import java.util.ArrayList;
 
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.network.client.ClientSidePlayer;
+import br.uff.es2.war.model.Card;
+import br.uff.es2.war.model.phases.ReceiveSoldiersPhase;
+import static br.uff.es2.war.model.phases.ReceiveSoldiersPhase.checkExchange;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import br.uff.es2.war.view.GameController;
+import br.uff.es2.war.view.GameController2;
+import br.uff.es2.war.view.PopUpController;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExchangeCardsState implements ViewState {
 
     @Override
     public void execute(GameController controller) {
-	System.out.println("ExchangeCardsState");
-	ClientSidePlayer player = controller.getGameController2().getPlayer();
-	player.exchangeCards(new ArrayList<Card>());
+        PopUpController pc = controller.getGameController2().getPopUpController();
+        List<Card> cartas = pc.getCartasTroca();
+
+        if (ReceiveSoldiersPhase.checkExchange(pc.getCartas())) {
+            // é possível fazer trocas
+            pc.atualizaCartas();
+            pc.mostraCartas();
+            if (pc.getCartas().size() == 5) {
+                //obrigatório trocar
+                pc.bloqueiaParaTroca();
+            } else {
+                //Pode realizar trocas
+                pc.trocarCartas();
+            }
+
+        }
     }
 
 }
