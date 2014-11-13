@@ -3,11 +3,12 @@ package br.uff.es2.war.view;
 import br.uff.es2.war.events.Action;
 import br.uff.es2.war.events.DistributeSoldiersEvent;
 import br.uff.es2.war.events.ExchangeCardsEvent;
+import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.model.phases.ReceiveSoldiersPhase;
+import static br.uff.es2.war.model.phases.ReceiveSoldiersPhase.checkExchange;
 import br.uff.es2.war.network.client.ClientSidePlayer;
 import br.uff.es2.war.view.widget.AlloctTerritoryController;
 import br.uff.es2.war.view.widget.AttackTerritoryController;
@@ -54,10 +55,9 @@ public class GameController2 {
 
     private int maxQuantityToDistribute;
     private int quantityBeforeDistribution;
-
-    public GameController2(Pane pane_aloca, Pane pane_mov, Group info_bar,
-	    Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela, Button btn_prox) {
-	this.raio = 10;
+    
+     public GameController2(Group info_bar, Button btn_prox) {
+         this.raio = 10;
 	this.txt_fase1 = (Text) info_bar.lookup("#pane_info_box").lookup(
 		"#txt_fase1");
 	this.txt_fase2 = (Text) info_bar.lookup("#pane_info_box").lookup(
@@ -67,8 +67,14 @@ public class GameController2 {
 	this.txt_ataque2 = (Text) info_bar.lookup("#pane_info_box").lookup(
 		"#txt_ataque2");
         this.btn_prox=btn_prox;
+        
 	this.cor_jog = (Circle) info_bar.lookup("#cor_jog");
 	this.pane_jogadores = (Pane) info_bar.lookup("#pane_jogadores");
+     }
+     
+    public  void createControllers(Pane pane_aloca, Pane pane_mov,
+	    Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela) {
+	
 
 	this.ac = new AlloctTerritoryController(pane_aloca, pane_mov, raio, this);
 	this.atc = new AttackTerritoryController(pane_ataca1, pane_ataca2, raio, this);
@@ -92,10 +98,23 @@ public class GameController2 {
 
 		    @Override
 		    public void onAction(ExchangeCardsEvent args) {
-                        if(ReceiveSoldiersPhase.checkExchange(popUpController)){
+                        if(checkExchange(popUpController.getCartas())){
+                            // é possível fazer trocas
+                            popUpController.mostraCartas();
+                            if(popUpController.getCartas().size()==5){
+                                //obrigatório trocar
+                                popUpController.bloqueiaParaTroca();
+                            }
+                            else{
+                                //Pode realizar trocas
+                                popUpController.trocarCartas();
+                            }
                         
                         }
-			player.exchangeCards(player.getCards());
+                        else{
+                            //não é possível realizar trocas
+                            player.exchangeCards(new ArrayList<Card>());
+                        }
 		    }
 		});
         

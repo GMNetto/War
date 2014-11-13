@@ -110,8 +110,7 @@ public class GameController implements Initializable {
 	scaleMin = Math.max((float) (800 / backgroundImage.getWidth()),
 		(float) (450 / backgroundImage.getHeight()));
 	pane_map.setPrefSize(backgroundImage.getWidth(), backgroundImage.getHeight());
-	controller2 = new GameController2(pane_aloca, pane_mov,
-		group_info_bar, pane_ataca1, pane_ataca2, pane_sub_janela,btn_prox);
+	controller2 = new GameController2(group_info_bar, btn_prox);
 	addEvents();
     }
     
@@ -248,12 +247,12 @@ public class GameController implements Initializable {
 
     public void setPlayer(ClientSidePlayer player) {
 	controller2.setPlayer(player);
-	// txt_obj.setText(player.getObjective().toString());
     }
 
     public void setGame(Game game) {
 	controller2.setGame(game);
 	desenhaTerritorios();
 	controller2.setAcaoTerr(new WaitTerritoryStrategy(controller2));
+        controller2.createControllers(pane_aloca, pane_mov, pane_ataca1, pane_ataca2, pane_sub_janela);
     }
 }
