@@ -321,6 +321,11 @@ public class GameController2 {
 	    widget.setModel(territory);
 	    widgets.add(widget);
 	}
+        
+        for (TerritoryUI territoryUI : widgets) {
+            territoryUI.setVizinhos(widgets);
+        }
+        
 	return widgets;
     }
 }
