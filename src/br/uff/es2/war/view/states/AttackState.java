@@ -16,6 +16,7 @@ import java.util.Set;
 
 /**
  * State where the player make attacks.
+ *
  * @author Arthur Pitzer
  */
 public class AttackState extends ViewState {
@@ -25,21 +26,24 @@ public class AttackState extends ViewState {
         GameController2 c2 = controller.getGameController2();
         c2.setAcaoTerr(new AttackTerritoryStrategy(c2));
         Player current = c2.getGame().getCurrentPlayer();
-        Set<Territory> ownedTerritories= c2.getGame().getWorld().getTerritoriesByOwner(current);
-        
-        for(TerritoryUI t : createUIs(ownedTerritories)){
+        Set<Territory> ownedTerritories = c2.getGame().getWorld().getTerritoriesByOwner(current);
+
+        for (TerritoryUI t : createUIs(ownedTerritories)) {
             c2.bloqueiaTerririosNaoVizinhosAdversarios(t);
         }
         Set<TerritoryUI> alvos = new HashSet<>();
-        for(TerritoryUI t : createUIs(ownedTerritories)){
-            if(t.getModel().getSoldiers() >1){
+        for (TerritoryUI t : createUIs(ownedTerritories)) {
+            if (t.getModel().getSoldiers() > 1) {
                 alvos.addAll(t.getViz());
             }
         }
         alvos.removeAll(ownedTerritories);
         c2.desbloqueiaTerritorios(alvos);
         AttackTerritoryController ac = c2.getAtacaController();
-        c2.getJogador().declareCombat(new Combat(ac.getTerOrigem().getModel(), ac.getTerDestino().getModel(),ac.getnAtaca() ));
+        Territory origem = ac.getTerOrigem().getModel();
+        Territory destino = ac.getTerDestino().getModel();
+        int nAtaca = ac.getnAtaca();
+        c2.getJogador().declareCombat(new Combat(origem, destino, nAtaca));
     }
-    
+
 }
