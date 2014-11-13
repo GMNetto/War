@@ -329,7 +329,8 @@ public class GameController implements Initializable {
 		    public void onAction(AnswerCombatEvent args) {
 			System.out.println("Client AnswerCombat");
 			AnswerState state = new AnswerState();
-                        state.setBtn(btn_continua);
+			state.setCombat(args.getCombat());
+			state.setBtn(btn_continua);
 			state.execute(GameController.this);
 		    }
 		});
