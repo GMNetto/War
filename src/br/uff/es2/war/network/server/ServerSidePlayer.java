@@ -45,6 +45,7 @@ public class ServerSidePlayer extends PlayerData {
 	    Set<Territory> territories) {
 	messenger.send(protocol.distributeSoldiers(soldierQuantity, territories));
 	protocol.distributeSoldiers(messenger.receive(), soldierQuantity, territories);
+	broadcastWorld();
     }
 
     @Override
@@ -62,6 +63,7 @@ public class ServerSidePlayer extends PlayerData {
     public void answerCombat(Combat combat) {
 	messenger.send(protocol.answerCombat(combat));
 	protocol.answerCombat(messenger.receive(), combat);
+	broadcastWorld();
     }
 
     @Override
@@ -69,6 +71,7 @@ public class ServerSidePlayer extends PlayerData {
 	messenger.send(protocol.moveSoldiers());
 	protocol.moveSoldiers(messenger.receive(), game.getWorld()
 		.getTerritoriesByOwner(this));
+	broadcastWorld();
     }
 
     @Override
@@ -80,5 +83,10 @@ public class ServerSidePlayer extends PlayerData {
     public List<Card> exchangeCards() {
 	messenger.send(protocol.exchangeCards());
 	return protocol.exchangeCards(messenger.receive());
+    }
+    
+    private void broadcastWorld(){
+	for(Player player : game.getPlayers())
+	    player.setGame(game);
     }
 }

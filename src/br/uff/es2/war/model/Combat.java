@@ -26,6 +26,7 @@ public class Combat {
 	this.attackingTerritory = attacker;
 	this.defendingTerritory = defender;
 	this.attackingSoldiers = attackingSoldiers;
+	this.defendingSoldiers = Math.min(defendingTerritory.getSoldiers(), 3);
     }
 
     public Territory getDefendingTerritory() {
