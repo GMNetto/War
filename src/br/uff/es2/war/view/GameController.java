@@ -32,6 +32,7 @@ import br.uff.es2.war.events.AddCardEvent;
 import br.uff.es2.war.events.AnswerCombatEvent;
 import br.uff.es2.war.events.BeginTurnEvent;
 import br.uff.es2.war.events.DeclareCombatEvent;
+import br.uff.es2.war.events.DistributeSoldiersEvent;
 import br.uff.es2.war.events.EventBus;
 import br.uff.es2.war.events.ExchangeCardsEvent;
 import br.uff.es2.war.events.GameOverEvent;
@@ -127,7 +128,7 @@ public class GameController implements Initializable {
 	    @Override
 	    public void onAction(BeginTurnEvent args) {
 		System.out.println("Client BeginTurn");
-		ViewState state = args.getPlayer().equals(player) ? new DistributeSoldiersState() : new WaitingState();
+		ViewState state = new WaitingState();
 		state.execute(GameController.this);
 	    }
 	});
@@ -137,6 +138,15 @@ public class GameController implements Initializable {
 	    public void onAction(ExchangeCardsEvent args) {
 		System.out.println("Client ExchangeCards");
 		ViewState state = new ExchangeCardsState();
+		state.execute(GameController.this);
+	    }
+	});
+        
+        events.subscribe(DistributeSoldiersEvent.class, new Action<DistributeSoldiersEvent>(){
+	    @Override
+	    public void onAction(DistributeSoldiersEvent args) {
+		System.out.println("Client DistributeSoldiers");
+		ViewState state = new DistributeSoldiersState();
 		state.execute(GameController.this);
 	    }
 	});
