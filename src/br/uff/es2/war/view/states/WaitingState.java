@@ -14,5 +14,7 @@ public class WaitingState implements ViewState {
     public void execute(GameController controller) {
 	GameController2 controller2 = controller.getGameController2();
 	controller2.setAcaoTerr(new WaitTerritoryStrategy(controller2));
+	controller2.setTextFase("Espere a sua vez","","","");
+	controller2.bloqueiaTerritorios(controller2.getTerritorios());
     }
 }

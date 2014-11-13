@@ -39,7 +39,7 @@ import br.uff.es2.war.events.MoveSoldiersEvents;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.phases.GameOver;
 import br.uff.es2.war.network.client.ClientSidePlayer;
-import br.uff.es2.war.view.states.AllocSoldiersState;
+import br.uff.es2.war.view.states.DistributeSoldiersState;
 import br.uff.es2.war.view.states.AttackState;
 import br.uff.es2.war.view.states.DefenseState;
 import br.uff.es2.war.view.states.ExchangeCardsState;
@@ -126,7 +126,8 @@ public class GameController implements Initializable {
 	events.subscribe(BeginTurnEvent.class, new Action<BeginTurnEvent>(){
 	    @Override
 	    public void onAction(BeginTurnEvent args) {
-		ViewState state = args.getPlayer().equals(player) ? new AllocSoldiersState() : new WaitingState();
+		System.out.println("Client BeginTurn");
+		ViewState state = args.getPlayer().equals(player) ? new DistributeSoldiersState() : new WaitingState();
 		state.execute(GameController.this);
 	    }
 	});
@@ -134,6 +135,7 @@ public class GameController implements Initializable {
 	events.subscribe(ExchangeCardsEvent.class, new Action<ExchangeCardsEvent>(){
 	    @Override
 	    public void onAction(ExchangeCardsEvent args) {
+		System.out.println("Client ExchangeCards");
 		ViewState state = new ExchangeCardsState();
 		state.execute(GameController.this);
 	    }
@@ -142,6 +144,7 @@ public class GameController implements Initializable {
 	events.subscribe(DeclareCombatEvent.class, new Action<DeclareCombatEvent>(){
 	    @Override
 	    public void onAction(DeclareCombatEvent args) {
+		System.out.println("Client DeclareCombat");
 		ViewState state = new AttackState();
 		state.execute(GameController.this);
 	    }
@@ -150,6 +153,7 @@ public class GameController implements Initializable {
 	events.subscribe(AnswerCombatEvent.class, new Action<AnswerCombatEvent>(){
 	    @Override
 	    public void onAction(AnswerCombatEvent args) {
+		System.out.println("Client AnswerCombat");
 		ViewState state = new DefenseState();
 		state.execute(GameController.this);
 	    }
@@ -158,6 +162,7 @@ public class GameController implements Initializable {
 	events.subscribe(MoveSoldiersEvents.class, new Action<MoveSoldiersEvents>(){
 	    @Override
 	    public void onAction(MoveSoldiersEvents args) {
+		System.out.println("Client MoveSoldiers");
 		ViewState state = new MoveSoldiersState();
 		state.execute(GameController.this);
 	    }
@@ -166,6 +171,7 @@ public class GameController implements Initializable {
 	events.subscribe(AddCardEvent.class, new Action<AddCardEvent>(){
 	    @Override
 	    public void onAction(AddCardEvent args) {
+		System.out.println("Client AddCard");
 		getGameController2().getPopUpController().addCard(args.getCard());
 	    }
 	});
@@ -173,6 +179,7 @@ public class GameController implements Initializable {
 	events.subscribe(GameOverEvent.class, new Action<GameOverEvent>(){
 	    @Override
 	    public void onAction(GameOverEvent args) {
+		System.out.println("Client GameOver");
 		ViewState state = new GameOverState();
 		state.execute(GameController.this);
 	    }

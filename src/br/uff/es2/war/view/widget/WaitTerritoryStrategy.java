@@ -20,10 +20,7 @@ public class WaitTerritoryStrategy implements TerritoryUIStrategy{
     private GameController2 jc;
     
     public WaitTerritoryStrategy(final GameController2 jc) {
-        this.jc=jc;
-        jc.setTextFase("Espere a sua vez","","","");
-        jc.bloqueiaTerritorios(jc.getTerritorios());
-        jc.getBtn_prox().setVisible(true);
+        
         
         /*
         jc.getPlayer().getEvents().subscribe(BeginTurnEvent.class,
