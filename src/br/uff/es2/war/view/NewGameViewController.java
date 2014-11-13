@@ -5,18 +5,6 @@
  */
 package br.uff.es2.war.view;
 
-import br.uff.es2.war.events.Action;
-import br.uff.es2.war.events.ChooseColorEvent;
-import br.uff.es2.war.events.SetGameEvent;
-import br.uff.es2.war.model.Color;
-import br.uff.es2.war.model.Game;
-import br.uff.es2.war.network.Messenger;
-import br.uff.es2.war.network.ProtocolFactory;
-import br.uff.es2.war.network.TCPMessenger;
-import br.uff.es2.war.network.client.ClientSidePlayer;
-import br.uff.es2.war.network.client.ClientSideProtocol;
-import br.uff.es2.war.network.server.ServerSideProtocol;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
@@ -41,6 +29,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import br.uff.es2.war.events.Action;
+import br.uff.es2.war.events.ChooseColorEvent;
+import br.uff.es2.war.events.SetGameEvent;
+import br.uff.es2.war.model.Color;
+import br.uff.es2.war.model.Game;
+import br.uff.es2.war.network.Messenger;
+import br.uff.es2.war.network.ProtocolFactory;
+import br.uff.es2.war.network.TCPMessenger;
+import br.uff.es2.war.network.client.ClientSidePlayer;
+import br.uff.es2.war.network.client.ClientSideProtocol;
 
 /**
  * @author anacarolinegomesvargas
@@ -61,7 +59,7 @@ public class NewGameViewController implements Initializable {
 
     @FXML
     private Text txt_aguarde;
-    
+
     @FXML
     private Text txt_erro;
 
