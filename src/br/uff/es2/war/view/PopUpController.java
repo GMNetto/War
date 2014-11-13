@@ -255,5 +255,10 @@ public class PopUpController {
         btn_trocar.setVisible(true);
     }
     
+        public void setObj(){
+        Text txt_obj=(Text)pane_obj.lookup("#txt_obj");
+        txt_obj.setText(gameController2.getJogador().getObjective().toString());
+    }
+
     
 }

@@ -75,6 +75,10 @@ public class GameController implements Initializable {
 
     @FXML
     private Button btn_obj;
+    
+    @FXML
+    private Button btn_continua;
+
 
     @FXML
     private Button btn_troca;
