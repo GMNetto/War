@@ -16,11 +16,23 @@ import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
+import br.uff.es2.war.model.phases.ReceiveSoldiersPhase;
 import br.uff.es2.war.network.client.ClientSidePlayer;
 import br.uff.es2.war.view.widget.AlloctTerritoryController;
 import br.uff.es2.war.view.widget.AttackTerritoryController;
 import br.uff.es2.war.view.widget.TerritoryUI;
 import br.uff.es2.war.view.widget.TerritoryUIStrategy;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import javafx.scene.Group;
+import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 /**
  * @author anacarolinegomesvargas
@@ -29,7 +41,7 @@ public class GameController2 {
 
     private AlloctTerritoryController ac;
     private AttackTerritoryController atc;
-    private PopUpController jc;
+    private PopUpController popUpController;
     private List<TerritoryUI> territorios;
     private int raio;
 
@@ -43,6 +55,8 @@ public class GameController2 {
 
     private Pane pane_jogadores;
     private Circle cor_jog;
+    
+    private Button btn_prox;
 
     private TerritoryUIStrategy acaoTerr;
     private Game game;
@@ -51,7 +65,7 @@ public class GameController2 {
     private int quantityBeforeDistribution;
 
     public GameController2(Pane pane_aloca, Pane pane_mov, Group info_bar,
-	    Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela) {
+	    Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela, Button btn_prox) {
 	this.raio = 10;
 	this.txt_fase1 = (Text) info_bar.lookup("#pane_info_box").lookup(
 		"#txt_fase1");
@@ -61,13 +75,13 @@ public class GameController2 {
 		"#txt_ataque1");
 	this.txt_ataque2 = (Text) info_bar.lookup("#pane_info_box").lookup(
 		"#txt_ataque2");
-
+        this.btn_prox=btn_prox;
 	this.cor_jog = (Circle) info_bar.lookup("#cor_jog");
 	this.pane_jogadores = (Pane) info_bar.lookup("#pane_jogadores");
 
 	this.ac = new AlloctTerritoryController(pane_aloca, pane_mov, raio, this);
 	this.atc = new AttackTerritoryController(pane_ataca1, pane_ataca2, raio, this);
-	this.jc = new PopUpController(pane_sub_janela, this);
+	this.popUpController = new PopUpController(pane_sub_janela, this);
 
     }
 
@@ -75,6 +89,11 @@ public class GameController2 {
 	return jogador;
     }
 
+    public Button getBtn_prox() {
+        return btn_prox;
+    }
+
+    
     public void setPlayer(final ClientSidePlayer player) {
 	this.jogador = player;
 	player.getEvents().subscribe(ExchangeCardsEvent.class,
@@ -82,10 +101,13 @@ public class GameController2 {
 
 		    @Override
 		    public void onAction(ExchangeCardsEvent args) {
+                        if(ReceiveSoldiersPhase.checkExchange(popUpController)){
+                        
+                        }
 			player.exchangeCards(player.getCards());
 		    }
 		});
-
+        
 	player.getEvents().subscribe(DistributeSoldiersEvent.class,
 		new Action<DistributeSoldiersEvent>() {
 
@@ -93,6 +115,10 @@ public class GameController2 {
 		    public void onAction(DistributeSoldiersEvent args) {
 			quantityBeforeDistribution = getTotalArmys();
 			maxQuantityToDistribute = args.getQuantity();
+                        
+                        acaoTerr=acaoTerr.nextPhase();
+                        /// Porque recebemos uma lista de territórios???
+                        
 			Set<Territory> territoriosRecebidos = args
 				.getTerritories();
 			List<TerritoryUI> territoriesToUnlock = new ArrayList<>();
@@ -102,7 +128,8 @@ public class GameController2 {
 				    territoriesToUnlock.add(ui);
 			    }
 			}
-			desbloqueiaTerritorios(territoriesToUnlock);
+			ac.setTerritoriesToUnlock(territoriesToUnlock);
+                               
 		    }
 		});
     }
@@ -118,7 +145,11 @@ public class GameController2 {
     public int getMaxExercitosAloca() {
 	return quantityBeforeDistribution - getTotalArmys();
     }
-
+    
+    public int getMaxQuantityToDistribute() {
+	return maxQuantityToDistribute;
+    }
+    
     public void setMaxQuantityToDistribute(int quantityToDistribute) {
 	this.maxQuantityToDistribute = quantityToDistribute;
     }
@@ -163,7 +194,7 @@ public class GameController2 {
     }
 
     public PopUpController getJanelaController() {
-	return jc;
+	return popUpController;
     }
 
     public List<TerritoryUI> getTerritorios() {

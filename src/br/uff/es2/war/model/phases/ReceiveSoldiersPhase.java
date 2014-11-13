@@ -76,7 +76,7 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
 	return bonus;
     }
     
-    private boolean checkExchange(List<Card> cards) {
+    public static boolean checkExchange(List<Card> cards) {
         if (cards == null || cards.size() < MINIMUN_CARD_QUANTITY_TO_EXCHANGE)
 	    return false;
         
@@ -95,11 +95,6 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
         for (int figure : figures) {
             if (figure >= MINIMUN_CARD_QUANTITY_TO_EXCHANGE) 
                 return true;
-        }
-        
-        for (int figure : figures) {
-            if (figure < 1)
-                return false;
         }
         
         return false;

@@ -23,7 +23,9 @@ public class WaitTerritoryStrategy implements TerritoryUIStrategy{
         this.jc=jc;
         jc.setTextFase("Espere a sua vez","","","");
         jc.bloqueiaTerritorios(jc.getTerritorios());
+        jc.getBtn_prox().setVisible(true);
         
+        /*
         jc.getPlayer().getEvents().subscribe(BeginTurnEvent.class,
             new Action<BeginTurnEvent>() {
 		@Override
@@ -31,6 +33,7 @@ public class WaitTerritoryStrategy implements TerritoryUIStrategy{
                         jc.setAcaoTerr(new AllocTerritoryStrategy(jc));
                     }
         });
+                */
     }
 
     @Override

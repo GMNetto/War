@@ -6,7 +6,10 @@
 
 package br.uff.es2.war.view.widget;
 
+import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.view.GameController2;
+import java.util.List;
+import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -29,13 +32,15 @@ public class AlloctTerritoryController {
     private Button btn_aloca_ok;
     private int centrox;
     private int centroy;
+    
+    private List<TerritoryUI> territoriesToUnlock;
 
     private TerritoryUI terDestino, terOrigem;
     private int acrescenta;
 
-    private GameController2 jc;
+    private GameController2 gameController2;
 
-    public AlloctTerritoryController(Pane pane_aloca, Pane pane_mov, int raio, GameController2 jc) {
+    public AlloctTerritoryController(Pane pane_aloca, Pane pane_mov, int raio, GameController2 gameCont2) {
         this.pane_aloca = pane_aloca;
         this.btn_aloca_mais = (Button) pane_aloca.lookup("#btn_aloca_mais");
         this.btn_aloca_cancel =(Button) pane_aloca.lookup("#btn_aloca_cancel");
@@ -46,7 +51,7 @@ public class AlloctTerritoryController {
         this.btn_mov_cancel = (Button) pane_mov.lookup("#btn_mov_cancel");
         this.img_point = (ImageView) pane_mov.lookup("#img_point");
         
-        this.jc=jc;
+        this.gameController2=gameCont2;
         
         //tamanho do botão 25x25px mas considerando 30
         this.btn_aloca_mais.setLayoutX(15+raio);
@@ -69,6 +74,16 @@ public class AlloctTerritoryController {
         
         esconde();
         escondeMov();
+    }
+
+    public List<TerritoryUI> getTerritoriesToUnlock() {
+        return territoriesToUnlock;
+    }
+
+    public void setTerritoriesToUnlock(List<TerritoryUI> territoriesToUnlock) {
+        this.territoriesToUnlock = territoriesToUnlock;
+        this.gameController2.bloqueiaTerritorios(gameController2.getTerritorios());
+        this.gameController2.desbloqueiaTerritorios(territoriesToUnlock);
     }
 
     public void esconde() {
@@ -132,7 +147,7 @@ public class AlloctTerritoryController {
                 //limitando para numero máximo de execitos a serem alocados
                 if(acrescenta<maxExercitos){
                     acrescenta++;
-                    jc.setMaxQuantityToDistribute(jc.getMaxExercitosAloca()-1);
+                    gameController2.setMaxQuantityToDistribute(gameController2.getMaxExercitosAloca()-1);
                     terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
                 }
             }
@@ -145,7 +160,7 @@ public class AlloctTerritoryController {
                 // limitando para não retirar exercitos
                 if(acrescenta>0){
                     acrescenta--;
-                    jc.setMaxQuantityToDistribute(jc.getMaxExercitosAloca()+1);
+                    gameController2.setMaxQuantityToDistribute(gameController2.getMaxExercitosAloca()+1);
                     terDestino.getTexto().setText((terDestino.getQtd()+acrescenta)+"");
                 }
                 
@@ -158,10 +173,13 @@ public class AlloctTerritoryController {
             @Override
             public void handle(ActionEvent event) {
                 terDestino.setQtd(terDestino.getQtd()+acrescenta);
+                gameController2.setMaxQuantityToDistribute(maxExercitos-acrescenta);
+                gameController2.setTextFase1("Aloque seus "+gameController2.getMaxQuantityToDistribute()+" exércitos");
+                gameController2.setTextFase2("Selecione o territorio onde deseja alocar");
                 setTerritorioDestino(null);
                 setTerritorioOrigem(null);
                 esconde();
-                jc.setTextFase2("Selecione o territorio onde deseja alocar");
+                
             }
         });
         
@@ -172,7 +190,7 @@ public class AlloctTerritoryController {
                 terDestino.getTexto().setText(terDestino.getQtd()+"");
                 setTerritorioDestino(null);
                 setTerritorioOrigem(null);
-                jc.setTextFase2("Selecione o territorio onde deseja alocar");
+                gameController2.setTextFase2("Selecione o territorio onde deseja alocar");
                 esconde();
             }
         });
@@ -226,9 +244,9 @@ public class AlloctTerritoryController {
                 setTerritorioOrigem(null); 
                 esconde();
                 escondeMov();
-                jc.desbloqueiaTerritorios(jc.getTerritorios());
-                jc.bloqueiaTerririosAdversarios();
-                jc.setTextFase2("Selecione um territorio de origem e um de destino");
+                gameController2.bloqueiaTerritorios(gameController2.getTerritorios());
+                gameController2.desbloqueiaTerritorios(gameController2.getAlocaController().getTerritoriesToUnlock());
+                gameController2.setTextFase2("Selecione um territorio de origem e um de destino");
             }
         });
         
@@ -243,9 +261,9 @@ public class AlloctTerritoryController {
                 setTerritorioOrigem(null);
                 esconde();
                 escondeMov();
-                jc.desbloqueiaTerritorios(jc.getTerritorios());
-                jc.bloqueiaTerririosAdversarios();
-                jc.setTextFase2("Selecione um territorio de origem e um de destino");
+                gameController2.bloqueiaTerritorios(gameController2.getTerritorios());
+                gameController2.desbloqueiaTerritorios(gameController2.getAlocaController().getTerritoriesToUnlock());
+                gameController2.setTextFase2("Selecione um territorio de origem e um de destino");
             }
         });
         
@@ -258,9 +276,9 @@ public class AlloctTerritoryController {
                 setTerritorioOrigem(null);
                 esconde();
                 escondeMov();
-                jc.desbloqueiaTerritorios(jc.getTerritorios());
-                jc.bloqueiaTerririosAdversarios();
-                jc.setTextFase2("Selecione um territorio de origem e um de destino");
+                gameController2.desbloqueiaTerritorios(gameController2.getTerritorios());
+                gameController2.bloqueiaTerririosAdversarios();
+                gameController2.setTextFase2("Selecione um territorio de origem e um de destino");
             }
         });
     }

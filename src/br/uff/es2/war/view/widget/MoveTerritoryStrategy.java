@@ -18,6 +18,7 @@ public class MoveTerritoryStrategy implements TerritoryUIStrategy {
 
     public MoveTerritoryStrategy(GameController2 jc) {
         this.jc=jc;
+        jc.getBtn_prox().setVisible(true);
         jc.setTextFase("Movimente exércitos","Selecione um territorio de origem e um de destino","","");
         // para a fase de movimentação é necessário bloquear os territorios que não pertencem ao jogador
         // ações de inicialização bloquear clique, trocar icone do cursor e modificar opacidade do circulo
