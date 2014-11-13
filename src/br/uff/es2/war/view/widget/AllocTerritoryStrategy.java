@@ -14,38 +14,35 @@ import br.uff.es2.war.view.GameController2;
  */
 public class AllocTerritoryStrategy implements TerritoryUIStrategy {
 
-    private GameController2 jc;
+    private GameController2 gameController2;
 
-    public AllocTerritoryStrategy(GameController2 jc) {
-        this.jc=jc;
-        jc.getBtn_prox().setVisible(true);
-        jc.setTextFase("Aloque seus "+jc.getMaxQuantityToDistribute()+" exércitos","Selecione o territorio onde deseja alocar","","");
+    public AllocTerritoryStrategy(GameController2 gameCont2) {
+        this.gameController2=gameCont2;
+        gameCont2.getBtn_prox().setVisible(true);
+        gameCont2.setTextFase("Aloque seus "+gameCont2.getMaxQuantityToDistribute()+" exércitos","Selecione o territorio onde deseja alocar","","");
         // para a fase de alocação é necessário bloquear os territorios que não pertencem ao jogador
         // ações de inicialização bloquear clique, trocar icone do cursor e modificar opacidade do circulo
         
-        jc.bloqueiaTerritorios(jc.getTerritorios());
-        jc.desbloqueiaTerritorios(jc.getAlocaController().getTerritoriesToUnlock());
-        
-        jc.getAlocaController().setTerritorioDestino(null);
-        jc.getAlocaController().setTerritorioOrigem(null); 
-        jc.getAlocaController().esconde();
-        jc.getAlocaController().escondeMov();
+        gameCont2.getAlocaController().setTerritorioDestino(null);
+        gameCont2.getAlocaController().setTerritorioOrigem(null); 
+        gameCont2.getAlocaController().esconde();
+        gameCont2.getAlocaController().escondeMov();
     }
 
     @Override
     public void buttonAction(TerritoryUI ter) {
-	jc.getAlocaController().setTerritorioDestino(ter);
-	jc.getAlocaController().actionAloca(jc.getMaxQuantityToDistribute());
-	jc.getAlocaController().mostra();
-	jc.getAlocaController().centraliza(ter.getCirculo().getCenterX(),
+	gameController2.getAlocaController().setTerritorioDestino(ter);
+	gameController2.getAlocaController().actionAloca(gameController2.getMaxQuantityToDistribute());
+	gameController2.getAlocaController().mostra();
+	gameController2.getAlocaController().centraliza(ter.getCirculo().getCenterX(),
 		ter.getCirculo().getCenterY());
-        jc.setTextFase2("Selecionado "+ter.getNome());
+        gameController2.setTextFase2("Selecionado "+ter.getNome());
 
     }
 
     @Override
     public TerritoryUIStrategy nextPhase() {
-        jc.getAlocaController().esconde();
-        return new AttackTerritoryStrategy(jc);
+        gameController2.getAlocaController().esconde();
+        return new AttackTerritoryStrategy(gameController2);
     }
 }

@@ -7,6 +7,7 @@ import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Game;
 import br.uff.es2.war.model.Player;
 import br.uff.es2.war.model.Territory;
+import br.uff.es2.war.model.phases.ReceiveSoldiersPhase;
 import br.uff.es2.war.network.client.ClientSidePlayer;
 import br.uff.es2.war.view.widget.AlloctTerritoryController;
 import br.uff.es2.war.view.widget.AttackTerritoryController;
@@ -31,7 +32,7 @@ public class GameController2 {
 
     private AlloctTerritoryController ac;
     private AttackTerritoryController atc;
-    private PopUpController jc;
+    private PopUpController popUpController;
     private List<TerritoryUI> territorios;
     private int raio;
 
@@ -65,13 +66,13 @@ public class GameController2 {
 		"#txt_ataque1");
 	this.txt_ataque2 = (Text) info_bar.lookup("#pane_info_box").lookup(
 		"#txt_ataque2");
-
+        this.btn_prox=btn_prox;
 	this.cor_jog = (Circle) info_bar.lookup("#cor_jog");
 	this.pane_jogadores = (Pane) info_bar.lookup("#pane_jogadores");
 
 	this.ac = new AlloctTerritoryController(pane_aloca, pane_mov, raio, this);
 	this.atc = new AttackTerritoryController(pane_ataca1, pane_ataca2, raio, this);
-	this.jc = new PopUpController(pane_sub_janela, this);
+	this.popUpController = new PopUpController(pane_sub_janela, this);
 
     }
 
@@ -91,6 +92,9 @@ public class GameController2 {
 
 		    @Override
 		    public void onAction(ExchangeCardsEvent args) {
+                        if(ReceiveSoldiersPhase.checkExchange(popUpController)){
+                        
+                        }
 			player.exchangeCards(player.getCards());
 		    }
 		});
@@ -105,7 +109,7 @@ public class GameController2 {
                         
                         acaoTerr=acaoTerr.nextPhase();
                         /// Porque recebemos uma lista de territórios???
-                        /*
+                        
 			Set<Territory> territoriosRecebidos = args
 				.getTerritories();
 			List<TerritoryUI> territoriesToUnlock = new ArrayList<>();
@@ -115,8 +119,8 @@ public class GameController2 {
 				    territoriesToUnlock.add(ui);
 			    }
 			}
-			desbloqueiaTerritorios(territoriesToUnlock);
-                                */
+			ac.setTerritoriesToUnlock(territoriesToUnlock);
+                               
 		    }
 		});
     }
@@ -181,7 +185,7 @@ public class GameController2 {
     }
 
     public PopUpController getJanelaController() {
-	return jc;
+	return popUpController;
     }
 
     public List<TerritoryUI> getTerritorios() {

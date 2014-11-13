@@ -6,15 +6,9 @@
 
 package br.uff.es2.war.view;
 
-import br.uff.es2.war.events.Action;
-import br.uff.es2.war.events.AddCardEvent;
-import br.uff.es2.war.events.BeginTurnEvent;
-import br.uff.es2.war.events.ExchangeCardsEvent;
 import br.uff.es2.war.model.Card;
 import java.util.LinkedList;
 import java.util.List;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -37,10 +31,10 @@ public class PopUpController {
     private Text txt_ataca2;
     private List<Card> cartas;
     private List<Card> cartasTroca;
-    private GameController2 jc;
+    private GameController2 gameController2;
 
-    public PopUpController(Pane pane_sub_janela, final GameController2 jc) {
-        this.jc=jc;
+    public PopUpController(Pane pane_sub_janela, final GameController2 gameCont2) {
+        this.gameController2=gameCont2;
         this.pane_sub_janela=pane_sub_janela;
         this.pane_obj = (Pane) pane_sub_janela.lookup("#pane_obj");
         this.pane_info = (Pane) pane_sub_janela.lookup("#pane_info");
@@ -84,7 +78,7 @@ public class PopUpController {
                             (coringa==1&&triangulo==1&&quadrado==1)||
                             (circulo==1&&coringa==1&&quadrado==1)){
                         //envia troca para o servidor
-                        jc.getPlayer().exchangeCards(cartasTroca);
+                        gameCont2.getPlayer().exchangeCards(cartasTroca);
                         //apaga cartas trocadas
                         for(Card carta:cartasTroca){
                             cartas.remove(carta);
