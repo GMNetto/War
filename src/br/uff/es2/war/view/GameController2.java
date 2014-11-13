@@ -193,7 +193,7 @@ public class GameController2 {
 	return atc;
     }
 
-    public PopUpController getJanelaController() {
+    public PopUpController getPopUpController() {
 	return popUpController;
     }
 

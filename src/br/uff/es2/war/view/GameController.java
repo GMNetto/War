@@ -27,8 +27,26 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import br.uff.es2.war.events.Action;
+import br.uff.es2.war.events.AddCardEvent;
+import br.uff.es2.war.events.AnswerCombatEvent;
+import br.uff.es2.war.events.BeginTurnEvent;
+import br.uff.es2.war.events.DeclareCombatEvent;
+import br.uff.es2.war.events.EventBus;
+import br.uff.es2.war.events.ExchangeCardsEvent;
+import br.uff.es2.war.events.GameOverEvent;
+import br.uff.es2.war.events.MoveSoldiersEvents;
 import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.phases.GameOver;
 import br.uff.es2.war.network.client.ClientSidePlayer;
+import br.uff.es2.war.view.states.AllocSoldiersState;
+import br.uff.es2.war.view.states.AttackState;
+import br.uff.es2.war.view.states.DefenseState;
+import br.uff.es2.war.view.states.ExchangeCardsState;
+import br.uff.es2.war.view.states.GameOverState;
+import br.uff.es2.war.view.states.MoveSoldiersState;
+import br.uff.es2.war.view.states.ViewState;
+import br.uff.es2.war.view.states.WaitingState;
 import br.uff.es2.war.view.widget.TerritoryUI;
 import br.uff.es2.war.view.widget.WaitTerritoryStrategy;
 
@@ -101,6 +119,76 @@ public class GameController implements Initializable {
 
     private GameController2 controller2;
     
+    public void setPlayer(final ClientSidePlayer player) {
+	controller2.setPlayer(player);
+	EventBus events = player.getEvents();
+	
+	events.subscribe(BeginTurnEvent.class, new Action<BeginTurnEvent>(){
+	    @Override
+	    public void onAction(BeginTurnEvent args) {
+		ViewState state = args.getPlayer().equals(player) ? new AllocSoldiersState() : new WaitingState();
+		state.execute(GameController.this);
+	    }
+	});
+	
+	events.subscribe(ExchangeCardsEvent.class, new Action<ExchangeCardsEvent>(){
+	    @Override
+	    public void onAction(ExchangeCardsEvent args) {
+		ViewState state = new ExchangeCardsState();
+		state.execute(GameController.this);
+	    }
+	});
+	
+	events.subscribe(DeclareCombatEvent.class, new Action<DeclareCombatEvent>(){
+	    @Override
+	    public void onAction(DeclareCombatEvent args) {
+		ViewState state = new AttackState();
+		state.execute(GameController.this);
+	    }
+	});
+	
+	events.subscribe(AnswerCombatEvent.class, new Action<AnswerCombatEvent>(){
+	    @Override
+	    public void onAction(AnswerCombatEvent args) {
+		ViewState state = new DefenseState();
+		state.execute(GameController.this);
+	    }
+	});
+	
+	events.subscribe(MoveSoldiersEvents.class, new Action<MoveSoldiersEvents>(){
+	    @Override
+	    public void onAction(MoveSoldiersEvents args) {
+		ViewState state = new MoveSoldiersState();
+		state.execute(GameController.this);
+	    }
+	});
+	
+	events.subscribe(AddCardEvent.class, new Action<AddCardEvent>(){
+	    @Override
+	    public void onAction(AddCardEvent args) {
+		getGameController2().getPopUpController().addCard(args.getCard());
+	    }
+	});
+	
+	events.subscribe(GameOverEvent.class, new Action<GameOverEvent>(){
+	    @Override
+	    public void onAction(GameOverEvent args) {
+		ViewState state = new GameOverState();
+		state.execute(GameController.this);
+	    }
+	});
+    }
+
+    public void setGame(Game game) {
+	controller2.setGame(game);
+	desenhaTerritorios();
+	//controller2.setAcaoTerr(new WaitTerritoryStrategy(controller2));
+    }
+    
+    public GameController2 getGameController2(){
+	return controller2;
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	backgroundImage = new Image("war1.jpg");
@@ -143,8 +231,8 @@ public class GameController implements Initializable {
 
 	    @Override
 	    public void handle(ActionEvent event) {
-		controller2.getJanelaController().mostra();
-		controller2.getJanelaController().mostraCartas();
+		controller2.getPopUpController().mostra();
+		controller2.getPopUpController().mostraCartas();
 	    }
 	});
 
@@ -152,8 +240,8 @@ public class GameController implements Initializable {
 
 	    @Override
 	    public void handle(ActionEvent event) {
-		controller2.getJanelaController().mostra();
-		controller2.getJanelaController().mostraObj();
+		controller2.getPopUpController().mostra();
+		controller2.getPopUpController().mostraObj();
 	    }
 	});
 
@@ -161,8 +249,8 @@ public class GameController implements Initializable {
 
 	    @Override
 	    public void handle(ActionEvent event) {
-		controller2.getJanelaController().mostra();
-		controller2.getJanelaController().mostraInfo();
+		controller2.getPopUpController().mostra();
+		controller2.getPopUpController().mostraInfo();
 
 	    }
 	});
@@ -244,16 +332,5 @@ public class GameController implements Initializable {
 	    criarCirculo(ui);
 	    ui.getCirculo().setFill(ColorMap.getPaint(ui.getDono().getColor()));
 	}
-    }
-
-    public void setPlayer(ClientSidePlayer player) {
-	controller2.setPlayer(player);
-	// txt_obj.setText(player.getObjective().toString());
-    }
-
-    public void setGame(Game game) {
-	controller2.setGame(game);
-	desenhaTerritorios();
-	controller2.setAcaoTerr(new WaitTerritoryStrategy(controller2));
     }
 }
