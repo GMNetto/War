@@ -456,6 +456,14 @@ public class GameController implements Runnable {
         world.add(continent4);
         world.add(continent5);
         world.add(continent6);
+        
+        try {
+            GameLoader gl = new GameLoader(0, Persistence.createEntityManagerFactory("WarESIIPU"));
+            return gl.getWorld();
+        } catch (Exception ex) {
+            //Logger.getLogger(GameController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return world;
 
     }
