@@ -39,6 +39,7 @@ import br.uff.es2.war.events.ExchangeCardsEvent;
 import br.uff.es2.war.events.GameOverEvent;
 import br.uff.es2.war.events.MoveSoldiersEvents;
 import br.uff.es2.war.events.SetGameEvent;
+import br.uff.es2.war.model.Player;
 import br.uff.es2.war.network.client.ClientSidePlayer;
 import br.uff.es2.war.view.states.AttackState;
 import br.uff.es2.war.view.states.DefenseState;
