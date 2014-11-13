@@ -111,7 +111,7 @@ public class GameController implements Initializable {
 		(float) (450 / backgroundImage.getHeight()));
 	pane_map.setPrefSize(backgroundImage.getWidth(), backgroundImage.getHeight());
 	controller2 = new GameController2(pane_aloca, pane_mov,
-		group_info_bar, pane_ataca1, pane_ataca2, pane_sub_janela);
+		group_info_bar, pane_ataca1, pane_ataca2, pane_sub_janela,btn_prox);
 	addEvents();
     }
     

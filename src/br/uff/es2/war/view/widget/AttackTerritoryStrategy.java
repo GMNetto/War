@@ -18,6 +18,7 @@ public class AttackTerritoryStrategy implements TerritoryUIStrategy{
     
     public AttackTerritoryStrategy(GameController2 jc) {
         this.jc=jc;
+        jc.getBtn_prox().setVisible(true);
         jc.setTextFase("Ataque!!","Selecione o territorio de origem e o destino do ataque","","");
         jc.desbloqueiaTerritorios(jc.getTerritorios());
         jc.bloqueiaTerririosAdversarios();

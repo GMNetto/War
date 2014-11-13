@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -44,6 +45,8 @@ public class GameController2 {
 
     private Pane pane_jogadores;
     private Circle cor_jog;
+    
+    private Button btn_prox;
 
     private TerritoryUIStrategy acaoTerr;
     private Game game;
@@ -52,7 +55,7 @@ public class GameController2 {
     private int quantityBeforeDistribution;
 
     public GameController2(Pane pane_aloca, Pane pane_mov, Group info_bar,
-	    Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela) {
+	    Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela, Button btn_prox) {
 	this.raio = 10;
 	this.txt_fase1 = (Text) info_bar.lookup("#pane_info_box").lookup(
 		"#txt_fase1");
@@ -76,6 +79,11 @@ public class GameController2 {
 	return jogador;
     }
 
+    public Button getBtn_prox() {
+        return btn_prox;
+    }
+
+    
     public void setPlayer(final ClientSidePlayer player) {
 	this.jogador = player;
 	player.getEvents().subscribe(ExchangeCardsEvent.class,
