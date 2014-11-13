@@ -155,6 +155,11 @@ public class PopUpController {
 		
     }
     
+    public void addCard(Card card){
+	cartas.add(card);
+	atualizaCartas();
+    }
+    
     public void selecionaCarta(Boolean new_val,int n, CheckBox check){
         if(new_val && cartasTroca.size()<3){
             //pode selecionar mais uma carta
