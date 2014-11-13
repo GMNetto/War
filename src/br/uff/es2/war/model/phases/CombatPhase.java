@@ -33,8 +33,9 @@ public class CombatPhase implements GameState<Game> {
 	    return soldierMovement;
 	Territory defendingTerritory = combat.getDefendingTerritory();
 	Player defender = defendingTerritory.getOwner();
-	defender.answerCombat(combat);
 	judge.resolve(combat);
+	attacker.answerCombat(combat);
+	defender.answerCombat(combat);
         game.getEvents().subscribe(TerritoryConquestEvent.class, soldierMovement);
 	if (defendingTerritory.getOwner().equals(attacker))
 	    game.getEvents().publish(

@@ -153,6 +153,11 @@ public class GameController implements Runnable {
                 public boolean isNeeded(Territory territory) {
                     return false;
                 }
+                
+                @Override
+                public String toString() {
+                    return "Seu objetivo é... DOMINAR O MUNDO!";
+                }
             });
         }
         return objectives;

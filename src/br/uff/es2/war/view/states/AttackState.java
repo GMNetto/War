@@ -41,4 +41,5 @@ public class AttackState extends ViewState {
         AttackTerritoryController ac = c2.getAtacaController();
         c2.getJogador().declareCombat(new Combat(ac.getTerOrigem().getModel(), ac.getTerDestino().getModel(),ac.getnAtaca() ));
     }
+    
 }

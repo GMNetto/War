@@ -107,7 +107,6 @@ public class BasicBot implements Player {
 
     @Override
     public void answerCombat(Combat combat) {
-        combat.setDefendingSoldiers(Math.min(combat.getDefendingTerritory().getSoldiers(), 3));
     }
 
     @Override

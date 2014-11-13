@@ -358,6 +358,7 @@ public class GameController implements Initializable {
 	events.subscribe(SetGameEvent.class, new Action<SetGameEvent>() {
 	    @Override
 	    public void onAction(final SetGameEvent args) {
+		System.out.println("Client SetGame");
 		Platform.runLater(new Runnable() {
 		    @Override
 		    public void run() {
