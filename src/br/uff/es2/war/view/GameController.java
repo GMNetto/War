@@ -287,6 +287,7 @@ public class GameController implements Initializable {
 		System.out.println("Client BeginTurn");
 		ViewState state = new WaitingState();
 		state.execute(GameController.this);
+                controller2.getPopUpController().setObj();
 	    }
 	});
 
