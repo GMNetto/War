@@ -6,12 +6,18 @@
 
 package br.uff.es2.war.view;
 
+import br.uff.es2.war.events.Action;
+import br.uff.es2.war.events.AddCardEvent;
 import java.util.LinkedList;
 import java.util.List;
 
 import br.uff.es2.war.model.Card;
+import br.uff.es2.war.model.phases.ReceiveSoldiersPhase;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -29,12 +35,13 @@ public class PopUpController {
     private Pane pane_obj;
     private Pane pane_info;
     private Pane pane_cartas;
+    
     private Button btn_janela_x;
     private Button btn_trocar;
-    private Text txt_ataca1;
-    private Text txt_ataca2;
+    
     private List<Card> cartas;
     private List<Card> cartasTroca;
+    
     private GameController2 gameController2;
 
     public PopUpController(Pane pane_sub_janela, final GameController2 gameCont2) {
@@ -53,6 +60,12 @@ public class PopUpController {
  
             @Override
             public void handle(ActionEvent event) {
+                //quando o botão de troca está visível, sair manda mensagem para o servidor
+                //cliente não quer realizar a troca
+                if(pane_cartas.isVisible()&&btn_trocar.isVisible()){
+                    gameController2.getPlayer().exchangeCards(new ArrayList<Card>());
+                }
+                
                 esconde();
             }
         });
@@ -65,40 +78,26 @@ public class PopUpController {
  
             @Override
             public void handle(ActionEvent event) {
-                if(cartasTroca.size()==3){
+                if(ReceiveSoldiersPhase.checkExchange(cartasTroca)){
                     //verificar se as cartas podem ser trocadas
-                    int circulo=0,quadrado=0,triangulo=0,coringa=0;
-                    for(Card carta: cartasTroca){
-                        switch(carta.getFigure()){
-                            case 0:coringa++;break;
-                            case 1:circulo++;break;
-                            case 2:triangulo++;break;
-                            case 3:quadrado++;break;
-                        }
+                    //envia troca para o servidor
+                    gameCont2.getPlayer().exchangeCards(cartasTroca);
+                    //apaga cartas trocadas
+                    for(Card carta:cartasTroca){
+                        cartas.remove(carta);
                     }
-                    if(circulo==3||triangulo==3||quadrado==3||(circulo==1&&triangulo==1&&quadrado==1)||
-                            (circulo+coringa)==3||(triangulo+coringa)==3||(quadrado+coringa)==3||
-                            (circulo==1&&triangulo==1&&coringa==1)||
-                            (coringa==1&&triangulo==1&&quadrado==1)||
-                            (circulo==1&&coringa==1&&quadrado==1)){
-                        //envia troca para o servidor
-                        gameCont2.getPlayer().exchangeCards(cartasTroca);
-                        //apaga cartas trocadas
-                        for(Card carta:cartasTroca){
-                            cartas.remove(carta);
-                        }
-                        cartasTroca.clear();
-                        //atualiza exibicão das cartas
-                        atualizaCartas();
-                        
-                    }
+                    cartasTroca.clear();
+                    //atualiza exibicão das cartas
+                    atualizaCartas();
+                    esconde();
+                   
                 }
             }
         });
         
         //Pegar cartas do jogo
-        /*
-        jc.getPlayer().getEvents().subscribe(AddCardEvent.class,
+        
+        gameCont2.getPlayer().getEvents().subscribe(AddCardEvent.class,
             new Action<AddCardEvent>() {
 		@Override
                     public void onAction(AddCardEvent args) {
@@ -107,7 +106,6 @@ public class PopUpController {
                         
                     }
         });
-        
         
         //verificando selecão de cartas
         final CheckBox check_card1=(CheckBox) pane_cartas.lookup("#check_card1");
@@ -154,7 +152,7 @@ public class PopUpController {
 			selecionaCarta(new_val,4,check_card5);
 		    }
 		});
-		*/
+		
     }
     
     public void addCard(Card card){
@@ -236,5 +234,29 @@ public class PopUpController {
         pane_obj.setVisible(false);
         pane_info.setVisible(false);
         pane_cartas.setVisible(true);
+        //não exibe o botão de troca
+        btn_trocar.setVisible(false);
     }
+
+    public List<Card> getCartas() {
+        return cartas;
+    }
+
+    public List<Card> getCartasTroca() {
+        return cartasTroca;
+    }
+    
+    public void bloqueiaParaTroca(){
+        //é obrigatório realizar a troca, bloqueia até ser ativado o trocar
+        trocarCartas();
+        btn_janela_x.setVisible(false);
+        
+    }
+    
+    public void trocarCartas(){
+        //libera o botão para trocar cartas
+        btn_trocar.setVisible(true);
+    }
+    
+    
 }
