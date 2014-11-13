@@ -1,5 +1,14 @@
 package br.uff.es2.war.view;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import javafx.scene.Group;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import br.uff.es2.war.events.Action;
 import br.uff.es2.war.events.DistributeSoldiersEvent;
 import br.uff.es2.war.events.ExchangeCardsEvent;
@@ -10,18 +19,8 @@ import br.uff.es2.war.model.Territory;
 import br.uff.es2.war.network.client.ClientSidePlayer;
 import br.uff.es2.war.view.widget.AlloctTerritoryController;
 import br.uff.es2.war.view.widget.AttackTerritoryController;
-import br.uff.es2.war.view.widget.TerritoryUIStrategy;
 import br.uff.es2.war.view.widget.TerritoryUI;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
-import javafx.scene.Group;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
+import br.uff.es2.war.view.widget.TerritoryUIStrategy;
 
 /**
  * @author anacarolinegomesvargas

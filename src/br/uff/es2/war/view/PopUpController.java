@@ -6,21 +6,16 @@
 
 package br.uff.es2.war.view;
 
-import br.uff.es2.war.events.Action;
-import br.uff.es2.war.events.AddCardEvent;
-import br.uff.es2.war.events.BeginTurnEvent;
-import br.uff.es2.war.events.ExchangeCardsEvent;
-import br.uff.es2.war.model.Card;
 import java.util.LinkedList;
 import java.util.List;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import br.uff.es2.war.model.Card;
 
 /**
  * @author anacarolinegomesvargas
