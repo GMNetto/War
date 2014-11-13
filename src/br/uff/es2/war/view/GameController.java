@@ -357,11 +357,11 @@ public class GameController implements Initializable {
 
 	events.subscribe(SetGameEvent.class, new Action<SetGameEvent>() {
 	    @Override
-	    public void onAction(SetGameEvent args) {
-		controller2.setGame(args.getGame());
+	    public void onAction(final SetGameEvent args) {
 		Platform.runLater(new Runnable() {
 		    @Override
 		    public void run() {
+			controller2.setGame(args.getGame());
 			desenhaTerritorios();
 			controller2.createControllers(pane_aloca, pane_mov,
 				pane_ataca1, pane_ataca2, pane_sub_janela);
