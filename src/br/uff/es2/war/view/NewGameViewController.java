@@ -141,6 +141,7 @@ public class NewGameViewController implements Initializable {
 		for (int i = 0; i < nomes.length; i++)
 		    nomes[i] = colors[i].getName();
 		combo_cor.getItems().addAll(nomes);
+		combo_cor.setValue(nomes[0]);
 		pane_cor.setVisible(true);
 	    }
 	});
