@@ -38,6 +38,7 @@ public class ServerSidePlayer extends PlayerData {
     @Override
     public void beginTurn(Player current) {
 	messenger.send(protocol.beginTurn(current));
+	broadcastWorld();
     }
 
     @Override
