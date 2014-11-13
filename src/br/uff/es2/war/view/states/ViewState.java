@@ -1,5 +1,6 @@
 package br.uff.es2.war.view.states;
 
+import javafx.application.Platform;
 import br.uff.es2.war.view.GameController;
 
 /**
@@ -7,8 +8,17 @@ import br.uff.es2.war.view.GameController;
  * components and display different messages. 
  * @author Arthur Pitzer
  */
-public interface ViewState {
+public abstract class ViewState {
     
-    void execute(GameController controller);
+    public void execute(final GameController controller){
+	Platform.runLater(new Runnable() {
+	    @Override
+	    public void run() {
+		innerExecute(controller);
+	    }
+	});
+    }
+    
+    protected abstract void innerExecute(GameController controller);
 
 }

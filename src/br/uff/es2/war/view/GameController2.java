@@ -1,41 +1,23 @@
 package br.uff.es2.war.view;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
-import javafx.scene.Group;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
-import br.uff.es2.war.events.Action;
-import br.uff.es2.war.events.DistributeSoldiersEvent;
-import br.uff.es2.war.events.ExchangeCardsEvent;
-import br.uff.es2.war.model.Card;
-import br.uff.es2.war.model.Color;
-import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.Player;
-import br.uff.es2.war.model.Territory;
-import static br.uff.es2.war.model.phases.ReceiveSoldiersPhase.checkExchange;
-import br.uff.es2.war.network.client.ClientSidePlayer;
-import br.uff.es2.war.view.widget.AlloctTerritoryController;
-import br.uff.es2.war.view.widget.AttackTerritoryController;
-import br.uff.es2.war.view.widget.TerritoryUI;
-import br.uff.es2.war.view.widget.TerritoryUIStrategy;
-import br.uff.es2.war.view.widget.WaitTerritoryStrategy;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import javafx.application.Platform;
 
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import br.uff.es2.war.model.Color;
+import br.uff.es2.war.model.Game;
+import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.Territory;
+import br.uff.es2.war.network.client.ClientSidePlayer;
+import br.uff.es2.war.view.widget.AlloctTerritoryController;
+import br.uff.es2.war.view.widget.AttackTerritoryController;
+import br.uff.es2.war.view.widget.TerritoryUI;
+import br.uff.es2.war.view.widget.TerritoryUIStrategy;
 
 /**
  * @author anacarolinegomesvargas
@@ -102,33 +84,8 @@ public class GameController2 {
     }
 
     
-    public void setPlayer(final ClientSidePlayer player) {
+    public void setPlayer(ClientSidePlayer player) {
 	this.jogador = player;
-	player.getEvents().subscribe(ExchangeCardsEvent.class,
-		new Action<ExchangeCardsEvent>() {
-
-		    @Override
-		    public void onAction(ExchangeCardsEvent args) {
-                        if(checkExchange(popUpController.getCartas())){
-                            // é possível fazer trocas
-                            popUpController.mostraCartas();
-                            if(popUpController.getCartas().size()==5){
-                                //obrigatório trocar
-                                popUpController.bloqueiaParaTroca();
-                            }
-                            else{
-                                //Pode realizar trocas
-                                popUpController.trocarCartas();
-                            }
-                        
-                        }
-                        else{
-                            //não é possível realizar trocas
-                            player.exchangeCards(new ArrayList<Card>());
-                        }
-		    }
-		});
-        
     }
 
     public TerritoryUIStrategy getAcaoTerr() {

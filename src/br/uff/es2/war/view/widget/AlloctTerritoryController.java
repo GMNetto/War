@@ -6,15 +6,14 @@
 
 package br.uff.es2.war.view.widget;
 
-import br.uff.es2.war.model.Territory;
-import br.uff.es2.war.view.GameController2;
 import java.util.List;
-import java.util.Set;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import br.uff.es2.war.view.GameController2;
 
 /**
  * 

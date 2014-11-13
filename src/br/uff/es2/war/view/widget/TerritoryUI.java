@@ -9,11 +9,11 @@ package br.uff.es2.war.view.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.uff.es2.war.model.Player;
-import br.uff.es2.war.model.Territory;
 import javafx.scene.Cursor;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import br.uff.es2.war.model.Player;
+import br.uff.es2.war.model.Territory;
 
 /**
  * 
@@ -37,6 +37,8 @@ public class TerritoryUI {
     }
     
     public void bloqueia(){
+	if(circulo == null)
+	    System.out.println("opá");
         this.circulo.setOpacity(0.5);
         this.circulo.setCursor(Cursor.CLOSED_HAND);
         this.texto.setCursor(Cursor.CLOSED_HAND);

@@ -6,8 +6,12 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.management.InvalidAttributeValueException;
 import javax.persistence.Persistence;
 
 import br.uff.es2.war.ai.BasicBot;
@@ -36,10 +40,6 @@ import br.uff.es2.war.network.ProtocolFactory;
 import br.uff.es2.war.network.server.ServerSidePlayer;
 import br.uff.es2.war.network.server.ServerSideProtocol;
 import br.uff.es2.war.network.server.WarServer;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.management.InvalidAttributeValueException;
 
 public class GameController implements Runnable {
 

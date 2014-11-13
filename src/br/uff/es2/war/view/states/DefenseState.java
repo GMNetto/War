@@ -7,10 +7,10 @@ import br.uff.es2.war.view.GameController;
  * State where the player is attack by another player
  * @author Arthur Pitzer
  */
-public class DefenseState implements ViewState {
+public class DefenseState extends ViewState {
     
     @Override
-    public void execute(GameController controller) {
+    protected void innerExecute(GameController controller) {
 	throw new NotImplementedException();
     }
 

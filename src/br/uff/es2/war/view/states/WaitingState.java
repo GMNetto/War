@@ -8,10 +8,10 @@ import br.uff.es2.war.view.widget.WaitTerritoryStrategy;
  * State where the client is waiting for his turn.
  * @author Arthur Pitzer
  */
-public class WaitingState implements ViewState {
+public class WaitingState extends ViewState {
     
     @Override
-    public void execute(GameController controller) {
+    protected void innerExecute(GameController controller) {
 	GameController2 controller2 = controller.getGameController2();
 	controller2.setAcaoTerr(new WaitTerritoryStrategy(controller2));
 	controller2.setTextFase("Espere a sua vez","","","");

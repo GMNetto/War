@@ -96,5 +96,5 @@ public class ReceiveSoldiersPhase implements GameState<Game> {
                 return true;
         }
         return false;
-    }
+    } 
 }

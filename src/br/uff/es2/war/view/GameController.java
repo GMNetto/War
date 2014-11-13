@@ -8,6 +8,7 @@ package br.uff.es2.war.view;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -37,20 +38,17 @@ import br.uff.es2.war.events.EventBus;
 import br.uff.es2.war.events.ExchangeCardsEvent;
 import br.uff.es2.war.events.GameOverEvent;
 import br.uff.es2.war.events.MoveSoldiersEvents;
-import br.uff.es2.war.model.Game;
-import br.uff.es2.war.model.phases.GameOver;
-import br.uff.es2.war.model.phases.ReceiveSoldiersPhase;
+import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.network.client.ClientSidePlayer;
-import br.uff.es2.war.view.states.DistributeSoldiersState;
 import br.uff.es2.war.view.states.AttackState;
 import br.uff.es2.war.view.states.DefenseState;
+import br.uff.es2.war.view.states.DistributeSoldiersState;
 import br.uff.es2.war.view.states.ExchangeCardsState;
 import br.uff.es2.war.view.states.GameOverState;
 import br.uff.es2.war.view.states.MoveSoldiersState;
 import br.uff.es2.war.view.states.ViewState;
 import br.uff.es2.war.view.states.WaitingState;
 import br.uff.es2.war.view.widget.TerritoryUI;
-import br.uff.es2.war.view.widget.WaitTerritoryStrategy;
 
 /**
  * 
@@ -103,12 +101,12 @@ public class GameController implements Initializable {
 
     @FXML
     private ImageView img_fundo;
-    
+
     private Image backgroundImage;
 
     @FXML
     private ImageView img_fundo2;
-    
+
     private Image backgroundImage2;
 
     @FXML
@@ -120,93 +118,11 @@ public class GameController implements Initializable {
     private float scaleMin;
 
     private GameController2 controller2;
-    
-    public void setPlayer(final ClientSidePlayer player) {
-	controller2.setPlayer(player);
-	EventBus events = player.getEvents();
-	
-	events.subscribe(BeginTurnEvent.class, new Action<BeginTurnEvent>(){
-	    @Override
-	    public void onAction(BeginTurnEvent args) {
-		System.out.println("Client BeginTurn");
-		ViewState state = new WaitingState();
-		state.execute(GameController.this);
-	    }
-	});
-	
-	events.subscribe(ExchangeCardsEvent.class, new Action<ExchangeCardsEvent>(){
-	    @Override
-	    public void onAction(ExchangeCardsEvent args) {
-		System.out.println("Client ExchangeCards");
-                ViewState state = new ExchangeCardsState();
-		state.execute(GameController.this);
-	    }
-	});
-        
-        events.subscribe(DistributeSoldiersEvent.class, new Action<DistributeSoldiersEvent>(){
-	    @Override
-	    public void onAction(DistributeSoldiersEvent args) {
-		System.out.println("Client DistributeSoldiers");
-		DistributeSoldiersState state = new DistributeSoldiersState();
-		state.execute(GameController.this);
-	    }
-	});
-	
-	events.subscribe(DeclareCombatEvent.class, new Action<DeclareCombatEvent>(){
-	    @Override
-	    public void onAction(DeclareCombatEvent args) {
-		System.out.println("Client DeclareCombat");
-		ViewState state = new AttackState();
-		state.execute(GameController.this);
-	    }
-	});
-	
-	events.subscribe(AnswerCombatEvent.class, new Action<AnswerCombatEvent>(){
-	    @Override
-	    public void onAction(AnswerCombatEvent args) {
-		System.out.println("Client AnswerCombat");
-		ViewState state = new DefenseState();
-		state.execute(GameController.this);
-	    }
-	});
-	
-	events.subscribe(MoveSoldiersEvents.class, new Action<MoveSoldiersEvents>(){
-	    @Override
-	    public void onAction(MoveSoldiersEvents args) {
-		System.out.println("Client MoveSoldiers");
-		ViewState state = new MoveSoldiersState();
-		state.execute(GameController.this);
-	    }
-	});
-	
-	events.subscribe(AddCardEvent.class, new Action<AddCardEvent>(){
-	    @Override
-	    public void onAction(AddCardEvent args) {
-		System.out.println("Client AddCard");
-		getGameController2().getPopUpController().addCard(args.getCard());
-	    }
-	});
-	
-	events.subscribe(GameOverEvent.class, new Action<GameOverEvent>(){
-	    @Override
-	    public void onAction(GameOverEvent args) {
-		System.out.println("Client GameOver");
-		ViewState state = new GameOverState();
-		state.execute(GameController.this);
-	    }
-	});
-    }
 
-    public void setGame(Game game) {
-	controller2.setGame(game);
-	desenhaTerritorios();
-        controller2.createControllers(pane_aloca, pane_mov, pane_ataca1, pane_ataca2, pane_sub_janela);
-    }
-    
-    public GameController2 getGameController2(){
+    public GameController2 getGameController2() {
 	return controller2;
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	backgroundImage = new Image("war1.jpg");
@@ -215,12 +131,13 @@ public class GameController implements Initializable {
 	img_fundo2.setImage(backgroundImage2);
 	scaleMin = Math.max((float) (800 / backgroundImage.getWidth()),
 		(float) (450 / backgroundImage.getHeight()));
-	pane_map.setPrefSize(backgroundImage.getWidth(), backgroundImage.getHeight());
+	pane_map.setPrefSize(backgroundImage.getWidth(),
+		backgroundImage.getHeight());
 	controller2 = new GameController2(group_info_bar, btn_prox);
-	addEvents();
+	addEventsToWidgets();
     }
-    
-    private void addEvents(){
+
+    private void addEventsToWidgets() {
 	this.btn_z_mais.setOnAction(new EventHandler<ActionEvent>() {
 	    @Override
 	    public void handle(ActionEvent event) {
@@ -272,8 +189,8 @@ public class GameController implements Initializable {
 	    }
 	});
     }
-    
-    private void zoomIn(){
+
+    private void zoomIn() {
 	if (pane_map.getScaleX() < 1) {
 	    double novo = Math.min(1, pane_map.getScaleX() + 0.1);
 	    pane_map.setScaleX(novo);
@@ -282,8 +199,8 @@ public class GameController implements Initializable {
 		    backgroundImage.getHeight() * novo);
 	}
     }
-    
-    private void zoomOut(){
+
+    private void zoomOut() {
 	if (pane_map.getScaleX() > scaleMin) {
 	    double novo = Math.max(scaleMin, pane_map.getScaleX() - 0.1);
 	    pane_map.setScaleX(novo);
@@ -349,5 +266,108 @@ public class GameController implements Initializable {
 	    criarCirculo(ui);
 	    ui.getCirculo().setFill(ColorMap.getPaint(ui.getDono().getColor()));
 	}
+    }
+
+    public void setDependencies(ClientSidePlayer jogador,
+	    br.uff.es2.war.model.Color color) {
+	controller2.setPlayer(jogador);
+	subscribeToEvents(jogador.getEvents());
+	jogador.chooseColor(color);
+    }
+
+    private void subscribeToEvents(EventBus events) {
+	events.subscribe(BeginTurnEvent.class, new Action<BeginTurnEvent>() {
+	    @Override
+	    public void onAction(BeginTurnEvent args) {
+		System.out.println("Client BeginTurn");
+		ViewState state = new WaitingState();
+		state.execute(GameController.this);
+	    }
+	});
+
+	events.subscribe(ExchangeCardsEvent.class,
+		new Action<ExchangeCardsEvent>() {
+		    @Override
+		    public void onAction(ExchangeCardsEvent args) {
+			System.out.println("Client ExchangeCards");
+			ViewState state = new ExchangeCardsState();
+			state.execute(GameController.this);
+		    }
+		});
+
+	events.subscribe(DistributeSoldiersEvent.class,
+		new Action<DistributeSoldiersEvent>() {
+		    @Override
+		    public void onAction(DistributeSoldiersEvent args) {
+			System.out.println("Client DistributeSoldiers");
+			DistributeSoldiersState state = new DistributeSoldiersState();
+			state.setMaxQuantityToDistribute(args.getQuantity());
+			state.setTerritoriesToUnlock(args.getTerritories());
+			state.execute(GameController.this);
+		    }
+		});
+
+	events.subscribe(DeclareCombatEvent.class,
+		new Action<DeclareCombatEvent>() {
+		    @Override
+		    public void onAction(DeclareCombatEvent args) {
+			System.out.println("Client DeclareCombat");
+			ViewState state = new AttackState();
+			state.execute(GameController.this);
+		    }
+		});
+
+	events.subscribe(AnswerCombatEvent.class,
+		new Action<AnswerCombatEvent>() {
+		    @Override
+		    public void onAction(AnswerCombatEvent args) {
+			System.out.println("Client AnswerCombat");
+			ViewState state = new DefenseState();
+			state.execute(GameController.this);
+		    }
+		});
+
+	events.subscribe(MoveSoldiersEvents.class,
+		new Action<MoveSoldiersEvents>() {
+		    @Override
+		    public void onAction(MoveSoldiersEvents args) {
+			System.out.println("Client MoveSoldiers");
+			ViewState state = new MoveSoldiersState();
+			state.execute(GameController.this);
+		    }
+		});
+
+	events.subscribe(AddCardEvent.class, new Action<AddCardEvent>() {
+	    @Override
+	    public void onAction(AddCardEvent args) {
+		System.out.println("Client AddCard");
+		getGameController2().getPopUpController().addCard(
+			args.getCard());
+	    }
+	});
+
+	events.subscribe(GameOverEvent.class, new Action<GameOverEvent>() {
+	    @Override
+	    public void onAction(GameOverEvent args) {
+		System.out.println("Client GameOver");
+		ViewState state = new GameOverState();
+		state.execute(GameController.this);
+	    }
+	});
+
+	events.subscribe(SetGameEvent.class, new Action<SetGameEvent>() {
+	    @Override
+	    public void onAction(SetGameEvent args) {
+		controller2.setGame(args.getGame());
+		Platform.runLater(new Runnable() {
+		    @Override
+		    public void run() {
+			desenhaTerritorios();
+			controller2.createControllers(pane_aloca, pane_mov,
+				pane_ataca1, pane_ataca2, pane_sub_janela);
+		    }
+		});
+	    }
+	});
     }
 }

@@ -31,9 +31,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import br.uff.es2.war.events.Action;
 import br.uff.es2.war.events.ChooseColorEvent;
-import br.uff.es2.war.events.SetGameEvent;
 import br.uff.es2.war.model.Color;
-import br.uff.es2.war.model.Game;
 import br.uff.es2.war.network.Messenger;
 import br.uff.es2.war.network.ProtocolFactory;
 import br.uff.es2.war.network.TCPMessenger;
@@ -110,7 +108,7 @@ public class NewGameViewController implements Initializable {
 			    new Action<ChooseColorEvent>() {
 				@Override
 				public void onAction(ChooseColorEvent args) {
-				    mostrarBotaoJogar(args.getColors());
+				    displayColorOptions(args.getColors());
 				}
 			    });
 		    btn_conecta.setVisible(false);
@@ -126,20 +124,13 @@ public class NewGameViewController implements Initializable {
 	    @Override
 	    public void handle(ActionEvent event) {
 		btn_joga.setDisable(true);
-		jogador.chooseColor(getCorEscolhida());
-		jogador.getEvents().subscribe(SetGameEvent.class,
-			new Action<SetGameEvent>() {
-			    @Override
-			    public void onAction(SetGameEvent args) {
-				iniciarTelaJogo(jogador, args.getGame());
-			    }
-			});
+		initGame(jogador, getCorEscolhida());
 		txt_erro.setVisible(false);
 	    }
 	});
     }
-
-    private void mostrarBotaoJogar(final Color[] colors) {
+    
+    private void displayColorOptions(final Color[] colors) {
 	Platform.runLater(new Runnable() {
 	    @Override
 	    public void run() {
@@ -154,18 +145,8 @@ public class NewGameViewController implements Initializable {
 	    }
 	});
     }
-
-    private Messenger conectarAoServidor(String endereco, int porta)
-	    throws IOException {
-	Socket server = new Socket(endereco, porta);
-	return new TCPMessenger(server);
-    }
-
-    private Color getCorEscolhida() {
-	return new Color(combo_cor.getValue().toString());
-    }
-
-    private void iniciarTelaJogo(final ClientSidePlayer jogador, final Game game) {
+    
+    private void initGame(ClientSidePlayer player, final Color color){
 	Platform.runLater(new Runnable() {
 	    @Override
 	    public void run() {
@@ -182,9 +163,18 @@ public class NewGameViewController implements Initializable {
 		}
 		GameController tjc = (GameController) fxmlLoader
 			.getController();
-		tjc.setPlayer(jogador);
-		tjc.setGame(game);
+		tjc.setDependencies(jogador, color);
 	    }
 	});
+    }
+
+    private Messenger conectarAoServidor(String endereco, int porta)
+	    throws IOException {
+	Socket server = new Socket(endereco, porta);
+	return new TCPMessenger(server);
+    }
+
+    private Color getCorEscolhida() {
+	return new Color(combo_cor.getValue().toString());
     }
 }

@@ -7,10 +7,10 @@ import br.uff.es2.war.view.GameController;
  * State where the game is finished and the winner is displayed
  * @author Arthur Pitzer
  */
-public class GameOverState implements ViewState {
+public class GameOverState extends ViewState {
     
     @Override
-    public void execute(GameController controller) {
+    protected void innerExecute(GameController controller) {
 	throw new NotImplementedException();
     }
 }

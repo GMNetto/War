@@ -6,9 +6,6 @@
 
 package br.uff.es2.war.view.widget;
 
-import br.uff.es2.war.events.Action;
-import br.uff.es2.war.events.BeginTurnEvent;
-import br.uff.es2.war.events.ChooseColorEvent;
 import br.uff.es2.war.view.GameController2;
 
 /**
