@@ -69,6 +69,8 @@ public class WeightEquationTerritoryValue extends TerritoryValue {
      * An array to make sure that all possible results will be [0, 1].
      */
     private final double[] balanceWeight;
+    
+    private final double weightSum;
 
     /**
      * Constructor with the needed parameters.
@@ -101,6 +103,11 @@ public class WeightEquationTerritoryValue extends TerritoryValue {
         this.numberOfTerritoriesOnSameContinentWeight = ensureInterval(w5);
         this.balanceWeight = new double[6];
         loadBalanceWeightArray();
+        double ws = 0;
+        for (double weight : balanceWeight) {
+            ws += weight;
+        }
+        this.weightSum = ws;
     }
 
     /**
@@ -207,7 +214,7 @@ public class WeightEquationTerritoryValue extends TerritoryValue {
         
         result += numberOfTerritoriesOnSameContinentWeight * ((double) ownedOnSameContinent) / balanceWeight[5];
 
-        return result / 6.0;
+        return result / weightSum;
     }
 
     /**
