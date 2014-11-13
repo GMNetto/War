@@ -42,7 +42,7 @@ import javafx.scene.text.Text;
  */
 public class GameController2 {
 
-    private AlloctTerritoryController ac;
+    private AlloctTerritoryController allocTerritoryCont;
     private AttackTerritoryController atc;
     private PopUpController popUpController;
     private List<TerritoryUI> territorios;
@@ -87,7 +87,7 @@ public class GameController2 {
 	    Pane pane_ataca1, Pane pane_ataca2, Pane pane_sub_janela) {
 	
 
-	this.ac = new AlloctTerritoryController(pane_aloca, pane_mov, raio, this);
+	this.allocTerritoryCont = new AlloctTerritoryController(pane_aloca, pane_mov, raio, this);
 	this.atc = new AttackTerritoryController(pane_ataca1, pane_ataca2, raio, this);
 	this.popUpController = new PopUpController(pane_sub_janela, this);
 
@@ -129,35 +129,6 @@ public class GameController2 {
 		    }
 		});
         
-	player.getEvents().subscribe(DistributeSoldiersEvent.class,
-		new Action<DistributeSoldiersEvent>() {
-
-		    @Override
-		    public void onAction(final DistributeSoldiersEvent args) {
-                        Platform.runLater(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                quantityBeforeDistribution = getTotalArmys();
-                                maxQuantityToDistribute = args.getQuantity();
-                        
-                                acaoTerr=acaoTerr.nextPhase();
-                        
-                                Set<Territory> territoriosRecebidos = args.getTerritories();
-                                List<TerritoryUI> territoriesToUnlock = new ArrayList<>();
-                                for (Territory territory : territoriosRecebidos) {
-                                    for (TerritoryUI ui : territorios) {
-                                        if (ui.getModel().equals(territory))
-                                            territoriesToUnlock.add(ui);
-                                    }
-                                }
-                                ac.setTerritoriesToUnlock(territoriesToUnlock);
-                            }
-                        });
-			
-                               
-		    }
-		});
     }
 
     public TerritoryUIStrategy getAcaoTerr() {
@@ -182,7 +153,6 @@ public class GameController2 {
             
             jogador.distributeSoldiers(game.getWorld().getTerritories());
             acaoTerr.finishPhase();
-            acaoTerr=new WaitTerritoryStrategy(this);
             
         }
         
@@ -221,8 +191,8 @@ public class GameController2 {
 	this.txt_ataque2.setText(txt);
     }
 
-    public AlloctTerritoryController getAlocaController() {
-	return ac;
+    public AlloctTerritoryController getAllocTerritoryCont() {
+	return allocTerritoryCont;
     }
 
     public AttackTerritoryController getAtacaController() {
@@ -345,4 +315,6 @@ public class GameController2 {
         
 	return widgets;
     }
+    
+    
 }

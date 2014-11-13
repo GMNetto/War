@@ -245,7 +245,7 @@ public class AlloctTerritoryController {
                 esconde();
                 escondeMov();
                 gameController2.bloqueiaTerritorios(gameController2.getTerritorios());
-                gameController2.desbloqueiaTerritorios(gameController2.getAlocaController().getTerritoriesToUnlock());
+                gameController2.desbloqueiaTerritorios(gameController2.getAllocTerritoryCont().getTerritoriesToUnlock());
                 gameController2.setTextFase2("Selecione um territorio de origem e um de destino");
             }
         });
@@ -262,7 +262,7 @@ public class AlloctTerritoryController {
                 esconde();
                 escondeMov();
                 gameController2.bloqueiaTerritorios(gameController2.getTerritorios());
-                gameController2.desbloqueiaTerritorios(gameController2.getAlocaController().getTerritoriesToUnlock());
+                gameController2.desbloqueiaTerritorios(gameController2.getAllocTerritoryCont().getTerritoriesToUnlock());
                 gameController2.setTextFase2("Selecione um territorio de origem e um de destino");
             }
         });
