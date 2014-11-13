@@ -20,7 +20,7 @@ public class DistributeSoldiersState extends ViewState {
     private int quantity;
     private Set<Territory> territories;
     private GameController controller;
-    private GameController2 controller2;
+    
 
     @Override
     protected void innerExecute(GameController controller) {
@@ -45,14 +45,5 @@ public class DistributeSoldiersState extends ViewState {
 	this.territories = territories; 
     }
     
-    private List<TerritoryUI> createUIs(Set<Territory> territories){
-	List<TerritoryUI> territoriesToUnlock = new ArrayList<>();
-	for (Territory territory : territories) {
-	    for (TerritoryUI ui : controller2.getTerritorios()) {
-		if (ui.getModel().equals(territory))
-		    territoriesToUnlock.add(ui);
-	    }
-	}
-	return territoriesToUnlock;
-    }
+    
 }

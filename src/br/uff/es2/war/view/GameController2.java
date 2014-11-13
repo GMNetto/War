@@ -18,6 +18,7 @@ import br.uff.es2.war.view.widget.AlloctTerritoryController;
 import br.uff.es2.war.view.widget.AttackTerritoryController;
 import br.uff.es2.war.view.widget.TerritoryUI;
 import br.uff.es2.war.view.widget.TerritoryUIStrategy;
+import java.util.Collection;
 
 /**
  * @author anacarolinegomesvargas
@@ -180,7 +181,7 @@ public class GameController2 {
 
     }
 
-    public void desbloqueiaTerritorios(List<TerritoryUI> territorios) {
+    public void desbloqueiaTerritorios(Collection<TerritoryUI> territorios) {
 	for (TerritoryUI terr : territorios) {
 	    terr.desbloqueia();
 	}
@@ -256,6 +257,10 @@ public class GameController2 {
 
 	}
 
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     private List<TerritoryUI> createTerritoryUI(Set<Territory> territories) {

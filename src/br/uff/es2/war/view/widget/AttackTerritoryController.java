@@ -42,6 +42,14 @@ public class AttackTerritoryController {
     private int nAtaca,nMove;
     
      private GameController2 jc;
+
+    public int getnAtaca() {
+        return nAtaca;
+    }
+
+    public int getnMove() {
+        return nMove;
+    }
     
 
     public AttackTerritoryController(Pane pane_ataca1, Pane pane_ataca2, int raio, GameController2 jc) {

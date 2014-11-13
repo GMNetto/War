@@ -13,7 +13,6 @@ public class ExchangeCardsState extends ViewState {
     @Override
     protected void innerExecute(GameController controller) {
         PopUpController pc = controller.getGameController2().getPopUpController();
-        List<Card> cartas = pc.getCartasTroca();
         
         if (ReceiveSoldiersPhase.checkExchange(pc.getCartas())) {
             // é possível fazer trocas
