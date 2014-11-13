@@ -1,6 +1,5 @@
 package br.uff.es2.war.network;
 
-//import br.uff.es2.war.model.objective.ClientObjective;
 import br.uff.es2.war.model.Card;
 import br.uff.es2.war.model.Color;
 import br.uff.es2.war.model.Combat;
